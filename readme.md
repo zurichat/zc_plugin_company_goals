@@ -1,4 +1,4 @@
-# Company goals plugin
+# Company Goals plugin
 
 
 
