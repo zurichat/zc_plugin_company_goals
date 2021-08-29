@@ -1,0 +1,57 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks", "prettier", "import", "jsx-a11y"],
+  "rules": {
+    "react/jsx-filename-extension": "off",
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off",
+    "import/extensions": "off",
+    "consistent-return": "off",
+    "import/no-unresolved": "error",
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["parent", "sibling", "object", "index"]],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+    }
+  }
+}
