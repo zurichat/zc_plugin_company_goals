@@ -1,0 +1,56 @@
+const logger = require('../utils/logger');
+
+const sendErrorDev = (err, req, res) => {
+  // For API
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      error: err,
+      message: err.message,
+      stack: err.stack,
+    });
+  }
+
+  logger.error(`[errorController.js] (line 14) - ${err.message}`);
+};
+
+const sendErrorProd = (err, req, res) => {
+  if (req.originalUrl.startsWith('/api')) {
+    // Operational, trusted error: send message to client
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+    }
+
+    // Programming or other unknown error: don't leak error details
+    // 1) Log error
+    logger.error(`[errorController.js] (line 29) - ${err.message}`);
+
+    // 2) Send generic message
+    return res.status(500).json({
+      status: 'error',
+      message: 'Something went very wrong!',
+    });
+  }
+
+  // Programming or other unknown error: don't leak error details
+  // 1) Log error
+  logger.error(`[errorController.js] (line 40) - ${err.message}`);
+};
+
+module.exports = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+
+  if (process.env.NODE_ENV === 'development') sendErrorDev(err, req, res);
+  //
+  else if (process.env.NODE_ENV === 'production') {
+    const error = { ...err };
+
+    error.message = err.message;
+
+    sendErrorProd(error, req, res);
+  }
+};
