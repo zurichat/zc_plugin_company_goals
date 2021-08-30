@@ -25,6 +25,6 @@ jobs:
           script: |
             cd zc_plugin_company_goals/
             git pull
-            cd zc_plugin_company_goals/client/
+            cd client/
             yarn install
             yarn build
