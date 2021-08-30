@@ -11,7 +11,9 @@
     "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "eslint:recommended",
+    "plugin:node/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -41,7 +43,7 @@
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],
-        "newlines-between": "never",
+        "newlines-between": "always-and-inside-groups",
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
@@ -52,8 +54,12 @@
     "default-case": "error",
     "default-case-last": "error",
     "eqeqeq": "error",
+    "func-names": "off",
+    "object-shorthand": "off",
     "no-else-return": "error",
+    "no-param-reassign": "off",
     "no-return-assign": "error",
+    "no-process-exit": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next" }]
   },
