@@ -5,7 +5,7 @@ const AppHeader = () => {
     <StyledAppBar position="static">
       <StyledToolBar>
         <h1>
-          Welcome to Zuri Chat Goals Plugin{' '}
+          You are welcome to Zuri Chat Goals Plugin{' '}
           <span role="img" aria-label="celebrate emoji">
             🥳
           </span>
