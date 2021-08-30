@@ -23,7 +23,7 @@
   "plugins": ["react", "react-hooks", "prettier", "import", "jsx-a11y"],
   "rules": {
     "react/jsx-filename-extension": "off",
-    "prettier/prettier": "error",
+    "prettier/prettier": ["off", { "endOfLine": "auto" }],
     "react/react-in-jsx-scope": "off",
     "import/extensions": "off",
     "consistent-return": "off",
@@ -47,7 +47,15 @@
           "caseInsensitive": true
         }
       }
-    ]
+    ],
+    "array-callback-return": "error",
+    "default-case": "error",
+    "default-case-last": "error",
+    "eqeqeq": "error",
+    "no-else-return": "error",
+    "no-return-assign": "error",
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next" }]
   },
   "settings": {
     "react": {
