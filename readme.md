@@ -18,15 +18,15 @@ After installing nodejs install [yarn](https://www.npmjs.com/package/yarn) if yo
 yarn install
 ```
 
-Run the development server using either of the following commands:
+Run the backend development server using either of the following commands:
 
 ```bash
-npm run run-dev
+npm run server
 # or
-yarn run run-dev
+yarn run server
 ```
 
-Project will be ruuning @ [http://127.0.0.1:8080](http://127.0.0.1:8080)
+Project will be running @ [http://127.0.0.1:4000](http://127.0.0.1:4000)
 
 ## Getting Started With the Frontend/Client (React)
 
@@ -36,7 +36,7 @@ cd into the client folder and install the client's dependencies
 yarn install
 ```
 
-Run the development server using either of the following commands:
+Run the frontend development server using either of the following commands:
 
 ```bash
 npm start
@@ -58,7 +58,7 @@ npm run dev
 yarn run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the frontend result and your server would be listening on [http://localhost:4000](http://localhost:4000).
 
 ### CONTRIBUTION GUIDE
 
