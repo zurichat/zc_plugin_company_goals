@@ -4,7 +4,7 @@ const sidebarOptions = require('../data/sidebarData.json');
 const catchAsync = require('../utils/catchAsync');
 
 const readSidebar = catchAsync(async (req, res) => {
-  return res.status(200).json(sidebarOptions).end();
+  return res.status(200).json(sidebarOptions);
 });
 
 module.exports = readSidebar;
