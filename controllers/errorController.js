@@ -1,5 +1,13 @@
+const { request, response } = require('express');
 const logger = require('../utils/logger');
 
+/**
+ * Error handler for development env.
+ * @param {error} err Error object
+ * @param {request} req Request object
+ * @param {response} res Response object
+ * @returns
+ */
 const sendErrorDev = (err, req, res) => {
   // For API
   if (req.originalUrl.startsWith('/api')) {
@@ -14,6 +22,13 @@ const sendErrorDev = (err, req, res) => {
   logger.error(`[errorController.js] (line 14) - ${err.message}`);
 };
 
+/**
+ * Error handler for production env.
+ * @param {error} err Error object
+ * @param {request} req Request object
+ * @param {response} res Response object
+ * @returns
+ */
 const sendErrorProd = (err, req, res) => {
   if (req.originalUrl.startsWith('/api')) {
     // Operational, trusted error: send message to client
