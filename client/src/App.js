@@ -6,8 +6,8 @@ import Nav from './components/navbar/Navbar';
 function App() {
   return (
     <div>
+      <AppHeader />
       <PluginSide>
-        <AppHeader />
         <Nav />
         <Mainside />
       </PluginSide>

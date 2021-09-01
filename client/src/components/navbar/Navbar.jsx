@@ -5,21 +5,26 @@ import styled from 'styled-components';
 
 const Navbar = () => {
   return (
-    <Nav>
-      <Menu>
-        <MenuLink1>
-          {' '}
-          <AddIconStyled />
-          NewGoal
-        </MenuLink1>
-        <MenuLink primary>Archived Goals</MenuLink>
-      </Menu>
-      <SearchContainer>
-        <SearchIconStyled />
-        <SearchInput type="text" placeholder="Search" />
-      </SearchContainer>
-      <SettingsIconStyled />
-    </Nav>
+    <>
+      <Header>
+        <HeaderText>Company Plugins</HeaderText>
+      </Header>
+      <Nav>
+        <Menu>
+          <MenuLink1>
+            {' '}
+            <AddIconStyled />
+            NewGoal
+          </MenuLink1>
+          <MenuLink primary>Archived Goals</MenuLink>
+        </Menu>
+        <SearchContainer>
+          <SearchIconStyled />
+          <SearchInput type="text" placeholder="Search" />
+        </SearchContainer>
+        <SettingsIconStyled />
+      </Nav>
+    </>
   );
 };
 
@@ -104,4 +109,13 @@ const SettingsIconStyled = styled(SettingsIcon)`
   color: #999999;
   margin-left: 15px;
   cursor: pointer;
+`;
+const Header = styled.h2`
+  background: #f6f6f6;
+`;
+
+const HeaderText = styled.h1`
+  color: black;
+  font-size: 30px;
+  margin-left: 1rem;
 `;
