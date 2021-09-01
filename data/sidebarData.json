@@ -14,7 +14,7 @@
     },
     {
       "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477016/target_ofxbtj.png",
-      "targets": [
+      "option": [
         {
           "option": "Monthly Targets"
         },
