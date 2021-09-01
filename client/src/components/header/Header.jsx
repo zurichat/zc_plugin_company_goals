@@ -1,18 +1,21 @@
-import { StyledAppBar, StyledToolBar } from './Header.styled';
+import styled from 'styled-components';
 
 const AppHeader = () => {
   return (
-    <StyledAppBar position="static">
-      <StyledToolBar>
-        <h1>
-          Welcome to Zuri Chat Goals Plugin{' '}
-          <span role="img" aria-label="celebrate emoji">
-            🥳
-          </span>
-        </h1>
-      </StyledToolBar>
-    </StyledAppBar>
+    <Header>
+      <HeaderText>Company Plugins</HeaderText>
+    </Header>
   );
 };
 
 export default AppHeader;
+
+const Header = styled.h2`
+  background: #f6f6f6;
+`;
+
+const HeaderText = styled.h1`
+  color: black;
+  font-size: 30px;
+  margin-left: 1rem;
+`;
