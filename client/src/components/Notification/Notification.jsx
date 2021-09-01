@@ -13,10 +13,10 @@ function Notification() {
       <NotificationWrapper>
         {/* Header */}
         <NotificationHeader>
-          <NotificationCount>
+          <NotificationCount style={{ marginLeft: '30px' }}>
             2 (<span style={{ color: 'red' }}>1</span>)
           </NotificationCount>
-          <Paragraph>Mark all as read</Paragraph>
+          <Paragraph style={{ marginRight: '30px' }}>Mark all as read</Paragraph>
         </NotificationHeader>
         <FlexColumn>
           <FlexColumn backgroundWhite borderRight>

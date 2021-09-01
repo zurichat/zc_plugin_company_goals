@@ -12,12 +12,11 @@ export const NotificationWrapper = styled.div`
   max-width: 352px;
   margin: 0 auto;
   width: 100%;
-
   background: rgba(235, 235, 235, 0.5);
 `;
 export const NotificationHeader = styled.section`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   min-height: 36px;
