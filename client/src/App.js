@@ -1,9 +1,9 @@
-import AppHeader from './components/header/Header';
+import Header from './components/header/Header';
 
 function App() {
   return (
     <div>
-      <AppHeader />
+      <Header />
     </div>
   );
 }
