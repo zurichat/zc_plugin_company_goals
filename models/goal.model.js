@@ -11,6 +11,11 @@ const goalSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    weeklyGoal: {
+        type: String,
+        required: true,
+        trim: true
+    },
     monthlyGoal: {
         type: Boolean,
         default: false
