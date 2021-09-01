@@ -17,11 +17,10 @@ export const NotificationWrapper = styled.div`
 `;
 export const NotificationHeader = styled.section`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   min-height: 36px;
-  padding: 0 24px;
 `;
 
 export const NotificationCount = styled.p`

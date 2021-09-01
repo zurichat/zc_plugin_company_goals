@@ -5,7 +5,7 @@ import { NotificationWrapper } from './styledNotification';
 import { Paragraph } from './styledNotification';
 import { FlexRow } from './styledNotification';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import visible from '../../Images/active.svg';
 
 function Notification() {
   return (
@@ -29,7 +29,7 @@ function Notification() {
               </FlexColumn>
             </FlexRow>
             <Paragraph secondary>
-              <VisibilityIcon style={{ marginRight: '5px' }} />
+              <img style={{ marginRight: '5px' }} src={visible} alt="Visible" />
               66
             </Paragraph>
           </FlexColumn>
@@ -48,7 +48,7 @@ function Notification() {
               </FlexColumn>
             </FlexRow>
             <Paragraph darkColor secondary>
-              <VisibilityIcon style={{ marginRight: '5px' }} />
+              <img style={{ marginRight: '5px' }} src={visible} alt="Visible" />
               66
             </Paragraph>
           </FlexColumn>
