@@ -23,10 +23,10 @@
   "plugins": ["react", "react-hooks", "prettier", "import", "jsx-a11y"],
   "rules": {
     "react/jsx-filename-extension": "off",
-    "prettier/prettier": "off",
+    "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "import/extensions": "off",
-    "consistent-return": "error",
+    "consistent-return": "off",
     "import/no-unresolved": "error",
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "import/order": [
