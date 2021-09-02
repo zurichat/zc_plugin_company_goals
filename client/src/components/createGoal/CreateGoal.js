@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleDialog() {
+export default function CreateGoal() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
