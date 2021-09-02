@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import SimpleModal from '../createGoal/CreateGoal'
+import Deletemodal from '../Deletemodal/Deletemodal'
 
 const Mainside = () => {
   return (
     <MainContainer>
-      <Goal> <SimpleModal /> </Goal>
+      <Goal> <SimpleModal /> <Deletemodal /> </Goal>
       <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
     </MainContainer>
   );
