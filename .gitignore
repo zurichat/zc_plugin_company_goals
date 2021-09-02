@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 .env
 node_modules/
 .eslintcache
+=======
+node_modules/
+.eslintcache
+config.env
+.DS_Store
+>>>>>>> 0e70509448b6c7a20d35b71af26e22fc48d71620
