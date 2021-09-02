@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import CreateGoal from './components/createGoal/CreateGoal';
 import AppHeader from './components/header/Header';
 
