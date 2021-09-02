@@ -3,8 +3,8 @@ import styled from 'styled-components';
 const Mainside = () => {
   return (
     <MainContainer>
-      <Goal>{/*  goal components i.e create goal component go inside this component  */}</Goal>
-      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
+      <Goal>{/*  goal components i.e create goal component go inside this component  */}create goals</Goal>
+      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}calender/reports/</Goal>
     </MainContainer>
   );
 };
