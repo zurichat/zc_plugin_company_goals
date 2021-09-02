@@ -25,8 +25,6 @@
   "rules": {
     "react/jsx-filename-extension": "off",
     "prettier/prettier": ["off", { "endOfLine": "auto" }],
-
-    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/react-in-jsx-scope": "off",
     "import/extensions": "off",
     "consistent-return": "off",
