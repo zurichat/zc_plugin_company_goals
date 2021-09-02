@@ -2,13 +2,18 @@
 
 ## Getting Started
 
-Make sure you have nodejs installed by running the following command:
+Make sure you have nodejs and yarn installed by running the following command:
 
 ```bash
 node -v
+yarn -v
 ```
 
-If the output is not the version of your nodejs installation, install nodejs from [here](https://nodejs.org/en/download/)
+> If you do not have node installed, install nodejs from [here](https://nodejs.org/en/download/)
+
+> If your node version is less than v14, you would need to update it.
+
+> If you do not have yarn install, please run `npm i -g yarn` in your terminal to install it
 
 ## Getting Started With the Backend (Node)
 
@@ -26,7 +31,7 @@ npm run server
 yarn run server
 ```
 
-Project will be running @ [http://127.0.0.1:4000](http://127.0.0.1:4000)
+Server will be running @ [http://127.0.0.1:4000](http://127.0.0.1:4000)
 
 ## Getting Started With the Frontend/Client (React)
 
