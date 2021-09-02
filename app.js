@@ -46,7 +46,7 @@ app.use(compression());
 
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
-app.use('/api/v1/info', rateLimiter(), pluginInfoRouter);
+app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 
 // To serve frontend static files in production
