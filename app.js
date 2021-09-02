@@ -44,6 +44,7 @@ app.use(compression());
 
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
+app.use('api/v')
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
