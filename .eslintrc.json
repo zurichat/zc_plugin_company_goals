@@ -24,7 +24,11 @@
   "plugins": ["react", "react-hooks", "prettier", "import", "jsx-a11y"],
   "rules": {
     "react/jsx-filename-extension": "off",
+<<<<<<< HEAD
     "prettier/prettier": ["off", { "endOfLine": "auto" }],
+=======
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+>>>>>>> 5f9d1bd528222d882ac9184db63a4c0878d7557e
     "react/react-in-jsx-scope": "off",
     "import/extensions": "off",
     "consistent-return": "off",
