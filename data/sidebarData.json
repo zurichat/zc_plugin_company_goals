@@ -1,0 +1,48 @@
+{
+  "CompanyGoals": [
+    {
+      "create": [
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630476893/calendar_akgpy6.png",
+          "option": "Create Monthly Goals"
+        },
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630476905/quarterly_hzgeem.png",
+          "option": "Create Quarterly Goals"
+        },
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477387/year_gvnalx.png",
+          "option": "Create Yearly Goals"
+        }
+      ]
+    },
+    {
+      "targets": [
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477016/target_ofxbtj.png",
+          "option": "Monthly Targets"
+        },
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477016/target_ofxbtj.png",
+          "option": "Quarterly Targets"
+        },
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477016/target_ofxbtj.png",
+          "option": "Yearly Targets"
+        }
+      ]
+    },
+    {
+      "view": [
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477126/goal_peexyv.png",
+          "option": "View All Goals"
+        },
+        {
+          "icon": "https://res.cloudinary.com/dakvwlgun/image/upload/v1630477126/goal_peexyv.png",
+          "option": "View All Targets"
+        }
+      ]
+    }
+  ]
+}
