@@ -1,17 +1,22 @@
 import { StyledAppBar, StyledToolBar } from './Header.styled';
+import Report from '../updates/Report'
 
 const AppHeader = () => {
   return (
-    <StyledAppBar position="static">
+   <div>
+      <StyledAppBar position="static">
       <StyledToolBar>
         <h1>
-          Welcome to Zuri Chat Goals Plugin{' '}
+          Welcome to Zuri Chat  Plugin{' '}
           <span role="img" aria-label="celebrate emoji">
             🥳
           </span>
         </h1>
       </StyledToolBar>
+      
     </StyledAppBar>
+    <Report />
+   </div>
   );
 };
 
