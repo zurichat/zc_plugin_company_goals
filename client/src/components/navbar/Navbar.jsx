@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <>
       <Header>
-        <HeaderText>Company Plugins</HeaderText>
+        <HeaderText>Company Goals</HeaderText>
       </Header>
       <Nav>
         <Menu>
