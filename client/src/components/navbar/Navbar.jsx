@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <>
       <Header>
-        <HeaderText>Company Plugins</HeaderText>
+        <HeaderText>Company Goals</HeaderText>
       </Header>
       <Nav>
         <Menu>
@@ -112,11 +112,11 @@ const SettingsIconStyled = styled(SettingsIcon)`
 const Header = styled.h2`
   background: #f6f6f6;
   padding: 0.1rem;
-  margin-top:-10px ;
+  margin-top: -10px;
 `;
 
 const HeaderText = styled.h1`
   color: black;
   font-size: 30px;
-  padding-top:12px;
+  padding-top: 12px;
 `;
