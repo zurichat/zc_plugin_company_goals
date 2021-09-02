@@ -9,6 +9,7 @@ const NavName = styled.div`
   line-height: 28px;
   padding: 0rem 1rem;
   padding-bottom: 0.5rem;
+  cursor: pointer;
 
   &.active {
     color: #00b87c;
