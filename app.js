@@ -11,6 +11,8 @@ const xss = require('xss-clean');
 const globalErrorHandler = require('./controllers/errorController');
 
 const goalRouter = require('./routes/goalRoutes');
+const pluginInfoRouter = require('./routes/infoRoute');
+const sidebarRouter = require('./routes/sidebarRoute.js');
 
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
@@ -44,6 +46,8 @@ app.use(compression());
 
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
+app.use('/sidebar', rateLimiter(), sidebarRouter);
+app.use('/info', rateLimiter(), pluginInfoRouter);
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
