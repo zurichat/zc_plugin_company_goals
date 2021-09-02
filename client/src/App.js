@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
-import CreateGoal from './components/createGoal/CreateGoal';
+import SimpleModal from './components/createGoal/CreateGoal';
 import AppHeader from './components/header/Header';
 
 function App() {
   return (
     <div>
       <AppHeader />
-      <CreateGoal />
+      <SimpleModal />
     </div>
   );
 }

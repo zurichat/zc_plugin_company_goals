@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateGoal() {
+export default function SimpleModal() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
