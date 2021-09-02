@@ -1,7 +1,7 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
 import GoalForm from './GoalForm';
 import { GlobalStyles } from './GoalForm.style';
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleModal() {
+export default function SimpleDialog() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -27,9 +27,14 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+     
+      <Button
+        onClick={handleOpen}
+        style={{ backgroundColor: '#00B87C', color: '#fff', fontWeight: 600 }}
+      >
         Open Modal
-      </button>
+      </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}

@@ -1,12 +1,9 @@
-/* eslint-disable prettier/prettier */
-import SimpleModal from './components/createGoal/CreateGoal';
-import AppHeader from './components/header/Header';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <div>
-      <AppHeader />
-      <SimpleModal />
+    <div className="App">
+      <Home />
     </div>
   );
 }
