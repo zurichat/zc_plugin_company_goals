@@ -11,8 +11,7 @@
     "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsx-a11y/recommended",
-    "eslint:recommended"
+    "plugin:jsx-a11y/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -24,7 +23,7 @@
   "plugins": ["react", "react-hooks", "prettier", "import", "jsx-a11y"],
   "rules": {
     "react/jsx-filename-extension": "off",
-    "prettier/prettier": ["off", { "endOfLine": "auto" }],
+    "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "import/extensions": "off",
     "consistent-return": "off",
@@ -42,25 +41,13 @@
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],
-        "newlines-between": "always-and-inside-groups",
+        "newlines-between": "never",
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
         }
       }
-    ],
-    "array-callback-return": "error",
-    "default-case": "error",
-    "default-case-last": "error",
-    "eqeqeq": "error",
-    "func-names": "off",
-    "object-shorthand": "off",
-    "no-else-return": "error",
-    "no-param-reassign": "off",
-    "no-return-assign": "error",
-    "no-process-exit": "off",
-    "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next" }]
+    ]
   },
   "settings": {
     "react": {
