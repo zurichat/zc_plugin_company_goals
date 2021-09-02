@@ -111,10 +111,12 @@ const SettingsIconStyled = styled(SettingsIcon)`
 `;
 const Header = styled.h2`
   background: #f6f6f6;
+  padding: 0.1rem;
+  margin-top:-10px ;
 `;
 
 const HeaderText = styled.h1`
   color: black;
   font-size: 30px;
-  margin-left: 1rem;
+  padding-top:12px;
 `;

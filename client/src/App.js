@@ -1,12 +1,10 @@
-import SimpleModal from './components/createGoal/CreateGoal';
-
 import Home from './pages/Home';
+import './App.css';
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Home />
-      <SimpleModal />
     </div>
   );
 }
