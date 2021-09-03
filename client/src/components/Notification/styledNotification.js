@@ -12,7 +12,7 @@ export const NotificationWrapper = styled.div`
   max-width: 352px;
   margin: 0 auto;
   width: 100%;
-  background: rgba(235, 235, 235, 0.5);
+  background: #fff;
 `;
 export const NotificationHeader = styled.section`
   display: flex;
@@ -20,6 +20,7 @@ export const NotificationHeader = styled.section`
   align-items: center;
   width: 100%;
   min-height: 36px;
+  border-bottom: 1px solid #eee3e3;
 `;
 
 export const NotificationCount = styled.p`
@@ -41,7 +42,6 @@ export const Paragraph = styled.p`
   font-weight: 400;
   line-height: 28px;
   color: #393939;
-  text-decoration: underline;
   margin: 12px;
 
   ${(props) =>
@@ -56,6 +56,7 @@ export const Paragraph = styled.p`
       text-decoration: none;
       line-height: 14.4px;
       text-align: right;
+      margin: 0;
     `};
 
   ${(props) =>
@@ -109,12 +110,6 @@ export const FlexColumn = styled.section`
     `};
 
   ${(props) =>
-    props.borderRight &&
-    css`
-      border-left: 3px solid #f44336;
-    `};
-
-  ${(props) =>
     props.backgroundWhite &&
     css`
       background: #fff;
@@ -128,15 +123,44 @@ export const FlexColumn = styled.section`
     `};
 `;
 
-export const FlexRow = styled.section`
+export const Section = styled.section`
   display: flex;
-  align-items: center;
-  width: 100%;
+  align-item: center;
   justify-content: space-between;
+  width: 100%;
+
+  ${(props) =>
+    props.flexend &&
+    css`
+      justify-content: flex-end;
+    `};
+`;
+
+export const Button = styled.button`
+  background: transparent;
+  outline: none;
+  border: none;
+  font-family: Lato;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 28px;
+
+  ${(props) =>
+    props.seeLess &&
+    css`
+      font-size: 15px;
+      color: #999999;
+    `};
+`;
+
+export const FlexRow = styled.section`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  place-items: center;
 
   ${(props) =>
     props.height &&
     css`
-      min-height: 50px;
+      min-height: 90px;
     `};
 `;
