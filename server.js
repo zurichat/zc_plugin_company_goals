@@ -8,7 +8,9 @@ const app = require('./app');
 
 const PORT = process.env.PORT || 4000;
 
-const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
+});
 
 process.on('unhandledRejection', (reason, promise) => {
   logger.error(`Unhandled rejection at ${promise}, reason: ${reason.message}`);
