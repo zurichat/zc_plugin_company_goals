@@ -39,6 +39,28 @@ code {
   position: absolute;
   left: 38rem;
   top: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 73.25rem;
+  height: 56.25rem;
+  left: 16.75rem;
+  top: 0px;
+  background: rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
+}
+.modal {
+  width: 485px;
+  height: 508px;
+  left: 611px;
+  top: 196px;
+  background: #ffffff;
+  border-radius: 5px;
+}
+.d-img2 {
+  position: absolute;
+  left: 33.1rem;
+  top: 17.5rem;
   width: 120px;
   height: 120px;
 }
@@ -46,6 +68,8 @@ code {
   position: absolute;
   left: 39.9rem;
   top: 11.9rem;
+  left: 35.1rem;
+  top: 19.3rem;
   width: 60px;
   height: 75px;
 }
@@ -53,12 +77,16 @@ code {
   position: absolute;
   left: 40.5rem;
   top: 10.9rem;
+  left: 35.8rem;
+  top: 18.5rem;
   height: 10px;
 }
 .d-img3-2 {
   position: absolute;
   left: 39.4rem;
   top: 12rem;
+  left: 34.7rem;
+  top: 19.4rem;
   width: 75px;
   height: 12px;
   z-index: 2;
@@ -67,6 +95,8 @@ code {
   position: absolute;
   left: 40.35rem;
   top: 15.3rem;
+  left: 35.55rem;
+  top: 22.6rem;
   width: 46px;
   z-index: 2;
 }
@@ -74,6 +104,8 @@ code {
   position: absolute;
   left: 44.8rem;
   top: 11.9rem;
+  left: 40.1rem;
+  top: 19.7rem;
   z-index: 2;
 }
 .star-img {
@@ -81,6 +113,9 @@ code {
   left: 43%;
   right: 43.21%;
   top: 15%;
+  left: 44%;
+  right: 43.21%;
+  top: 32%;
   bottom: 80.33%;
 }
 .d-img6 {
@@ -88,6 +123,9 @@ code {
   left: 43%;
   right: 43.21%;
   top: 15%;
+  left: 44%;
+  right: 43.21%;
+  top: 32%;
   bottom: 80.33%;
   z-index: 2;
 }
@@ -116,6 +154,9 @@ code {
   font-family: 'Lato', sans-serif;
   color: #ffffff;
   border: none;
+}
+  margin: auto;
+  font-family: 'Lato', sans-serif;
 }
 .delete-btn {
   background: #00b87c;
