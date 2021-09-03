@@ -23,29 +23,6 @@ export const NotificationHeader = styled.section`
   border-bottom: 1px solid #eee3e3;
 `;
 
-export const Grid = styled.section`
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  place-items: center;
-  height: 80px;
-  border-bottom: 2px solid #ebebeb;
-
-  ${(props) => props.darkColor && `color: #999999 !important;`};
-`;
-
-export const Section = styled.section`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  ${(props) =>
-    props.flexEnd &&
-    `
-      justify-content: flex-end;
-    `};
-`;
-
 export const NotificationCount = styled.p`
   font-family: Lato;
   font-size: 12px;
@@ -62,7 +39,6 @@ export const Paragraph = styled.p`
   font-weight: 400;
   line-height: 28px;
   color: #393939;
-  text-decoration: underline;
   margin: 12px;
 
   ${(props) =>
@@ -84,31 +60,15 @@ export const Paragraph = styled.p`
       justify-content: flex-end;
     `};
 
-  ${(props) =>
-    props.achieved &&
-    `
-      text-decoration: none;
-      line-height: 0px;
-      font-size: 15px;
-    `};
+  ${(props) => props.achieved && `text-decoration: none;line-height: 0px;font-size: 15px;`};
 
   ${(props) =>
     props.green &&
-    `
-      text-decoration: none;
-      line-height: 0px;
-      font-size: 15px;
+    `text-decoration: none;line-height: 0px;font-size: 15px;
       color: #00b87c;
     `};
 
-  ${(props) =>
-    props.red &&
-    `
-      text-decoration: none;
-      line-height: 0px;
-      font-size: 15px;
-      color: #f44336;
-    `};
+  ${(props) => props.red && `text-decoration: none;line-height: 0px;font-size: 15px;color: #f44336;`};
   ${(props) => props.dark && `color: #999999;`};
 `;
 export const FlexColumn = styled.section`
@@ -126,20 +86,39 @@ export const FlexColumn = styled.section`
   ${(props) => props.darkColor && ` color: #999999 !important;`};
 `;
 
-export const Button = styled.section`
+export const Section = styled.section`
+  display: flex;
+  align-item: center;
+  justify-content: space-between;
+  width: 100%;
+
+  ${(props) => props.flexend && `justify-content: flex-end;`};
+`;
+
+export const Button = styled.button`
   background: transparent;
-  border: none;
   outline: none;
+  border: none;
+  font-family: Lato;
   font-size: 12px;
   font-weight: 400;
   line-height: 28px;
-  color: #999999 !important;
 
-  ${(props) =>
-    props.darkColor &&
-    `
-      color: #999999 !important;
-      font-size: 12px;
-      font-weight: 700;
-    `};
+  ${(props) => props.seeLess && `font-size: 15px;color: #999999;`};
+`;
+
+export const FlexRow = styled.section`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  place-items: center;
+
+  ${(props) => props.height && ` min-height: 90px; `};
+`;
+
+export const Grid = styled.section`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  place-items: center;
+  min-height: 80px;
+  border-bottom: 2px solid #ebebeb;
 `;

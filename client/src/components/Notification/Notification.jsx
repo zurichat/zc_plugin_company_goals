@@ -33,7 +33,7 @@ function Notification() {
             <Paragraph primary>2mins ago</Paragraph>
           </Grid>
           <Grid darkColor>
-            <MailOutlineIcon />
+            <MailOutlineIcon style={{ color: '#999999' }} />
             <FlexColumn items>
               <Paragraph dark achieved>
                 You failed to reach this goal
@@ -45,7 +45,7 @@ function Notification() {
             </Paragraph>
           </Grid>
           <Grid darkColor>
-            <MailOutlineIcon />
+            <MailOutlineIcon style={{ color: '#999999' }} />
             <FlexColumn items>
               <Paragraph dark achieved>
                 You failed to reach this goal
@@ -56,7 +56,7 @@ function Notification() {
               1 mins ago
             </Paragraph>
           </Grid>
-          <Section flexEnd>
+          <Section flexend>
             <Button style={{ marginRight: '5px' }} darkColor>
               See Less
             </Button>
