@@ -26,9 +26,9 @@ exports.createGoals = catchAsync(async (req, res, next) => {
     bulk_write: false,
     payload: req.body,
   }); */
-  console.log(goals);
+  //console.log(goals);
   // Sending Responses
-  res.status(200).json({ status: 'success', goals: { id: goals.data.insertedId, ...data } });
+  res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 });
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
