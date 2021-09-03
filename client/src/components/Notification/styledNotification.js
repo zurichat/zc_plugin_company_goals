@@ -12,7 +12,7 @@ export const NotificationWrapper = styled.div`
   max-width: 352px;
   margin: 0 auto;
   width: 100%;
-  background: rgba(235, 235, 235, 0.5);
+  background: #fff;
 `;
 export const NotificationHeader = styled.section`
   display: flex;
@@ -20,6 +20,34 @@ export const NotificationHeader = styled.section`
   align-items: center;
   width: 100%;
   min-height: 36px;
+  border-bottom: 1px solid #eee3e3;
+`;
+
+export const Grid = styled.section`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  place-items: center;
+  height: 80px;
+  border-bottom: 2px solid #ebebeb;
+
+  ${(props) =>
+    props.darkColor &&
+    css`
+      color: #999999 !important;
+    `};
+`;
+
+export const Section = styled.section`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  ${(props) =>
+    props.flexEnd &&
+    css`
+      justify-content: flex-end;
+    `};
 `;
 
 export const NotificationCount = styled.p`
@@ -45,17 +73,12 @@ export const Paragraph = styled.p`
   margin: 12px;
 
   ${(props) =>
-    props.darkColor &&
-    css`
-      color: #999999 !important;
-    `};
-
-  ${(props) =>
     props.primary &&
     css`
       text-decoration: none;
       line-height: 14.4px;
       text-align: right;
+      margin: 0;
     `};
 
   ${(props) =>
@@ -95,6 +118,11 @@ export const Paragraph = styled.p`
       font-size: 15px;
       color: #f44336;
     `};
+  ${(props) =>
+    props.dark &&
+    css`
+      color: #999999;
+    `};
 `;
 export const FlexColumn = styled.section`
   display: flex;
@@ -109,16 +137,9 @@ export const FlexColumn = styled.section`
     `};
 
   ${(props) =>
-    props.borderRight &&
-    css`
-      border-left: 3px solid #f44336;
-    `};
-
-  ${(props) =>
     props.backgroundWhite &&
     css`
       background: #fff;
-      border-bottom: 2px solid #ebebeb;
     `};
 
   ${(props) =>
@@ -128,15 +149,20 @@ export const FlexColumn = styled.section`
     `};
 `;
 
-export const FlexRow = styled.section`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+export const Button = styled.section`
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #999999 !important;
 
   ${(props) =>
-    props.height &&
+    props.darkColor &&
     css`
-      min-height: 50px;
+      color: #999999 !important;
+      font-size: 12px;
+      font-weight: 700;
     `};
 `;

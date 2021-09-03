@@ -10,11 +10,10 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
+        <Header />
         <Mainside />
         <Deletemodal />
-        <Header />
       </PluginSide>
-      <Mainside />
     </div>
   );
 }
@@ -25,4 +24,5 @@ const PluginSide = styled.div`
   width: 100%;
   background-color: #f6f6f6;
   padding-bottom: 20px;
+  position: 'relative';
 `;
