@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// import Deletemodal from '../components/Deletemodal/Deletemodal';
 import Header from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import EditVision from '../components/Modal/EditVision';
