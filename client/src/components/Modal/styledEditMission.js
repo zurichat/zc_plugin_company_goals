@@ -35,4 +35,5 @@ export const SaveBtn = styled.button`
   border-radius: 6px;
   cursor: pointer;
   float: right;
+  margin-right: 5px;
 `;

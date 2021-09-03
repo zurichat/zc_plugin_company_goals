@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import Report from '../updates/Report';
+
+
 import { Container, Button, Box, TextField } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -8,6 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useDispatch } from 'react-redux';
 
+import { showEditMissionModal } from '../../redux/showEditMissionModal';
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
@@ -28,7 +30,11 @@ const Header = () => {
             }}
           >
             <Button style={{ fontWeight: 'bold' }}>Mission</Button>
-            <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
+            <Button
+              startIcon={<AddIcon />}
+              style={{ fontWeight: 'bold' }}
+              onClick={() => dispatch(showEditMissionModal())}
+            >
               Edit Mission
             </Button>
           </Box>
