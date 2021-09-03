@@ -15,7 +15,6 @@ const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
 const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
-// const sidebarRouter = require('./routes/sidebarRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
 
 const AppError = require('./utils/appError');
