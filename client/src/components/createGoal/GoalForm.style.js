@@ -16,6 +16,7 @@ export const ScrollContainer = styled.div`
   width: 100%;
   height: 500px;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   &::-webkit-scrollbar {
     width: 10px;
