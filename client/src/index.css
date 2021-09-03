@@ -42,20 +42,6 @@ code {
   border-radius: 5px;
   z-index: 1;
 }
-.d-img2 {
-  position: absolute;
-  left: 38rem;
-  top: 10rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 73.25rem;
-  height: 56.25rem;
-  left: 16.75rem;
-  top: 0px;
-  background: rgba(0, 0, 0, 0.5);
-  overflow-x: hidden;
-}
 .modal {
   width: 485px;
   height: 508px;
