@@ -53,7 +53,7 @@ const SortDrpDw = styled.div`
   box-shadow: -2px -2px 3px 0 #95959548, 2px 2px 3px 0 #95959548;
   border-radius: 5px;
   padding: 7px;
-  transition: all 0.5s linear;
+  transition: all 0.2s linear;
 
   ul {
     color: #828282;
@@ -70,7 +70,7 @@ const SortDrpDw = styled.div`
 
     visibility: visible;
     opacity: 1;
-    transition: all 0.5s linear;
+    transition: all 0.2s linear;
   }
 `;
 const NavLayout = () => {
