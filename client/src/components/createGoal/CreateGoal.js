@@ -30,12 +30,12 @@ export default function SimpleDialog() {
 
   return (
     <div>
-      {' '}
       {goalData && (
         <Button onClick={handleOpen} style={{ backgroundColor: '#00B87C', color: '#fff', fontWeight: 600 }}>
-          Open Modal{' '}
+          Open Modal
         </Button>
       )}
+
       <Dialog
         open={open}
         onClose={handleClose}

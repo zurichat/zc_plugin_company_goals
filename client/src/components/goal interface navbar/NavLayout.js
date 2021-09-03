@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import img from './images/Group 2686.png';
 import NavName from './NavName';
 
-const GridLayout = styled.div `
+const GridLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 3fr;
   padding: 1rem;
   place-items: center;
 `;
 
-const Sort = styled.div `
+const Sort = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -31,19 +31,15 @@ const Sort = styled.div `
   margin-right: 1rem;
 `;
 const NavLayout = () => {
-    return ( <
-        GridLayout >
-        <
-        NavName className = "active" > all goals < /NavName> <
-        NavName > annual goals < /NavName> <
-        NavName > quaterly goals < /NavName> <
-        Sort >
-        <
-        div > Sort by < /div> <img src={img} alt="sort icon" / >
-        <
-        /Sort> <
-        /GridLayout>
-    );
+  return (
+    <GridLayout>
+      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>``
+      <NavName> quaterly goals </NavName>
+      <Sort>
+        <div> Sort by </div> <img src={img} alt="sort icon" />
+      </Sort>
+    </GridLayout>
+  );
 };
 
 export default NavLayout;

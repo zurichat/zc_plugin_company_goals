@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-import styled from 'styled-components';
-
-=======
 import { useSelector, useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
->>>>>>> 0fb3cc7efb716e7a716fdc27928f9fa3f418f0e9
 const Wrapper = styled.section`
   position: absolute;
   font-family: 'Lato', sans-serif;
@@ -44,7 +39,6 @@ const Input = styled.textarea.attrs((props) => props.placeholder)`
   font-family: 'Lato', sans-serif;
   font-size: 18px;
   padding: 1rem;
-
   &:focus {
     outline: none;
   }
@@ -56,33 +50,16 @@ const Button = styled.button`
   padding: 0.5rem;
   font-family: 'Lato', sans-serif;
   margin-top: 3rem;
-<<<<<<< HEAD
-  font-weight: 600;
-  width: 15%;
-  border-radius: 5px;
-=======
   margin-right: 0.5rem;
   font-weight: 600;
   width: 15%;
   border-radius: 5px;
   cursor: pointer;
->>>>>>> 0fb3cc7efb716e7a716fdc27928f9fa3f418f0e9
-
   &focus {
     outline: none;
   }
 `;
 const EditVision = () => {
-<<<<<<< HEAD
-  return (
-    <Wrapper>
-      <Modal>
-        <Heading>Edit Vision</Heading>
-        <Input placeholder="Click to edit..." />
-        <Button> Save</Button>
-      </Modal>
-    </Wrapper>
-=======
   const dispatch = useDispatch();
   const { show } = useSelector((state) => state.show);
   return (
@@ -96,7 +73,6 @@ const EditVision = () => {
         </Modal>
       </Wrapper>
     )
->>>>>>> 0fb3cc7efb716e7a716fdc27928f9fa3f418f0e9
   );
 };
 

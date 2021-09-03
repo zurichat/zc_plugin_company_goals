@@ -33,7 +33,7 @@ const Deletemodal = () => {
             ))}
           </div>
           <div className="delete-content">
-            <h2 className="delete-head"> Delete Goal ? </h2>
+            <h2 className="delete-head">Delete Goal ? </h2>
             <p className="delete-info">
               Clicking the proceed button means that people will no longer have access to view this goal.
             </p>
