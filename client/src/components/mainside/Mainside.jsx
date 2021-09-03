@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
 import SimpleModal from '../createGoal/CreateGoal';
+import BasicModal from '../EditGoal/EditGoal';
 import Notification from '../Notification/Notification';
+
 
 const Mainside = () => {
   return (
     <MainContainer>
       <Goal>
         {' '}
-        <SimpleModal />{' '}
+        <SimpleModal /> <BasicModal />
       </Goal>
       <Goal primary>
         {/* goal tools like calendar, reports  .. go inside this component  */}
