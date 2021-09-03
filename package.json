@@ -49,5 +49,8 @@
             "prettier --write",
             "eslint --cache --fix"
         ]
+    },
+    "engines": {
+        "node": "^14.17.6"
     }
 }
