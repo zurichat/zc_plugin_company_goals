@@ -61,9 +61,9 @@ const Button = styled.button`
 `;
 const EditVision = () => {
   const dispatch = useDispatch();
-  const { show } = useSelector((state) => state.show);
+  const { showVision } = useSelector((state) => state.showVision);
   return (
-    show && (
+    showVision  && (
       <Wrapper>
         <Modal>
           <Heading>Edit Vision</Heading>

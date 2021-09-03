@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const editVisionSlice = createSlice({
   name: 'editVision',
   initialState: {
-    show: false,
+    showVision: false,
   },
   reducers: {
     showEditVisionModal: (state) => {
-      state.show = !state.show;
+      state.showVision = !state.showVision;
     },
   },
 });
