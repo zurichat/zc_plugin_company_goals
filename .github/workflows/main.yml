@@ -26,3 +26,6 @@ jobs:
             cd client/
             yarn install
             yarn build
+            cd .. 
+            yarn install 
+            pm2 restart server.js
