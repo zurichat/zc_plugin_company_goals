@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleDialog() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
-  const [goalData, setGoalData] = useState(true);
+  const [goalData] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
