@@ -1,11 +1,20 @@
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useState } from 'react';
+import SearchResults from './../searchBarDisplay/Search';
+
 
 const Navbar = () => {
+  const [searchState, setSearchState] = useState('');
+  const handleSearch = (event) => {
+    const value = event.type === 'blur' ? '' : event.target.value;
+    setSearchState(value);
+  };
   return (
-    <>
+    <div>
       <Header>
         <HeaderText>Company Goals</HeaderText>
       </Header>
@@ -17,14 +26,22 @@ const Navbar = () => {
           </MenuLink1>
           <MenuLink primary>Archived Goals</MenuLink>
         </Menu>
+        
         <SearchContainer>
           <SearchIconStyled />
-          <SearchInput type="text" placeholder="Search" />
+          <SearchInput type="text" placeholder="Search" onChange={handleSearch} onBlur={handleSearch} />
+        { searchState && <SearchResults /> }  
         </SearchContainer>
+        
+        
         <SettingsIconStyled />
       </Nav>
-    </>
+    </div>
   );
+};
+
+Navbar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default Navbar;
