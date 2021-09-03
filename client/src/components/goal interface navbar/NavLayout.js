@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -30,6 +31,12 @@ const Sort = styled.div`
   cursor: pointer;
   margin-right: 1rem;
   position: relative;
+button{
+  background: transparent;
+  border: none;
+  color: #00b87c;
+  
+}
 `;
 
 const SortDrpDw = styled.div`
@@ -50,7 +57,7 @@ const SortDrpDw = styled.div`
 
   ul {
     color: #828282;
-    font-size: 20px;
+    font-size: 18px;
     list-style: none;
     li {
       padding: 3px;
@@ -74,11 +81,11 @@ const NavLayout = () => {
 
   return (
     <GridLayout>
-      <NavName className=""> all goals </NavName> <NavName> annual goals </NavName>
+      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
       <Sort>
-        <div onClick={showDrpDw}> Sort by </div> <img src={img} alt="sort icon" />
-        <SortDrpDw id="sort_drop_down" className="active">
+        <button type="button" onClick={showDrpDw}> Sort by </button> <img src={img} alt="sort icon" />
+        <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
             <li>More Recent</li>
             <li>Date</li>
