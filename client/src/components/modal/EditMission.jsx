@@ -45,7 +45,7 @@ export default function EditMission() {
 
   return (
     <>
-      <button type="button" onClick={handleOpen} style={{ display: 'inline-block' }}>
+      <button type="button" onClick={handleOpen} style={{ display: 'none' }}>
         Edit Mission
       </button>
       <Modal

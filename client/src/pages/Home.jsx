@@ -11,10 +11,9 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
+        <Header />
         <Mainside />
         <Deletemodal />
-        <Header />
-
         <EditMission />
       </PluginSide>
       <Mainside />
