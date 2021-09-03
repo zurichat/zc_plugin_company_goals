@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
 import GoalForm from './GoalForm';
 import { GlobalStyles } from './GoalForm.style';
 
@@ -26,9 +27,14 @@ export default function SimpleDialog() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+     
+      <Button
+        onClick={handleOpen}
+        style={{ backgroundColor: '#00B87C', color: '#fff', fontWeight: 600 }}
+      >
         Open Modal
-      </button>
+      </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}
