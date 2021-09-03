@@ -12,7 +12,7 @@ const GridLayout = styled.div`
   place-items: center;
 `;
 
-const Sort = styled.div`
+const Sort = styled.button`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -31,12 +31,12 @@ const Sort = styled.div`
   cursor: pointer;
   margin-right: 1rem;
   position: relative;
-button{
+  /* button{
   background: transparent;
   border: none;
   color: #00b87c;
   
-}
+} */
 `;
 
 const SortDrpDw = styled.div`
@@ -83,8 +83,8 @@ const NavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort>
-        <button type="button" onClick={showDrpDw}> Sort by </button> <img src={img} alt="sort icon" />
+      <Sort type="button" onClick={showDrpDw}>
+        <div> Sort by </div> <img src={img} alt="sort icon" />
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
             <li>More Recent</li>
