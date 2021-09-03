@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-
+import { StyledAppBar, StyledToolBar } from './Header.styled';
+import Report from '../updates/Report'
 import { Container, Button, Box, TextField } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -13,6 +14,21 @@ import { showEditVisionModal } from '../../redux/showEditVisionModal';
 const Header = () => {
   const dispatch = useDispatch();
   return (
+    <div>
+      <StyledAppBar position="static">
+      <StyledToolBar>
+        <h1>
+          Welcome to Zuri Chat Goals Plugin{' '}
+          <span role="img" aria-label="celebrate emoji">
+            🥳
+          </span>
+        </h1>
+      </StyledToolBar>
+    </StyledAppBar>
+    <Report />
+    </div>
+  )
+}
     <>
       <Container>
         <Box container display="flex" justifyContent="space-evenly" style={{ marginTop: 50 }}>
@@ -76,7 +92,7 @@ const Header = () => {
         </Box>
       </Container>
     </>
-  );
-};
+  
+
 
 export default Header;
