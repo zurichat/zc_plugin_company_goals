@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
-import Deletemodal from '../components/Deletemodal/Deletemodal';
+// import Deletemodal from '../components/Deletemodal/Deletemodal';
 import Header from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-import EditMission from '../components/modal/EditMission';
 import Nav from '../components/navbar/Navbar';
 
 function App() {
@@ -11,14 +10,9 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
-        <Mainside />
-        <Deletemodal />
         <Header />
         <Mainside />
-        <Deletemodal />
-        <EditMission />
       </PluginSide>
-      <Mainside />
     </div>
   );
 }
