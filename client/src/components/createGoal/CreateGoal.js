@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleDialog() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [goalData, setGoalData] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -29,9 +30,11 @@ export default function SimpleDialog() {
 
   return (
     <div>
-      <Button onClick={handleOpen} style={{ backgroundColor: '#00B87C', color: '#fff', fontWeight: 600 }}>
-        Open Modal
-      </Button>
+      {goalData && (
+        <Button onClick={handleOpen} style={{ backgroundColor: '#00B87C', color: '#fff', fontWeight: 600 }}>
+          Open Modal
+        </Button>
+      )}
 
       <Dialog
         open={open}
