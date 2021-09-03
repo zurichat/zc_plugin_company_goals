@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import NavLayout from '../goal interface navbar/NavLayout';
 import BasicModal from '../EditGoal/EditGoal';
 
 import SimpleModal from '../createGoal/CreateGoal';
@@ -8,6 +9,7 @@ import Notification from '../Notification/Notification';
 const Mainside = () => {
   return (
     <MainContainer>
+      <NavLayout />
       <Goal>
         {' '}
         <SimpleModal />
