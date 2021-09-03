@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const axios = require('axios');
 
 const catchAsync = require('../utils/catchAsync');
@@ -44,3 +45,18 @@ exports.createGoal = catchAsync(async(req, res, next)=>{
 
   
 })
+
+
+exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
+  // First, Get update from req.body
+  const goalId = req.params.id;
+  const update = { ...req.body }
+  const collectionName = 'goals';
+
+  // Then, send update to zuri core
+  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/${goalId}`;
+  const result = await axios.patch(url, update);
+
+  // Finally, send the updated goal to client.
+  res.status(200).json(result.data);
+});
