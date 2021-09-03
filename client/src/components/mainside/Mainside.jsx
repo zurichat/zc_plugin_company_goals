@@ -9,7 +9,7 @@ const Mainside = () => {
     <MainContainer>
       <Goal>
         {' '}
-        <SimpleModal /> <BasicModal /> <BasicModal />{' '}
+        <SimpleModal /> <BasicModal />
       </Goal>
       <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
     </MainContainer>
