@@ -7,13 +7,13 @@ import deleteimg6 from './deleteassets/deleteimg6.png';
 import starimg from './deleteassets/starimg.png';
 
 const deleteDataImg = {
-  deleteImg,
-  deleteimg2,
-  deleteimg3,
-  deleteimg4,
-  deleteimg5,
-  deleteimg6,
-  starimg,
+    deleteImg,
+    deleteimg2,
+    deleteimg3,
+    deleteimg4,
+    deleteimg5,
+    deleteimg6,
+    starimg,
 };
 
 export default deleteDataImg;

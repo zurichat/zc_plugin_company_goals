@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -34,11 +33,10 @@ const Sort = styled.div`
 const NavLayout = () => {
   return (
     <GridLayout>
-      <NavName className="active">all goals</NavName>
-      <NavName>annual goals</NavName>
-      <NavName>quaterly goals</NavName>
+      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
+      <NavName> quaterly goals </NavName>
       <Sort>
-        <div>Sort by</div> <img src={img} alt="sort icon" />
+        <div> Sort by </div> <img src={img} alt="sort icon" />
       </Sort>
     </GridLayout>
   );
