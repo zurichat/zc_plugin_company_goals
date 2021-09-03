@@ -27,21 +27,20 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 });
 
 exports.createGoal = catchAsync(async(req, res, next)=>{
-  try {
-    await res.status(201).send({message: "Success, Goal Created", data:{
-      "title": "Goal",
-      "description": "This is a quarterly goal",
-      "weeklyGoal": "false",
-      "monthlyGoal": "false",
-      "quarterlyGoal":"true",
-      "biannualGoal": "false",
-      "annualGoal": "false",
-      "achieved": "false",
-      "createdBy": "HR",
-      "createdAt": "Wed Sep 3 2020 01:00:00 GMT+0100(WAT)",
-      "updatedAt": "Wed Sep 3 2020 01:00:00 GMT+0100(WAT)"
-    }})
-  } catch (e) {
-    return next(e)
-  }
+
+  await res.status(201).send({message: "Success, Goal Created", data:{
+    "title": "Goal",
+    "description": "This is a quarterly goal",
+    "weeklyGoal": "false",
+    "monthlyGoal": "false",
+    "quarterlyGoal":"true",
+    "biannualGoal": "false",
+    "annualGoal": "false",
+    "achieved": "false",
+    "createdBy": "HR",
+    "createdAt": "Wed Sep 3 2020 01:00:00 GMT+0100(WAT)",
+    "updatedAt": "Wed Sep 3 2020 01:00:00 GMT+0100(WAT)"
+  }})
+
+  
 })
