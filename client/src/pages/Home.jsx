@@ -10,11 +10,10 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
+        <Header />
         <Mainside />
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
         <EditVision />
-        <Header />
-        <Mainside />
       </PluginSide>
     </div>
   );
