@@ -39,7 +39,6 @@ const Input = styled.textarea.attrs((props) => props.placeholder)`
   font-family: 'Lato', sans-serif;
   font-size: 18px;
   padding: 1rem;
-
   &:focus {
     outline: none;
   }
@@ -56,7 +55,6 @@ const Button = styled.button`
   width: 15%;
   border-radius: 5px;
   cursor: pointer;
-
   &focus {
     outline: none;
   }
