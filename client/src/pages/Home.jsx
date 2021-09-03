@@ -11,10 +11,8 @@ function App() {
       <PluginSide>
         <Nav />
         <Mainside />
-
         <Header />
       </PluginSide>
-      <Mainside />
     </div>
   );
 }
