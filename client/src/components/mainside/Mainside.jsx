@@ -4,13 +4,15 @@ import Deletemodal from '../Deletemodal/Deletemodal'
 
 import SimpleModal from '../createGoal/CreateGoal';
 
+import BasicModal from '../EditGoal/EditGoal';
+
 const Mainside = () => {
   return (
     <MainContainer>
       <Goal> <SimpleModal /> <Deletemodal /> </Goal>
       <Goal>
         {' '}
-        <SimpleModal />{' '}
+        <SimpleModal /> <BasicModal />
       </Goal>
       <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
     </MainContainer>
