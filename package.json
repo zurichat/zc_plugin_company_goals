@@ -10,7 +10,7 @@
         "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client:dev\"",
         "server": "nodemon server.js",
         "server:prod": "cross-env NODE_ENV=production nodemon server.js",
-        "start": "npm run client:build && node server.js",
+        "start": "node server.js",
         "prepare": "husky install"
     },
     "author": "Team Plato",
@@ -51,6 +51,6 @@
         ]
     },
     "engines": {
-        "node": "^14.17.6"
+        "node": "^14"
     }
 }
