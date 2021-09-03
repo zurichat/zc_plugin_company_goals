@@ -4,7 +4,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
-import styled from 'styled-components';
+
+import { Header, TextBox, SaveBtn } from './styledEditMission';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -71,40 +72,3 @@ export default function EditMission() {
     </>
   );
 }
-
-const Header = styled.h2`
-  text-align: center;
-  font-size: 24px;
-  line-height: 28px;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-`;
-
-const TextBox = styled.textarea`
-  border: 1px solid red;
-  display: block;
-  height: 208px;
-  margin: 35px auto;
-  font-family: Lato;
-  font-size: 16px;
-  border: none;
-  outline: none;
-  backgroundcolor: white;
-  padding: 10px;
-  resize: none;
-  ${'' /* width: 650px; */}
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const SaveBtn = styled.button`
-  border: none;
-  background-color: rgba(0, 184, 124, 1);
-  color: white;
-  width: 120px;
-  height: 30px;
-  border-radius: 6px;
-  cursor: pointer;
-  float: right;
-`;
