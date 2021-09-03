@@ -54,6 +54,7 @@ const SortDrpDw = styled.div`
   border-radius: 5px;
   padding: 7px;
   transition: all 0.2s linear;
+  text-align:left;
 
   ul {
     color: #828282;
