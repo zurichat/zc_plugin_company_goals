@@ -22,11 +22,12 @@ export const DeleteModal = styled.div `
 `;
 export const DeleteContent = styled.div `
    text-align: center;
-   padding-top: 9rem;
+   padding-top: 3rem;
 `;
 export const DeleteHead = styled.h2 `
    font-family: 'Lato', sans-serif;
    text-align: center;
+   margin-bottom: 1rem;
    color: #29429a;
 `;
 export const DeleteInfo = styled.p `
@@ -34,7 +35,7 @@ export const DeleteInfo = styled.p `
    line-height: 163.42%;
    width: 300px;
    color: #000;
-   margin: auto;
+   margin: 0 auto;
    font-family: 'Lato', sans-serif;
 `;
 export const DelButton = styled.button `
@@ -68,4 +69,7 @@ export const MainDelBtn = styled.button `
    margin: auto;
    font-family: 'Lato', sans-serif;
 `;
-export const Images = styled.div 
+export const Images = styled.div `
+   display: flex;
+   justify-content: center;
+`
