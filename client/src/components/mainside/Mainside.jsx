@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 
 import SimpleModal from '../createGoal/CreateGoal';
-
-import BasicModal from '../EditGoal/EditGoal';
+import Notification from '../Notification/Notification';
 
 const Mainside = () => {
   return (
     <MainContainer>
       <Goal>
         {' '}
-        <SimpleModal /> <BasicModal />
+        <SimpleModal />
       </Goal>
-      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
+      <Goal primary>
+        {/* goal tools like calendar, reports  .. go inside this component  */}
+        <Notification />
+      </Goal>
     </MainContainer>
   );
 };
@@ -28,9 +30,8 @@ const Goal = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-top: 200px;
+  padding: 50px 0;
   background: red;
-  height: 40vh;
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
   margin: 10px;
