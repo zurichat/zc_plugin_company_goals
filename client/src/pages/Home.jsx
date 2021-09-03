@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-import Deletemodal from '../components/Deletemodal/Deletemodal';
+// import Deletemodal from '../components/Deletemodal/Deletemodal';
 import Header from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
+import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <PluginSide>
         <Nav />
         <Mainside />
-        <Deletemodal />
+        {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
+        <EditVision />
         <Header />
       </PluginSide>
       <Mainside />

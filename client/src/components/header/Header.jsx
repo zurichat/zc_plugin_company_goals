@@ -1,10 +1,17 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
 import { Container, Button, Box, TextField } from '@material-ui/core';
+
 import AddIcon from '@material-ui/icons/Add';
+
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { useDispatch } from 'react-redux';
+
+import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
+  const dispatch = useDispatch();
   return (
     <>
       <Container>
@@ -45,7 +52,7 @@ const Header = () => {
               }}
             >
               <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-              <div>
+              <div onClick={() => dispatch(showEditVisionModal())} onKeyDown={() => dispatch(showEditVisionModal())}>
                 <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
                   Edit Vision
                 </Button>
