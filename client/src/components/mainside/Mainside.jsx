@@ -2,13 +2,22 @@ import styled from 'styled-components';
 import Deletemodal from '../Deletemodal/Deletemodal'
 import NavLayout from '../goal interface navbar/NavLayout';
 import BasicModal from '../EditGoal/EditGoal';
+
+import Report from '../updates/Report'
+
+
 import SimpleModal from '../createGoal/CreateGoal';
+
 import Notification from '../Notification/Notification';
+import SimpleModal from '../createGoal/CreateGoal';
+
 
 const Mainside = () => {
   return (
     <div>
     <NavLayout />
+
+
     <MainContainer>
       <Goal>
         <SimpleModal />
@@ -16,12 +25,10 @@ const Mainside = () => {
         <BasicModal/>
       </Goal>
       <Goal primary>
-        {/* goal tools like calendar, reports  .. go inside this component  */}
+    {/* <Report /> */}
         <Notification />
       </Goal>
-      
     </MainContainer>
-    
     </div>
   );
 };
