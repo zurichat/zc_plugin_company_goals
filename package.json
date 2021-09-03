@@ -16,6 +16,7 @@
     "author": "Team Plato",
     "license": "MIT",
     "dependencies": {
+        "axios": "^0.21.1",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.5",
         "cors": "^2.8.5",
@@ -23,9 +24,11 @@
         "express": "^4.17.1",
         "express-rate-limit": "^5.3.0",
         "helmet": "^4.6.0",
+        "joi": "^17.4.2",
         "morgan": "^1.10.0",
         "winston": "^3.3.3",
-        "xss-clean": "^0.1.1"
+        "xss-clean": "^0.1.1",
+        "yarn": "^1.22.11"
     },
     "devDependencies": {
         "concurrently": "^6.2.1",
@@ -51,6 +54,6 @@
         ]
     },
     "engines": {
-        "node": "^14.17.6"
+        "node": "^14"
     }
 }
