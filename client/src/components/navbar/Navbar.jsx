@@ -82,8 +82,8 @@ const SearchContainer = styled.div`
   cursor: pointer;
 `;
 const AddIconStyled = styled(AddIcon)`
-  fontsize: 1.2rem;
-  marginright: 4px;
+  font-size: 1.2rem;
+  margin-right: 4px;
 `;
 const SearchInput = styled.input`
   padding: 12px 10px;
