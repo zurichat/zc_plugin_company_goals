@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-
+import SimpleModal from '../createGoal/CreateGoal'
+import Deletemodal from '../Deletemodal/Deletemodal'
 import NavLayout from '../goal interface navbar/NavLayout';
 import BasicModal from '../EditGoal/EditGoal';
-
 import SimpleModal from '../createGoal/CreateGoal';
 import Notification from '../Notification/Notification';
 
 const Mainside = () => {
   return (
     <MainContainer>
+      <Goal> <SimpleModal /> <Deletemodal /> </Goal>
       <NavLayout />
       <Goal>
         {' '}
