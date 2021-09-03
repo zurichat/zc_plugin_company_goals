@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import NavName from './NavName';
+
 import img from './images/Group 2686.png';
+import NavName from './NavName';
+
 
 const GridLayout = styled.div`
   display: grid;

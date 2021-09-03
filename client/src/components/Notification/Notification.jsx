@@ -1,11 +1,18 @@
 import React from 'react';
-import { NotificationCount, NotificationHeader, NotificationSection } from './styledNotification';
-import { FlexColumn } from './styledNotification';
-import { NotificationWrapper } from './styledNotification';
-import { Paragraph } from './styledNotification';
-import { FlexRow } from './styledNotification';
+
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import visible from '../../Images/active.svg';
+
+import {
+  NotificationCount,
+  NotificationHeader,
+  NotificationSection,
+  FlexColumn,
+  NotificationWrapper,
+  Paragraph,
+  Button,
+  Grid,
+  Section,
+} from './styledNotification';
 
 function Notification() {
   return (
@@ -13,45 +20,47 @@ function Notification() {
       <NotificationWrapper>
         {/* Header */}
         <NotificationHeader>
-          <NotificationCount style={{ marginLeft: '30px' }}>
-            2 (<span style={{ color: 'red' }}>1</span>)
-          </NotificationCount>
-          <Paragraph style={{ marginRight: '30px' }}>Mark all as read</Paragraph>
+          <NotificationCount style={{ marginLeft: '30px' }}>8</NotificationCount>
+          <Button style={{ marginRight: '30px' }}>Mark all as read</Button>
         </NotificationHeader>
-        <FlexColumn>
-          <FlexColumn backgroundWhite borderRight>
+        <FlexColumn backgroundWhite>
+          <Grid>
+            <MailOutlineIcon style={{ color: '#999999' }} />
+            <FlexColumn items>
+              <Paragraph achieved>Your goal as been achieved</Paragraph>
+              <Paragraph green>Create wireframe</Paragraph>
+            </FlexColumn>
             <Paragraph primary>2mins ago</Paragraph>
-            <FlexRow height>
-              <MailOutlineIcon style={{ padding: '0 24px' }} />
-              <FlexColumn items>
-                <Paragraph achieved>Our goal as been achieved</Paragraph>
-                <Paragraph green>Create wireframe</Paragraph>
-              </FlexColumn>
-            </FlexRow>
-            <Paragraph secondary>
-              <img style={{ marginRight: '5px' }} src={visible} alt="Visible" />
-              66
-            </Paragraph>
-          </FlexColumn>
-
-          <FlexColumn darkColor backgroundWhite>
+          </Grid>
+          <Grid darkColor>
+            <MailOutlineIcon style={{ color: '#999999' }} />
+            <FlexColumn items>
+              <Paragraph dark achieved>
+                You failed to reach this goal
+              </Paragraph>
+              <Paragraph red>Create wireframe</Paragraph>
+            </FlexColumn>
             <Paragraph darkColor primary>
-              2days ago
+              2 weeks ago
             </Paragraph>
-            <FlexRow height>
-              <MailOutlineIcon style={{ padding: '0 24px' }} />
-              <FlexColumn items>
-                <Paragraph darkColor achieved>
-                  We failed to reach this goal
-                </Paragraph>
-                <Paragraph red>Create wireframe</Paragraph>
-              </FlexColumn>
-            </FlexRow>
-            <Paragraph darkColor secondary>
-              <img style={{ marginRight: '5px' }} src={visible} alt="Visible" />
-              66
+          </Grid>
+          <Grid darkColor>
+            <MailOutlineIcon style={{ color: '#999999' }} />
+            <FlexColumn items>
+              <Paragraph dark achieved>
+                You failed to reach this goal
+              </Paragraph>
+              <Paragraph red>Create wireframe</Paragraph>
+            </FlexColumn>
+            <Paragraph darkColor primary>
+              1 mins ago
             </Paragraph>
-          </FlexColumn>
+          </Grid>
+          <Section flexend>
+            <Button style={{ marginRight: '5px' }} darkColor>
+              See Less
+            </Button>
+          </Section>
         </FlexColumn>
       </NotificationWrapper>
     </NotificationSection>
