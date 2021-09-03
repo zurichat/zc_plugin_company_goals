@@ -1,4 +1,8 @@
+import { useSelector, useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
+
+import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Wrapper = styled.section`
   position: absolute;
@@ -47,23 +51,30 @@ const Button = styled.button`
   padding: 0.5rem;
   font-family: 'Lato', sans-serif;
   margin-top: 3rem;
+  margin-right: 0.5rem;
   font-weight: 600;
   width: 15%;
   border-radius: 5px;
+  cursor: pointer;
 
   &focus {
     outline: none;
   }
 `;
 const EditVision = () => {
+  const dispatch = useDispatch();
+  const { show } = useSelector((state) => state.show);
   return (
-    <Wrapper>
-      <Modal>
-        <Heading>Edit Vision</Heading>
-        <Input placeholder="Click to edit..." />
-        <Button> Save</Button>
-      </Modal>
-    </Wrapper>
+    show && (
+      <Wrapper>
+        <Modal>
+          <Heading>Edit Vision</Heading>
+          <Input placeholder="Click to edit..." />
+          <Button onClick={() => dispatch(showEditVisionModal())}> Cancel</Button>
+          <Button> Save</Button>
+        </Modal>
+      </Wrapper>
+    )
   );
 };
 
