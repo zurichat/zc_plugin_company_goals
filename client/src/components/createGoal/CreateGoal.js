@@ -32,6 +32,7 @@ export default function SimpleDialog() {
       <Button onClick={handleOpen} style={{ backgroundColor: '#00B87C', color: '#fff', fontWeight: 600 }}>
         Open Modal
       </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}

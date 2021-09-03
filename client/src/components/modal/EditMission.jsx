@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     height: '406px',
     maxWidth: '100%',
     margin: '1rem',
+    boxSizing: 'border-box',
   },
 }));
 
@@ -44,7 +45,7 @@ export default function EditMission() {
 
   return (
     <>
-      <button type="button" onClick={handleOpen} style={{ display: 'none' }}>
+      <button type="button" onClick={handleOpen} style={{ display: 'inline-block' }}>
         Edit Mission
       </button>
       <Modal
@@ -62,12 +63,8 @@ export default function EditMission() {
         <Fade in={open}>
           <form className={classes.paper}>
             <Header id="transition-modal-title">Edit Mission</Header>
-            <div>
-              <TextBox placeholder="Click to edit..." />
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <SaveBtn>Save</SaveBtn>
-            </div>
+            <TextBox placeholder="Click to edit..." />
+            <SaveBtn>Save</SaveBtn>
           </form>
         </Fade>
       </Modal>
@@ -79,6 +76,9 @@ const Header = styled.h2`
   text-align: center;
   font-size: 24px;
   line-height: 28px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 `;
 
 const TextBox = styled.textarea`
@@ -95,6 +95,7 @@ const TextBox = styled.textarea`
   resize: none;
   ${'' /* width: 650px; */}
   width: 100%;
+  box-sizing: border-box;
 `;
 
 const SaveBtn = styled.button`
@@ -105,4 +106,5 @@ const SaveBtn = styled.button`
   height: 30px;
   border-radius: 6px;
   cursor: pointer;
+  float: right;
 `;

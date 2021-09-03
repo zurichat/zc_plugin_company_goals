@@ -1,11 +1,17 @@
 import React from 'react';
-import { NotificationCount, NotificationHeader, NotificationSection } from './styledNotification';
-import { FlexColumn } from './styledNotification';
-import { NotificationWrapper } from './styledNotification';
-import { Paragraph } from './styledNotification';
-import { FlexRow } from './styledNotification';
+
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+
 import visible from '../../Images/active.svg';
+import {
+  NotificationCount,
+  NotificationHeader,
+  NotificationSection,
+  FlexColumn,
+  NotificationWrapper,
+  Paragraph,
+  FlexRow,
+} from './styledNotification';
 
 function Notification() {
   return (
