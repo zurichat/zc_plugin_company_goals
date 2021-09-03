@@ -1,4 +1,4 @@
-import { Styledcard, StyledContainer, StyledTypography, StyledLine, StyledFolder, StyledGoals, StyledGoalsecment, Icon, Progress, Bar, Upper,Lower, Lengend, Subcontainer, Item, Item2, Item3, Item4, Para, Arc } from "./Report.styled"
+import { StyledCard, StyledContainer, StyledTypography, StyledLine, StyledFolder, StyledGoals, StyledGoalsegment, Icon, Progress, Bar, Upper,Lower, Lengend, Subcontainer, Item, Para, Arc } from "./Report.styled"
 
 
 
@@ -33,16 +33,16 @@ const Report = () => {
                     
                    <Lengend>
                        <Subcontainer>
-                        <Item></Item> <Para>60 Goals</Para>
+                        <Item background="#EBEBEB" /><Para>60 Goals</Para>
                        </Subcontainer>
                        <Subcontainer>
-                        <Item2></Item2> <Para>52 In Progress</Para>
+                        <Item background="#2F80ED" /> <Para>52 In Progress</Para>
                        </Subcontainer>
                        <Subcontainer>
-                        <Item3></Item3> <Para>10 Expired</Para>
+                        <Item background="#F44336" /> <Para>10 Expired</Para>
                        </Subcontainer>
                        <Subcontainer>
-                        <Item4></Item4> <Para>27 Completed</Para>
+                        <Item background="#00B87C" /> <Para>27 Completed</Para>
                        </Subcontainer>
                     
                    </Lengend>

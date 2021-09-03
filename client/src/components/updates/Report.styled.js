@@ -4,27 +4,27 @@ import styled from 'styled-components';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
     width: 90%;
     margin: 20px;
     
 `;
 
 
-const Styledcard = styled(Card)`
+export const StyledCard = styled(Card)`
     width: 30%;
     height: 80vh;
     
     
 `;
 
-const StyledTypography = styled(Typography)`
+export const StyledTypography = styled(Typography)`
     font-size: 20px;
     color: #00B87C;
     font-weight: bold;
 `;
 
-const StyledLine = styled.hr`
+export const StyledLine = styled.hr`
     width: 10%;
     position: relative;
     top: 8px;
@@ -32,11 +32,11 @@ const StyledLine = styled.hr`
     border: 0.8px solid #00B87C;
 `;
 
-const StyledFolder = styled.p`
+export const StyledFolder = styled.p`
     font-size: 16px;
 `;
 
-const StyledGoals = styled.p`
+export const StyledGoals = styled.p`
     font-size: 15px;
     color: #999999;
     position: relative;
@@ -44,7 +44,7 @@ const StyledGoals = styled.p`
     left: 20%;
 `;
 
-const StyledGoalsecment = styled.div`
+export const StyledGoalsegment = styled.div`
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #EEE3E3;
@@ -54,13 +54,13 @@ const StyledGoalsecment = styled.div`
 
 `;
 
-const Icon = styled(KeyboardArrowDownIcon)`
+export const Icon = styled(KeyboardArrowDownIcon)`
     position: relative;
     top: 7px; 
     margin-right: -10px;
 `;
 
-const Progress = styled.div`
+export const Progress = styled.div`
     width: 100px;
     background: #EBEBEB;
     height: 100px;
@@ -73,7 +73,7 @@ const Progress = styled.div`
 
     `;
 
-const Upper = styled.div`
+export const Upper = styled.div`
     width: 150px;
     background: red;
     height: 150px;
@@ -86,7 +86,7 @@ const Upper = styled.div`
 
 `;
 
-const Lower = styled.div`
+export const Lower = styled.div`
     width: 120px;
     background: red;
     height: 120px;
@@ -99,14 +99,14 @@ const Lower = styled.div`
 
 `;
 
-const Bar = styled.div`
+export const Bar = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
 height: 40vh;
 `;
 
-const Lengend = styled.div`
+export const Legend = styled.div`
     height: 20vh;
     padding: 10px;
     display: flex;
@@ -115,7 +115,7 @@ const Lengend = styled.div`
     flex-wrap: wrap;
 `;
 
-const Subcontainer = styled.div`
+export const Subcontainer = styled.div`
     width: 40%;
     display: flex;
     justify-content: center;
@@ -124,40 +124,20 @@ const Subcontainer = styled.div`
     
 `;
 
-const Item = styled.div`
+export const Item = styled.div`
 width: 25px;
 height: 25px;
-border-radius: 5px;
-background: #EBEBEB;
+background: ${({ background }) => background}
 `;
 
-const Item2 = styled.div`
-width: 25px;
-height: 25px;
-border-radius: 5px;
-background: #2F80ED;
-`;
 
-const Item3 = styled.div`
-width: 25px;
-height: 25px;
-border-radius: 5px;
-background: #F44336;
-`;
 
-const Item4 = styled.div`
-width: 25px;
-height: 25px;
-border-radius: 5px;
-background: #00B87C;
-`;
-
-const Para = styled.p`
+export const Para = styled.p`
     font-size: 14px;
     padding: 8px;
     font-weight: 400;
 `;
 
 
-export {Styledcard, StyledTypography, StyledLine, StyledContainer,StyledGoalsecment, StyledFolder, StyledGoals, Icon, Progress, Bar, Upper, Lower, Lengend, Subcontainer, Item, Item2, Item3, Item4, Para};
+
 // export {};
