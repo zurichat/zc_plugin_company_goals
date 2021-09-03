@@ -1,59 +1,58 @@
 {
-    "name": "zc_plugin_company_goals",
-    "version": "1.0.0",
-    "main": "server.js",
-    "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
-    "type": "commonjs",
-    "scripts": {
-        "client:build": "npm run build --prefix client",
-        "client:dev": "npm start --prefix client",
-        "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client:dev\"",
-        "server": "nodemon server.js",
-        "server:prod": "cross-env NODE_ENV=production nodemon server.js",
-        "start": "npm run client:build && node server.js",
-        "prepare": "husky install"
-    },
-    "author": "Team Plato",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "compression": "^1.7.4",
-        "cookie-parser": "^1.4.5",
-        "cors": "^2.8.5",
-        "dotenv": "^10.0.0",
-        "express": "^4.17.1",
-        "express-rate-limit": "^5.3.0",
-        "helmet": "^4.6.0",
-        "joi": "^17.4.2",
-        "morgan": "^1.10.0",
-        "winston": "^3.3.3",
-        "xss-clean": "^0.1.1",
-        "yarn": "^1.22.11"
-    },
-    "devDependencies": {
-        "concurrently": "^6.2.1",
-        "cross-env": "^7.0.3",
-        "cspell": "^5.8.2",
-        "eslint": "^7.32.0",
-        "eslint-config-airbnb": "^18.2.1",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-import": "^2.24.2",
-        "eslint-plugin-jsx-a11y": "^6.4.1",
-        "eslint-plugin-prettier": "^3.4.1",
-        "eslint-plugin-react": "^7.25.0",
-        "eslint-plugin-react-hooks": "^4.2.0",
-        "husky": "^7.0.2",
-        "lint-staged": "^11.1.2",
-        "nodemon": "^2.0.12",
-        "prettier": "^2.3.2"
-    },
-    "lint-staged": {
-        "*.{js,jsx}": [
-            "prettier --write",
-            "eslint --cache --fix"
-        ]
-    },
-    "engines": {
-        "node": "^14"
-    }
+  "name": "zc_plugin_company_goals",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
+  "type": "commonjs",
+  "scripts": {
+    "client:build": "npm run build --prefix client",
+    "client:dev": "npm start --prefix client",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client:dev\"",
+    "server": "nodemon server.js",
+    "server:prod": "cross-env NODE_ENV=production nodemon server.js",
+    "start": "node server.js",
+    "prepare": "husky install"
+  },
+  "author": "Team Plato",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "joi": "^17.4.2",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.3.0",
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0",
+    "winston": "^3.3.3",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
+    "cspell": "^5.8.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-react": "^7.25.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
+  },
+  "engines": {
+    "node": "^14"
+  }
 }
