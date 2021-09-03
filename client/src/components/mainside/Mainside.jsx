@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import SimpleModal from '../createGoal/CreateGoal'
 import Deletemodal from '../Deletemodal/Deletemodal'
-
-import SimpleModal from '../createGoal/CreateGoal';
-
 import BasicModal from '../EditGoal/EditGoal';
 
 const Mainside = () => {
