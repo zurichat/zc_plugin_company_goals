@@ -33,13 +33,12 @@ const Sort = styled.div`
 `;
 
 const SortDrpDw = styled.div`
-  height:270px;
-    width: 185px;
+  height: 270px;
+  width: 185px;
 
   visibility: hidden;
   opacity: 0;
-  
-  
+
   background-color: #fff;
   position: absolute;
   right: -170px;
@@ -58,32 +57,24 @@ const SortDrpDw = styled.div`
       margin: 15px 7px;
     }
   }
-  
-  &.active{
-  right: 0px;
-  
-  
-  visibility: visible;
-  opacity: 1;
-  transition: all 0.5s linear;
-  
-  
 
+  &.active {
+    right: 0px;
+
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.5s linear;
   }
 `;
 const NavLayout = () => {
-
-
-function showDrpDw() {
-const sortDrpContainer = document.getElementById('sort_drop_down')
-sortDrpContainer.classList.toggle('active')
-
-}
-
+  function showDrpDw() {
+    const sortDrpContainer = document.getElementById('sort_drop_down');
+    sortDrpContainer.classList.toggle('active');
+  }
 
   return (
     <GridLayout>
-      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
+      <NavName className=""> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
       <Sort>
         <div onClick={showDrpDw}> Sort by </div> <img src={img} alt="sort icon" />
