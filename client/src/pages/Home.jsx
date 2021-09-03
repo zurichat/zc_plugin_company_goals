@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import AppHeader from '../components/header/Header';
-import Header from '../components/header/Header'
 import Header from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import EditVision from '../components/Modal/EditVision';
@@ -11,12 +10,13 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
-        <Mainside />
         <Header />
+        <Mainside />
+        
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
         <EditVision />
       </PluginSide>
-      <Mainside />
+     
     </div>
   );
 }
