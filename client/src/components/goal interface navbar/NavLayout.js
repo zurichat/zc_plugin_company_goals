@@ -33,7 +33,7 @@ const Sort = styled.div`
 const NavLayout = () => {
   return (
     <GridLayout>
-      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>``
+      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
       <Sort>
         <div> Sort by </div> <img src={img} alt="sort icon" />
