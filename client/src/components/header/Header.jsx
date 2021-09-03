@@ -47,7 +47,7 @@ const Header = () => {
               <Button style={{ fontWeight: 'bold' }}>Vision</Button>
               <div>
                 <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
-                  Edit Mission
+                  Edit Vision
                 </Button>
                 <span>
                   <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
