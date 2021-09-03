@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const NotificationSection = styled.main`
   width: 100%;
@@ -30,11 +30,7 @@ export const Grid = styled.section`
   height: 80px;
   border-bottom: 2px solid #ebebeb;
 
-  ${(props) =>
-    props.darkColor &&
-    css`
-      color: #999999 !important;
-    `};
+  ${(props) => props.darkColor && `color: #999999 !important;`};
 `;
 
 export const Section = styled.section`
@@ -45,7 +41,7 @@ export const Section = styled.section`
 
   ${(props) =>
     props.flexEnd &&
-    css`
+    `
       justify-content: flex-end;
     `};
 `;
@@ -57,12 +53,9 @@ export const NotificationCount = styled.p`
   line-height: 28px;
   color: #999999;
 
-  ${(props) =>
-    props.primary &&
-    css`
-      color: red;
-    `};
+  ${(props) => props.primary && `color: red; `};
 `;
+
 export const Paragraph = styled.p`
   font-family: Lato;
   font-size: 12px;
@@ -74,16 +67,14 @@ export const Paragraph = styled.p`
 
   ${(props) =>
     props.primary &&
-    css`
-      text-decoration: none;
-      line-height: 14.4px;
+    ` text-decoration: none;line-height: 14.4px;
       text-align: right;
       margin: 0;
     `};
 
   ${(props) =>
     props.secondary &&
-    css`
+    `
       text-decoration: none;
       line-height: 24px;
       text-align: right;
@@ -95,7 +86,7 @@ export const Paragraph = styled.p`
 
   ${(props) =>
     props.achieved &&
-    css`
+    `
       text-decoration: none;
       line-height: 0px;
       font-size: 15px;
@@ -103,7 +94,7 @@ export const Paragraph = styled.p`
 
   ${(props) =>
     props.green &&
-    css`
+    `
       text-decoration: none;
       line-height: 0px;
       font-size: 15px;
@@ -112,17 +103,13 @@ export const Paragraph = styled.p`
 
   ${(props) =>
     props.red &&
-    css`
+    `
       text-decoration: none;
       line-height: 0px;
       font-size: 15px;
       color: #f44336;
     `};
-  ${(props) =>
-    props.dark &&
-    css`
-      color: #999999;
-    `};
+  ${(props) => props.dark && `color: #999999;`};
 `;
 export const FlexColumn = styled.section`
   display: flex;
@@ -131,22 +118,12 @@ export const FlexColumn = styled.section`
 
   ${(props) =>
     props.items &&
-    css`
-      border-left: 1px solid #ebebeb;
-      padding-left: 12px;
+    `border-left: 1px solid #ebebeb;padding-left: 12px;
     `};
 
-  ${(props) =>
-    props.backgroundWhite &&
-    css`
-      background: #fff;
-    `};
+  ${(props) => props.backgroundWhite && `background: #fff;`};
 
-  ${(props) =>
-    props.darkColor &&
-    css`
-      color: #999999 !important;
-    `};
+  ${(props) => props.darkColor && ` color: #999999 !important;`};
 `;
 
 export const Button = styled.section`
@@ -160,7 +137,7 @@ export const Button = styled.section`
 
   ${(props) =>
     props.darkColor &&
-    css`
+    `
       color: #999999 !important;
       font-size: 12px;
       font-weight: 700;
