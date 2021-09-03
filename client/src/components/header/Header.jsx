@@ -12,6 +12,11 @@ import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(showEditVisionModal());
+    }
+  };
   return (
     <>
       <Container>
@@ -52,8 +57,13 @@ const Header = () => {
               }}
             >
               <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-              <div onClick={() => dispatch(showEditVisionModal())} onKeyDown={() => dispatch(showEditVisionModal())}>
-                <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
+              <div>
+                <Button
+                  startIcon={<AddIcon />}
+                  style={{ fontWeight: 'bold' }}
+                  onClick={() => dispatch(showEditVisionModal())}
+                  onKeyDown={handleKeyDown}
+                >
                   Edit Vision
                 </Button>
                 <span>
