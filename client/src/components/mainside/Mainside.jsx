@@ -3,11 +3,21 @@ import SimpleModal from '../createGoal/CreateGoal'
 import Deletemodal from '../Deletemodal/Deletemodal'
 import NavLayout from '../goal interface navbar/NavLayout';
 import BasicModal from '../EditGoal/EditGoal';
+
+import Report from '../updates/Report'
+
+
 import SimpleModal from '../createGoal/CreateGoal';
+
 import Notification from '../Notification/Notification';
+import SimpleModal from '../createGoal/CreateGoal';
+
 
 const Mainside = () => {
   return (
+    <div>
+      <Report />
+     
     <MainContainer>
       <Goal> <SimpleModal /> <Deletemodal /> </Goal>
       <NavLayout />
@@ -17,10 +27,17 @@ const Mainside = () => {
         <BasicModal />
       </Goal>
       <Goal primary>
-        {/* goal tools like calendar, reports  .. go inside this component  */}
+        
         <Notification />
       </Goal>
+      
+      <Goal >
+        
+      </Goal>
+      
     </MainContainer>
+    </div>
+    
   );
 };
 
