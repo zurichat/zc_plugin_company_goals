@@ -1,11 +1,12 @@
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   return (
-    <>
+    <div>
       <Header>
         <HeaderText>Company Goals</HeaderText>
       </Header>
@@ -20,12 +21,16 @@ const Navbar = () => {
         </Menu>
         <SearchContainer>
           <SearchIconStyled />
-          <SearchInput type="text" placeholder="Search" />
+          <SearchInput type="text" placeholder="Search" onChange={onSearch} onBlur={onSearch} />
         </SearchContainer>
         <SettingsIconStyled />
       </Nav>
-    </>
+    </div>
   );
+};
+
+Navbar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default Navbar;
@@ -82,8 +87,8 @@ const SearchContainer = styled.div`
   cursor: pointer;
 `;
 const AddIconStyled = styled(AddIcon)`
-  fontsize: 1.2rem;
-  marginright: 4px;
+  font-size: 1.2rem;
+  margin-right: 4px;
 `;
 const SearchInput = styled.input`
   padding: 12px 10px;
