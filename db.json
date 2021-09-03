@@ -1,0 +1,19 @@
+{
+  "goals": [
+    {
+      "id": 2,
+      "title": "Remove Intern",
+      "author": "Admin"
+    },
+    {
+      "id": 3,
+      "title": "Pay Intern",
+      "author": "Admin"
+    },
+    {
+      "title": "Auction Intern",
+      "author": "CEO",
+      "id": 4
+    }
+  ]
+}
