@@ -1,27 +1,45 @@
 import styled from 'styled-components';
-
+import Deletemodal from '../Deletemodal/Deletemodal'
 import NavLayout from '../goal interface navbar/NavLayout';
 import BasicModal from '../EditGoal/EditGoal';
 import Report from '../updates/Report'
+
+
+
+import Report from '../updates/Report'
+
+
+import SimpleModal from '../createGoal/CreateGoal';
+
 
 import Notification from '../Notification/Notification';
 import SimpleModal from '../createGoal/CreateGoal';
 
 
+
 const Mainside = () => {
   return (
     <div>
+
       <Report />
      
+
+    <NavLayout />
+
+
+
     <MainContainer>
-      <NavLayout />
       <Goal>
-        {' '}
         <SimpleModal />
-        <BasicModal />
+        <Deletemodal />
+        <BasicModal/>
       </Goal>
       <Goal primary>
+
         
+
+    {/* <Report /> */}
+
         <Notification />
       </Goal>
       
@@ -31,7 +49,9 @@ const Mainside = () => {
       
     </MainContainer>
     </div>
+
     
+
   );
 };
 
