@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 const axios = require('axios');
 const Joi = require('joi');
 
