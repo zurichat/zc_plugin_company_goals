@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+
+import Goals from '../components/getGoals/getGoals';
 import AppHeader from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import Nav from '../components/navbar/Navbar';
@@ -10,6 +12,7 @@ function App() {
       <PluginSide>
         <Nav />
         <Mainside />
+        <Goals />
       </PluginSide>
     </div>
   );
