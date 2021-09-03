@@ -2,6 +2,10 @@ import React from 'react';
 
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
+<<<<<<< HEAD
+import visible from '../../Images/active.svg';
+=======
+>>>>>>> 849a856dd0afb03b5a2fbfd02f25ab5f669a08f9
 import {
   NotificationCount,
   NotificationHeader,
@@ -9,9 +13,13 @@ import {
   FlexColumn,
   NotificationWrapper,
   Paragraph,
+<<<<<<< HEAD
+  FlexRow,
+=======
   Button,
   Grid,
   Section,
+>>>>>>> 849a856dd0afb03b5a2fbfd02f25ab5f669a08f9
 } from './styledNotification';
 
 function Notification() {
