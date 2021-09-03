@@ -2,12 +2,20 @@ const axios = require('axios');
 
 const catchAsync = require('../utils/catchAsync');
 
-exports.getAllGoals = catchAsync(async (req, res, next) => {
-  // If this promise is rejected, catchAsync would catch it
-  // and send it to the globalErrorHandler
-  await Promise.resolve('hi');
+// exports.getAllGoals = catchAsync(async (req, res, next) => {
+//   // If this promise is rejected, catchAsync would catch it
+//   // and send it to the globalErrorHandler
+//   await Promise.resolve('hi');
 
-  res.status(200).json({ status: 'success', data: [{ foo: 'bar' }] });
+//   res.status(200).json({ status: 'success', data: [{ foo: 'bar' }] });
+// });
+
+exports.getAllGoals = catchAsync(async (req, res, next) => {
+  const goals = await axios.get(`https://test-zuri-core.herokuapp.com/crud/goals/find`);
+  //console.log(goals);
+  
+  // Sending Responses
+  res.status(200).json({ status: 'success', goals: { ...goals.data.data } });
 });
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
