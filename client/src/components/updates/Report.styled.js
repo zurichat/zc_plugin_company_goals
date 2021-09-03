@@ -7,7 +7,8 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 export const StyledContainer = styled.div`
     width: 90%;
     margin: 20px;
-    
+    position: relative;
+    left: 70%;
 `;
 
 
@@ -44,7 +45,7 @@ export const StyledGoals = styled.p`
     left: 20%;
 `;
 
-export const StyledGoalsegment = styled.div`
+export const StyledGoalSegment = styled.div`
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #EEE3E3;
@@ -127,6 +128,7 @@ export const Subcontainer = styled.div`
 export const Item = styled.div`
 width: 25px;
 height: 25px;
+border-radius: 5px;
 background: ${({ background }) => background}
 `;
 
