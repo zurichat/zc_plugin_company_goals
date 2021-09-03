@@ -16,7 +16,7 @@ const AppHeader = () => {
     </StyledAppBar>
     <Report />
     </div>
-  );
-};
+  )
+}
 
 export default AppHeader;
