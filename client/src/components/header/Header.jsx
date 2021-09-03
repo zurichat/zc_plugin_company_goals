@@ -20,7 +20,7 @@ const Header = () => {
                         <Box container display="flex" style={{fontWeight:'bold', width:500, justifyContent:'space-between' , alignItems:'center',borderBottom:'3px solid #00B87C'}}>
                             <Button style={{fontWeight:'bold'}}>Vision</Button>
                             <div>
-                                <Button startIcon={<AddIcon />} style={{fontWeight:'bold'}}>Edit Mission</Button>
+                                <Button startIcon={<AddIcon />} style={{fontWeight:'bold'}}>Edit Vision</Button>
                                 <span>
                                     <Button style={{backgroundColor:'#00B87C' , color:'white'}}><ExpandLessIcon /></Button>
                                 </span>
