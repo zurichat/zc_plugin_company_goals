@@ -52,7 +52,7 @@ app.use('/api/v1/goals', rateLimiter(), goalRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/get_mission', missionRouter);
+app.use('/get-mission', missionRouter);
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
