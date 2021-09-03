@@ -10,8 +10,8 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
-        <Mainside />
         <Header />
+        <Mainside />
       </PluginSide>
     </div>
   );

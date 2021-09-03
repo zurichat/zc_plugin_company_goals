@@ -12,6 +12,7 @@ export const GlobalStyles = createGlobalStyle`
   border-radius: 10px;
 }
 `;
+
 export const ScrollContainer = styled.div`
   width: 100%;
   height: 500px;
@@ -22,11 +23,13 @@ export const ScrollContainer = styled.div`
     border: 1px solid black;
   }
 `;
+
 export const Goal = styled.div`
   padding: 1.5rem;
   margin: 0 auto;
   width: 85%;
 `;
+
 export const Form = styled.form`
   background-color: #fff;
   width: 100%;
@@ -35,9 +38,11 @@ export const Form = styled.form`
     width: 100%;
   }
 `;
+
 export const Container = styled.div`
   display: flex;
 `;
+
 export const Icon = styled.div`
   width: 40px !important;
   height: 40px !important;
@@ -63,6 +68,7 @@ export const Info = styled.p`
 
   color: ${(props) => props.textColor};
 `;
+
 export const Input = styled.input`
   font-family: Lato;
   font-style: normal;
@@ -98,10 +104,12 @@ export const AccessButton = styled.button`
   background-color: #fff;
   color: #999999;
 `;
+
 export const CreateButton = styled.div`
   text-align: center;
   margin-top: 5rem;
 `;
+
 export const Box = styled.div`
   margin-top: 2rem;
   width: 20% !important;
@@ -110,6 +118,7 @@ export const Box = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
 export const CloseButton = styled.button`
   outline: none;
   border: none;
@@ -120,6 +129,7 @@ export const CloseButton = styled.button`
   color: #333333;
   cursor: pointer;
 `;
+
 export const FaderInput = styled.input`
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
