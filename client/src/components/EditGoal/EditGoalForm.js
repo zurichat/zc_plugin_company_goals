@@ -1,5 +1,7 @@
 import React from 'react';
+
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+
 import {
   Goal,
   Form,
@@ -13,7 +15,7 @@ import {
   CloseButton,
   CreateButton,
   AccessButton,
-} from './EditGoalForm.style';
+} from './EdiGoalForm.styled';
 import img from './icon/active.png';
 import lock from './icon/default.png';
 import people from './icon/Group 2684.png';
