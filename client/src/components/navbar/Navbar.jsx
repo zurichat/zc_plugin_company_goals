@@ -3,8 +3,16 @@ import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useState } from 'react';
+import SearchResults from './../searchBarDisplay/Search';
 
-const Navbar = ({ onSearch }) => {
+
+const Navbar = () => {
+  const [searchState, setSearchState] = useState('');
+  const handleSearch = (event) => {
+    const value = event.type === 'blur' ? '' : event.target.value;
+    setSearchState(value);
+  };
   return (
     <div>
       <Header>
@@ -18,10 +26,14 @@ const Navbar = ({ onSearch }) => {
           </MenuLink1>
           <MenuLink primary>Archived Goals</MenuLink>
         </Menu>
+        
         <SearchContainer>
           <SearchIconStyled />
-          <SearchInput type="text" placeholder="Search" onChange={onSearch} onBlur={onSearch} />
+          <SearchInput type="text" placeholder="Search" onChange={handleSearch} onBlur={handleSearch} />
+        { searchState && <SearchResults /> }  
         </SearchContainer>
+        
+        
         <SettingsIconStyled />
       </Nav>
     </div>
