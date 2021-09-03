@@ -10,6 +10,8 @@ function App() {
     <div>
       <PluginSide>
         <Nav />
+        <Mainside />
+        {/* <Deletemodal /> */}
         <Header />
       </PluginSide>
       <Mainside />
