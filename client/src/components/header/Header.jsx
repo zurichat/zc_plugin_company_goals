@@ -1,9 +1,8 @@
-import { StyledAppBar, StyledToolBar } from './Header.styled';
-
-
+import { useDispatch } from 'react-redux';
 import { Container, Button, Box, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   return (
@@ -47,7 +46,6 @@ const Header = () => {
               style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
             />
           </Box>
-
           <Box>
             <Box
               container
@@ -61,13 +59,17 @@ const Header = () => {
               }}
             >
               <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-              <div>
-                <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
-                  Edit Vision
-                </Button>
-                <span>
-                  <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
-                    <ExpandLessIcon />
+            <div>
+            <Button
+                startIcon={<AddIcon />}
+                style={{ fontWeight: 'bold' }}
+                onClick={() => dispatch(showEditVisionModal())}
+              >
+                Edit Vision
+              </Button>
+              <span>
+                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
+                  <ExpandLessIcon />
                   </Button>
                 </span>
               </div>
@@ -78,6 +80,7 @@ const Header = () => {
               style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
             />
           </Box>
+          
         </Box>
       </Container>
     </>
@@ -85,3 +88,9 @@ const Header = () => {
 
 
 export default Header;
+
+
+
+
+
+
