@@ -2,7 +2,6 @@ import React from 'react';
 
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
-import visible from '../../Images/active.svg';
 import {
   NotificationCount,
   NotificationHeader,
