@@ -12,7 +12,6 @@ const Navbar = () => {
       <Nav>
         <Menu>
           <MenuLink1>
-            {' '}
             <AddIconStyled />
             NewGoal
           </MenuLink1>
@@ -50,13 +49,12 @@ const Menu = styled.div`
 const MenuLink = styled.a`
   background: ${(props) => (props.primary ? 'white' : '#00b87c')};
   color: ${(props) => (props.primary ? '#00b87c' : 'white')};
-  padding: 10px 15px;
   border: 2px solid #00b87c;
   border-radius: 5px;
-  margin: 0 1rem;
-  height: 24px;
-  width: 110px;
+  min-width: 110px;
   cursor: pointer;
+  padding: 10px 15px;
+  margin-right: 1rem;
 `;
 
 const MenuLink1 = styled.a`
@@ -69,8 +67,7 @@ const MenuLink1 = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  width: 110px;
+  max-width: 110px;
   cursor: pointer;
 `;
 const SearchContainer = styled.div`
