@@ -9,6 +9,7 @@ export const StyledContainer = styled.div`
     margin: 20px;
     position: relative;
     left: 70%;
+    
 `;
 
 
