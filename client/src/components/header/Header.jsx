@@ -1,5 +1,5 @@
 import { StyledAppBar, StyledToolBar } from './Header.styled';
-import Report from '../updates/Report'
+
 
 import { Container, Button, Box, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -18,7 +18,7 @@ const Header = () => {
         </h1>
       </StyledToolBar>
     </StyledAppBar>
-    <Report />
+    
     </div>
   )
 }

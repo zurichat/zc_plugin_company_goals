@@ -3,16 +3,25 @@ import styled from 'styled-components';
 import SimpleModal from '../createGoal/CreateGoal';
 
 import BasicModal from '../EditGoal/EditGoal';
+import Report from '../updates/Report'
 
 const Mainside = () => {
   return (
-    <MainContainer>
+    <div>
+      <Report />
+      <MainContainer>
       <Goal>
         {' '}
         <SimpleModal /> <BasicModal />
       </Goal>
-      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
+      
+      <Goal >
+        
+      </Goal>
+      
     </MainContainer>
+    </div>
+    
   );
 };
 
