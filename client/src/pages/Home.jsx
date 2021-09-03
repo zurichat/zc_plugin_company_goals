@@ -15,8 +15,8 @@ function App() {
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
         <EditVision />
         <Header />
+        <Mainside />
       </PluginSide>
-      <Mainside />
     </div>
   );
 }
