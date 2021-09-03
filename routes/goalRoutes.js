@@ -6,4 +6,6 @@ const router = Router();
 
 router.route('/').get(goalController.getAllGoals);
 
+router.route('/creategoal').post(goalController.createGoal)
+
 module.exports = router;
