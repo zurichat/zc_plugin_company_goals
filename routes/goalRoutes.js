@@ -1,9 +1,9 @@
 const { Router } = require('express');
 
-const { getAllGoals, createGoals } = require('../controllers/goalController');
+const { createGoals } = require('../controllers/goalController');
 
 const router = Router();
 
-router.route('/').post(createGoals).get(getAllGoals);
+router.route('/').post(createGoals);
 
 module.exports = router;
