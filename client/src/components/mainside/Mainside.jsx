@@ -9,7 +9,6 @@ import Report from '../updates/Report'
 import SimpleModal from '../createGoal/CreateGoal';
 
 import Notification from '../Notification/Notification';
-import SimpleModal from '../createGoal/CreateGoal';
 
 
 const Mainside = () => {
