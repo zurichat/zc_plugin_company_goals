@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
-import GoalForm from './GoalForm';
-import { GlobalStyles } from './GoalForm.style';
+
+import { GlobalStyles } from './EdiGoalForm.styled';
+import EditGoalForm from './EditGoalForm';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -12,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleDialog() {
+export default function BasicDialog() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -26,9 +29,13 @@ export default function SimpleDialog() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button>
+      <Button
+        type="button"
+        onClick={handleOpen}
+        style={{ backgroundColor: '#00B87C', color: '#fff', marginTop: '1rem', fontWeight: 600 }}
+      >
+        Edit Modal
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -38,7 +45,7 @@ export default function SimpleDialog() {
         aria-describedby="simple-modal-description"
       >
         <GlobalStyles />
-        <GoalForm className={classes.paper} handleClose={handleClose} />
+        <EditGoalForm className={classes.paper} handleClose={handleClose} />
       </Dialog>
     </div>
   );

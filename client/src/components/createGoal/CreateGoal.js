@@ -44,6 +44,16 @@ export default function SimpleDialog() {
         <GlobalStyles />
         <GoalForm className={classes.paper} handleClose={handleClose} />
       </Dialog>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="md"
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <GlobalStyles />
+      </Dialog>
     </div>
   );
 }
