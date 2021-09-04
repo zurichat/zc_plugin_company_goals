@@ -2,7 +2,7 @@ export default HistoryItems = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 70%;
+  width: 100%;
   margin: auto;
   background: rgba(245, 245, 245, 1);
   border-radius: 6px;
@@ -24,7 +24,7 @@ export const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   color: rgba(0, 184, 124, 1);
-  width: 76%;
+  width: 100%;
   margin: auto;
   margin-bottom: 0.5rem;
 `;
