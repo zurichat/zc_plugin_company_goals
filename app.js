@@ -11,10 +11,12 @@ const xss = require('xss-clean');
 const globalErrorHandler = require('./controllers/errorController');
 
 const deleteGoalRouter = require('./routes/deleteGoalRouter');
+// Require Routes
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
+const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
-const sidebarRouter = require('./routes/sidebarRoute');
+const sidebarRouter = require('./routes/sidebarRoute.js');
 
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
@@ -52,6 +54,7 @@ app.use('/ping', rateLimiter(), pingRouter);
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/goal/delete', rateLimiter(), deleteGoalRouter);
+app.use('/get-mission', missionRouter);
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

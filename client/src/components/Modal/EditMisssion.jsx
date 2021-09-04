@@ -4,6 +4,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { showEditMissionModal } from '../../redux/showEditMissionModal';
 
 import { Header, TextBox, SaveBtn } from './styledEditMission';
 
@@ -32,40 +35,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditMission() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  // open modal
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  // close modal
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const dispatch = useDispatch();
+  const { showMission } = useSelector((state) => state.showMission);
 
   return (
     <>
-      <button type="button" onClick={handleOpen} style={{ display: 'none' }}>
-        Edit Mission
-      </button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={open}
-        onClose={handleClose}
+        open={showMission}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={showMission}>
           <form className={classes.paper}>
             <Header id="transition-modal-title">Edit Mission</Header>
             <TextBox placeholder="Click to edit..." />
             <SaveBtn>Save</SaveBtn>
+            <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn>
           </form>
         </Fade>
       </Modal>
