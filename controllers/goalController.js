@@ -74,7 +74,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
 
   // Then, send update to zuri core
   const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/${goalId}`;
-  const result = await axios.patch(url, { ...req.body });
+  const result = await axios.patch(url, req.body);
 
   // Finally, send the updated goal to client.
   res.status(200).json(result.data);
