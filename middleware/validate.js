@@ -3,7 +3,7 @@ const Ajv = require('ajv');
 const ajv = new Ajv();
 
 const validate = (options = {}) => {
-  return (req, res, next) => {
+  return (req, _res, next) => {
     try {
       // validate request body
       if (options.body) {
