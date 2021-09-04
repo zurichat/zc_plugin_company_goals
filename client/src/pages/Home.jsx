@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import AppHeader from '../components/header/Header';
-import Header from '../components/header/Header';
+
 import Mainside from '../components/mainside/Mainside';
-import EditMission from '../components/Modal/EditMission';
+import EditMisssion from '../components/Modal/EditMisssion';
 import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
 
@@ -14,7 +13,7 @@ function App() {
         <Nav />
         <Mainside />
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
-        <EditMission />
+        <EditMisssion />
         <EditVision />
       </PluginSide>
     </div>
