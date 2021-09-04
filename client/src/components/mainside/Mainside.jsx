@@ -14,16 +14,11 @@ const Mainside = () => {
       <Goal> <SimpleModal /> <Deletemodal /> </Goal>
       <NavLayout />
       <Goal>
-        <SimpleModal />
-        <Deletemodal />
-        <BasicModal/>
+        {' '}
+        <SimpleModal /> <BasicModal />
       </Goal>
-      <Goal primary>
-    {/* <Report /> */}
-        <Notification />
-      </Goal>
+      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
     </MainContainer>
-    </div>
   );
 };
 
@@ -39,8 +34,9 @@ const Goal = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 50px 0;
+  padding-top: 200px;
   background: red;
+  height: 40vh;
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
   margin: 10px;
