@@ -12,7 +12,12 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
+<<<<<<< HEAD
 const sidebarRouter = require('./routes/sidebarRoute.js');
+=======
+const pingRouter = require('./routes/pingRoute');
+const sidebarRouter = require('./routes/sidebarRoute');
+>>>>>>> main
 
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
@@ -46,8 +51,15 @@ app.use(compression());
 
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
+<<<<<<< HEAD
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
+=======
+app.use('/ping', rateLimiter(), pingRouter);
+app.use('/sidebar', rateLimiter(), sidebarRouter);
+app.use('/info', rateLimiter(), pluginInfoRouter);
+app.use('/post_vision'(), visionRouter);
+>>>>>>> main
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
