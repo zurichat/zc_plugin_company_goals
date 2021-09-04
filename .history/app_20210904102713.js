@@ -10,7 +10,6 @@ const xss = require('xss-clean');
 
 const globalErrorHandler = require('./controllers/errorController');
 
-// Require Routes
 
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
