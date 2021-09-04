@@ -33,19 +33,25 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 exports.createGoals = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
-  const data = await schema.validateAsync(req.body);
+  await schema.validateAsync(req.body);
 
-  const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
-  /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
-    plugin_id: 'xxx',
-    organization_id: 'xxx',
-    collection_name: 'goals',
+  // Fake API
+  // https://api.zuri.chat/data/write
+  //const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
+
+  const goals = await axios.post(`https://zccore.herokuapp.com/data/write`,
+  {
+    plugin_id: "61330fcfbfba0a42d7f38e59",
+    organization_id: "1",
+    collection_name: "goals",
     bulk_write: false,
-    payload: req.body,
-  }); */
-  // console.log(goals);
+    payload: req.body
+  })
+
+  //console.log(goals);
+
   // Sending Responses
-  res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
+  res.status(200).json(goals.data);
 });
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
