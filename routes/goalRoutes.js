@@ -1,13 +1,11 @@
 const { Router } = require('express');
 
-const goalController = require('../controllers/goalController');
+const { getAllGoals, updateGoalByID} = require('../controllers/goalController');
 
 const router = Router();
 
-router.route('/').post(goalController.createGoals).get(goalController.getAllGoals);
+router.get('/', getAllGoals);
 
-<<<<<<< HEAD
-router.route('/').post(createGoals).get(getAllGoals);
+router.patch('/update/:id', updateGoalByID)
 
-router.route('/update').post(goalController.createGoals).patch(goalController.updateGoalByID)
-
+module.exports = router;
