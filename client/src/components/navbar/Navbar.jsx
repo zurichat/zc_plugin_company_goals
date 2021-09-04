@@ -1,9 +1,42 @@
+import React from 'react';
+
+import IconButton from '@material-ui/core/IconButton';
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import styled from 'styled-components';
 
+import archive from './img/archive.png';
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    height: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '15%',
+    left: '33%',
+  },
+}));
+
 const Navbar = () => {
+  const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <Header>
@@ -16,7 +49,31 @@ const Navbar = () => {
             <AddIconStyled />
             NewGoal
           </MenuLink1>
-          <MenuLink primary>Archived Goals</MenuLink>
+          <>
+            <div>
+              <AGbtn type="button" onClick={handleOpen}>
+                Archieved&nbsp;Goals
+              </AGbtn>
+              <Modal open={open} onClose={handleClose}>
+                <div className={classes.paper}>
+                  <IconButton style={{ float: 'right', cursor: 'pointer' }} type="button" onClick={handleClose}>
+                    <ClearIcon />
+                  </IconButton>
+                  <div style={{ display: 'grid', justifyContent: 'center', marginTop: '4rem' }}>
+                    <img src={archive} alt="archive" />
+                  </div>
+                  <p style={{ textAlign: 'center' }}>
+                    Clicking the proceed button means that people will no longer have access to view this goal.
+                  </p>
+                  <span
+                    style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', textAlign: 'center' }}
+                  >
+                    <MenuLink type="submit">Proceed</MenuLink>
+                  </span>
+                </div>
+              </Modal>
+            </div>
+          </>
         </Menu>
         <SearchContainer>
           <SearchIconStyled />
@@ -38,6 +95,22 @@ const Nav = styled.div`
   align-items: center;
   flex-wrap: wrap;
   background: white;
+`;
+
+const AGbtn = styled.a`
+  background: white;
+  color: #00b87c;
+  padding: 10px 15px;
+  border: 2px solid #00b87c;
+  border-radius: 5px;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 24px;
+  width: 110px;
+  cursor: pointer;
 `;
 
 const Menu = styled.div`
