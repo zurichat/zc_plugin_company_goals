@@ -12,9 +12,8 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
-const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
-const sidebarRouter = require('./routes/sidebarRoute.js');
+const sidebarRouter = require('./routes/sidebarRoute');
 
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
@@ -51,9 +50,6 @@ app.use('/api/v1/goals', rateLimiter(), goalRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-
-app.use('/get-mission', missionRouter);
-
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
