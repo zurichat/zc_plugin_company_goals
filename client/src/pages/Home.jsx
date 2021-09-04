@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import AppHeader from '../components/header/Header';
 import Header from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-import EditMission from '../components/Modal/EditMission';
+import EditMission from '../components/Modal/EditMisssion';
 import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
 
