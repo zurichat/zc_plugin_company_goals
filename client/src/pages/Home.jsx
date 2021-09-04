@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Mainside from '../components/mainside/Mainside';
 
-import EditMisssion from '../components/Modal/EditMisssion';
+import EditMission from '../components/Modal/EditMisssion';
 
 import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
@@ -15,7 +15,7 @@ function App() {
         <Nav />
         <Mainside />
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
-        <EditMisssion />
+        <EditMission />
         <EditVision />
       </PluginSide>
     </div>
