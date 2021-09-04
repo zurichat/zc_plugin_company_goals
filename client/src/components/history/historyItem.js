@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import styled from 'styled-components';
 import React from 'react';
+import HistoryItems from './Item';
 
 const HistoryItem = (props) => {
   // eslint-disable-next-line react/destructuring-assignment
