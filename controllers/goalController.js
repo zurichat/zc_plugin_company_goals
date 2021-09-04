@@ -3,7 +3,6 @@ const Joi = require('joi');
 
 const catchAsync = require('../utils/catchAsync');
 
-exports.getAllGoals = catchAsync(async (req, res, next) => {});
 
 const schema = Joi.object({
   title: Joi.string().required(),
@@ -66,7 +65,8 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 
   const result = await axios.get(url, { params: { _id: goalId } });
   const status = result.status || 200;
-  res.status(status).json({ status: 'success', data: result.data.data });
+  const data = result.data.data[0];
+  res.status(status).json({ status: status, message: 'success', data: data });
 });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
