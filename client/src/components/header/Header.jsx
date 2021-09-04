@@ -14,6 +14,7 @@ import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   const dispatch = useDispatch();
+
   return (
     <Container>
       <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
@@ -40,7 +41,7 @@ const Header = () => {
           <TextField
             placeholder="Training A Million Youths Yearly"
             variant="outlined"
-            style={{ width: '40vw', border: 'none', backgroundColor: 'white', outline: 'none' }}
+            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
         <Box>
@@ -49,7 +50,7 @@ const Header = () => {
             display="flex"
             style={{
               fontWeight: 'bold',
-              width: '40vw',
+              width: 500,
               justifyContent: 'space-between',
               alignItems: 'center',
               borderBottom: '3px solid #00B87C',
@@ -74,7 +75,7 @@ const Header = () => {
           <TextField
             placeholder="Tech Hub Builder"
             variant="outlined"
-            style={{ width: '40vw', border: 'none', backgroundColor: 'white', outline: 'none' }}
+            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
       </Box>
