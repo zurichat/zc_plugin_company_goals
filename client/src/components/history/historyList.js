@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import HistoryItem from './historyItem';
 
+import {row} from './Item';
+
 const history = [
   {
     timeVisited: '2 days ago',
@@ -38,17 +40,4 @@ const HistoryList = () => {
 
 export default HistoryList;
 
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: rgba(0, 184, 124, 1);
-  width: 76%;
-  margin: auto;
-  margin-bottom: 0.5rem;
-`;
 
-const Button = styled.div`
-  color: rgba(0, 184, 124, 1);
-  border: 0;
-`;
