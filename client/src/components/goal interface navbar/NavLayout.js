@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 
 import styled from 'styled-components';
@@ -7,7 +8,7 @@ import NavName from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 3fr;
+  grid-template-columns: 1fr 1fr 1fr 2.5fr;
   padding: 1rem;
   place-items: center;
 `;
@@ -31,12 +32,6 @@ const Sort = styled.button`
   cursor: pointer;
   margin-right: 1rem;
   position: relative;
-  /* button{
-  background: transparent;
-  border: none;
-  color: #00b87c;
-  
-} */
 `;
 
 const SortDrpDw = styled.div`
@@ -54,7 +49,7 @@ const SortDrpDw = styled.div`
   border-radius: 5px;
   padding: 7px;
   transition: all 0.2s linear;
-  text-align:left;
+  text-align: left;
 
   ul {
     color: #828282;

@@ -1,41 +1,27 @@
-import styled from 'styled-components';
-
 import SimpleModal from '../createGoal/CreateGoal';
 import BasicModal from '../EditGoal/EditGoal';
 import NavLayout from '../goal interface navbar/NavLayout';
+import Header from '../header/Header';
+import { Goal, MainContainer, GoalContainer, GoalContainer1 } from './mainside.styled.js';
 
-const Mainside = () => {
+function Mainside() {
   return (
     <div>
-      <NavLayout />
+        <Header />
       <MainContainer>
-        <Goal>
-          {' '}
-          <SimpleModal /> <BasicModal />
-        </Goal>
-        <Goal primary>.</Goal>
+        <GoalContainer>
+          <NavLayout />
+          <Goal>
+            {' '}
+            <SimpleModal /> <BasicModal />
+          </Goal>
+        </GoalContainer>
+        <GoalContainer1>
+          <Goal primary />
+        </GoalContainer1>
       </MainContainer>
     </div>
   );
-};
+}
 
 export default Mainside;
-
-const MainContainer = styled.div`
-  display: flex;
-  margin-right: 2rem;
-  height: 50%;
-`;
-const Goal = styled.div`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding-top: 200px;
-  background: red;
-  height: 100vh;
-  background: ${(props) => (props.primary ? 'white' : 'white')};
-  color: ${(props) => (props.primary ? 'white' : 'red')};
-  margin: 10px;
-  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
-`;
