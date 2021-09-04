@@ -9,7 +9,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useDispatch } from 'react-redux';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
-// import { showEditVisionModal } from '../../redux/showEditVisionModal';
+import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,11 @@ const Header = () => {
           >
             <Button style={{ fontWeight: 'bold' }}>Vision</Button>
             <div>
-              <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
+              <Button
+                startIcon={<AddIcon />}
+                style={{ fontWeight: 'bold' }}
+                onClick={() => dispatch(showEditVisionModal())}
+              >
                 Edit Vision
               </Button>
               <span>
