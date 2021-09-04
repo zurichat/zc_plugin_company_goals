@@ -18,13 +18,13 @@ const Header = () => {
 
   return (
     <Container>
-      <Box container display="flex" justifyContent="space-evenly" style={{ marginTop: 50 }}>
+      <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
         <Box>
           <Box
             container
             display="flex"
             style={{
-              width: 500,
+              width: '100%',
               justifyContent: 'space-between',
               alignItems: 'center',
               borderBottom: '3px solid #00B87C',
