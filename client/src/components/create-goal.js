@@ -14,15 +14,16 @@ export default function Create() {
             <Container>
                 <Typography
                     component="div"
-                    style={{ border: '1px solid #888', backgroundColor: '#fff', color: '#888', height: '573px', width: '702px', position: 'relative', marginTop: '30px', borderRadius: '10px', textAlign: 'center' }}>
+                    style={{ border: '1px solid #c1c1c1', backgroundColor: '#fff', color: '#888', height: '480px', width: '730px', position: 'relative', marginTop: '70px', borderRadius: '7px', textAlign: 'center' }}>
                     <img src={Avatar}
-                        style={{ height: '32vh', position: 'absolute', top: '130px', right: '270px' }} />
+                        style={{ height: '37vh', position: 'absolute', top: '50px', right: '260px' }} />
 
-                    This space is empty. Create a goal to get started.
+                    
+                    <span style={{ display: 'inline-block', marginTop: '310px' }}>This space is empty. Create a goal to get started.</span>
                 </Typography>
 
                 <Button
-                    style={{ backgroundColor: '#00B87C', position: 'absolute', color: '#fff', marginTop: '-200px', marginLeft: '250px', padding: '10px 50px', borderRadius: '7px', textTransform: 'capitalize' }}>Create goal</Button>
+                    style={{ backgroundColor: '#00B87C', position: 'absolute', color: '#fff', marginTop: '-125px', marginLeft: '277px', padding: '12px 45px', borderRadius: '7px', textTransform: 'capitalize' }}>Create goal</Button>
             </Container>
         </div >
     )
