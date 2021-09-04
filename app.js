@@ -54,7 +54,7 @@ app.use('/api/v1/goals', rateLimiter(), goalRouter);
 <<<<<<< HEAD
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/vision'(), visionRouter);
+app.use('/vision'(),rateLimiter(), visionRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
