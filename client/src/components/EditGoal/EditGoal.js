@@ -6,6 +6,10 @@ import Dialog from '@material-ui/core/Dialog';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useDispatch } from 'react-redux';
+
+import { getGoal } from '../../features/goalSlice';
+
 import { GlobalStyles } from './EdiGoalForm.styled';
 
 import EditGoalForm from './EditGoalForm';
@@ -18,11 +22,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const dummyData = {
+  name: 'Test',
+  owner: 'Mark Essien',
+  status: false,
+  endDate: '02/12/2019',
+  category: 'Web development',
+  description: 'This is a dummy data',
+};
+
 export default function BasicDialog() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = ({ name, owner, status, endDate, category, description }) => {
+    dispatch(getGoal({ name, owner, status, endDate, category, description }));
     setOpen(true);
   };
 
@@ -34,7 +49,7 @@ export default function BasicDialog() {
     <div>
       <Button
         type="button"
-        onClick={handleOpen}
+        onClick={() => handleOpen(dummyData)}
         style={{ backgroundColor: '#00B87C', color: '#fff', marginTop: '1rem', fontWeight: 600 }}
       >
         Edit Modal
