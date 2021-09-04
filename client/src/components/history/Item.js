@@ -17,3 +17,19 @@ export default HistoryItems = styled.div`
     background: rgba(240, 252, 248, 1);
   }
 `;
+
+
+export const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(0, 184, 124, 1);
+  width: 76%;
+  margin: auto;
+  margin-bottom: 0.5rem;
+`;
+
+const Button = styled.div`
+  color: rgba(0, 184, 124, 1);
+  border: 0;
+`;
