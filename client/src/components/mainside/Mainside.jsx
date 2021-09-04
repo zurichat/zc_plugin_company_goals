@@ -4,8 +4,11 @@ import BasicModal from '../EditGoal/EditGoal';
 
 import SimpleModal from '../createGoal/CreateGoal';
 import Notification from '../Notification/Notification';
+import edit from '../../redux/editDialogSlice';
+import {useSelector} from 'react-redux'
 
 const Mainside = () => {
+ 
   return (
     <MainContainer>
       <Goal>

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+import { useDispatch } from 'react-redux';
 
 import {
   Goal,
@@ -19,10 +20,38 @@ import {
 import img from './icon/active.png';
 import lock from './icon/default.png';
 import people from './icon/Group 2684.png';
+import { saveUser } from '../../redux/editDialogSlice';
 
 const EditGoalForm = React.forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
+  const [user, setUser] = useState({
+    name: '',
+    owner: '',
+    privateData: '',
+    category: '',
+    date: '',
+    description: '',
+  });
+
+  const dispatch = useDispatch();
+
+  const onInputChange = (e, propName) =>
+    setUser((prevUser) => ({
+      ...prevUser,
+      [propName]: e.target.value
+    }));
+
+  const onSave = (e) => {
+    e.preventDefault();
+    const canSave = Object.keys(user).every((value) => Boolean(user[value]));
+    if (canSave) {
+      dispatch(saveUser({user, success: 'User successfully updated'}));
+    } else {
+      dispatch(saveUser('fill all input'))
+    }
+  };
+
   return (
     <Goal>
       <CloseButton type="button" onClick={handleClose}>
@@ -42,7 +71,7 @@ const EditGoalForm = React.forwardRef((props) => {
               <Info textColor="#999999">
                 Goals are high level containers that can be broken down into smaller target. Learn more
               </Info>
-              <Input type="text" id="name" />
+              <Input onChange={(e) => onInputChange(e, 'name')} type="text" id="name" />
             </label>
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
@@ -66,7 +95,7 @@ const EditGoalForm = React.forwardRef((props) => {
                 <Title titleColor="#393939">Owner</Title>
                 <Info textColor="#999999">This is optional,who will take responsibility for the goals</Info>
               </div>
-              <Input type="text" id="name" placeholder="Mark Essien" />
+              <Input onChange={(e) => onInputChange(e, 'owner')} type="text" id="name" placeholder="Mark Essien" />
             </label>
 
             <Box>
@@ -100,7 +129,7 @@ const EditGoalForm = React.forwardRef((props) => {
                   </AccessButton>
                 </div>
               </div>
-              <Input type="text" id="name" />
+              <Input onChange={(e) => onInputChange(e, 'privateData')} type="text" id="name" />
             </label>
 
             <Box>
@@ -131,6 +160,7 @@ const EditGoalForm = React.forwardRef((props) => {
                 onFocus={(e) => {
                   e.currentTarget.type = 'date';
                 }}
+                onChange={(e) => onInputChange(e, 'date')}
                 // eslint-disable-next-line no-return-assign
                 onBlur={(e) => (e.currentTarget.type = 'text')}
                 placeholder="End Date"
@@ -161,7 +191,12 @@ const EditGoalForm = React.forwardRef((props) => {
                   This is optional. A categorization that will help in sorting from multiples{' '}
                 </Info>
               </div>
-              <Input type="text" id="category" placeholder="Product Design" />
+              <Input
+                onChange={(e) => onInputChange(e, 'category')}
+                type="text"
+                id="category"
+                placeholder="Product Design"
+              />
             </label>
 
             <Box>
@@ -189,7 +224,7 @@ const EditGoalForm = React.forwardRef((props) => {
                   This is optional. A short explanation on why the goal is set and how it can be achieved
                 </Info>
               </div>
-              <Input type="text" id="name" />
+              <Input onChange={(e) => onInputChange(e, 'description')} type="text" id="name" />
             </label>
 
             <Box>
@@ -204,7 +239,7 @@ const EditGoalForm = React.forwardRef((props) => {
           </div>
         </Container>
         <CreateButton>
-          <Button type="submit" buttonPadding="1rem 4rem" borderRadius="6px">
+          <Button onClick={onSave} type="submit" buttonPadding="1rem 4rem" borderRadius="6px">
             Save Change
           </Button>
         </CreateButton>
