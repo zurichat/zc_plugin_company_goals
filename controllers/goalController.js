@@ -45,7 +45,7 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 
   const result = await axios.get(url, { params: { _id: goalId } });
   const status = result.status || 200;
-  res.status(status).json({ status: 'success', data: result.data });
+  res.status(status).json({ status: 'success', data: result.data.data });
 });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
