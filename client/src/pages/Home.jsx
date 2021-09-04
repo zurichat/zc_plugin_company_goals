@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import GoalCard from '../components/GoalCard/GoalCard';
 import AppHeader from '../components/header/Header';
 import Header from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
@@ -16,6 +17,9 @@ function App() {
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
         <EditMission />
         <EditVision />
+        <GoalCard progress="50%" />
+        <GoalCard progress="70%" />
+        <GoalCard progress="100%" />
       </PluginSide>
     </div>
   );
