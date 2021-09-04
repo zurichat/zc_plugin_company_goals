@@ -15,12 +15,12 @@ import {
   CloseButton,
   CreateButton,
   AccessButton,
-} from './GoalForm.style';
+} from './EdiGoalForm.styled';
 import img from './icon/active.png';
 import lock from './icon/default.png';
 import people from './icon/Group 2684.png';
 
-const GoalForm = React.forwardRef((props) => {
+const EditGoalForm = React.forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
   return (
@@ -205,7 +205,7 @@ const GoalForm = React.forwardRef((props) => {
         </Container>
         <CreateButton>
           <Button type="submit" buttonPadding="1rem 4rem" borderRadius="6px">
-            Create Goal
+            Save Change
           </Button>
         </CreateButton>
       </Form>
@@ -213,4 +213,4 @@ const GoalForm = React.forwardRef((props) => {
   );
 });
 
-export default GoalForm;
+export default EditGoalForm;

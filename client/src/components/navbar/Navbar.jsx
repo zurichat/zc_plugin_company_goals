@@ -1,31 +1,47 @@
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useState } from 'react';
+import SearchResults from './../searchBarDisplay/Search';
+
 
 const Navbar = () => {
+  const [searchState, setSearchState] = useState('');
+  const handleSearch = (event) => {
+    const value = event.type === 'blur' ? '' : event.target.value;
+    setSearchState(value);
+  };
   return (
-    <>
+    <div>
       <Header>
-        <HeaderText>Company Plugins</HeaderText>
+        <HeaderText>Company Goals</HeaderText>
       </Header>
       <Nav>
         <Menu>
           <MenuLink1>
-            {' '}
             <AddIconStyled />
             NewGoal
           </MenuLink1>
           <MenuLink primary>Archived Goals</MenuLink>
         </Menu>
+        
         <SearchContainer>
           <SearchIconStyled />
-          <SearchInput type="text" placeholder="Search" />
+          <SearchInput type="text" placeholder="Search" onChange={handleSearch} onBlur={handleSearch} />
+        { searchState && <SearchResults /> }  
         </SearchContainer>
+        
+        
         <SettingsIconStyled />
       </Nav>
-    </>
+    </div>
   );
+};
+
+Navbar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default Navbar;
@@ -50,13 +66,12 @@ const Menu = styled.div`
 const MenuLink = styled.a`
   background: ${(props) => (props.primary ? 'white' : '#00b87c')};
   color: ${(props) => (props.primary ? '#00b87c' : 'white')};
-  padding: 10px 15px;
   border: 2px solid #00b87c;
   border-radius: 5px;
-  margin: 0 1rem;
-  height: 24px;
-  width: 110px;
+  min-width: 110px;
   cursor: pointer;
+  padding: 10px 15px;
+  margin-right: 1rem;
 `;
 
 const MenuLink1 = styled.a`
@@ -69,8 +84,7 @@ const MenuLink1 = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  width: 110px;
+  max-width: 110px;
   cursor: pointer;
 `;
 const SearchContainer = styled.div`
@@ -82,8 +96,8 @@ const SearchContainer = styled.div`
   cursor: pointer;
 `;
 const AddIconStyled = styled(AddIcon)`
-  fontsize: 1.2rem;
-  marginright: 4px;
+  font-size: 1.2rem;
+  margin-right: 4px;
 `;
 const SearchInput = styled.input`
   padding: 12px 10px;
@@ -111,10 +125,12 @@ const SettingsIconStyled = styled(SettingsIcon)`
 `;
 const Header = styled.h2`
   background: #f6f6f6;
+  padding: 0.1rem;
+  margin-top: -10px;
 `;
 
 const HeaderText = styled.h1`
   color: black;
   font-size: 30px;
-  margin-left: 1rem;
+  padding-top: 12px;
 `;
