@@ -2,12 +2,11 @@ const { Router } = require('express');
 
 const router = Router();
 
-// require mission controller
+// require vision controller
 const vision = require('../controllers/visionController');
 
-router.get('/company_vision', vision.getVision);
-router.post('/add_company_vision', vision.addVision);
-router.post('/edit_company_vision', vision.editVision);
+router.route('/').get(vision.getVision).post(vision.addVision);
+router.patch('/:id', vision.updateVision);
 
 // export module
 module.exports = router;
