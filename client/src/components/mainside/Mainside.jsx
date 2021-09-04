@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import SimpleModal from '../createGoal/CreateGoal';
+
 import HistoryList from '../history/historyList';
 
 const Mainside = () => {
@@ -27,10 +28,6 @@ const MainContainer = styled.div`
 `;
 const Goal = styled.div`
   flex: 1;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding-top: 200px;
   background: red;
   height: 40vh;
   background: ${(props) => (props.primary ? 'white' : 'white')};
