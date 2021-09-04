@@ -15,7 +15,7 @@ exports.addVision = (req, res)=> {
   // insert the vision into the database
 } 
 
-exports.editVision = (req, res)=> {
+exports.updateVision = (req, res)=> {
   // get the new vision from client via req.body
   const { vision } = req.body;
   // find and update the vision in the database with the edited vision statement   
