@@ -1,4 +1,3 @@
-const AppError = require('../utils/appError');
 const Ajv = require('ajv');
 
 const ajv = new Ajv();
