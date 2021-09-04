@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -18,7 +18,7 @@ const Sort = styled.div`
   width: 89px;
   height: 32px;
   justify-self: flex-end;
-  border: 1px solid #00b87c;
+  /* border: 1px solid #00b87c; */
   background: #ffffff;
   border-radius: 3px;
   font-family: Lato;
@@ -29,15 +29,28 @@ const Sort = styled.div`
   color: #00b87c;
   cursor: pointer;
   margin-right: 1rem;
+  border: ${(props) => (props.opened ? '2px solid #00b87c' : '1px solid #00b87c')};
 `;
 const NavLayout = () => {
+  const [openSort, setOpenSort] = useState(true);
+  const handleClick = () => {
+    return setOpenSort((previousState) => !previousState);
+  };
   return (
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort>
-        <div> Sort by </div> <img src={img} alt="sort icon" />
-      </Sort>
+      <div onClick={handleClick}>
+        {openSort ? (
+          <Sort opened>
+            <div> Sort by </div> <img src={img} alt="sort icon" />
+          </Sort>
+        ) : (
+          <Sort>
+            <div> Sort by </div> <img src={img} alt="sort icon" />
+          </Sort>
+        )}
+      </div>
     </GridLayout>
   );
 };

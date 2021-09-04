@@ -8,8 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
 
-import { Header, TextBox, SaveBtn } from './styledEditMission';
-
+import { Header, TextBox, SaveBtn } from '../Modal/styledEditMission';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
