@@ -4,8 +4,6 @@ import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 
 import { useSelector } from 'react-redux';
 
-import { selectGoal } from '../../features/goalSlice';
-
 import {
   Goal,
   Form,
