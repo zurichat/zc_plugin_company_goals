@@ -34,7 +34,7 @@ export default function DateInput() {
           marginTop: '2rem',
           border: 'none',
           color: '#999999',
-          width: '110%',
+          width: '100%',
         }}
       />
     </MuiPickersUtilsProvider>

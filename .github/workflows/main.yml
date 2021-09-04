@@ -27,6 +27,7 @@ jobs:
             yarn install
             yarn build
 <<<<<<< HEAD
+<<<<<<< HEAD
             cd ..
             yarn install
             pm2 restart server.js
@@ -35,3 +36,8 @@ jobs:
             yarn install 
             pm2 restart server.js
 >>>>>>> e0f09c91a6eae2595c80f7171b5bdbf24e444c68
+=======
+            cd .. 
+            yarn install 
+            pm2 restart server.js
+>>>>>>> f74adcbcdcbadc204b063d98b9d631bc7699243b
