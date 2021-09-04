@@ -9,11 +9,8 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-<<<<<<< HEAD
     "caniuse-lite": "^1.0.30001252",
-=======
     "prop-types": "^15.7.2",
->>>>>>> 112ca1fd18edef26b89635d60e3639ee0d0b1b58
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
