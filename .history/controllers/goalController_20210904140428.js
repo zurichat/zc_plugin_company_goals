@@ -68,4 +68,3 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // Finally, send the updated goal to client.
   res.status(200).json(result.data);
 })
-;

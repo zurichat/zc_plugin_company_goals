@@ -55,6 +55,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     },
   });
 });
+<<<<<<< HEAD
+=======
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get update from req.body
@@ -68,4 +70,4 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // Finally, send the updated goal to client.
   res.status(200).json(result.data);
 })
-;
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4

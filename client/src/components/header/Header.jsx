@@ -9,9 +9,13 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useDispatch } from 'react-redux';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
+<<<<<<< HEAD
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 import Report from '../updates/Report';
+=======
+// import { showEditVisionModal } from '../../redux/showEditVisionModal';
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -45,6 +49,7 @@ const Header = () => {
             style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
+<<<<<<< HEAD
         <TextField
           placeholder="Training A Million Youths Yearly"
           variant="outlined"
@@ -81,6 +86,38 @@ const Header = () => {
           variant="outlined"
           style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
         />
+=======
+        <Box>
+          <Box
+            container
+            display="flex"
+            style={{
+              fontWeight: 'bold',
+              width: 500,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: '3px solid #00B87C',
+            }}
+          >
+            <Button style={{ fontWeight: 'bold' }}>Vision</Button>
+            <div>
+              <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
+                Edit Vision
+              </Button>
+              <span>
+                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
+                  <ExpandLessIcon />
+                </Button>
+              </span>
+            </div>
+          </Box>
+          <TextField
+            placeholder="Tech Hub Builder"
+            variant="outlined"
+            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
+          />
+        </Box>
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4
       </Box>
     </Container>
   );

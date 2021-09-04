@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from 'styled-components';
 import Deletemodal from '../Deletemodal/Deletemodal'
 import NavLayout from '../goal interface navbar/NavLayout';
@@ -51,3 +52,32 @@ const Goal = styled.div`
   margin: 10px;
   box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
 `;
+=======
+import SimpleModal from '../createGoal/CreateGoal';
+import BasicModal from '../EditGoal/EditGoal';
+import NavLayout from '../goal interface navbar/NavLayout';
+import Header from '../header/Header';
+import { Goal, MainContainer, GoalContainer, GoalContainer1 } from './mainside.styled.js';
+
+function Mainside() {
+  return (
+    <div>
+        <Header />
+      <MainContainer>
+        <GoalContainer>
+          <NavLayout />
+          <Goal>
+            {' '}
+            <SimpleModal /> <BasicModal />
+          </Goal>
+        </GoalContainer>
+        <GoalContainer1>
+          <Goal primary />
+        </GoalContainer1>
+      </MainContainer>
+    </div>
+  );
+}
+
+export default Mainside;
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4

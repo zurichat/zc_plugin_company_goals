@@ -33,6 +33,21 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 exports.createGoals = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
+  //console.log(goals);
+
+  // Sending Responses
+  res.status(200).json(goals.data);
+});
+
+exports.getSingleGoal = catchAsync(async (req, res, next) => {
+  const goalId = req.params.id;
+  const collectionName = 'goals';
+
+  // for zuri core live API
+  const baseUrl = 'https://zccore.herokuapp.com';
+  const pluginId = '61330fcfbfba0a42d7f38e59';
+  const organizationId = '1'; // Would be gotten from zuri main
+  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
   const result = await axios.get(url, { params: { _id: goalId } });
   const status = result.status || 200;
@@ -52,9 +67,12 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       achieved: 'false',
       createdBy: 'HR',
       createdAt: 'Wed Sep 3 2020 01:00:00 GMT+0100(WAT)',
+      updatedAt: 'Wed Sep 3 2020 01:00:00 GMT+0100(WAT)',
     },
   });
 });
+<<<<<<< HEAD
+=======
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get update from req.body
@@ -68,4 +86,4 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // Finally, send the updated goal to client.
   res.status(200).json(result.data);
 })
-;
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable react/jsx-no-bind */
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4
 import React from 'react';
 
 import styled from 'styled-components';
@@ -7,7 +11,11 @@ import NavName from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
+<<<<<<< HEAD
   grid-template-columns: 1fr 1fr 1fr 3fr;
+=======
+  grid-template-columns: 1fr 1fr 1fr 2.5fr;
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4
   padding: 1rem;
   place-items: center;
 `;
@@ -31,12 +39,15 @@ const Sort = styled.button`
   cursor: pointer;
   margin-right: 1rem;
   position: relative;
+<<<<<<< HEAD
   /* button{
   background: transparent;
   border: none;
   color: #00b87c;
   
 } */
+=======
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4
 `;
 
 const SortDrpDw = styled.div`
@@ -54,7 +65,11 @@ const SortDrpDw = styled.div`
   border-radius: 5px;
   padding: 7px;
   transition: all 0.2s linear;
+<<<<<<< HEAD
   text-align:left;
+=======
+  text-align: left;
+>>>>>>> 059ada13a1c9c03a617fafd6d23a26b7877944a4
 
   ul {
     color: #828282;
