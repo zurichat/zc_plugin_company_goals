@@ -10,6 +10,7 @@ const store = configureStore({
   reducer: {
     showMission: editMissionReducer,
     showVision: editVisionReducer,
+    vision: editVisionReducer,
     toggleCreateGoalModal: createGoalModalReducer,
     toggleEditGoalModal: editGoalModalReducer,
     deleteGoal: deleteGoalReducer,

@@ -1,8 +1,11 @@
+import { useState } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 
-import { showEditVisionModal } from '../../redux/showEditVisionModal';
+import { showEditVisionModal, saveVision } from '../../redux/showEditVisionModal';
+
 
 const Wrapper = styled.section`
   position: absolute;
@@ -63,14 +66,19 @@ const Button = styled.button`
 const EditVision = () => {
   const dispatch = useDispatch();
   const { showVision } = useSelector((state) => state.showVision);
+  const [ text, setText] = useState('')
+  const handleSaveVision = () => {
+    dispatch(showEditVisionModal())
+    dispatch(saveVision(text)) 
+  }
   return (
     showVision && (
       <Wrapper>
         <Modal>
           <Heading>Edit Vision</Heading>
-          <Input placeholder="Click to edit..." />
+          <Input onChange={ e => setText(e.target.value)} value={text} placeholder="Click to edit..." />
           <Button onClick={() => dispatch(showEditVisionModal())}> Cancel</Button>
-          <Button> Save</Button>
+          <Button onClick={() => handleSaveVision()}> Save</Button>
         </Modal>
       </Wrapper>
     )
