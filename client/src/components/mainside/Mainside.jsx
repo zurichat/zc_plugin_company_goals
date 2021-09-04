@@ -1,24 +1,21 @@
 import styled from 'styled-components';
-import SimpleModal from '../createGoal/CreateGoal'
-import Deletemodal from '../Deletemodal/Deletemodal'
-import NavLayout from '../goal interface navbar/NavLayout';
-import BasicModal from '../EditGoal/EditGoal';
-import Notification from '../Notification/Notification';
 
+import SimpleModal from '../createGoal/CreateGoal';
+import BasicModal from '../EditGoal/EditGoal';
+import NavLayout from '../goal interface navbar/NavLayout';
 
 const Mainside = () => {
   return (
     <div>
-    <NavLayout />
-    <MainContainer>
-      <Goal> <SimpleModal /> <Deletemodal /> </Goal>
       <NavLayout />
-      <Goal>
-        {' '}
-        <SimpleModal /> <BasicModal />
-      </Goal>
-      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
-    </MainContainer>
+      <MainContainer>
+        <Goal>
+          {' '}
+          <SimpleModal /> <BasicModal />
+        </Goal>
+        <Goal primary>.</Goal>
+      </MainContainer>
+    </div>
   );
 };
 
@@ -36,7 +33,7 @@ const Goal = styled.div`
   text-align: center;
   padding-top: 200px;
   background: red;
-  height: 40vh;
+  height: 100vh;
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
   margin: 10px;
