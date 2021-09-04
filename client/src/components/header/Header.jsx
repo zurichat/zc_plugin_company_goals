@@ -13,6 +13,7 @@ import { showEditMissionModal } from '../../redux/showEditMissionModal';
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
+  const dispatch = useDispatch();
   return (
     <Container>
       <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
