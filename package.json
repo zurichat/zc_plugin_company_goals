@@ -52,6 +52,7 @@
       "prettier --write",
       "eslint --cache --fix"
     ]
-  }
-
+  },
+  "engines": {
+    "node": "^14"
 }
