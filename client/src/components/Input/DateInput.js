@@ -17,9 +17,9 @@ export default function DateInput() {
       <KeyboardDatePicker
         margin="normal"
         id="date-picker-dialog"
-        label="Date picker dialog"
         format="MM/dd/yyyy"
         value={selectedDate}
+        placeholder="End Date"
         onChange={handleDateChange}
         KeyboardButtonProps={{
           'aria-label': 'change date',
@@ -27,15 +27,14 @@ export default function DateInput() {
         fullWidth
         style={{
           fontFamily: 'Lato',
+          outline: 'none',
           fontStyle: 'normal',
           fontWeight: 'normal',
           fontSize: '16px',
           marginTop: '2rem',
           border: 'none',
-          outline: 'none',
           color: '#999999',
-          borderBottom: '0.5px solid #00b87c',
-          width: '100%',
+          width: '110%',
         }}
       />
     </MuiPickersUtilsProvider>

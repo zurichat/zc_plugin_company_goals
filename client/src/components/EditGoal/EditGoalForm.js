@@ -2,6 +2,8 @@ import React from 'react';
 
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 
+import DateInput from '../Input/DateInput';
+
 import {
   Goal,
   Form,
@@ -125,16 +127,7 @@ const EditGoalForm = React.forwardRef((props) => {
                 <Title titleColor="#393939">Date for goal completion</Title>
                 <Info textColor="#999999">This is optional.</Info>
               </div>
-              <Input
-                type="text"
-                id="date"
-                onFocus={(e) => {
-                  e.currentTarget.type = 'date';
-                }}
-                // eslint-disable-next-line no-return-assign
-                onBlur={(e) => (e.currentTarget.type = 'text')}
-                placeholder="End Date"
-              />
+              <DateInput />
             </label>
 
             <Box>
