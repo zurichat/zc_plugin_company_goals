@@ -35,7 +35,7 @@ const Main = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   margin-top: 3.22rem;
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
 `;
 
 const GoalsDisplayContainer = styled.div`
