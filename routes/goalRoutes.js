@@ -5,7 +5,6 @@ const { createGoals, getSingleGoal, getAllGoals } = require('../controllers/goal
 const router = Router();
 
 router.route('/').get(getAllGoals).post(createGoals);
-router.route('/').post(createGoals).get(getAllGoals);
 
 
 
