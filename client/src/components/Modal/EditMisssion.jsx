@@ -10,7 +10,6 @@ import { showEditMissionModal } from '../../redux/showEditMissionModal';
 
 import { Header, TextBox, SaveBtn } from './styledEditMission';
 
-
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
