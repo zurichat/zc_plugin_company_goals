@@ -33,3 +33,7 @@ const Button = styled.div`
   color: rgba(0, 184, 124, 1);
   border: 0;
 `;
+
+const History = styled.div`
+  margin-top: .9rem;
+`
