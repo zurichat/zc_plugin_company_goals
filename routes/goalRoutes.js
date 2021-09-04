@@ -9,8 +9,6 @@ router.route('/').post(createGoals).get(getAllGoals);
 
 
 
-router.route('/:id').get(getSingleGoal);
-
 router.route("/:id").get(getSingleGoal).patch(updateGoalByID);
 
 
