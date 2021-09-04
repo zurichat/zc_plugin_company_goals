@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
+
 import { Container, Button, Box, TextField } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -57,7 +58,11 @@ const Header = () => {
           >
             <Button style={{ fontWeight: 'bold' }}>Vision</Button>
             <div>
-              <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
+              <Button
+                startIcon={<AddIcon />}
+                style={{ fontWeight: 'bold' }}
+                onClick={() => dispatch(showEditVisionModal())}
+              >
                 Edit Vision
               </Button>
               <span>
