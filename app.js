@@ -14,7 +14,7 @@ const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
 <<<<<<< HEAD
 const sidebarRouter = require('./routes/sidebarRoute.js');
-const visionRouter = require('./routes/visionRout.js');
+const visionRouter = require('./routes/visionRoute.js');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute');
 >>>>>>> main
