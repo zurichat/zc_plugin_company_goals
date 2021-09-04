@@ -22,6 +22,20 @@ const schema = Joi.object({
   createdBy: Joi.date().required(),
 });
 
+exports.getAllGoals = catchAsync(async (req, res, next) => {
+  const collectionName = 'goals';
+
+  // for zuri core live API
+  // const baseUrl = 'https://zccore.herokuapp.com';
+  // const pluginId = '2333434324defef34';
+  // const organizationId = '333feafdefwd34434';
+  // const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
+
+  // fake API
+  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/find`;
+  const result = await axios.get(url);
+  res.status(200).json(result.data);
+})
 
 exports.createGoals = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
@@ -81,21 +95,15 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateGoalByID = catchAsync(async (req, res, next) => {
-  // Get updated info from req.body
-  // const { update, $set, name } = { ...req.body } ;
-  // const data = { update: {
-  //   $set: {
-  //     name
-  //   }
-  // }}
+exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
+  // First, Get update from req.body
   const goalId = req.params.id;
   const collectionName = 'goals';
 
-  // send the updated goal info to zuri core
-  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/update-by-id/${goalId}`;
-  const updatedGoal = await axios.patch(url, { ...req.body });
+  // Then, send update to zuri core
+  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/${goalId}`;
+  const result = await axios.patch(url, req.body);
 
-  // send the updated goal to client.
-  return res.status(200).json(updatedGoal.data);
-});
+  // Finally, send the updated goal to client.
+  res.status(200).json(result.data);
+})
