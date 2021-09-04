@@ -29,11 +29,14 @@ export const Row = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const Button = styled.div`
+export const Button = styled.div`
   color: rgba(0, 184, 124, 1);
   border: 0;
 `;
 
-const History = styled.div`
+export const History = styled.div`
   margin-top: .9rem;
+`
+export const ColorSecondary = styled.p`
+  color: #999999;
 `
