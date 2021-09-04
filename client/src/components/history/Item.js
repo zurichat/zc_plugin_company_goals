@@ -27,6 +27,7 @@ export const Row = styled.div`
   width: 100%;
   margin: auto;
   margin-bottom: 0.5rem;
+  width: 90%;
 `;
 
 const Button = styled.div`
