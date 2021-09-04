@@ -6,6 +6,8 @@ const router = Router();
 
 router.route('/').post(goalController.createGoals).get(goalController.getAllGoals);
 
-router.route('/:id').get(goalController.getSingleGoal).patch(goalController.updateSingleGoalById);
+<<<<<<< HEAD
+router.route('/').post(createGoals).get(getAllGoals);
 
-module.exports = router;
+router.route('/update').post(goalController.createGoals).patch(goalController.updateGoalByID)
+
