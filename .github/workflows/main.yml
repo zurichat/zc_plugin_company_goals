@@ -2,18 +2,8 @@ name: Zuri goals Deployment
 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-<<<<<<< HEAD
-<<<<<<< HEAD
- # push:
-   # branches: [main]
-=======
   push:
     branches: [dev]
->>>>>>> 1a9de385dbae240341f1d55e44ccd946a1d4036b
-=======
-  push:
-    branches: [dev]
->>>>>>> ad421859ed36a302a0b967510e9d7f8ce334533f
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,18 +26,6 @@ jobs:
             cd client/
             yarn install
             yarn build
-<<<<<<< HEAD
-<<<<<<< HEAD
-            cd ..
-            yarn install
-            pm2 restart server.js
-=======
             cd .. 
             yarn install 
             pm2 restart server.js
->>>>>>> 1a9de385dbae240341f1d55e44ccd946a1d4036b
-=======
-            cd .. 
-            yarn install 
-            pm2 restart server.js
->>>>>>> ad421859ed36a302a0b967510e9d7f8ce334533f

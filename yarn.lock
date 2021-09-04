@@ -1611,11 +1611,9 @@ fn.name@1.x.x:
   integrity sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==
 
 follow-redirects@^1.10.0:
-
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.2.tgz#cecb825047c00f5e66b142f90fed4f515dec789b"
   integrity sha512-yLR6WaE2lbF0x4K2qE2p9PEXKLDjUjnR/xmjS3wHAYxtlsI9MLLBJUZirAHKzUZDGLxje7w/cXR49WOUo4rbsA==
-
 
 forwarded@0.2.0:
   version "0.2.0"
@@ -3752,11 +3750,6 @@ yargs@^16.2.0:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
-
-yarn@^1.22.11:
-  version "1.22.11"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.11.tgz#d0104043e7349046e0e2aec977c24be106925ed6"
-  integrity sha512-AWje4bzqO9RUn3sdnM5N8n4ZJ0BqCc/kqFJvpOI5/EVkINXui0yuvU7NDCEF//+WaxHuNay2uOHxA4+tq1P3cg==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
