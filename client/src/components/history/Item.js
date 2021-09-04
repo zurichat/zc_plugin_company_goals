@@ -24,7 +24,7 @@ export const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   color: rgba(0, 184, 124, 1);
-  width: 100%;
+  width: 90%;
   margin: auto;
   margin-bottom: 0.5rem;
 `;
