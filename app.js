@@ -14,7 +14,7 @@ const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
 <<<<<<< HEAD
 const sidebarRouter = require('./routes/sidebarRoute.js');
-=======
+const visionRouter = require('./route/visionRout.js')
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute');
 >>>>>>> main
@@ -54,11 +54,11 @@ app.use('/api/v1/goals', rateLimiter(), goalRouter);
 <<<<<<< HEAD
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-=======
+app.use('/vision'(), visionRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/post_vision'(), visionRouter);
+
 >>>>>>> main
 
 // To serve frontend static files in production
