@@ -9,7 +9,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useDispatch } from 'react-redux';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
-// import { showEditVisionModal } from '../../redux/showEditVisionModal';
+import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const Header = () => {
           <TextField
             placeholder="Training A Million Youths Yearly"
             variant="outlined"
-            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
+            style={{ width: '40vw', border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
         <Box>
@@ -49,7 +49,7 @@ const Header = () => {
             display="flex"
             style={{
               fontWeight: 'bold',
-              width: 500,
+              width: '40vw',
               justifyContent: 'space-between',
               alignItems: 'center',
               borderBottom: '3px solid #00B87C',
@@ -70,7 +70,7 @@ const Header = () => {
           <TextField
             placeholder="Tech Hub Builder"
             variant="outlined"
-            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
+            style={{ width: '40vw', border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
       </Box>
