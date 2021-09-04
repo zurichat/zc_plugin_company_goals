@@ -4,7 +4,9 @@ const goalController = require('../controllers/goalController');
 
 const router = Router();
 
-router.route('/').post(goalController.createGoals).get(goalController.getAllGoals);
+router.route('/').get(goalController.getAllGoals).post(goalController.createGoal);
+
+
 
 router.route('/:id').get(goalController.getSingleGoal);
 
