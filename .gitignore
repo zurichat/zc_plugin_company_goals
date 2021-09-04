@@ -2,7 +2,4 @@ node_modules/
 .eslintcache
 config.env
 .DS_Store
-<<<<<<< HEAD
 logs/
-=======
->>>>>>> 112ca1fd18edef26b89635d60e3639ee0d0b1b58
