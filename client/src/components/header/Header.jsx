@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
-const MissionVisionContainer = () => {
+const Header = () => {
   const dispatch = useDispatch();
   const { vision } = useSelector((state) => state.vision);
   return (
@@ -83,4 +83,4 @@ const MissionVisionContainer = () => {
     </Container>
   );
 };
-export default MissionVisionContainer;
+export default Header;
