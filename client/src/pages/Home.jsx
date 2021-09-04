@@ -5,7 +5,10 @@ import Deletemodal from '../components/Deletemodal/Deletemodal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-import EditMisssion from '../components/Modal/EditMisssion';
+
+
+import EditMission from '../components/Modal/EditMisssion';
+
 import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
 
@@ -20,7 +23,7 @@ function App() {
         <MissionVisionContainer />
         <Mainside />
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
-        <EditMisssion />
+        <EditMission />
         <EditVision />
       </PluginSide>
     </div>
