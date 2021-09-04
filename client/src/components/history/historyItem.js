@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import styled from 'styled-components';
 import React from 'react';
-import HistoryItems from './Item';
+import HistoryItems,{ColorSecondary} from './Item';
 
 const HistoryItem = (props) => {
   // eslint-disable-next-line react/destructuring-assignment
@@ -9,7 +9,7 @@ const HistoryItem = (props) => {
   const historyContainer = props.history.map((element) => {
     return (
       <HistoryItems>
-        <span>{element.timeVisited}</span>
+        <ColorSecondary>{element.timeVisited}</ColorSecondary>
         <h3>{element.locationLastVisited}</h3>
       </HistoryItems>
     );
