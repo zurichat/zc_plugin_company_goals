@@ -3,20 +3,12 @@ const Joi = require('joi');
 
 const catchAsync = require('../utils/catchAsync');
 
-// exports.getAllGoals = catchAsync(async (req, res, next) => {
-//   // If this promise is rejected, catchAsync would catch it
-//   // and send it to the globalErrorHandler
-//   await Promise.resolve('hi');
-
-//   res.status(200).json({ status: 'success', data: [{ foo: 'bar' }] });
-// });
-
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const goals = await axios.get(`https://test-zuri-core.herokuapp.com/crud/goals/find`);
   //console.log(goals);
   
   // Sending Responses
-  res.status(200).json({ status: 'success', goals: { ...goals.data.data } });
+  res.status(200).json({ status: 'success', data: { ...goals.data.data } });
 });
 
 const schema = Joi.object({
