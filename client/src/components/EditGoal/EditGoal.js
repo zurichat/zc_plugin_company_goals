@@ -1,10 +1,14 @@
+import React, { useState } from 'react';
+
+import Button from '@material-ui/core/Button';
+
 import Dialog from '@material-ui/core/Dialog';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
+import { getGoal } from '../../features/goalSlice';
 
 import { GlobalStyles } from './EdiGoalForm.styled';
 
@@ -18,26 +22,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const dummyData = {
+  name: 'Test',
+  owner: 'Mark Essien',
+  status: false,
+  endDate: '02/12/2019',
+  category: 'Web development',
+  description: 'This is a dummy data',
+};
+
 export default function BasicDialog() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const editModalState = useSelector(({ toggleEditGoalModal }) => toggleEditGoalModal.showEditGoalModal);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = ({ name, owner, status, endDate, category, description }) => {
+    dispatch(getGoal({ name, owner, status, endDate, category, description }));
+    setOpen(true);
+  };
 
   const handleClose = () => {
-    dispatch(toggleEditGoalModalAction());
+    setOpen(false);
   };
 
   return (
-    <Dialog
-      open={editModalState}
-      onClose={handleClose}
-      fullWidth
-      maxWidth="md"
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-    >
-      <GlobalStyles />
-      <EditGoalForm className={classes.paper} handleClose={handleClose} />
-    </Dialog>
+    <div>
+      <Button
+        type="button"
+        onClick={() => handleOpen(dummyData)}
+        style={{ backgroundColor: '#00B87C', color: '#fff', marginTop: '1rem', fontWeight: 600 }}
+      >
+        Edit Modal
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="md"
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <GlobalStyles />
+        <EditGoalForm className={classes.paper} handleClose={handleClose} />
+      </Dialog>
+    </div>
   );
 }

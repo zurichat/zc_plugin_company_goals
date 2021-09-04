@@ -7,10 +7,6 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
-
-import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
-import { deleteGoalAction } from '../../redux/deleteGoal.slice';
 
 const useStyles = makeStyles({
   root: {
@@ -20,7 +16,6 @@ const useStyles = makeStyles({
 
 export default function Menuoption() {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -33,7 +28,7 @@ export default function Menuoption() {
 
   return (
     <div>
-      <Button color="secondary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
         Open Menu
       </Button>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
@@ -41,13 +36,7 @@ export default function Menuoption() {
           {' '}
           <Typography variant="body2">View</Typography>
         </MenuItem>
-        <MenuItem
-          className={classes.root}
-          onClick={() => {
-            handleClose();
-            dispatch(toggleEditGoalModalAction());
-          }}
-        >
+        <MenuItem className={classes.root} onClick={handleClose}>
           {' '}
           <Typography variant="body2">Edit</Typography>
         </MenuItem>
@@ -60,13 +49,7 @@ export default function Menuoption() {
         <MenuItem className={classes.root} onClick={handleClose}>
           <Typography variant="body2">Duplicate</Typography>
         </MenuItem>
-        <MenuItem
-          className={classes.root}
-          onClick={() => {
-            handleClose();
-            dispatch(deleteGoalAction());
-          }}
-        >
+        <MenuItem className={classes.root} onClick={handleClose}>
           <Typography variant="body2" style={{ color: '#f44336' }}>
             Delete
           </Typography>
