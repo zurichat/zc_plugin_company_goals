@@ -9,9 +9,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useDispatch } from 'react-redux';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
-import { showEditVisionModal } from '../../redux/showEditVisionModal';
-
-import Report from '../updates/Report';
+// import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -45,42 +43,36 @@ const Header = () => {
             style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
-        <TextField
-          placeholder="Training A Million Youths Yearly"
-          variant="outlined"
-          style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
-        />
-      </Box>
-
-      <Box>
-        <Box
-          container
-          display="flex"
-          style={{
-            fontWeight: 'bold',
-            width: 500,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottom: '3px solid #00B87C',
-          }}
-        >
-          <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-          <div>
-            <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
-              Edit Vision
-            </Button>
-            <span>
-              <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
-                <ExpandLessIcon />
+        <Box>
+          <Box
+            container
+            display="flex"
+            style={{
+              fontWeight: 'bold',
+              width: 500,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: '3px solid #00B87C',
+            }}
+          >
+            <Button style={{ fontWeight: 'bold' }}>Vision</Button>
+            <div>
+              <Button startIcon={<AddIcon />} style={{ fontWeight: 'bold' }}>
+                Edit Vision
               </Button>
-            </span>
-          </div>
+              <span>
+                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
+                  <ExpandLessIcon />
+                </Button>
+              </span>
+            </div>
+          </Box>
+          <TextField
+            placeholder="Tech Hub Builder"
+            variant="outlined"
+            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
+          />
         </Box>
-        <TextField
-          placeholder="Tech Hub Builder"
-          variant="outlined"
-          style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
-        />
       </Box>
     </Container>
   );
