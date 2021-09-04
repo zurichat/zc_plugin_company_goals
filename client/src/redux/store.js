@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import deleteGoalReducer from './deleteGoal.slice';
 import editMissionReducer from './showEditMissionModal';
 import editVisionReducer from './showEditVisionModal';
 import createGoalModalReducer from './toggleCreateGoalModal.slice';
@@ -11,6 +12,7 @@ const store = configureStore({
     showVision: editVisionReducer,
     toggleCreateGoalModal: createGoalModalReducer,
     toggleEditGoalModal: editGoalModalReducer,
+    deleteGoal: deleteGoalReducer,
   },
 });
 

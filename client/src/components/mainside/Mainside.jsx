@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 import GoalsNavLayout from '../goal interface navbar/NavLayout';
+import HistoryList from '../history/historyList';
 import Menuoption from '../Menuoption/Menuoption';
 
-import Notification from '../Notification/Notification';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
-import Report from '../updates/Report';
 
 const Mainside = () => {
   return (
@@ -19,6 +18,7 @@ const Mainside = () => {
 
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />
+        <HistoryList />
         {/* <Goal primary>
           <Report />
           <Notification />

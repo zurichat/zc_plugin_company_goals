@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 
 import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
+import { deleteGoalAction } from '../../redux/deleteGoal.slice';
 
 const useStyles = makeStyles({
   root: {
@@ -40,7 +41,13 @@ export default function Menuoption() {
           {' '}
           <Typography variant="body2">View</Typography>
         </MenuItem>
-        <MenuItem className={classes.root} onClick={() => dispatch(toggleEditGoalModalAction())}>
+        <MenuItem
+          className={classes.root}
+          onClick={() => {
+            handleClose();
+            dispatch(toggleEditGoalModalAction());
+          }}
+        >
           {' '}
           <Typography variant="body2">Edit</Typography>
         </MenuItem>
@@ -53,7 +60,13 @@ export default function Menuoption() {
         <MenuItem className={classes.root} onClick={handleClose}>
           <Typography variant="body2">Duplicate</Typography>
         </MenuItem>
-        <MenuItem className={classes.root} onClick={handleClose}>
+        <MenuItem
+          className={classes.root}
+          onClick={() => {
+            handleClose();
+            dispatch(deleteGoalAction());
+          }}
+        >
           <Typography variant="body2" style={{ color: '#f44336' }}>
             Delete
           </Typography>

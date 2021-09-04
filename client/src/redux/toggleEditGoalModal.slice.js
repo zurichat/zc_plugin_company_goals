@@ -4,6 +4,12 @@ export const editGoalModalSlice = createSlice({
   name: 'editGoalModal',
   initialState: {
     showEditGoalModal: false,
+    name: 'Test',
+    owner: 'Mark Essien',
+    status: false,
+    endDate: '02/12/2019',
+    category: 'Web development',
+    description: 'This is a dummy data',
   },
   reducers: {
     toggleEditGoalModalAction: (state) => {
