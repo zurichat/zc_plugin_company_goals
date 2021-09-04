@@ -3,6 +3,13 @@ const Joi = require('joi');
 
 const catchAsync = require('../utils/catchAsync');
 
+exports.getAllGoals = catchAsync(async (req, res, next) => {
+  const goals = await axios.get(`https://test-zuri-core.herokuapp.com/crud/goals/find`);
+  //console.log(goals);
+  
+  // Sending Responses
+  res.status(200).json({ status: 'success', data: { ...goals.data.data } });
+});
 
 const schema = Joi.object({
   title: Joi.string().required(),
