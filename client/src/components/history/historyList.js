@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import HistoryItem from './historyItem';
 
-import {row} from './Item';
+import {Row} from './Item';
 
 const history = [
   {
