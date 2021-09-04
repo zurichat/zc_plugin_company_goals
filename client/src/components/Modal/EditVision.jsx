@@ -13,6 +13,7 @@ const Wrapper = styled.section`
   left: 0px;
   top: 0px;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
 `;
 const Modal = styled.div`
   position: absolute;
@@ -63,7 +64,7 @@ const EditVision = () => {
   const dispatch = useDispatch();
   const { showVision } = useSelector((state) => state.showVision);
   return (
-    showVision  && (
+    showVision && (
       <Wrapper>
         <Modal>
           <Heading>Edit Vision</Heading>

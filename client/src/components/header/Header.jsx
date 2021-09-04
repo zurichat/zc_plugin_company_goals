@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
-const Header = () => {
+const MissionVisionContainer = () => {
   const dispatch = useDispatch();
 
   return (
@@ -82,4 +82,4 @@ const Header = () => {
     </Container>
   );
 };
-export default Header;
+export default MissionVisionContainer;
