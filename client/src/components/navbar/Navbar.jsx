@@ -1,14 +1,17 @@
+import { useState } from 'react';
+
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { useState } from 'react';
-import SearchResults from './../searchBarDisplay/Search';
 
+import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
+import SearchResults from '../searchBarDisplay/Search';
 
 const Navbar = () => {
   const [searchState, setSearchState] = useState('');
+  const dispatch = useDispatch();
   const handleSearch = (event) => {
     const value = event.type === 'blur' ? '' : event.target.value;
     setSearchState(value);
@@ -20,28 +23,23 @@ const Navbar = () => {
       </Header>
       <Nav>
         <Menu>
-          <MenuLink1>
+          <MenuLink1 onClick={() => dispatch(toggleCreateGoalModalAction())}>
             <AddIconStyled />
             NewGoal
           </MenuLink1>
           <MenuLink primary>Archived Goals</MenuLink>
         </Menu>
-        
+
         <SearchContainer>
           <SearchIconStyled />
           <SearchInput type="text" placeholder="Search" onChange={handleSearch} onBlur={handleSearch} />
-        { searchState && <SearchResults /> }  
+          {searchState && <SearchResults />}
         </SearchContainer>
-        
-        
+
         <SettingsIconStyled />
       </Nav>
     </div>
   );
-};
-
-Navbar.propTypes = {
-  onSearch: PropTypes.func.isRequired,
 };
 
 export default Navbar;
@@ -84,7 +82,7 @@ const MenuLink1 = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 110px;
+  width: 110px;
   cursor: pointer;
 `;
 const SearchContainer = styled.div`

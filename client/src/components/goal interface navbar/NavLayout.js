@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -7,7 +6,7 @@ import NavName from './NavName';
 const GridLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 3fr;
-  padding: 1rem;
+  padding: 0.43rem 1rem 0.03rem;
   place-items: center;
 `;
 
@@ -30,7 +29,7 @@ const Sort = styled.div`
   cursor: pointer;
   margin-right: 1rem;
 `;
-const NavLayout = () => {
+const GoalsNavLayout = () => {
   return (
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
@@ -42,4 +41,4 @@ const NavLayout = () => {
   );
 };
 
-export default NavLayout;
+export default GoalsNavLayout;

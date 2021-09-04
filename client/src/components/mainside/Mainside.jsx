@@ -1,43 +1,51 @@
 import styled from 'styled-components';
-import Deletemodal from '../Deletemodal/Deletemodal'
-import NavLayout from '../goal interface navbar/NavLayout';
-import BasicModal from '../EditGoal/EditGoal';
 
-import Report from '../updates/Report'
-
-
-import SimpleModal from '../createGoal/CreateGoal';
+import GoalsNavLayout from '../goal interface navbar/NavLayout';
+import Menuoption from '../Menuoption/Menuoption';
 
 import Notification from '../Notification/Notification';
-
+import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import Report from '../updates/Report';
 
 const Mainside = () => {
   return (
-    <div>
-    <NavLayout />
+    <Main>
+      <GoalsDisplayContainer>
+        <GoalsNavLayout />
+        <Goal>
+          <Menuoption />
+        </Goal>
+      </GoalsDisplayContainer>
 
-
-    <MainContainer>
-      <Goal>
-        <SimpleModal />
-        <Deletemodal />
-        <BasicModal/>
-      </Goal>
-      <Goal primary>
-    {/* <Report /> */}
-        <Notification />
-      </Goal>
-    </MainContainer>
-    </div>
+      <GoalsReportAndNotificationContainer>
+        <ReportsAndNotificationContainer />
+        {/* <Goal primary>
+          <Report />
+          <Notification />
+        </Goal> */}
+      </GoalsReportAndNotificationContainer>
+    </Main>
   );
 };
 
 export default Mainside;
 
-const MainContainer = styled.div`
+const Main = styled.div`
   display: flex;
-  margin-right: 2rem;
-  height: 50%;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 3.22rem;
+  border: 1px solid yellow;
+`;
+
+const GoalsDisplayContainer = styled.div`
+  flex-basis: 65%;
+  /* border: 1px solid green; */
+`;
+
+const GoalsReportAndNotificationContainer = styled.div`
+  /* border: 1px solid blue; */
+  flex-basis: 34%;
 `;
 const Goal = styled.div`
   flex: 1;
@@ -48,6 +56,5 @@ const Goal = styled.div`
   background: red;
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
-  margin: 10px;
   box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
 `;

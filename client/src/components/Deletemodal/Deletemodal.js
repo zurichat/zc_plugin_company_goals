@@ -19,9 +19,6 @@ const Deletemodal = () => {
   ];
   return (
     <>
-      <button className="main-del-btn" onClick={displayModal}>
-        Delete Goal
-      </button>
       <div className="faded-md">
         <div className="delete-modal">
           <button className="cancel-modal" onClick={exitModal}>
