@@ -1,15 +1,17 @@
+const axios = require("axios");
 // this module is used to handle the vision
+const catchAsync = require('../utils/catchAsync');
 
-// request to get the mission
-exports.getVision = (req, res) => {
-  // get the vision
-  // fetch(vision from database)
+// request to get the vision
+exports.getVision = catchAsync(async(req, res, next) => {
+  const vision = await axios.get(`https://test-zuri-core.herokuapp.com/crud/vision/find`);
+  
+  // Sending Responses
+  res.status(200).json({ status: 'success', data: { vision.body } }); 
 
-  // send the mission
-  res.send('This is a dummy vision');
-};
+});
 
-exports.addVision = (req, res)=> {
+exports.createVision = (req, res)=> {
   // get the vision from client via req.body
   const { vision } = req.body;
   // insert the vision into the database
