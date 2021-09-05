@@ -4,6 +4,8 @@ import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 
 import { useSelector } from 'react-redux';
 
+import { selectGoal } from '../../features/goalSlice';
+
 import {
   Goal,
   Form,
@@ -22,11 +24,11 @@ import img from './icon/active.png';
 import lock from './icon/default.png';
 import people from './icon/Group 2684.png';
 
+import { ownerDocument } from '@material-ui/core';
+
 const EditGoalForm = React.forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
-  const { name, owner, status, endDate, category, description } = useSelector(
-    ({ toggleEditGoalModal }) => toggleEditGoalModal
-  );
+  const { name, owner, status, endDate, category, description } = useSelector(selectGoal);
   const { handleClose } = props;
   return (
     <Goal>

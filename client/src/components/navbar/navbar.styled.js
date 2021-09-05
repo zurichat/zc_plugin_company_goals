@@ -60,7 +60,7 @@ export const SearchInput = styled.input`
   outline: none;
   border: none;
   background: transparent;
-  color: black;
+  color: #f0f0f0;
   width: 80%;
   margin-left: 35px;
   font-size: 13px;

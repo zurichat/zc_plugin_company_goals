@@ -1,32 +1,28 @@
-import styled from 'styled-components';
+import SimpleModal from '../createGoal/CreateGoal';
+import BasicModal from '../EditGoal/EditGoal';
+import NavLayout from '../goal interface navbar/NavLayout';
+import Header from '../header/Header';
+import { Goal, MainContainer, GoalContainer, GoalContainer1 } from './mainside.styled.js';
 
-import GoalsNavLayout from '../goal interface navbar/NavLayout';
-import HistoryList from '../history/historyList';
-import Menuoption from '../Menuoption/Menuoption';
-
-import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
-
-const Mainside = () => {
+function Mainside() {
   return (
-    <Main>
-      <GoalsDisplayContainer>
-        <GoalsNavLayout />
-        <Goal>
-          <Menuoption />
-        </Goal>
-      </GoalsDisplayContainer>
-
-      <GoalsReportAndNotificationContainer>
-        <ReportsAndNotificationContainer />
-        <HistoryList />
-        {/* <Goal primary>
-          <Report />
-          <Notification />
-        </Goal> */}
-      </GoalsReportAndNotificationContainer>
-    </Main>
+    <div>
+        <Header />
+      <MainContainer>
+        <GoalContainer>
+          <NavLayout />
+          <Goal>
+            {' '}
+            <SimpleModal /> <BasicModal />
+          </Goal>
+        </GoalContainer>
+        <GoalContainer1>
+          <Goal primary />
+        </GoalContainer1>
+      </MainContainer>
+    </div>
   );
-};
+}
 
 export default Mainside;
 
@@ -35,7 +31,7 @@ const Main = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   margin-top: 3.22rem;
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
 `;
 
 const GoalsDisplayContainer = styled.div`
@@ -57,4 +53,4 @@ const Goal = styled.div`
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
   box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
-`;
+`

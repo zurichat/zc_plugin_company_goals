@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-const HistoryItems = styled.div`
+export default HistoryItems = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +18,8 @@ const HistoryItems = styled.div`
   }
 `;
 
-const Row = styled.div`
+
+export const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,5 +33,3 @@ const Button = styled.div`
   color: rgba(0, 184, 124, 1);
   border: 0;
 `;
-
-export { HistoryItems, Row, Button };

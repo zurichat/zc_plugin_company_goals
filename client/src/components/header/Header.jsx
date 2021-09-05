@@ -7,14 +7,14 @@ import { Container, Button, Box, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
 import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
-const MissionVisionContainer = () => {
+const Header = () => {
   const dispatch = useDispatch();
-
+  const { vision } = useSelector((state) => state.vision);
   return (
     <Container>
       <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
@@ -74,6 +74,7 @@ const MissionVisionContainer = () => {
           </Box>
           <TextField
             placeholder="Tech Hub Builder"
+            value= { vision }
             variant="outlined"
             style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
@@ -82,4 +83,4 @@ const MissionVisionContainer = () => {
     </Container>
   );
 };
-export default MissionVisionContainer;
+export default Header;
