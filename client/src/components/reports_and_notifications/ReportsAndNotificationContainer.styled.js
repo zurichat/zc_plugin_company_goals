@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const ReportsAndNotificationAppBar = styled(AppBar)`
   background-color: #fff;
-  margin-bottom: 1rem !important;
+  marrgin-top: 1rem !important;
 `;
 const ReportsAndNotificationTabs = styled(Tabs)`
   & .MuiTabs-flexContainer {

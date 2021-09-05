@@ -21,12 +21,13 @@ const HistoryItems = styled.div`
 `;
 
 const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   color: rgba(0, 184, 124, 1);
   width: 100%;
-  margin: auto;
+  margin-left: 2.5rem;
+  margin-top: 1rem !important;
   margin-bottom: 0.5rem;
 `;
 
