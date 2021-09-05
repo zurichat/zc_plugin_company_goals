@@ -7,7 +7,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   const goals = await axios.get(`https://test-zuri-core.herokuapp.com/crud/goals/find`);
 
   // Sending Responses
-  res.status(200).json({ status: 'success', data: { ...goals.data.data } });
+  res.status(200).json({ data: goals.data })
 });
 
 const schema = Joi.object({
@@ -52,8 +52,8 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 
   const result = await axios.get(url, { params: { _id: goalId } });
   const status = result.status || 200;
-  const data = result.data.data[0];
-  res.status(status).json({ status: status, message: 'success', data: data });
+  const {data} = result;
+  res.status(status).json({ data: data });
 });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
@@ -86,4 +86,32 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
 
   // send the updated goal to client.
   return res.status(200).json(updatedGoal.data);
+});
+
+exports.getArchivedGoals = catchAsync(async (req, res, next) => {
+  const collectionName = 'goals';
+
+  // for zuri core live API
+  const baseUrl = 'https://zccore.herokuapp.com';
+  const pluginId = '61330fcfbfba0a42d7f38e59';
+  const organizationId = '1'; // Would be gotten from zuri main
+  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
+
+  // Gets all goals
+  const goals = await axios.get(url);
+  let archivedGoals = []
+
+  // Checks if a goal is archived
+  const goalChecker = (value) => {
+    if (value.achieved === true) {
+        archivedGoals.push(value)
+    }
+  }
+  goals.data.data.results.forEach(goalChecker);
+
+  if (archivedGoals.length < 1) {
+    archivedGoals = 'No archived goals yet.'
+  }
+  // Returns all archived goals
+  res.status(200).json({ status: 200, message: 'success', data: archivedGoals});
 });
