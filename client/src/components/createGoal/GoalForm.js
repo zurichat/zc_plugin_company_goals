@@ -45,7 +45,7 @@ const GoalForm = React.forwardRef((props) => {
       dispatch(saveGoal(user));
       setUser(null);
     } else {
-      dispatch(saveGoal('input all field'));
+      dispatch(saveGoal('input all fields'));
     }
   };
 
