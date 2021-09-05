@@ -8,6 +8,7 @@ import EditMission from '../components/Modal/EditMisssion';
 
 import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
+import Goals from '../components/getGoals/getGoals'
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
         <Nav />
         <Mainside />
         {/* <Deletemodal /> this is rendering above components..whoever is to work on it, should render it conditionally */}
-        <EditMission />
+        <EditMisssion />
         <EditVision />
+        <Goals />
       </PluginSide>
     </div>
   );
