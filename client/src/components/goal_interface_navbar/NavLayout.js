@@ -5,7 +5,7 @@ import NavName from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 3fr;
+  grid-template-columns: 1fr 1fr 1fr 2.5fr;
   padding: 0.43rem 1rem 0.03rem;
   place-items: center;
 `;
@@ -76,7 +76,7 @@ const GoalsNavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort type="button" onClick={showDrpDw}>
+      <Sort type="button" onClick={() => showDrpDw()}>
         <div> Sort by </div> <img src={img} alt="sort icon" />
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>

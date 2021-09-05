@@ -1,21 +1,22 @@
 import styled from 'styled-components';
+import GetGoals from '../getGoals/getGoals';
 
-import GoalsNavLayout from '../goal interface navbar/NavLayout';
+import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import HistoryList from '../history/historyList';
 import Menuoption from '../Menuoption/Menuoption';
 
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 
-const Mainside = () => {
+function Mainside() {
   return (
     <Main>
       <GoalsDisplayContainer>
         <GoalsNavLayout />
         <Goal>
           <Menuoption />
+          <GetGoals />
         </Goal>
       </GoalsDisplayContainer>
-
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />
         <HistoryList />
@@ -26,7 +27,7 @@ const Mainside = () => {
       </GoalsReportAndNotificationContainer>
     </Main>
   );
-};
+}
 
 export default Mainside;
 

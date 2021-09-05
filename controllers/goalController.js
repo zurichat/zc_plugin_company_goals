@@ -5,7 +5,6 @@ const catchAsync = require('../utils/catchAsync');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const goals = await axios.get(`https://test-zuri-core.herokuapp.com/crud/goals/find`);
-  //console.log(goals);
 
   // Sending Responses
   res.status(200).json({ status: 'success', data: { ...goals.data.data } });
@@ -28,7 +27,6 @@ exports.createGoals = catchAsync(async (req, res, next) => {
 
   // Fake API
   // https://api.zuri.chat/data/write
-  //const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
 
   const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
     plugin_id: '61330fcfbfba0a42d7f38e59',
@@ -37,8 +35,6 @@ exports.createGoals = catchAsync(async (req, res, next) => {
     bulk_write: false,
     payload: req.body,
   });
-
-  //console.log(goals);
 
   // Sending Responses
   res.status(200).json(goals.data);
@@ -79,20 +75,22 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateGoalByID = catchAsync(async (req, res, next) => {
-  // Get updated info from req.body
-  // const { update, $set, name } = { ...req.body } ;
-  // const data = { update: {
-  //   $set: {
-  //     name
-  //   }
-  // }}
+exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
+  // First, Get update from req.body
   const goalId = req.params.id;
   const collectionName = 'goals';
 
-  // send the updated goal info to zuri core
-  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/update-by-id/${goalId}`;
-  const updatedGoal = await axios.patch(url, { ...req.body });
+  // Then, send update to zuri core
+  // const url = `https://zccore.herokuapp.com/data/write/61330fcfbfba0a42d7f38e59/${collectionName}/${goalId}`;
+  console.log("working")
+  const updatedGoal = await axios.put(`https://zccore.herokuapp.com/data/write`, {
+    plugin_id: '61330fcfbfba0a42d7f38e59',
+    organization_id: '1',
+    collection_name: collectionName,
+    bulk_write: false,
+    object_id: goalId,
+    payload: req.body,
+  })
 
   // send the updated goal to client.
   return res.status(200).json(updatedGoal.data);
