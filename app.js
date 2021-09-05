@@ -3,11 +3,12 @@ const path = require('path');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
-const dotenv = require('dotenv');
+
 dotenv.config();
 
 const globalErrorHandler = require('./controllers/errorController');
