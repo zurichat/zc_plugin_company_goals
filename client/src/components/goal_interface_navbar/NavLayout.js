@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-import React from 'react';
-
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -9,7 +6,7 @@ import NavName from './NavName';
 const GridLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 2.5fr;
-  padding: 1rem;
+  padding: 0.43rem 1rem 0.03rem;
   place-items: center;
 `;
 
@@ -69,7 +66,7 @@ const SortDrpDw = styled.div`
     transition: all 0.2s linear;
   }
 `;
-const NavLayout = () => {
+const GoalsNavLayout = () => {
   function showDrpDw() {
     const sortDrpContainer = document.getElementById('sort_drop_down');
     sortDrpContainer.classList.toggle('active');
@@ -79,7 +76,7 @@ const NavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort type="button" onClick={showDrpDw}>
+      <Sort type="button" onClick={() => showDrpDw()}>
         <div> Sort by </div> <img src={img} alt="sort icon" />
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
@@ -96,4 +93,4 @@ const NavLayout = () => {
   );
 };
 
-export default NavLayout;
+export default GoalsNavLayout;
