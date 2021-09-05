@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import GetGoals from '../getGoals/getGoals';
 
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import HistoryList from '../history/historyList';
@@ -13,6 +14,7 @@ function Mainside() {
         <GoalsNavLayout />
         <Goal>
           <Menuoption />
+          <GetGoals />
         </Goal>
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>
