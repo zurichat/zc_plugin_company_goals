@@ -38,17 +38,14 @@ const GoalForm = React.forwardRef((props) => {
 
   const onCreateGoal = (e) => {
     e.preventDefault();
-    
-    const isValid = typeof user === 'object' && user !== null;
+    const fieldNames = ['goalName', 'owner', 'goalAccess', 'category', 'description', 'date'];
+
+    const isValid = user !== null && fieldNames.every((v) => user[v]);
     if (isValid) {
-      const keys = Object.keys(user);
-      const filteredUser = keys.reduce((filter, key) => {
-        if (user[key]) {
-          return { ...filter, [key]: user[key] };
-        }
-        return filter;
-      }, {});
-      dispatch(saveGoal(filteredUser));
+      dispatch(saveGoal(user));
+      setUser(null);
+    } else {
+      dispatch(saveGoal('input all field'));
     }
   };
 
