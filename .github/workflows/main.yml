@@ -2,13 +2,8 @@ name: Zuri goals Deployment
 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-<<<<<<< HEAD
   push:
-    branches: [dev2]
-=======
-#  push:
-#    branches: [dev]
->>>>>>> 6325a54cf73e65a1f5134137d605f774903bb1e0
+    branches: [prod]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
