@@ -7,6 +7,8 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -52,7 +54,7 @@ app.use('/api/v1/goals', rateLimiter(), goalRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/get-mission', missionRouter);
+app.use('/api/mission', missionRouter);
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

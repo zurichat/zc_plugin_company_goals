@@ -9,8 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 
-import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
 import { deleteGoalAction } from '../../redux/deleteGoal.slice';
+import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +33,7 @@ export default function Menuoption() {
 
   return (
     <div>
-      <Button color="secondary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
         Open Menu
       </Button>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>

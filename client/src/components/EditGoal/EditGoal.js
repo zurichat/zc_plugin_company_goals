@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BasicDialog() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const editModalState = useSelector(({ toggleEditGoalModal }) => toggleEditGoalModal.showEditGoalModal);
+  const showEditGoalModal = useSelector(({ toggleEditGoalModal }) => toggleEditGoalModal.showEditGoalModal);
 
   const handleClose = () => {
     dispatch(toggleEditGoalModalAction());
@@ -29,7 +29,7 @@ export default function BasicDialog() {
 
   return (
     <Dialog
-      open={editModalState}
+      open={showEditGoalModal}
       onClose={handleClose}
       fullWidth
       maxWidth="md"

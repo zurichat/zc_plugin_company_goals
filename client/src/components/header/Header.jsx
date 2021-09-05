@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
-
 import { Container, Button, Box, TextField } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -9,12 +8,12 @@ import AddIcon from '@material-ui/icons/Add';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { showEditVisionModal } from '../../redux/organizationVision.slice';
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
-import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
-const MissionVisionContainer = () => {
+const Header = () => {
   const dispatch = useDispatch();
-  const { vision } = useSelector((state) => state.vision);
+  const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
   return (
     <Container>
       <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
@@ -74,7 +73,7 @@ const MissionVisionContainer = () => {
           </Box>
           <TextField
             placeholder="Tech Hub Builder"
-            value= { vision }
+            value={visionText}
             variant="outlined"
             style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
@@ -83,4 +82,4 @@ const MissionVisionContainer = () => {
     </Container>
   );
 };
-export default MissionVisionContainer;
+export default Header;

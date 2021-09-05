@@ -117,5 +117,3 @@ export const Para = styled.p`
   padding: 8px;
   font-weight: 400;
 `;
-
-// export {};

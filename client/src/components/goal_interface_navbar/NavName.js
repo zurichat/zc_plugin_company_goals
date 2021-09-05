@@ -12,7 +12,7 @@ const NavName = styled.div`
   &.active {
     color: #00b87c;
     font-weight: 700;
-    border-bottom: 2px solid #00b87c;
+    border-bottom: 1.5px solid #00b87c;
   }
 `;
 

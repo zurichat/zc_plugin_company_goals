@@ -1,8 +1,5 @@
-import React from 'react';
-
-import HistoryItem from './historyItem';
-
 import { Row, Button } from './history.styled';
+import HistoryItem from './historyItem';
 
 const history = [
   {

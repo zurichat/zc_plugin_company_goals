@@ -58,17 +58,6 @@ export const XBtn = styled.button`
   margin-left: 25rem;
   font-size: 1.1rem;
 `;
-export const MainDelBtn = styled.button`
-  margin-top: 1rem;
-  background: #00b87c;
-  padding: 12px 16px;
-  border-radius: 3px;
-  font-family: 'Lato', sans-serif;
-  color: #ffffff;
-  border: none;
-  margin: auto;
-  font-family: 'Lato', sans-serif;
-`;
 export const Images = styled.div`
   display: flex;
   justify-content: center;

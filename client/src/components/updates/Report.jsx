@@ -7,7 +7,6 @@ import {
   StyledGoals,
   StyledGoalSegment,
   Icon,
-  Progress,
   Bar,
   Upper,
   Lower,
@@ -15,7 +14,6 @@ import {
   Subcontainer,
   Item,
   Para,
-  Arc,
 } from './Report.styled';
 
 const Report = () => {
@@ -25,7 +23,8 @@ const Report = () => {
         <StyledGoalSegment>
           <StyledFolder>FOLDER:</StyledFolder>
           <StyledGoals>
-            All Goals<Icon></Icon>
+            All Goals
+            <Icon />
           </StyledGoals>
         </StyledGoalSegment>
 
