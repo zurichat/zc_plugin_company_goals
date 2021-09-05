@@ -6,7 +6,7 @@ const router = Router();
 const mission = require('../controllers/missionController');
 
 router.post('/add', mission.createMission);
-router.get('/', mission.getSingleMission);
+router.get('/:id', mission.getSingleMission);
 
 // export module
 module.exports = router;
