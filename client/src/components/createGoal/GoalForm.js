@@ -36,13 +36,13 @@ const GoalForm = React.forwardRef((props) => {
           </Icon>
           <div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label htmlFor="name">
+            <label htmlFor="goal-name">
               <Title titleColor="#393939">Goal Name</Title>
 
               <Info textColor="#999999">
                 Goals are high level containers that can be broken down into smaller target. Learn more
               </Info>
-              <Input type="text" id="name" />
+              <Input type="text" id="goal-name" />
             </label>
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
@@ -66,7 +66,7 @@ const GoalForm = React.forwardRef((props) => {
                 <Title titleColor="#393939">Owner</Title>
                 <Info textColor="#999999">This is optional,who will take responsibility for the goals</Info>
               </div>
-              <Input type="text" id="name" placeholder="Mark Essien" />
+              <Input type="text" id="owner" placeholder="Mark Essien" />
             </label>
 
             <Box>
@@ -86,7 +86,7 @@ const GoalForm = React.forwardRef((props) => {
           </Icon>
           <div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label htmlFor="owner">
+            <label htmlFor="goal-access">
               <div>
                 <Title titleColor="#393939">Who has access to this goal?</Title>
                 <div style={{ marginTop: '2rem' }}>
@@ -100,7 +100,7 @@ const GoalForm = React.forwardRef((props) => {
                   </AccessButton>
                 </div>
               </div>
-              <Input type="text" id="name" />
+              <Input type="text" id="goal-access" />
             </label>
 
             <Box>
@@ -189,7 +189,7 @@ const GoalForm = React.forwardRef((props) => {
                   This is optional. A short explanation on why the goal is set and how it can be achieved
                 </Info>
               </div>
-              <Input type="text" id="name" />
+              <Input type="text" id="description" />
             </label>
 
             <Box>
