@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 import { useDispatch } from 'react-redux';
 
-import { saveGoal } from '../../redux/NewGoalSlice';
+import { saveGoal } from '../../redux/newGoalSlice';
 
 import {
   Goal,

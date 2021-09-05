@@ -5,7 +5,7 @@ import visionReducer from './organizationVision.slice';
 import editMissionReducer from './showEditMissionModal';
 import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
-import newGoalReducer from './NewGoalSlice';
+import newGoalReducer from './newGoalSlice';
 
 const store = configureStore({
   reducer: {
