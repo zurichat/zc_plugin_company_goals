@@ -88,7 +88,7 @@ export const FlexColumn = styled.section`
 
 export const Section = styled.section`
   display: flex;
-  align-item: center;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
 
