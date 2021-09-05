@@ -9,11 +9,18 @@ export const goalSlice = createSlice({
     getGoal: (state, action) => {
       state.selectedGoal = action.payload;
     },
+    editGoal: (state, action) => {
+      state.selectedGoal = {
+        ...state.selectedGoal,
+        ...action.payload,
+      };
+    },
   },
 });
 
-export const { getGoal } = goalSlice.actions;
+export const { getGoal, editGoal } = goalSlice.actions;
 
 export const selectGoal = (state) => state.goal.selectedGoal;
-
 export default goalSlice.reducer;
+
+

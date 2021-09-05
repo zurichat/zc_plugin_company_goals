@@ -14,6 +14,7 @@ import { GlobalStyles } from './EdiGoalForm.styled';
 
 import EditGoalForm from './EditGoalForm';
 
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -36,8 +37,8 @@ export default function BasicDialog() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
-  const handleOpen = ({ name, owner, status, endDate, category, description }) => {
-    dispatch(getGoal({ name, owner, status, endDate, category, description }));
+  const handleOpen = (data) => {
+    dispatch(getGoal(data));
     setOpen(true);
   };
 

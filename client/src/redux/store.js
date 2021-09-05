@@ -6,8 +6,11 @@ import editMissionReducer from './showEditMissionModal';
 
 import editVisionReducer from './showEditVisionModal';
 
+
+
 const store = configureStore({
   reducer: {
+    show: editVisionReducer,
     showMission: editMissionReducer,
     showVision: editVisionReducer,
     goal: goalReducer,
