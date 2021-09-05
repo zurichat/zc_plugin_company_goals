@@ -3,6 +3,7 @@ import BasicModal from '../EditGoal/EditGoal';
 import NavLayout from '../goal interface navbar/NavLayout';
 import Header from '../header/Header';
 import { Goal, MainContainer, GoalContainer, GoalContainer1 } from './mainside.styled.js';
+import HistoryList from '../history/historyList';
 
 function Mainside() {
   return (
@@ -19,6 +20,7 @@ function Mainside() {
         <GoalContainer1>
           <Goal primary />
         </GoalContainer1>
+        <HistoryList/>
       </MainContainer>
     </div>
   );
