@@ -94,7 +94,7 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   // for zuri core live API
   const baseUrl = 'https://zccore.herokuapp.com';
   const pluginId = '61330fcfbfba0a42d7f38e59';
-  const organizationId = '1'; // Would be gotten from zuri main
+  const organizationId = '1';
   const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
   // Gets all goals
@@ -107,7 +107,7 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
         archivedGoals.push(value)
     }
   }
-  goals.data.data.results.forEach(goalChecker);
+  goals.data.data.forEach(goalChecker);
 
   if (archivedGoals.length < 1) {
     archivedGoals = 'No archived goals yet.'

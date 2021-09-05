@@ -6,9 +6,9 @@ const router = Router();
 
 router.route('/').post(createGoals).get(getAllGoals);
 
-router.route('/:id').get(getSingleGoal);
-
 router.route('/archived').get(getArchivedGoals)
+
+router.route('/:id').get(getSingleGoal);
 
 router.patch('/update/:id', updateSingleGoalById);
 
