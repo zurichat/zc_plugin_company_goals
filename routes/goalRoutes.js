@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { getSingleGoal, getAllGoals, updateGoalByID, createGoals } = require('../controllers/goalController');
+const { getSingleGoal, getAllGoals, createGoals } = require('../controllers/goalController');
 
 const router = Router();
 
