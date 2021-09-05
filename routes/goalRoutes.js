@@ -8,6 +8,6 @@ router.route('/').post(createGoals).get(getAllGoals);
 
 router.route('/:id').get(getSingleGoal);
 
-router.patch('/update/:id', updateGoalByID);
+// router.patch('/update/:id', updateGoalByID);
 
 module.exports = router;

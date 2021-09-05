@@ -75,15 +75,15 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
-  // First, Get update from req.body
-  const goalId = req.params.id;
-  const collectionName = 'goals';
+// exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
+//   // First, Get update from req.body
+//   const goalId = req.params.id;
+//   const collectionName = 'goals';
 
-  // Then, send update to zuri core
-  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/${goalId}`;
-  const updatedGoal = await axios.patch(url, req.body);
+//   // Then, send update to zuri core
+//   const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/${goalId}`;
+//   const updatedGoal = await axios.patch(url, req.body);
 
-  // send the updated goal to client.
-  return res.status(200).json(updatedGoal.data);
-});
+//   // send the updated goal to client.
+//   return res.status(200).json(updatedGoal.data);
+// });
