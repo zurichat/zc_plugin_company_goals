@@ -1,49 +1,28 @@
+import { useDispatch, useSelector } from 'react-redux';
+
+import { closeDeleteGoalModal } from '../../redux/deleteGoal.slice';
+import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
 
 const Deletemodal = () => {
-  const displayModal = () => {
-    document.querySelector('.faded-md').style.display = 'flex';
-  };
-  const exitModal = () => {
-    document.querySelector('.faded-md').style.display = 'none';
-  };
-  const imgData = [
-    { image: 'deleteImg', className: 'd-img1' },
-    { image: 'deleteimg2', className: 'd-img2' },
-    { image: 'deleteimg3', className: 'd-img3' },
-    { image: 'deleteimg3', className: 'd-img3-2' },
-    { image: 'deleteimg4', className: 'd-img4' },
-    { image: 'deleteimg5', className: 'd-img5' },
-    { image: 'deleteimg6', className: 'd-img6' },
-    { image: 'starimg', className: 'star-img' },
-  ];
+  const dispatch = useDispatch();
+  const showDeleteGoalModal = useSelector(({ deleteGoal }) => deleteGoal.showDeleteGoalModal);
   return (
-    <>
-      <button className="main-del-btn" onClick={displayModal}>
-        Delete Goal
-      </button>
-      <div className="faded-md">
-        <div className="delete-modal">
-          <button className="cancel-modal" onClick={exitModal}>
-            X
-          </button>
-          <div className="image">
-            {imgData.map((img) => (
-              <img src={deleteDataImg[img.image]} className={img.className} alt="view" />
-            ))}
-          </div>
-          <div className="delete-content">
-            <h2 className="delete-head">Delete Goal ? </h2>
-            <p className="delete-info">
-              Clicking the proceed button means that people will no longer have access to view this goal.
-            </p>
-            <button type="submit" className="delete-btn">
-              Proceed
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
+    <FadedBg className="faded" show={showDeleteGoalModal}>
+      <DeleteModal>
+        <XBtn onClick={() => dispatch(closeDeleteGoalModal())}>X</XBtn>
+        <Images>
+          <img src={deleteDataImg.trash} alt="trash" />
+        </Images>
+        <DeleteContent>
+          <DeleteHead className="delete-head">Delete Goal ? </DeleteHead>
+          <DeleteInfo>
+            Clicking the proceed button means that people will no longer have access to view this goal.
+          </DeleteInfo>
+          <DelButton type="submit">Proceed</DelButton>
+        </DeleteContent>
+      </DeleteModal>
+    </FadedBg>
   );
 };
 

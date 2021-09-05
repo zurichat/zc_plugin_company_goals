@@ -5,7 +5,7 @@
     "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
     "type": "commonjs",
     "scripts": {
-        "client:build": "npm run build --prefix client",
+        "client:build": "cross-env INLINE_RUNTIME_CHUNK=false npm run build --prefix client",
         "client:dev": "npm start --prefix client",
         "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client:dev\"",
         "server": "nodemon server.js",
@@ -17,6 +17,7 @@
     "license": "MIT",
     "dependencies": {
         "axios": "^0.21.1",
+        "joi": "^17.4.2",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.5",
         "cors": "^2.8.5",

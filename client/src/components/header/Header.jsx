@@ -1,29 +1,28 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
-
 import { Container, Button, Box, TextField } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
 
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { showEditVisionModal } from '../../redux/organizationVision.slice';
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
-import { showEditVisionModal } from '../../redux/showEditVisionModal';
 
 const Header = () => {
   const dispatch = useDispatch();
-
+  const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
   return (
     <Container>
-      <Box container display="flex" justifyContent="space-evenly" style={{ marginTop: 50 }}>
+      <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
         <Box>
           <Box
             container
             display="flex"
             style={{
-              width: 500,
+              width: '100%',
               justifyContent: 'space-between',
               alignItems: 'center',
               borderBottom: '3px solid #00B87C',
@@ -44,7 +43,6 @@ const Header = () => {
             style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
         </Box>
-
         <Box>
           <Box
             container
@@ -75,6 +73,7 @@ const Header = () => {
           </Box>
           <TextField
             placeholder="Tech Hub Builder"
+            value={visionText}
             variant="outlined"
             style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
           />
@@ -83,5 +82,4 @@ const Header = () => {
     </Container>
   );
 };
-
 export default Header;

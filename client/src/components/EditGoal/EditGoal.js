@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-
-import Button from '@material-ui/core/Button';
-
 import Dialog from '@material-ui/core/Dialog';
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
 
 import { GlobalStyles } from './EdiGoalForm.styled';
 
@@ -19,37 +19,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BasicDialog() {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const showEditGoalModal = useSelector(({ toggleEditGoalModal }) => toggleEditGoalModal.showEditGoalModal);
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(toggleEditGoalModalAction());
   };
 
   return (
-    <div>
-      <Button
-        type="button"
-        onClick={handleOpen}
-        style={{ backgroundColor: '#00B87C', color: '#fff', marginTop: '1rem', fontWeight: 600 }}
-      >
-        Edit Modal
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        maxWidth="md"
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <GlobalStyles />
-        <EditGoalForm className={classes.paper} handleClose={handleClose} />
-      </Dialog>
-    </div>
+    <Dialog
+      open={showEditGoalModal}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="md"
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <GlobalStyles />
+      <EditGoalForm className={classes.paper} handleClose={handleClose} />
+    </Dialog>
   );
 }
