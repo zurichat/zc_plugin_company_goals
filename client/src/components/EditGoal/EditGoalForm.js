@@ -23,6 +23,7 @@ import img from './icon/active.png';
 import lock from './icon/default.png';
 import people from './icon/Group 2684.png';
 
+
 const EditGoalForm = React.forwardRef(({handleClose}) => {
   // eslint-disable-next-line react/prop-types
   const { name, owner, status, endDate, category, description } = useSelector(selectGoal);
