@@ -53,5 +53,4 @@ const Goal = styled.div`
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
   box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
-`;
-
+`
