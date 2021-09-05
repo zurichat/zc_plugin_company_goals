@@ -1,10 +1,5 @@
-import React from 'react';
-
-import styled from 'styled-components';
-
+import { Row, Button } from './history.styled';
 import HistoryItem from './historyItem';
-
-import {Row} from './Item';
 
 const history = [
   {
@@ -39,5 +34,3 @@ const HistoryList = () => {
 };
 
 export default HistoryList;
-
-
