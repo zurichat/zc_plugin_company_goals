@@ -4,7 +4,8 @@ import Tabs from '@material-ui/core/Tabs';
 import styled from 'styled-components';
 
 const ReportsAndNotificationAppBar = styled(AppBar)`
-  background-color: transparent;
+  background-color: #fff;
+  margin-bottom: 1rem !important;
 `;
 const ReportsAndNotificationTabs = styled(Tabs)`
   & .MuiTabs-flexContainer {

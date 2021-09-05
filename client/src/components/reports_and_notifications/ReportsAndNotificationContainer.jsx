@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import PropTypes from 'prop-types';
 
+import Report from '../updates/Report';
 import {
   ReportsAndNotificationAppBar,
   ReportsAndNotificationTabs,
   ReportsAndNotificationTab,
 } from './ReportsAndNotificationContainer.styled';
-import Report from '../updates/Report';
 import Notification from '../Notification/Notification';
 
 function TabPanel(props) {
