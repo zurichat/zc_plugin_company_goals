@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -49,7 +48,7 @@ const SortDrpDw = styled.div`
   border-radius: 5px;
   padding: 7px;
   transition: all 0.2s linear;
-  text-align:left;
+  text-align: left;
 
   ul {
     color: #828282;
@@ -70,35 +69,34 @@ const SortDrpDw = styled.div`
   }
 `;
 const NavLayout = () => {
-const [openSort, setOpenSort] = useState('');
-  
+  const [openSort, setOpenSort] = useState('');
+
   function showDrpDw() {
     const sortDrpContainer = document.getElementById('sort_drop_down');
     sortDrpContainer.classList.toggle('active');
-    setOpenSort('active')
+    setOpenSort('active');
   }
 
   return (
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-    {openSort === 'active' && (
-      <Sort type="button" onClick={showDrpDw} openeed>
-    
-        <div> Sort by </div> <img src={img} alt="sort icon" />
-          
-        <SortDrpDw id="sort_drop_down" className="drop">
-          <ul>
-            <li>More Recent</li>
-            <li>Date</li>
-            <li>Progress </li>
-            <li>Category </li>
-            <li>Visibility </li>
-            <li>Timeline </li>
-          </ul>
-        </SortDrpDw>
-      </Sort>
- )};
+      {openSort === 'active' && (
+        <Sort type="button" onClick={showDrpDw} opened>
+          <div> Sort by </div> <img src={img} alt="sort icon" />
+          <SortDrpDw id="sort_drop_down" className="drop">
+            <ul>
+              <li>More Recent</li>
+              <li>Date</li>
+              <li>Progress </li>
+              <li>Category </li>
+              <li>Visibility </li>
+              <li>Timeline </li>
+            </ul>
+          </SortDrpDw>
+        </Sort>
+      )}
+      ;
     </GridLayout>
   );
 };

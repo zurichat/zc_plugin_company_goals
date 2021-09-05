@@ -1,5 +1,4 @@
 {
-
   "name": "zc_plugin_company_goals",
   "version": "1.0.0",
   "main": "server.js",
@@ -55,4 +54,5 @@
   },
   "engines": {
     "node": "^14"
+  }
 }
