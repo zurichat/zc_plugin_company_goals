@@ -2,12 +2,9 @@ import { useState } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { useDispatch } from 'react-redux';
-
 import search from '../../Images/search.svg';
 import settings from '../../Images/settings.svg';
 
-import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import SearchResults from '../searchBarDisplay/Search';
 import {
   Nav,
@@ -25,7 +22,6 @@ import {
 
 const Navbar = () => {
   const [searchState, setSearchState] = useState('');
-  const dispatch = useDispatch();
   const handleSearch = (event) => {
     const value = event.type === 'blur' ? '' : event.target.value;
     setSearchState(value);
@@ -37,7 +33,7 @@ const Navbar = () => {
       </Header>
       <Nav>
         <Menu>
-          <MenuLink1 onClick={() => dispatch(toggleCreateGoalModalAction())}>
+          <MenuLink1>
             <AddIconStyled />
             New Goal
           </MenuLink1>
