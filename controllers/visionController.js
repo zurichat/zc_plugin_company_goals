@@ -33,16 +33,16 @@ exports.createVision = catchAsync(async (req, res, next) => {
   // Validate data type from req.body is consistent with schema
   await schema.validateAsync(req.body);
 
-  const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
+  const vision = await axios.post(`https://zccore.herokuapp.com/data/write`, {
     plugin_id: pluginId,
     organization_id: '1',
     collection_name: collectionName,
     bulk_write: false,
-    payload: req.body,
+    payload: req.body
   });
 
   // Sending Responses
-  res.status(200).json(goals.data);
+  res.status(200).json(vision.data);
 });
 
 exports.updateVision = (req, res)=> {
