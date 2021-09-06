@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
+
 import GetGoals from '../getGoals/getGoals';
 
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
