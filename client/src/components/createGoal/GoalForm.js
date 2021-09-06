@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
-import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+
 import { useDispatch } from 'react-redux';
 
 import { saveGoal } from '../../redux/newGoalSlice';
@@ -14,14 +17,26 @@ import {
   Info,
   Icon,
   Container,
-  Box,
   CloseButton,
   CreateButton,
+  AccessDiv,
   AccessButton,
+  AccessText,
+  GlobalStyles,
+  TargetInput,
+  TargetContainerB,
+  TargetContainerA,
+  PriorityContainer,
+  PriorityDiv,
+  PrioritySpan,
 } from './GoalForm.style';
 import img from './icon/active.png';
 import lock from './icon/default.png';
 import people from './icon/Group 2684.png';
+import lightstar from './icon/Star 1.png';
+import darkstar from './icon/Star 17.png';
+import { firstLabel, PriorityLabel, secondLabel, thirdLabel } from './RadioInput';
+import { LabelBody } from './RadioInput.style';
 
 const GoalForm = React.forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
@@ -51,6 +66,7 @@ const GoalForm = React.forwardRef((props) => {
 
   return (
     <Goal>
+      <GlobalStyles />
       <CloseButton type="button" onClick={handleClose}>
         x{' '}
       </CloseButton>{' '}
@@ -62,13 +78,13 @@ const GoalForm = React.forwardRef((props) => {
               src={img}
               alt="icon"
               width="20px"
-              height="20px"
+              height="30px"
               style={{
                 paddingTop: '0.6rem',
               }}
             />{' '}
           </Icon>{' '}
-          <div>
+          <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="goal-name">
@@ -78,28 +94,6 @@ const GoalForm = React.forwardRef((props) => {
               </Info>{' '}
               <Input type="text" id="goalName" onChange={(e) => onInputChange(e)} />
             </label>{' '}
-            <Box>
-              <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
-                Ok{' '}
-                <CheckOutlinedIcon
-                  style={{
-                    marginLeft: '0.1rem',
-                    fontSize: '12px',
-                  }}
-                />{' '}
-              </Button>{' '}
-              <Info textColor="#00b87c">
-                press{' '}
-                <span
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {' '}
-                  ENTER{' '}
-                </span>{' '}
-              </Info>{' '}
-            </Box>{' '}
           </div>{' '}
         </Container>{' '}
         <Container>
@@ -108,13 +102,13 @@ const GoalForm = React.forwardRef((props) => {
               src={img}
               alt="icon"
               width="20px"
-              height="20px"
+              height="30px"
               style={{
                 paddingTop: '0.6rem',
               }}
             />{' '}
           </Icon>{' '}
-          <div>
+          <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="owner">
@@ -124,28 +118,6 @@ const GoalForm = React.forwardRef((props) => {
               </div>{' '}
               <Input type="text" id="owner" placeholder="Mark Essien" onChange={(e) => onInputChange(e)} />
             </label>
-            <Box>
-              <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
-                Ok{' '}
-                <CheckOutlinedIcon
-                  style={{
-                    marginLeft: '0.1rem',
-                    fontSize: '12px',
-                  }}
-                />{' '}
-              </Button>{' '}
-              <Info textColor="#00b87c">
-                press{' '}
-                <span
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {' '}
-                  ENTER{' '}
-                </span>{' '}
-              </Info>{' '}
-            </Box>{' '}
           </div>{' '}
         </Container>{' '}
         <Container>
@@ -154,13 +126,13 @@ const GoalForm = React.forwardRef((props) => {
               src={img}
               alt="icon"
               width="20px"
-              height="20px"
+              height="30px"
               style={{
                 paddingTop: '0.6rem',
               }}
             />{' '}
           </Icon>{' '}
-          <div>
+          <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="goal-access">
@@ -171,40 +143,20 @@ const GoalForm = React.forwardRef((props) => {
                     marginTop: '2rem',
                   }}
                 >
-                  <AccessButton borderDetails="1px solid #00b87c">
-                    <img src={people} alt="" />
-                    <Title titleColor="#00b87c"> Zuri & apos; s workspace </Title>{' '}
-                  </AccessButton>{' '}
-                  <AccessButton borderDetails="1px solid #999999">
-                    <img src={lock} alt="" />
-                    <Title> Private </Title>{' '}
-                  </AccessButton>{' '}
+                  <AccessDiv>
+                    <AccessButton borderDetails="1px solid #00b87c">
+                      <img src={people} alt="" />
+                      <AccessText titleColor="#00b87c"> Zuri&apos;s workspace </AccessText>{' '}
+                    </AccessButton>{' '}
+                    <AccessButton borderDetails="1px solid #999999">
+                      <img src={lock} alt="" />
+                      <AccessText> Private </AccessText>{' '}
+                    </AccessButton>
+                  </AccessDiv>{' '}
                 </div>{' '}
               </div>{' '}
               <Input type="text" id="goalAccess" onChange={(e) => onInputChange(e)} />
             </label>
-            <Box>
-              <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
-                Ok{' '}
-                <CheckOutlinedIcon
-                  style={{
-                    marginLeft: '0.1rem',
-                    fontSize: '12px',
-                  }}
-                />{' '}
-              </Button>{' '}
-              <Info textColor="#00b87c">
-                press{' '}
-                <span
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {' '}
-                  ENTER{' '}
-                </span>{' '}
-              </Info>{' '}
-            </Box>{' '}
           </div>{' '}
         </Container>{' '}
         <Container>
@@ -213,13 +165,13 @@ const GoalForm = React.forwardRef((props) => {
               src={img}
               alt="icon"
               width="20px"
-              height="20px"
+              height="30px"
               style={{
                 paddingTop: '0.6rem',
               }}
             />{' '}
           </Icon>{' '}
-          <div>
+          <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="date">
@@ -239,28 +191,6 @@ const GoalForm = React.forwardRef((props) => {
                 onChange={(e) => onInputChange(e)}
               />
             </label>
-            <Box>
-              <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
-                Ok{' '}
-                <CheckOutlinedIcon
-                  style={{
-                    marginLeft: '0.1rem',
-                    fontSize: '12px',
-                  }}
-                />{' '}
-              </Button>{' '}
-              <Info textColor="#00b87c">
-                press{' '}
-                <span
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {' '}
-                  ENTER{' '}
-                </span>{' '}
-              </Info>{' '}
-            </Box>{' '}
           </div>{' '}
         </Container>{' '}
         <Container>
@@ -269,13 +199,13 @@ const GoalForm = React.forwardRef((props) => {
               src={img}
               alt="icon"
               width="20px"
-              height="20px"
+              height="30px"
               style={{
                 paddingTop: '0.6rem',
               }}
             />{' '}
           </Icon>{' '}
-          <div>
+          <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="category">
@@ -287,28 +217,6 @@ const GoalForm = React.forwardRef((props) => {
               </div>{' '}
               <Input type="text" id="category" placeholder="Product Design" onChange={(e) => onInputChange(e)} />
             </label>
-            <Box>
-              <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
-                Ok{' '}
-                <CheckOutlinedIcon
-                  style={{
-                    marginLeft: '0.1rem',
-                    fontSize: '12px',
-                  }}
-                />{' '}
-              </Button>{' '}
-              <Info textColor="#00b87c">
-                press{' '}
-                <span
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {' '}
-                  ENTER{' '}
-                </span>{' '}
-              </Info>{' '}
-            </Box>{' '}
           </div>{' '}
         </Container>{' '}
         <Container>
@@ -318,13 +226,13 @@ const GoalForm = React.forwardRef((props) => {
               src={img}
               alt="icon"
               width="20px"
-              height="20px"
+              height="30px"
               style={{
                 paddingTop: '0.6rem',
               }}
             />{' '}
           </Icon>{' '}
-          <div>
+          <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="description">
@@ -336,28 +244,101 @@ const GoalForm = React.forwardRef((props) => {
               </div>{' '}
               <Input type="text" id="description" onChange={(e) => onInputChange(e)} />
             </label>
-            <Box>
-              <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
-                Ok{' '}
-                <CheckOutlinedIcon
-                  style={{
-                    marginLeft: '0.1rem',
-                    fontSize: '12px',
-                  }}
-                />{' '}
-              </Button>{' '}
-              <Info textColor="#00b87c">
-                press{' '}
-                <span
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {' '}
-                  ENTER{' '}
-                </span>{' '}
-              </Info>{' '}
-            </Box>{' '}
+          </div>{' '}
+        </Container>{' '}
+        <Container>
+          {' '}
+          <Icon>
+            <img
+              src={img}
+              alt="icon"
+              width="20px"
+              height="30px"
+              style={{
+                paddingTop: '0.6rem',
+              }}
+            />{' '}
+          </Icon>{' '}
+          <div style={{ paddingTop: '0.5rem' }}>
+            {' '}
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
+            <label htmlFor="target">
+              <div>
+                <Title titleColor="#393939"> Target Type </Title>{' '}
+                <Info textColor="#999999">
+                  This is optional.A short explanation on why the goal is set and how it can be achieved{' '}
+                </Info>{' '}
+              </div>{' '}
+              <TargetContainerA>
+                <FormControlLabel control={<Radio color="#999999" />} label={firstLabel()} labelPlacement="bottom" />
+                <FormControlLabel control={<Radio color="#999999" />} label={secondLabel()} labelPlacement="bottom" />
+                <FormControlLabel control={<Radio color="#999999" />} label={thirdLabel()} labelPlacement="bottom" />
+              </TargetContainerA>
+            </label>
+            <TargetContainerB>
+              <div>
+                <LabelBody style={{ marginBottom: '0.5rem' }}>Start</LabelBody>
+                <TargetInput type="text" name="" id="Start" />
+              </div>
+              <div>
+                <LabelBody style={{ marginBottom: '0.5rem' }}>Target</LabelBody>
+                <TargetInput type="text" name="" id="Target" />
+              </div>
+            </TargetContainerB>
+          </div>{' '}
+        </Container>{' '}
+        <Container>
+          {' '}
+          <Icon>
+            <img
+              src={img}
+              alt="icon"
+              width="20px"
+              height="30px"
+              style={{
+                paddingTop: '0.6rem',
+              }}
+            />{' '}
+          </Icon>{' '}
+          <div style={{ paddingTop: '0.5rem' }}>
+            {' '}
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
+            <Title titleColor="#393939">Set Goal Priority</Title>{' '}
+            <PriorityContainer>
+              <PriorityDiv>
+                <FormControlLabel control={<Checkbox color="#999999" />} label={PriorityLabel('Low')} />
+                <PrioritySpan>
+                  <img src={lightstar} alt="" />
+                </PrioritySpan>
+              </PriorityDiv>
+              <PriorityDiv>
+                <FormControlLabel control={<Checkbox color="#999999" />} label={PriorityLabel('Medium')} />
+                <PrioritySpan>
+                  <img src={lightstar} alt="" />
+                  <img src={lightstar} alt="" />
+                </PrioritySpan>
+              </PriorityDiv>
+              <PriorityDiv>
+                <FormControlLabel control={<Checkbox color="#999999" />} label={PriorityLabel('High')} />
+                <PrioritySpan>
+                  <img src={lightstar} alt="" />
+                  <img src={lightstar} alt="" />
+                  <img src={lightstar} alt="" />
+                </PrioritySpan>
+              </PriorityDiv>
+              <PriorityDiv>
+                <FormControlLabel
+                  control={<Checkbox color="#999999" />}
+                  label={PriorityLabel('Immediate(24hrs or Less')}
+                />
+                <PrioritySpan>
+                  <img src={darkstar} alt="" />
+                  <img src={darkstar} alt="" />
+                  <img src={darkstar} alt="" />
+                  <img src={darkstar} alt="" />
+                </PrioritySpan>
+              </PriorityDiv>
+            </PriorityContainer>
           </div>{' '}
         </Container>{' '}
         <CreateButton>
