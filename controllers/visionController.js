@@ -16,18 +16,40 @@ const schema = Joi.object({
 });
 
 // request to get the vision
-exports.getVision = catchAsync(async (req, res, next) => {
+exports.getAllVision = async (req, res, next) => {
   const organizationId = '1'; // Would be gotten from zuri main
   const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
-  try {
-  const result = await axios.get(url);
-  await res.status(result.status).json({ status: result.status, message: result.message });
+ try {
+      const result = await axios.get(url);
+      res.status(result.data.status).json({message: result.data.message, data: result.data.data});
   } 
   catch (error) {
-    res.status(500).json(error.message); 
+      res.status(500).json("Server Error, Try again"); 
   }
-});
+};
+
+exports.getSingleVision = catchAsync(async (req, res, next)=>{
+  const organizationId = '1'; // Would be gotten from zuri main
+  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
+
+  const visionId = req.params.id
+  
+ try {
+    const result = await axios.get(url, { params: { _id: visionId  } });
+  
+    if(result.data.data != null){
+      const vision =  result.data.data.find((vision)=> vision._id == visionId )
+      res.status(result.data.status).json({message: result.data.message, data: result.data.data});
+    }
+    res.status(404).json({message:'failed, provide a valid vision id', data: null})
+  } 
+catch (error) {
+  res.status(500).json('Server error, try again'); 
+}
+
+})
+
 
 exports.createVision = catchAsync(async (req, res, next) => {
   // Validate data type from req.body is consistent with schema
