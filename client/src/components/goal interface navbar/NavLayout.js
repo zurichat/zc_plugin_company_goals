@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -18,7 +17,7 @@ const Sort = styled.button`
   width: 89px;
   height: 32px;
   justify-self: flex-end;
-  /* border: 1px solid #00b87c; */
+  border: 1px solid #00b87c;
   background: #ffffff;
   border-radius: 3px;
   font-family: Lato;
@@ -29,7 +28,6 @@ const Sort = styled.button`
   color: #00b87c;
   cursor: pointer;
   margin-right: 1rem;
-  border: ${(props) => (props.opened ? '2px solid #00b87c' : '1px solid #00b87c')};
   position: relative;
 `;
 
@@ -69,33 +67,29 @@ const SortDrpDw = styled.div`
   }
 `;
 const NavLayout = () => {
-  const [openSort, setOpenSort] = useState('');
-
   function showDrpDw() {
     const sortDrpContainer = document.getElementById('sort_drop_down');
     sortDrpContainer.classList.toggle('active');
-    setOpenSort('active');
   }
 
   return (
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      {openSort === 'active' && (
-        <Sort type="button" onClick={showDrpDw} opened>
-          <div> Sort by </div> <img src={img} alt="sort icon" />
-          <SortDrpDw id="sort_drop_down" className="drop">
-            <ul>
-              <li>More Recent</li>
-              <li>Date</li>
-              <li>Progress </li>
-              <li>Category </li>
-              <li>Visibility </li>
-              <li>Timeline </li>
-            </ul>
-          </SortDrpDw>
-        </Sort>
-      )}
+      <Sort type="button" onClick={showDrpDw} opened>
+        <div> Sort by </div> <img src={img} alt="sort icon" />
+        <SortDrpDw id="sort_drop_down" className="drop">
+          <ul>
+            <li>More Recent</li>
+            <li>Date</li>
+            <li>Progress </li>
+            <li>Category </li>
+            <li>Visibility </li>
+            <li>Timeline </li>
+            <li>Visible </li>
+          </ul>
+        </SortDrpDw>
+      </Sort>
       ;
     </GridLayout>
   );
