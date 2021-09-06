@@ -128,10 +128,10 @@ exports.deleteGoal = catchAsync(async (req, res, next) => {
   const goalId = req.params.id;
 
   const collectionName = 'goals';
-  
+
   // Then, delete from zuri core
   // const url = `https://zccore.herokuapp.com/data/write/61330fcfbfba0a42d7f38e59/${collectionName}/${goalId}`;
-    await axios.delete(`https://zccore.herokuapp.com/data/write`, {
+    await axios.delete(`https://zccore.herokuapp.com`, {
     plugin_id: '61330fcfbfba0a42d7f38e59',
     organization_id: '1',
     collection_name: collectionName,
