@@ -6,7 +6,7 @@ const router = Router();
 const vision = require('../controllers/visionController');
 
 router.get('/', vision.getVision)
-router.post('/write', vision.createVision);
+router.post('/create', vision.createVision);
 router.patch('/:id', vision.updateVision);
 
 // export module
