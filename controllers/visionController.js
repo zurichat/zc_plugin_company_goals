@@ -3,12 +3,20 @@ const axios = require("axios");
 const catchAsync = require('../utils/catchAsync');
 
 // request to get the vision
-exports.getVision = catchAsync(async(req, res, next) => {
-  const vision = await axios.get(`https://test-zuri-core.herokuapp.com/crud/vision/find`);
-  
-  // Sending Responses
-  res.status(200).json({ status: 'success', data: { vision.body } }); 
+exports.getVision = catchAsync(async (req, res, next) => {
+  const baseUrl = 'https://zccore.herokuapp.com';
+  const pluginId = '61330fcfbfba0a42d7f38e59';
+  const collectionName = 'vision';
+  const organizationId = '1'; // Would be gotten from zuri main
+  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
+  try {
+  const result = await axios.get(url);
+  await res.status(result.status).json({ status: result.status, message: result.message });
+  } 
+  catch (error) {
+    res.status(500).json(error.message); 
+  }
 });
 
 exports.createVision = (req, res)=> {
