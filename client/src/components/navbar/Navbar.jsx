@@ -22,13 +22,16 @@ import {
   Header,
   HeaderText,
 } from './navbar.styled';
+import SearchInteractive from '../Searchinteractive/SearchInteractive';
 
 const Navbar = () => {
+  const [display, setDisplay] = useState(false)
   const [searchState, setSearchState] = useState('');
   const dispatch = useDispatch();
   const handleSearch = (event) => {
     const value = event.type === 'blur' ? '' : event.target.value;
     setSearchState(value);
+    setDisplay(true)
   };
   return (
     <div>
@@ -47,7 +50,7 @@ const Navbar = () => {
         <SearchContainer>
           <SearchIconStyled src={search} alt="search" />
           <SearchInput type="text" placeholder="Search" onChange={handleSearch} onBlur={handleSearch} />
-          {searchState && <SearchResults />}
+          {searchState && <SearchInteractive />}
         </SearchContainer>
 
         <SettingsIconStyled src={settings} alt="settting" />
