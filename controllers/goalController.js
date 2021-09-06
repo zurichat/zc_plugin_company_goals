@@ -122,3 +122,24 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   // Returns all archived goals
   res.status(200).json({ status: 200, message: 'success', data: archivedGoals});
 });
+
+exports.deleteGoal = catchAsync(async (req, res, next) => {
+  // Delete by Id
+  const goalId = req.params.id;
+
+  const collectionName = 'goals';
+
+  // Then, delete from zuri core
+  // const url = `https://zccore.herokuapp.com/data/write/61330fcfbfba0a42d7f38e59/${collectionName}/${goalId}`;
+    await axios.delete(`https://zccore.herokuapp.com`, {
+    plugin_id: '61330fcfbfba0a42d7f38e59',
+    organization_id: '1',
+    collection_name: collectionName,
+    bulk_write: false,
+    object_id: goalId,
+    filter: {},
+    payload: {}
+  })
+  // Response message.
+  return res.status(200).json("Goal deleted succefully");
+});
