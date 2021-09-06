@@ -26,3 +26,7 @@ export const Goal = styled.div`
   margin: 10px;
   box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
 `;
+export const GoalsDisplayContainer = styled.div`
+  flex-basis: 65%;
+  /* border: 1px solid green; */
+`;
