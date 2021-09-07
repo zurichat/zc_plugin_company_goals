@@ -11,7 +11,7 @@ export const FadedBg = styled.div `
   background: rgba(0, 0, 0, 0.5);
   overflow-x: hidden;
   z-index: 1;
-`;
+`;0
 export const DeleteModal = styled.div `
    width: 485px;
   height: 508px;
