@@ -4,7 +4,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { saveVision, showEditVisionModal } from 'redux/organizationVision.slice';
+import { saveVision, showEditVisionModal } from '../../../../redux/organizationVision.slice';
 
 import {
   EditVisionModal,
