@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-import React from 'react';
-
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -8,7 +5,7 @@ import NavName from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2.5fr;
+  grid-template-columns: 1fr 1fr 1fr 3fr;
   padding: 1rem;
   place-items: center;
 `;
@@ -92,6 +89,7 @@ const NavLayout = () => {
           </ul>
         </SortDrpDw>
       </Sort>
+      ;
     </GridLayout>
   );
 };

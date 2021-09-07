@@ -1,10 +1,6 @@
-import React from 'react';
-
-import styled from 'styled-components';
-
+import {Button, History, HeaderH3, Histories } from './history.styled.js';
 import HistoryItem from './historyItem';
-
-import {Row} from './Item';
+import Grid from '@material-ui/core/Grid';
 
 const history = [
   {
@@ -26,18 +22,17 @@ const history = [
 
 const HistoryList = () => {
   // Note: button will be changed to link after importing it from 'react-router-dom'
-
   return (
-    <div>
-      <Row>
-        <h3>History</h3>
-        <Button>View all</Button>
-      </Row>
-      <HistoryItem history={history} />
-    </div>
+    <History>
+        <Grid container direction="row" justifyContent="space-between" alignItems="flex-end">
+          <HeaderH3>History</HeaderH3>
+          <Button>View all</Button>
+        </Grid>
+        <Histories>
+          <HistoryItem history={history} />          
+        </Histories>
+    </History>
   );
 };
 
 export default HistoryList;
-
-
