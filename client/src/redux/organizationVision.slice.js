@@ -12,6 +12,7 @@ export const editVisionSlice = createSlice({
     },
     saveVision: (state, action) => {
       state.vision = action.payload;
+      state.showVisionModal = !state.showVisionModal;
     },
   },
 });
