@@ -18,10 +18,9 @@ export const TextBox = styled.textarea`
   font-size: 16px;
   border: none;
   outline: none;
-  backgroundcolor: white;
+  background-color: white;
   padding: 10px;
   resize: none;
-  ${'' /* width: 650px; */}
   width: 100%;
   box-sizing: border-box;
 `;
@@ -35,4 +34,5 @@ export const SaveBtn = styled.button`
   border-radius: 6px;
   cursor: pointer;
   float: right;
+  margin-right: 5px;
 `;

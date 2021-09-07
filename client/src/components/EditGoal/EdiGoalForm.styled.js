@@ -57,7 +57,7 @@ export const Title = styled.h5`
   font-family: Lato;
   font-weight: Bold;
   font-size: 21px;
-  color: ${(props) => props.titleColor};
+  color: ${(props) => (props.active ? '#00b87c' : '#999999')};
 `;
 
 export const Info = styled.p`
@@ -95,7 +95,7 @@ export const Button = styled.button`
 export const AccessButton = styled.button`
   display: inline-block;
   outline: none;
-  border: ${(props) => props.borderDetails};
+  border: ${(props) => (props.active ? '1px solid #00b87c' : '1px solid #999999')};
   border-radius: 8px;
   height: 8.5625rem;
   padding: 1rem 0;
