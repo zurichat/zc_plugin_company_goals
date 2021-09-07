@@ -1,4 +1,4 @@
-import OrganizationVisionEditModal from 'components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
+import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 import styled from 'styled-components';
 
 import SimpleModal from '../components/createGoal/CreateGoal';
