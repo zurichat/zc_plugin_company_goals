@@ -1,35 +1,28 @@
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { closeDeleteGoalModal } from '../../redux/deleteGoal.slice';
+import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
 
 const Deletemodal = () => {
+  const dispatch = useDispatch();
+  const showDeleteGoalModal = useSelector(({ deleteGoal }) => deleteGoal.showDeleteGoalModal);
   return (
-    <div className="faded-md">
-      <div className="modal">
-        <button className="cancel-modal" type="button">
-          X
-        </button>
-        <div className="image">
-          <img src={deleteDataImg.deleteImg} className="d-img1" alt="view" />
-          <img src={deleteDataImg.deleteimg2} className="d-img2" alt="view" />
-          <img src={deleteDataImg.deleteimg3} className="d-img3" alt="view" />
-          <img src={deleteDataImg.deleteimg3} className="d-img3-2" alt="view" />
-          <img src={deleteDataImg.deleteimg4} className="d-img4" alt="view" />
-          <img src={deleteDataImg.deleteimg5} className="d-img5" alt="view" />
-          <img src={deleteDataImg.deleteimg6} className="d-img6" alt="view" />
-          <img src={deleteDataImg.starimg} className="star-img" alt="view" />
-        </div>
-        <div className="delete-content">
-          <h2 className="delete-head">Delete Goal ? </h2>
-          <p className="delete-info">
+    <FadedBg className="faded" show={showDeleteGoalModal}>
+      <DeleteModal>
+        <XBtn onClick={() => dispatch(closeDeleteGoalModal())}>X</XBtn>
+        <Images>
+          <img src={deleteDataImg.trash} alt="trash" />
+        </Images>
+        <DeleteContent>
+          <DeleteHead className="delete-head">Delete Goal ? </DeleteHead>
+          <DeleteInfo>
             Clicking the proceed button means that people will no longer have access to view this goal.
-          </p>
-          <button type="submit" className="delete-btn">
-            Proceed
-          </button>
-        </div>
-      </div>
-    </div>
+          </DeleteInfo>
+          <DelButton type="submit">Proceed</DelButton>
+        </DeleteContent>
+      </DeleteModal>
+    </FadedBg>
   );
 };
 
