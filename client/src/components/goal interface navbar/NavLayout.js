@@ -1,7 +1,16 @@
+import { useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
 
-import img from './images/Group 2686.png';
-import NavName from './NavName';
+import NavName from 'components/goal_interface_navbar/NavName';
+
+import { AddIconStyled, Menu, MenuLink, MenuLink1 } from 'components/navbar/navbar.styled';
+
+import { toggleCreateGoalModalAction } from 'redux/toggleCreateGoalModal.slice';
+
+// import img from './images/Group 2686.png';
+
+// import NavName from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
@@ -10,63 +19,65 @@ const GridLayout = styled.div`
   place-items: center;
 `;
 
-const Sort = styled.button`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 89px;
-  height: 32px;
-  justify-self: flex-end;
-  border: 1px solid #00b87c;
-  background: #ffffff;
-  border-radius: 3px;
-  font-family: Lato;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  color: #00b87c;
-  cursor: pointer;
-  margin-right: 1rem;
-  position: relative;
-`;
+// const Sort = styled.button`
+//   display: flex;
+//   justify-content: space-evenly;
+//   align-items: center;
+//   width: 89px;
+//   height: 32px;
+//   justify-self: flex-end;
+//   border: 1px solid #00b87c;
+//   background: #ffffff;
+//   border-radius: 3px;
+//   font-family: Lato;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 12px;
+//   line-height: 20px;
+//   color: #00b87c;
+//   cursor: pointer;
+//   margin-right: 1rem;
+//   position: relative;
+// `;
 
-const SortDrpDw = styled.div`
-  height: 270px;
-  width: 185px;
+// const SortDrpDw = styled.div`
+//   height: 270px;
+//   width: 185px;
 
-  visibility: hidden;
-  opacity: 0;
+//   visibility: hidden;
+//   opacity: 0;
 
-  background-color: #fff;
-  position: absolute;
-  right: -170px;
-  bottom: -275px;
-  box-shadow: -2px -2px 3px 0 #95959548, 2px 2px 3px 0 #95959548;
-  border-radius: 5px;
-  padding: 7px;
-  transition: all 0.2s linear;
-  text-align: left;
+//   background-color: #fff;
+//   position: absolute;
+//   right: -170px;
+//   bottom: -275px;
+//   box-shadow: -2px -2px 3px 0 #95959548, 2px 2px 3px 0 #95959548;
+//   border-radius: 5px;
+//   padding: 7px;
+//   transition: all 0.2s linear;
+//   text-align: left;
 
-  ul {
-    color: #828282;
-    font-size: 18px;
-    list-style: none;
-    li {
-      padding: 3px;
-      margin: 15px 7px;
-    }
-  }
+//   ul {
+//     color: #828282;
+//     font-size: 18px;
+//     list-style: none;
+//     li {
+//       padding: 3px;
+//       margin: 15px 7px;
+//     }
+//   }
 
-  &.active {
-    right: 0px;
+//   &.active {
+//     right: 0px;
 
-    visibility: visible;
-    opacity: 1;
-    transition: all 0.2s linear;
-  }
-`;
+//     visibility: visible;
+//     opacity: 1;
+//     transition: all 0.2s linear;
+//   }
+// `;
 const NavLayout = () => {
+  const dispatch = useDispatch();
+
   function showDrpDw() {
     const sortDrpContainer = document.getElementById('sort_drop_down');
     sortDrpContainer.classList.toggle('active');
@@ -76,7 +87,14 @@ const NavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort type="button" onClick={showDrpDw}>
+      <Menu>
+        <MenuLink1 onClick={() => dispatch(toggleCreateGoalModalAction())}>
+          <AddIconStyled />
+          New Goal
+        </MenuLink1>
+        <MenuLink primary>Archived Goals</MenuLink>
+      </Menu>
+      {/* <Sort type="button" onClick={showDrpDw}>
         <div> Sort by </div> <img src={img} alt="sort icon" />
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
@@ -88,7 +106,7 @@ const NavLayout = () => {
             <li>Timeline </li>
           </ul>
         </SortDrpDw>
-      </Sort>
+      </Sort> */}
       ;
     </GridLayout>
   );

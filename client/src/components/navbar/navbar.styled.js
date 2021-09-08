@@ -8,8 +8,14 @@ export const Nav = styled.div`
   justify-content: flex-end;
   align-items: center;
   flex-wrap: wrap;
-  background: white;
-  height: 57px;
+  background: #e5e5e5;
+  height: 80px;
+`;
+
+export const TopBarContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const Menu = styled.div`
@@ -45,9 +51,9 @@ export const MenuLink1 = styled.a`
 `;
 export const SearchContainer = styled.div`
   background: #f0f0f0;
-  width: 20%;
+  width: 24.375rem;
   padding: 0 0 0 10px;
-  border-radius: 15px;
+  border-radius: 3px;
   position: relative;
   cursor: text;
 `;
@@ -79,14 +85,24 @@ export const SettingsIconStyled = styled.img`
   margin-left: 15px;
   cursor: pointer;
 `;
-export const Header = styled.h2`
-  background: #f6f6f6;
+
+export const ProfileImageContainer = styled.div`
+  margin-left: 1rem;
+`;
+export const Header = styled.div`
+  background: #00b87c;
   padding: 0.1rem;
-  margin-top: -10px;
+  /* margin-top: -10px; this made the company goal overlap */
+  height: 81px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 `;
 
 export const HeaderText = styled.h1`
-  color: black;
+  color: white;
   font-size: 30px;
-  padding-top: 12px;
+  width: 100%;
+  margin-left: 1rem;
 `;
