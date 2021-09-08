@@ -56,6 +56,10 @@ export const SearchContainer = styled.div`
   border-radius: 3px;
   position: relative;
   cursor: text;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 export const AddIconStyled = styled(AddIcon)`
   font-size: 1.2rem;
@@ -70,6 +74,10 @@ export const SearchInput = styled.input`
   width: 80%;
   margin-left: 35px;
   font-size: 13px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const SearchIconStyled = styled.img`
