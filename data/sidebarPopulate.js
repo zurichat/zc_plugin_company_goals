@@ -2,8 +2,8 @@ const { uuid } = require('uuidv4');
 
 
 const sidebarOptions = {
-    name : "Todo Plugin",
-    description : "Shows todo items",
+    name : "Company Goals Plugin",
+    description : "Shows company goals items",
     plugin_id : "61330fcfbfba0a42d7f38e59",
     organisation_id : "1",
     user_id : "1234",
@@ -12,7 +12,7 @@ const sidebarOptions = {
     
     joined_rooms: [
       {
-        title: "general",
+        title: "quarterly",
         id: uuid(),
         unread: 2,
         members: 23,
@@ -20,7 +20,7 @@ const sidebarOptions = {
         action : "open"
       },
       {
-        title: "announcements",
+        title: "annually",
         id: uuid(),
         unread: 0,
         badge_type: "info",
@@ -32,7 +32,7 @@ const sidebarOptions = {
     ],
     public_rooms: [
       {
-        title: "jokes",
+        title: "general",
         id: uuid(),
         unread: 342,
         members: 32,
