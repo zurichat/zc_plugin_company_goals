@@ -3,12 +3,13 @@ import styled from 'styled-components';
 
 import SimpleModal from '../components/createGoal/CreateGoal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
+import DeleteConfirmationModal from '../components/DeleteConfirmation/DeleteConfirmationModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-
 import EditMission from '../components/Modal/EditMisssion';
 import Nav from '../components/navbar/Navbar';
+
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Deletemodal />
       <BasicModal />
       <OrganizationVisionEditModal />
+      <DeleteConfirmationModal/>
       <PluginSide>
         <Nav />
         <MissionVisionContainer />

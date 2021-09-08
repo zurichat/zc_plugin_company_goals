@@ -28,13 +28,13 @@ export const DeleteHead = styled.h2`
   font-family: 'Lato', sans-serif;
   text-align: center;
   margin-bottom: 1rem;
-  color: #29429a;
+  color: #242424;
 `;
 export const DeleteInfo = styled.p`
   font-size: 12px;
   line-height: 163.42%;
-  width: 300px;
-  color: #000;
+  width: 350px;
+  color: #393939;
   margin: 0 auto;
   font-family: 'Lato', sans-serif;
 `;
