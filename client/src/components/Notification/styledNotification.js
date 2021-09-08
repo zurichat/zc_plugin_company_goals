@@ -79,6 +79,7 @@ export const FlexColumn = styled.section`
   ${(props) =>
     props.items &&
     `border-left: 1px solid #ebebeb;padding-left: 12px;
+    margin-bottom: 1rem;
     `};
 
   ${(props) => props.backgroundWhite && `background: #fff;`};
