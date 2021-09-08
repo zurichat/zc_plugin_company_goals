@@ -1,24 +1,36 @@
+import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 import styled from 'styled-components';
-import AppHeader from '../components/header/Header';
+
+import SimpleModal from '../components/createGoal/CreateGoal';
+import Deletemodal from '../components/Deletemodal/Deletemodal';
+import BasicModal from '../components/EditGoal/EditGoal';
+import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
+
+import EditMission from '../components/Modal/EditMisssion';
 import Nav from '../components/navbar/Navbar';
 
 function App() {
   return (
-    <div>
-      <AppHeader />
+    <>
+      <SimpleModal />
+      <Deletemodal />
+      <BasicModal />
+      <OrganizationVisionEditModal />
       <PluginSide>
         <Nav />
+        <MissionVisionContainer />
         <Mainside />
+        <EditMission />
       </PluginSide>
-    </div>
+    </>
   );
 }
 
 export default App;
 
 const PluginSide = styled.div`
-  width: 70%;
-  float: right;
+  width: 100%;
   background-color: #f6f6f6;
+  padding-bottom: 20px;
 `;

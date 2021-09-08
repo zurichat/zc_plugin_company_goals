@@ -1,24 +1,64 @@
+// eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
 
-const Mainside = () => {
+import GetGoals from '../getGoals/getGoals';
+
+import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
+import HistoryList from '../history/historyList';
+import Menuoption from '../Menuoption/Menuoption';
+import UnAchiveModal from "../UnAchivedGoals/UnAchiveModal"
+
+import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+
+function Mainside() {
   return (
-    <MainContainer>
-      <Goal>{/*  goal components i.e create goal component go inside this component  */}</Goal>
-      <Goal primary>{/* goal tools like calendar, reports  .. go inside this component  */}</Goal>
-    </MainContainer>
+    <Main>
+      <GoalsDisplayContainer>
+        <GoalsNavLayout />
+        <Goal>
+          <Menuoption />
+          <GetGoals />
+        </Goal>
+      </GoalsDisplayContainer>
+      <GoalsReportAndNotificationContainer>
+        <ReportsAndNotificationContainer />
+        <HistoryList />
+        {/* <Goal primary>
+          <Report />
+          <Notification />
+        </Goal> */}
+      </GoalsReportAndNotificationContainer>
+    </Main>
   );
-};
+}
 
 export default Mainside;
 
-const MainContainer = styled.div`
+const Main = styled.div`
   display: flex;
-  margin-right: 2rem;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 3.22rem;
+  /* border: 1px solid yellow; */
+`;
+
+const GoalsDisplayContainer = styled.div`
+  flex-basis: 65%;
+  /* border: 1px solid green; */
+`;
+
+const GoalsReportAndNotificationContainer = styled.div`
+  /* border: 1px solid blue; */
+  flex-basis: 34%;
 `;
 const Goal = styled.div`
   flex: 1;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 0;
   background: red;
-  background: ${(props) => (props.primary ? 'black' : 'green')};
+  background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
-  margin-right: ${(props) => (props.primary ? '0' : '20px')};
+  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
 `;
