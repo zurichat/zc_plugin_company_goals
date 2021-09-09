@@ -54,7 +54,7 @@ app.use(compression());
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
 app.use('/ping', rateLimiter(), pingRouter);
-app.use('/sidebar', rateLimiter(), sidebarRouter);
+app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/vision', visionRouter);
 app.use('/api/mission', missionRouter);
