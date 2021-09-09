@@ -1,6 +1,8 @@
 import React from 'react';
+
 import styled from 'styled-components';
-import noImage from '../../Images/g1632.png';
+
+import noImage from '../../Images/png/g1632.png';
 
 const Section = styled.section`
   background-color: #ffffff;
