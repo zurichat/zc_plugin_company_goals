@@ -1,14 +1,13 @@
 // eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
-
+import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
+import InnerNav from 'components/goal_interface_inner_header/InnerNav';
 import GetGoals from '../getGoals/getGoals';
-
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import HistoryList from '../history/historyList';
 import Menuoption from '../Menuoption/Menuoption';
-import UnAchiveModal from "../UnAchivedGoals/UnAchiveModal"
-
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 function Mainside() {
   return (
@@ -16,8 +15,10 @@ function Mainside() {
       <GoalsDisplayContainer>
         <GoalsNavLayout />
         <Goal>
-          <Menuoption />
-          <GetGoals />
+          <InnerNav />
+          <EmptyGoal />
+          {/* <Menuoption /> */}
+          {/* <GetGoals /> */}
         </Goal>
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>
@@ -56,7 +57,7 @@ const Goal = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 50px 0;
+  /* padding: 50px 0; */
   background: red;
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
