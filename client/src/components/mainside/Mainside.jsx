@@ -1,11 +1,8 @@
 // eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
 
-<<<<<<< HEAD
 import GoalDetailAccordion from 'components/GoalDetailAccordion/GoalDetails';
 
-=======
->>>>>>> b8c8f441977bca196a96f8fd6cd41f439e69e641
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 
@@ -18,26 +15,22 @@ function Mainside() {
   return (
     <Main>
       <GoalsDisplayContainer>
-        <GoalsNavLayout />
-<<<<<<< HEAD
-        <Goal>
-          <Menuoption />
+        {/* <GoalsNavLayout /> */}
+          {/* <Menuoption /> */}
           <GoalDetailAccordion />
-        </Goal>
-=======
+        
         {/* <Goal> //Goal container isnt needed for the GoalItem again.
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
         {/* //PS => The repition of the Goal Item is only temporary */}
+        {/* <GoalItem />
         <GoalItem />
         <GoalItem />
         <GoalItem />
         <GoalItem />
         <GoalItem />
         <GoalItem />
-        <GoalItem />
-        <GoalItem />
->>>>>>> b8c8f441977bca196a96f8fd6cd41f439e69e641
+        <GoalItem /> */}
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />

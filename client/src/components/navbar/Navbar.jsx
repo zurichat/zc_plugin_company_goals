@@ -8,11 +8,6 @@ import search from '../../Images/svg/search.svg';
 import settings from '../../Images/svg/settings.svg';
 
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
-<<<<<<< HEAD
-import SearchResults from '../searchBarDisplay/Search';
-=======
-
->>>>>>> b8c8f441977bca196a96f8fd6cd41f439e69e641
 import SearchInteractive from '../Searchinteractive/SearchInteractive';
 import {
   Nav,

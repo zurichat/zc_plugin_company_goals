@@ -6,15 +6,15 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import { makeStyles } from '@material-ui/core/styles';
 // import Typography from '@material-ui/core/Typography';
 
-import GetGoals from 'components/getGoals/getGoals';
+import GoalItem from 'components/Goals/GoalItem';
 
 import GoalDetailData from './GoalDetailData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-        width: '100%',
-        marginTop: 0,
-        zIndex: 0
+    width: '100%',
+    marginTop: 0,
+    zIndex: 0,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -39,7 +39,7 @@ export default function GoalDetailAccordion() {
     <div className={classes.root}>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-          <GetGoals />
+          <GoalItem />
         </AccordionSummary>
         <AccordionDetails style={{ height: '50%' }}>
           <GoalDetailData />
@@ -47,7 +47,7 @@ export default function GoalDetailAccordion() {
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-          <GetGoals />
+          <GoalItem />
         </AccordionSummary>
         <AccordionDetails style={{ height: '50%' }}>
           <GoalDetailData />
@@ -55,7 +55,7 @@ export default function GoalDetailAccordion() {
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-          <GetGoals />
+          <GoalItem />
         </AccordionSummary>
         <AccordionDetails style={{ height: '50%' }}>
           <GoalDetailData />
@@ -63,7 +63,7 @@ export default function GoalDetailAccordion() {
       </Accordion>
       <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-          <GetGoals />
+          <GoalItem />
         </AccordionSummary>
         <AccordionDetails style={{ height: '50%' }}>
           <GoalDetailData />
