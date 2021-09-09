@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 
-import search from '../../Images/search.svg';
-import settings from '../../Images/settings.svg';
+import search from '../../Images/svg/search.svg';
+import settings from '../../Images/svg/settings.svg';
 
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
-import SearchResults from '../searchBarDisplay/Search';
+
+import SearchInteractive from '../Searchinteractive/SearchInteractive';
 import {
   Nav,
   Menu,
@@ -22,7 +23,6 @@ import {
   Header,
   HeaderText,
 } from './navbar.styled';
-import SearchInteractive from '../Searchinteractive/SearchInteractive';
 
 const Navbar = () => {
   const [display, setDisplay] = useState(false)
