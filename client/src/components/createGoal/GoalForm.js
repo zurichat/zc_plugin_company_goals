@@ -1,5 +1,7 @@
 import React from 'react';
+
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+
 import {
   Goal,
   Form,
