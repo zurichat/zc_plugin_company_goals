@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const {createRoom}  = require("../controllers/roomController");
+const {createRoom,joinRoom}  = require("../controllers/roomController");
 
 // Create a room
 router.route("/").get(createRoom);
+router.route('/join').get(joinRoom);
 
 module.exports = router;
