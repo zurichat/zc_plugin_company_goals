@@ -16,7 +16,6 @@ import {
   Section,
 } from './styledNotification';
 
-import { GridList } from '@material-ui/core';
 
 let notifyAlerts = [
   {

@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const ParentTab = styled.div`
-  margin: 20px;
-  width: 95%;
+  width: 100%;
   background-color: #ffffff;
   height: 100%;
+  justify-content: center;
 `;
 
 export const InnerParentTab = styled.div`
@@ -12,8 +12,8 @@ export const InnerParentTab = styled.div`
   background-color: #ffffff;
   height: 100px;
   display: flex;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
+  /* border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb; */
 `;
 
 export const TitleTag = styled.div`
@@ -23,7 +23,7 @@ export const TitleTag = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+
 `;
 
 export const Tags = styled.div`

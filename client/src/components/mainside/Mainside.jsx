@@ -1,13 +1,11 @@
 // eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
 
-import GetGoals from '../getGoals/getGoals';
+import GoalDetailAccordion from 'components/GoalDetailAccordion/GoalDetails';
 
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import HistoryList from '../history/historyList';
 import Menuoption from '../Menuoption/Menuoption';
-import UnAchiveModal from "../UnAchivedGoals/UnAchiveModal"
-
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 
 function Mainside() {
@@ -17,7 +15,7 @@ function Mainside() {
         <GoalsNavLayout />
         <Goal>
           <Menuoption />
-          <GetGoals />
+          <GoalDetailAccordion />
         </Goal>
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>

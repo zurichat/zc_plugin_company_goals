@@ -1,5 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+import { device } from './device';
+
 export const GlobalStyles = createGlobalStyle`
 ::-webkit-scrollbar {
   width: 8px;
@@ -28,6 +30,11 @@ export const Goal = styled.div`
   padding: 1.5rem;
   margin: 0 auto;
   width: 85%;
+
+  @media only screen and (${device.tablet}) {
+    width: 100% !important;
+    margin: 0 !important;
+  }
 `;
 
 export const Form = styled.form`
@@ -103,6 +110,7 @@ export const AccessButton = styled.button`
   margin-right: 5rem;
   background-color: #fff;
   color: #999999;
+
 `;
 
 export const CreateButton = styled.div`
