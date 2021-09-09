@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { v4: uuidv4 } = require('uuid');
 const catchAsync = require('../utils/catchAsync')
-const {insertOne} = require("../db/databaseHelper");
+const {insertOne,deleteOne, find} = require("../db/databaseHelper");
 
 const roomSchema = Joi.object({
     id:Joi.string().required().messages({
@@ -45,10 +45,32 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
 
-  const roomuser = await insertOne('roomusers', { room_id, user_id });
+  //check that user isnt already in the room
+  let roomuser = await find('roomusers',{room_id,user_id})
+
+  if(roomuser.data.length <=0)
+  {
+     roomuser = await insertOne('roomusers', { room_id, user_id });
+  }
+  
+
 
   res.status(201).json({
     status: 'success',
     data: roomuser.data,
   });
 });
+
+
+exports.removeUserFromRoom = catchAsync(async (req,res,next)=> {
+    const { room_id, user_id } = req.query;
+
+    await userSchema.validateAsync({ room_id, user_id });
+
+    const response = await deleteOne('roomusers',{user_id,room_id})
+
+    res.status(201).json({
+      status: 'success',
+      data: response.data,
+    });
+})

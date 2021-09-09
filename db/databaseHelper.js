@@ -50,6 +50,25 @@ exports.findById = async (collectionName, id) => {
   }
 };
 
+exports.find = async (collectionName,filter) =>{
+  try {
+    const { plugin_id, organization_id } = payload;
+
+    let url = `${URL}/read/${plugin_id}/${collectionName}/${organization_id}?`
+
+    const allKeys = Object.keys(filter)
+    allKeys.forEach((key)=>{
+      url+=`${key}=${filter[key]}&`
+    })
+
+    url = url.substr(0,url.length-1)
+
+    const response = await axios.get(url);
+    return response;
+  } catch (error) {
+    throw new AppError(`find by id operation failed: ${error}`, 500);
+  }
+}
 
 exports.updateOne = async (collectionName, data,filter, id=null) => {
   try {
@@ -83,4 +102,43 @@ exports.updateMany = async (collectionName, data,filter) => {
 };
 
 
+exports.deleteOne = async(collectionName,filter, id=null)=>{
+  try {
+
+    payload.collection_name = collectionName;
+    payload.filter = filter
+    payload.object_id = id
+
+    console.log(payload,URL)
+
+    const response = await axios({
+      method: 'delete',
+      url: `${URL}/write`,
+      data: payload
+    });
+    return response;
+  } catch (error) {
+    console.log(error)
+    throw new AppError(`Update One operation failed: ${error}`, 500);
+  }
+}
+
+exports.deleteMany = async(collectionName,filter)=>{
+  try {
+  
+    payload.collection_name = collectionName;
+    payload.filter = filter
+    payload.bulk_write = true
+
+    const response = await axios({
+      method: 'delete',
+      url: `${URL}/write`,
+      data: payload
+    });
+
+    return response;
+  } catch (error) {
+    throw new AppError(`Update One operation failed: ${error}`, 500);
+  }
+}
 
