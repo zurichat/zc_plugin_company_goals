@@ -1,8 +1,5 @@
 const axios = require('axios');
-<<<<<<< HEAD
-=======
 const Joi = require('joi');
->>>>>>> ad421859ed36a302a0b967510e9d7f8ce334533f
 
 const catchAsync = require('../utils/catchAsync');
 

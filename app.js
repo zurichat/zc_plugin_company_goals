@@ -3,10 +3,13 @@ const path = require('path');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+
+dotenv.config();
 
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -14,6 +17,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
 const missionRouter = require('./routes/missionRoute.js');
+const visionRouter = require('./routes/visionRoutes');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
 
@@ -50,9 +54,10 @@ app.use(compression());
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
 app.use('/ping', rateLimiter(), pingRouter);
-app.use('/sidebar', rateLimiter(), sidebarRouter);
+app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/get-mission', missionRouter);
+app.use('/api/vision', visionRouter);
+app.use('/api/mission', missionRouter);
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

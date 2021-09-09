@@ -1,12 +1,11 @@
 {
-
   "name": "zc_plugin_company_goals",
   "version": "1.0.0",
   "main": "server.js",
   "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
   "type": "commonjs",
   "scripts": {
-    "client:build": "npm run build --prefix client",
+    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false npm run build --prefix client",
     "client:dev": "npm start --prefix client",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client:dev\"",
     "server": "nodemon server.js",
@@ -17,8 +16,8 @@
   "author": "Team Plato",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
-    "joi": "^17.4.2",
+    "axios": "^0.21.4",
+    "centrifuge": "^2.8.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -26,7 +25,9 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.3.0",
     "helmet": "^4.6.0",
+    "joi": "^17.4.2",
     "morgan": "^1.10.0",
+    "uuidv4": "^6.2.12",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
   },
@@ -56,5 +57,4 @@
   "engines": {
     "node": "^14"
   }
-
 }

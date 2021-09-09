@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -31,12 +29,6 @@ const Sort = styled.button`
   cursor: pointer;
   margin-right: 1rem;
   position: relative;
-  /* button{
-  background: transparent;
-  border: none;
-  color: #00b87c;
-  
-} */
 `;
 
 const SortDrpDw = styled.div`
@@ -54,7 +46,7 @@ const SortDrpDw = styled.div`
   border-radius: 5px;
   padding: 7px;
   transition: all 0.2s linear;
-  text-align:left;
+  text-align: left;
 
   ul {
     color: #828282;
@@ -97,6 +89,7 @@ const NavLayout = () => {
           </ul>
         </SortDrpDw>
       </Sort>
+      ;
     </GridLayout>
   );
 };
