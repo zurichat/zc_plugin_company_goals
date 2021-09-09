@@ -22,7 +22,7 @@ exports.createRoom = catchAsync(async (req, res, next) => {
     // Validate the body
     await roomSchema.validateAsync({id, organization_id,title});
 
-    const room = await insertOne("rooms", {id, organization_id,title,users: []});
+    const room = await insertOne("rooms", {id, organization_id,title});
 
     res.status(201).json({
         status: "success",

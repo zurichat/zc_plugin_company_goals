@@ -109,8 +109,6 @@ exports.deleteOne = async(collectionName,filter, id=null)=>{
     payload.filter = filter
     payload.object_id = id
 
-    console.log(payload,URL)
-
     const response = await axios({
       method: 'delete',
       url: `${URL}/write`,
@@ -118,7 +116,6 @@ exports.deleteOne = async(collectionName,filter, id=null)=>{
     });
     return response;
   } catch (error) {
-    console.log(error)
     throw new AppError(`Update One operation failed: ${error}`, 500);
   }
 }
