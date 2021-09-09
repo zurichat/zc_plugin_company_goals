@@ -16,7 +16,8 @@
   "author": "Team Plato",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
+    "centrifuge": "^2.8.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -26,6 +27,7 @@
     "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "morgan": "^1.10.0",
+    "uuidv4": "^6.2.12",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
   },
