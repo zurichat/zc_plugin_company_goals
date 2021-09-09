@@ -1,24 +1,31 @@
 // eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
 
-import GetGoals from '../getGoals/getGoals';
-
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
+import GoalItem from '../Goals/GoalItem';
+
 import HistoryList from '../history/historyList';
 import Menuoption from '../Menuoption/Menuoption';
-import UnAchiveModal from "../UnAchivedGoals/UnAchiveModal"
-
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+
 
 function Mainside() {
   return (
     <Main>
       <GoalsDisplayContainer>
         <GoalsNavLayout />
-        <Goal>
-          <Menuoption />
-          <GetGoals />
-        </Goal>
+        {/* <Goal> //Goal container isnt needed for the GoalItem again.
+          <Menuoption /> //whoever is setting up can enable this and see how it looks.
+        </Goal> */}
+        {/* //PS => The repition of the Goal Item is only temporary */}
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />
