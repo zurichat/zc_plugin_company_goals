@@ -34,19 +34,16 @@ const userSchema = Joi.object({
   room_id: Joi.string().required().messages({
     'any.required': 'room id is required',
   }),
-  organization_id: Joi.string().required().messages({
-    'any.required': 'organization id is required',
-  }),
   user_id: Joi.string().required().messages({
     'any.required': 'user id is required',
   }),
 });
 
 exports.joinRoom = catchAsync(async (req, res, next) => {
-  const { room_id, organization_id, user_id } = req.query;
+  const { room_id, user_id } = req.query;
 
   // Validate the body
-  await userSchema.validateAsync({ room_id, organization_id, user_id });
+  await userSchema.validateAsync({ room_id, user_id });
 
   const roomuser = await insertOne('roomusers', { room_id, user_id });
 
