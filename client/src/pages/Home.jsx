@@ -20,12 +20,12 @@ function App() {
       <BasicModal />
       <DeleteSuccessModal />
       <OrganizationVisionEditModal />
-      {/* <PluginSide>
+      <PluginSide>
         <Nav />
         <MissionVisionContainer />
         <Mainside />
         <EditMission />
-      </PluginSide> */}
+      </PluginSide>
     </>
   );
 }
