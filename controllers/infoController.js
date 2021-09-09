@@ -1,5 +1,3 @@
-const { request, response } = require('express');
-
 const pluginInfo = require('../data/pluginInfo.json');
 
 /**
@@ -9,6 +7,6 @@ const pluginInfo = require('../data/pluginInfo.json');
  */
 
 const getPluginInfo = (req, res) => {
-  res.status(200).json(pluginInfo);
+  return res.status(200).json(pluginInfo);
 };
 module.exports = getPluginInfo;
