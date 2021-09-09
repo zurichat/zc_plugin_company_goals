@@ -2,10 +2,11 @@
 import styled from 'styled-components';
 import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
 import InnerNav from 'components/goal_interface_inner_header/InnerNav';
-import GetGoals from '../getGoals/getGoals';
+// import GetGoals from '../getGoals/getGoals';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
+import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
-import Menuoption from '../Menuoption/Menuoption';
+// import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
@@ -20,6 +21,18 @@ function Mainside() {
           {/* <Menuoption /> */}
           {/* <GetGoals /> */}
         </Goal>
+        {/* <Goal> //Goal container isnt needed for the GoalItem again.
+          <Menuoption /> //whoever is setting up can enable this and see how it looks.
+        </Goal> */}
+        {/* //PS => The repition of the Goal Item is only temporary */}
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
+        <GoalItem />
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />
