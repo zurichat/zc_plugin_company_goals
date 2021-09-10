@@ -6,7 +6,7 @@ const limiter = (maxNumOfRequests = 100, timeToReEntry = 60) =>
     max: maxNumOfRequests,
     windowMs: timeToReEntry * 60 * 1000,
     message: `Too many request from this IP, please try again in ${(timeToReEntry * 60 * 1000) / 1000} minutes`,
-    handler: function (req, res) {
+    handler: (req, res) => {
       res.status(this.statusCode).json({ status: 'fail', message: this.message });
     },
   });

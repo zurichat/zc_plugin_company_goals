@@ -1,7 +1,8 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
 const Joi = require('joi');
-
 const catchAsync = require('../utils/catchAsync');
 
 const schema = Joi.object({

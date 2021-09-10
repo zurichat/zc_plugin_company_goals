@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 const axios = require('axios');
 const Joi = require('joi');
-
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
@@ -53,7 +53,7 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
   const result = await axios.get(url, { params: { _id: goalId } });
   const status = result.status || 200;
   const {data} = result;
-  res.status(status).json({ data: data });
+  res.status(status).json({ data });
 });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
@@ -141,5 +141,5 @@ exports.deleteGoal = catchAsync(async (req, res, next) => {
     payload: {}
   })
   // Response message.
-  return res.status(200).json("Goal deleted succefully");
+  return res.status(200).json('Goal deleted succefully');
 });
