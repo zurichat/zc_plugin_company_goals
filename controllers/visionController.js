@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
 /* eslint-disable no-unused-vars */
 const axios = require('axios');
-const Joi = require('joi');
+const {visionSchema } = require('../schemas');
 
 // this module is used to handle the vision
 const catchAsync = require('../utils/catchAsync');
@@ -11,11 +11,6 @@ const collectionName = 'vision';
 const pluginId = '61330fcfbfba0a42d7f38e59';
 const baseUrl = 'https://zccore.herokuapp.com';
 
-// Schema
-const schema = Joi.object({
-  title: Joi.string().required(),
-  body: Joi.string().required(),
-});
 
 // request to get the vision
 exports.getAllVision = async (req, res, next) => {
@@ -51,7 +46,7 @@ exports.getSingleVision = catchAsync(async (req, res, next) => {
 
 exports.createVision = catchAsync(async (req, res, next) => {
   // Validate data type from req.body is consistent with schema
-  await schema.validateAsync(req.body);
+  await visionSchema.validateAsync(req.body);
 
   const vision = await axios.post(`https://zccore.herokuapp.com/data/write`, {
     plugin_id: pluginId,
