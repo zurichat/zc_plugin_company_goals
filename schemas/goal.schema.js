@@ -1,27 +1,27 @@
 const goalSchema = {
-  type: "object",
+  type: 'object',
   properties: {
-    title: { type: "String" },
-    description: { type: "String" },
-    weeklyGoal: { type: "Boolean" },
-    monthlyGoal: { type: "Boolean" },
-    quarterlyGoal: { type: "Boolean" },
-    biannualGoal: { type: "Boolean" },
-    annualGoal: { type: "Boolean" },
-    createdBy: { type: "String" },
+    title: { type: 'String' },
+    description: { type: 'String' },
+    weeklyGoal: { type: 'Boolean' },
+    monthlyGoal: { type: 'Boolean' },
+    quarterlyGoal: { type: 'Boolean' },
+    biannualGoal: { type: 'Boolean' },
+    annualGoal: { type: 'Boolean' },
+    createdBy: { type: 'String' },
     createdAt: {
-      type: "timestamp",
+      type: 'timestamp',
       metadata: {
-        instanceof: "Date",
+        instanceof: 'Date',
       },
     },
     updatedAt: {
-      type: "timestamp",
+      type: 'timestamp',
       metadata: {
-        instanceof: "Date",
+        instanceof: 'Date',
       },
     },
-    required: ["title", "description", "createdBy"],
+    required: ['title', 'description', 'createdBy'],
     additionalProperties: false,
   },
 };

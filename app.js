@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 const path = require('path');
 
 const compression = require('compression');
@@ -17,11 +18,10 @@ const globalErrorHandler = require('./controllers/errorController');
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
 const missionRouter = require('./routes/missionRoute.js');
-const visionRouter = require('./routes/visionRoutes');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
 const roomRouter = require('./routes/roomRoute');
-
+const visionRouter = require('./routes/visionRoutes');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
