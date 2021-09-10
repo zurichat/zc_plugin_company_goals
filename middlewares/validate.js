@@ -1,7 +1,6 @@
 const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response, NextFunction } = require('express');
-
 const catchAsync = require('../utils/catchAsync');
 
 /**

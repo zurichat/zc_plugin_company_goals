@@ -1,3 +1,5 @@
+/* eslint-disable import/order */
+/* eslint-disable no-unused-vars */
 const axios = require('axios');
 const {visionSchema } = require('../schemas');
 
