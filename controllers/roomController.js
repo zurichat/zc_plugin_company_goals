@@ -40,6 +40,26 @@ const userSchema = Joi.object({
   }),
 });
 
+exports.getAllRooms = catchAsync(async (req, res, next) => {
+  //const {organization_id,title} = req.query;
+
+  const rooms = await findAll('rooms');
+
+
+  if(rooms.data.length == 0){
+    res.status(404).json({status: "failed", message: "Room List is empty ", data: null})
+  }
+
+  if(rooms.data.length >= 1){
+    res.status(200).json({status: "success", message: "Room List found", data: rooms.data})
+  }
+
+  else{
+    res.status(500).json({message: "Server Error, Try again"})
+  }
+
+});
+
 exports.joinRoom = catchAsync(async (req, res, next) => {
   const { room_id, user_id, organization_id } = req.query;
 
