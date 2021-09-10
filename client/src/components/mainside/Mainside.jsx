@@ -6,6 +6,7 @@ import GetGoals from '../getGoals/getGoals';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import HistoryList from '../history/historyList';
 import Menuoption from '../Menuoption/Menuoption';
+import UnAchiveModal from "../UnAchivedGoals/UnAchiveModal"
 
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 

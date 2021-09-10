@@ -1,3 +1,4 @@
+import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 import styled from 'styled-components';
 
 import SimpleModal from '../components/createGoal/CreateGoal';
@@ -7,7 +8,6 @@ import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 
 import EditMission from '../components/Modal/EditMisssion';
-import EditVision from '../components/Modal/EditVision';
 import Nav from '../components/navbar/Navbar';
 
 function App() {
@@ -16,12 +16,12 @@ function App() {
       <SimpleModal />
       <Deletemodal />
       <BasicModal />
+      <OrganizationVisionEditModal />
       <PluginSide>
         <Nav />
         <MissionVisionContainer />
         <Mainside />
         <EditMission />
-        <EditVision />
       </PluginSide>
     </>
   );
