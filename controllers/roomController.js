@@ -78,6 +78,19 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
 });
 
 
+exports.getRoom = catchAsync(async (req, res, next) => {
+  const { room_id } = req.query;
+
+  const room = await find('rooms', { id: room_id })
+  const { data } = room.data
+  if (data.length < 1) {
+    return res.status(404).send({message: `room ${room_id} does not exist`})
+  }
+  return res.status(200).json(room.data);
+});
+
+
+
 exports.removeUserFromRoom = catchAsync(async (req,res,next)=> {
     const { room_id, user_id, organization_id } = req.query;
 
