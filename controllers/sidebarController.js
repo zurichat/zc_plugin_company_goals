@@ -1,6 +1,7 @@
 const sidebarOptions = require('../data/sidebarPopulate');
 const catchAsync = require('../utils/catchAsync');
-
+const {findAll, find} = require('../db/databaseHelper')
+const AppError = require('../utils/appError')
 
 
 const readSidebar = catchAsync(async (req, res, next) => {
@@ -10,4 +11,7 @@ const readSidebar = catchAsync(async (req, res, next) => {
     return res.status(403).send({ message: 'error', data: "bad request"});
   }
 });
+
+
+
 module.exports = readSidebar;
