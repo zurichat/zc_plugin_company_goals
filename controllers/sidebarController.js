@@ -9,13 +9,14 @@ exports.readSidebar = catchAsync(async (req, res) => {
   const joined_rooms = [];
   const details = [];
 
-  const { user: user_id } = req.query;
+  const { user: user_id, org:organization_id} = req.query;
 
-  const findUserRooms = await find('roomusers', { user_id });
+  const findUserRooms = await find('roomusers', { user_id },organization_id);
 
   const { data: userRooms } = findUserRooms.data;
 
   // if user does not have a room, return an error.
+
 
   if (userRooms.length < 1) {
     return res.status(404).send({ message: `User ${user_id} has not joined any room` });
@@ -29,12 +30,12 @@ exports.readSidebar = catchAsync(async (req, res) => {
 
   // get all the rooms in the goals plugin
 
-  const getAllrooms = await findAll('rooms');
+  const getAllrooms = await find('rooms',{organization_id},organization_id);
 
   const { data: allRoomsArr } = getAllrooms.data;
 
   // get all the room users in the goals plugin
-  const findRoomUsers = await findAll('roomusers');
+  const findRoomUsers = await findAll('roomusers',organization_id);
   const { data: roomUsersArr } = findRoomUsers.data;
 
   // run a loop to find and populate the details of the room ids the user entered into
@@ -66,8 +67,8 @@ exports.readSidebar = catchAsync(async (req, res) => {
     name: 'Company Goals Plugin',
     description: 'Shows company goals items',
     plugin_id: '61330fcfbfba0a42d7f38e59',
-    organisation_id: '1',
-    user_id: '1234',
+    organisation_id: organization_id,
+    user_id,
     group_name: 'Goals',
     show_group: false,
     joined_rooms,
