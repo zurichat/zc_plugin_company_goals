@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-
 import deleteGoalReducer from './deleteGoal.slice';
 import newGoalReducer from './newGoalSlice';
 import visionReducer from './organizationVision.slice';
