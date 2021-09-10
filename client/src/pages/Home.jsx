@@ -1,15 +1,18 @@
-import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 import styled from 'styled-components';
-
+import Design from 'components/Dropdown/Design';
+import MenuOption from 'components/Dropdown/MenuOption';
+import Mobile from 'components/Dropdown/Mobile';
+import MobilePrivate from 'components/Dropdown/MobilePrivate';
 import SimpleModal from '../components/createGoal/CreateGoal';
-
-import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
+// eslint-disable-next-line import/no-unresolved
+import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import EditMission from '../components/Modal/EditMisssion';
 import Nav from '../components/navbar/Navbar';
+import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 
 
 function App() {
@@ -26,6 +29,10 @@ function App() {
         <Mainside />
         <EditMission />
       </PluginSide>
+      <Design />
+      <MenuOption />
+      <Mobile />
+      <MobilePrivate />
     </>
   );
 }
