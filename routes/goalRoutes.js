@@ -1,5 +1,5 @@
+/* eslint-disable no-unused-vars */
 const { Router } = require('express');
-
 const { getSingleGoal, getAllGoals, createGoals, updateSingleGoalById, getArchivedGoals, deleteGoal } = require('../controllers/goalController');
 
 
@@ -13,13 +13,9 @@ router.route('/').get(getAllGoals);
 
 // router.route('/:id').get(getSingleGoal).delete(deleteGoal)
 
-<<<<<<< Updated upstream
-router.put('/update/:id', updateSingleGoalById);
-=======
 router.route('/:id').get(getSingleGoal);
 
 
 // router.put('/update/:id', updateSingleGoalById);
->>>>>>> Stashed changes
 
 module.exports = router;

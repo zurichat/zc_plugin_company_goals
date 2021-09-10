@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 const axios = require('axios');
-const Joi = require('joi');
-
+const {goalsSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
@@ -10,20 +10,10 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({ data: goals.data })
 });
 
-const schema = Joi.object({
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  monthlyGoal: Joi.string().required(),
-  quarterlyGoal: Joi.string().required(),
-  biannualGoal: Joi.string().required(),
-  annualGoal: Joi.string().required(),
-  achieved: Joi.boolean().required(),
-  createdBy: Joi.date().required(),
-});
 
 exports.createGoals = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
-  await schema.validateAsync(req.body);
+  await goalsSchema.validateAsync(req.body);
 
   // Fake API
   // https://api.zuri.chat/data/write
@@ -53,7 +43,7 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
   const result = await axios.get(url, { params: { _id: goalId } });
   const status = result.status || 200;
   const {data} = result;
-  res.status(status).json({ data: data });
+  res.status(status).json({ data });
 });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
@@ -141,5 +131,5 @@ exports.deleteGoal = catchAsync(async (req, res, next) => {
     payload: {}
   })
   // Response message.
-  return res.status(200).json("Goal deleted succefully");
+  return res.status(200).json('Goal deleted succefully');
 });

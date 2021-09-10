@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable no-unused-vars */
+const { request, response } = require('express');
+>>>>>>> e7b8cc8f5d34a3b18a2a983985ff31f68e59c17a
 const pluginInfo = require('../data/pluginInfo.json');
 
 /**
