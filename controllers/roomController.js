@@ -28,7 +28,7 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
   
   const {organization_id} = req.query;
 
-  const rooms = await find('rooms',{organization_id});
+  const rooms = await find('rooms',{organization_id},organization_id);
 
 
   if(rooms.data.data.length == 0){
@@ -52,14 +52,14 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
   await userSchema.validateAsync({ room_id, user_id });
 
   // check that the room_id is valid
-  const room = await find('rooms',{id:room_id,organization_id})
+  const room = await find('rooms',{id:room_id,organization_id},organization_id)
 
   if(room.data.data.length<=0)
   {
     return next(new AppError('Room not found',404))
   }
   // check that user isnt already in the room
-  let roomuser = await find('roomusers',{room_id,user_id})
+  let roomuser = await find('roomusers',{room_id,user_id},organization_id)
 
   if(roomuser.data.data.length >0)
   {
