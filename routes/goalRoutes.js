@@ -1,5 +1,5 @@
+/* eslint-disable no-unused-vars */
 const { Router } = require('express');
-
 const { getSingleGoal, getAllGoals, createGoals, updateSingleGoalById, getArchivedGoals, deleteGoal } = require('../controllers/goalController');
 
 const router = Router();
