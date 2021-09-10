@@ -2,6 +2,7 @@ const Joi = require('joi');
 const { v4: uuidv4 } = require('uuid');
 const catchAsync = require('../utils/catchAsync')
 const {insertOne} = require("../db/databaseHelper");
+const { joined_rooms } = require('../data/sidebarPopulate');
 
 const roomSchema = Joi.object({
     id:Joi.string().required().messages({
@@ -52,3 +53,11 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     data: roomuser.data,
   });
 });
+
+exports.getUsersInRoom = catchAsync(async(req, res, next) => {
+  const { room_id } = req.query;
+  joined_rooms.forEach((e) => {
+    if(room_id === e.id) return res.status(201).json({ status:'success', data: e.members })
+    // else return res.status(500).json({ status: ""})
+  })
+})
