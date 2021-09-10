@@ -1,5 +1,4 @@
 const { Router } = require('express');
-
 const getPluginInfo = require('../controllers/infoController');
 
 const router = Router();

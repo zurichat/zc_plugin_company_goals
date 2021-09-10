@@ -1,44 +1,28 @@
-const Joi = require('joi');
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
-const catchAsync = require('../utils/catchAsync')
-const {insertOne,deleteOne, find} = require("../db/databaseHelper");
+const {insertOne,deleteOne, find} = require('../db/databaseHelper');
+const { roomSchema, userSchema } = require('../schemas');
 const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
-const roomSchema = Joi.object({
-    id:Joi.string().required().messages({
-        "any.required":"uuid of the room is required"
-    }),
-    title:Joi.string().required().messages({
-        "any.required":"title of the room is required"
-    }),
-    organization_id:Joi.string().required().messages({
-        "any.required":"organization id is required"
-    }),
-})
 
 exports.createRoom = catchAsync(async (req, res, next) => {
     const {organization_id,title} = req.query;
-    id = uuidv4();
+    const id = uuidv4();
 
     // Validate the body
     await roomSchema.validateAsync({id, organization_id,title});
 
-    const room = await insertOne("rooms", {id, organization_id,title},organization_id);
+    const room = await insertOne('rooms', {id, organization_id,title},organization_id);
 
     res.status(201).json({
-        status: "success",
+        status: 'success',
         data: room.data
     })
 });
 
-const userSchema = Joi.object({
-  room_id: Joi.string().required().messages({
-    'any.required': 'room id is required',
-  }),
-  user_id: Joi.string().required().messages({
-    'any.required': 'user id is required',
-  }),
-});
+
 
 exports.getAllRooms = catchAsync(async (req, res, next) => {
   //const {organization_id,title} = req.query;
@@ -66,14 +50,14 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
 
-  //check that the room_id is valid
+  // check that the room_id is valid
   const room = await find('rooms',{id:room_id,organization_id})
 
   if(room.data.data.length<=0)
   {
     return next(new AppError('Room not found',404))
   }
-  //check that user isnt already in the room
+  // check that user isnt already in the room
   let roomuser = await find('roomusers',{room_id,user_id})
 
   if(roomuser.data.data.length >0)
