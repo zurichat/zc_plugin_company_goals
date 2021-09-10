@@ -2,6 +2,7 @@ const Joi = require('joi');
 const { v4: uuidv4 } = require('uuid');
 const catchAsync = require('../utils/catchAsync')
 const {insertOne,deleteOne, find} = require("../db/databaseHelper");
+const AppError = require('../utils/appError');
 
 const roomSchema = Joi.object({
     id:Joi.string().required().messages({
@@ -45,13 +46,23 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
 
+  //check that the room_id is valid
+  const room = await find('rooms',{id:room_id})
+
+  if(room.data.data.length<=0)
+  {
+    return next(new AppError('Room not found',404))
+  }
   //check that user isnt already in the room
   let roomuser = await find('roomusers',{room_id,user_id})
 
-  if(roomuser.data.length <=0)
+  if(roomuser.data.data.length >0)
   {
-     roomuser = await insertOne('roomusers', { room_id, user_id });
+    return next(new AppError('user already in room',400))
   }
+
+  roomuser = await insertOne('roomusers', { room_id, user_id });
+
   
 
 
