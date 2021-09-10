@@ -76,8 +76,8 @@ const NavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort type="button" onClick={showDrpDw}>
-        <div> Sort by </div> <img src={img} alt="sort icon" />
+      <Sort type="button">
+        <div> Sort by </div> onClick={showDrpDw} <img src={img} alt="sort icon" />
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
             <li>More Recent</li>

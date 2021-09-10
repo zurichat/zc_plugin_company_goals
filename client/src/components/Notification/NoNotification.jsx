@@ -1,13 +1,15 @@
 import React from 'react';
+
 import styled from 'styled-components';
-import noImage from '../../Images/g1632.png';
+
+import noImage from '../../Images/png/g1632.png';
 
 const Section = styled.section`
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 352px;
+  width: 100%;
   height: 295px;
   flex-direction: column;
   font-weight: 400;

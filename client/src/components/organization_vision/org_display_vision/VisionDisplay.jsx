@@ -5,8 +5,8 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useStyles } from 'hooks/screenSize';
-import { showEditVisionModal } from 'redux/organizationVision.slice';
+import { useStyles } from '../../../hooks/screenSize';
+import { showEditVisionModal } from '../../../redux/organizationVision.slice';
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();

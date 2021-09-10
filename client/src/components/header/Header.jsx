@@ -9,11 +9,11 @@ import AddIcon from '@material-ui/icons/Add';
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useDispatch } from 'react-redux';
 
-import DisplayOrganizationVision from 'components/organization_vision/org_display_vision/VisionDisplay';
 
 import { useStyles } from '../../hooks/screenSize';
 
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
+import DisplayOrganizationVision from '../organization_vision/org_display_vision/VisionDisplay';
 
 const Header = () => {
   const dispatch = useDispatch();
