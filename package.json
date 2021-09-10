@@ -5,13 +5,15 @@
   "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
   "type": "commonjs",
   "scripts": {
-    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false npm run build --prefix client",
-    "client:dev": "npm start --prefix client",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client:dev\"",
+    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false yarn run build --prefix client",
+    "client:dev": "yarn start --prefix client",
+    "dev": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run client:dev\"",
     "server": "nodemon server.js",
     "server:prod": "cross-env NODE_ENV=production nodemon server.js",
     "start": "node server.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier -w .",
+    "lint": "eslint "
   },
   "author": "Team Plato",
   "license": "MIT",
@@ -27,6 +29,7 @@
     "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "morgan": "^1.10.0",
+    "uuid": "^8.3.2",
     "uuidv4": "^6.2.12",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"

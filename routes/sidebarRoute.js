@@ -1,5 +1,4 @@
 const { Router } = require('express');
-
 const readSidebar = require('../controllers/sidebarController.js');
 
 const router = Router();
