@@ -23,18 +23,19 @@ exports.createRoom = catchAsync(async (req, res, next) => {
 });
 
 
-
+//gets all rooms for an organization
 exports.getAllRooms = catchAsync(async (req, res, next) => {
-  //const {organization_id,title} = req.query;
+  
+  const {organization_id} = req.query;
 
-  const rooms = await findAll('rooms');
+  const rooms = await find('rooms',{organization_id});
 
 
-  if(rooms.data.length == 0){
+  if(rooms.data.data.length == 0){
     res.status(404).json({status: "failed", message: "Room List is empty ", data: null})
   }
 
-  if(rooms.data.length >= 1){
+  if(rooms.data.data.length >= 1){
     res.status(200).json({status: "success", message: "Room List found", data: rooms.data})
   }
 
