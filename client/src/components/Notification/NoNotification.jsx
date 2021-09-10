@@ -9,7 +9,7 @@ const Section = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 352px;
+  width: 100%;
   height: 295px;
   flex-direction: column;
   font-weight: 400;

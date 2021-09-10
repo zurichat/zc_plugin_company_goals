@@ -1,9 +1,7 @@
 const { Router } = require('express');
+const vision = require('../controllers/visionController');
 
 const router = Router();
-
-// require vision controller
-const vision = require('../controllers/visionController');
 
 router.get('/all', vision.getAllVision)
 router.get('/:id', vision.getSingleVision)
