@@ -30,7 +30,7 @@ const publish=async (channel, data)=> {
 
 const test = (req, res) => {
   try {
-    publish('test', 'this is a test');
+    publish('goalstest', 'this is a test');
     res.send('check front end');
   } catch (error) {
     res.send('error')
