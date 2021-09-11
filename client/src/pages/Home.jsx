@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 import SimpleModal from '../components/createGoal/CreateGoal';
 
-import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
+// import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import EditMission from '../components/Modal/EditMisssion';
 import Nav from '../components/navbar/Navbar';
-
+import MainNav from 'components/MainNav/MainNav';
 
 function App() {
   return (
@@ -18,10 +18,10 @@ function App() {
       <SimpleModal />
       <Deletemodal />
       <BasicModal />
-      <DeleteSuccessModal />
+      {/* <DeleteSuccessModal /> */}
       <OrganizationVisionEditModal />
       <PluginSide>
-        <Nav />
+        <MainNav />
         <MissionVisionContainer />
         <Mainside />
         <EditMission />
