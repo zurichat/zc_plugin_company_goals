@@ -10,9 +10,9 @@ exports.readSidebar = catchAsync(async (req, res) => {
   const public_rooms = [];
   const details = [];
 
-  const { user: user_id } = req.query;
+  const { user: user_id, org:organization_id } = req.query;
 
-  const findUserRooms = await find('roomusers', { user_id });
+  const findUserRooms = await find('roomusers', { user_id },organization_id);
 
   const { data: userRooms } = findUserRooms.data;
 
@@ -24,11 +24,11 @@ exports.readSidebar = catchAsync(async (req, res) => {
     return room.room_id;
   });
 
-  const getAllrooms = await findAll('rooms');
+  const getAllrooms = await find('rooms',{organization_id},organization_id);
 
   const { data: allRoomsArr } = getAllrooms.data;
 
-  const findRoomUsers = await findAll('roomusers');
+  const findRoomUsers = await findAll('roomusers',organization_id);
   const { data: roomUsersArr } = findRoomUsers.data;
 
   for (let i = 0; i < allRoomsArr.length; i++) {

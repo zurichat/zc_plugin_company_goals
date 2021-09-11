@@ -14,9 +14,9 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   // Validate the body
   await roomSchema.validateAsync({ id, organization_id, title, isPrivate });
 
-  // check if room already exists
+  // check if room already exists in this organization
 
-  const alreadyExists = await find('rooms', { title });
+  const alreadyExists = await find('rooms', { title,organization_id },organization_id);
 
   const { data: itExists } = alreadyExists.data;
 
