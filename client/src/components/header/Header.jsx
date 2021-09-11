@@ -1,34 +1,48 @@
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Container, Button, Box, TextField } from '@material-ui/core';
+import { Button, Box, Typography } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
 
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { useSelector, useDispatch } from 'react-redux';
+// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { useDispatch } from 'react-redux';
 
-import { showEditVisionModal } from '../../redux/organizationVision.slice';
+
+import { useStyles } from '../../hooks/screenSize';
+
 import { showEditMissionModal } from '../../redux/showEditMissionModal';
+import DisplayOrganizationVision from '../organization_vision/org_display_vision/VisionDisplay';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
+
+  // eslint-disable-next-line no-unused-vars
+  const [isAdmin] = useState(true);
+
+  const classes = useStyles();
+
   return (
-    <Container>
-      <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
-        <Box>
-          <Box
-            container
-            display="flex"
-            style={{
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '3px solid #00B87C',
-            }}
-          >
-            <Button style={{ fontWeight: 'bold' }}>Mission</Button>
+    <Box
+      className={classes.root}
+      display="flex"
+      justifyContent="space-between"
+      style={{ marginTop: 50, marginLeft: '1em', marginRight: '3em', width: '95vw' }}
+    >
+      <Box>
+        <Box
+          container
+          className={classes.root.work}
+          display="flex"
+          style={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderBottom: '3px solid #00B87C',
+          }}
+        >
+          <Button style={{ fontWeight: 'bold' }}>Mission</Button>
+          {isAdmin && (
             <Button
               startIcon={<AddIcon />}
               style={{ fontWeight: 'bold' }}
@@ -36,50 +50,14 @@ const Header = () => {
             >
               Edit Mission
             </Button>
-          </Box>
-          <TextField
-            placeholder="Training A Million Youths Yearly"
-            variant="outlined"
-            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
-          />
+          )}
         </Box>
-        <Box>
-          <Box
-            container
-            display="flex"
-            style={{
-              fontWeight: 'bold',
-              width: 500,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '3px solid #00B87C',
-            }}
-          >
-            <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-            <div>
-              <Button
-                startIcon={<AddIcon />}
-                style={{ fontWeight: 'bold' }}
-                onClick={() => dispatch(showEditVisionModal())}
-              >
-                Edit Vision
-              </Button>
-              <span>
-                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
-                  <ExpandLessIcon />
-                </Button>
-              </span>
-            </div>
-          </Box>
-          <TextField
-            placeholder="Tech Hub Builder"
-            value={visionText}
-            variant="outlined"
-            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
-          />
-        </Box>
+        <Typography className={classes.root} style={{ padding: 12, backgroundColor: 'white' }}>
+          Training A Million Youths Yearly
+        </Typography>
       </Box>
-    </Container>
+      <DisplayOrganizationVision />
+    </Box>
   );
 };
 export default Header;

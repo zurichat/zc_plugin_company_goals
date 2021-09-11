@@ -1,16 +1,14 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
-const Joi = require('joi');
+const {missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
-const schema = Joi.object({
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-});
 
 exports.createMission = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
-  await schema.validateAsync(req.body);
+  await missionSchema.validateAsync(req.body);
 
   // Fake API
   // https://api.zuri.chat/data/write

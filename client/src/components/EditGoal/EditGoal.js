@@ -10,6 +10,7 @@ import { GlobalStyles } from './EdiGoalForm.styled';
 
 import EditGoalForm from './EditGoalForm';
 
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
