@@ -1,12 +1,16 @@
+/* eslint-disable import/order */
 const path = require('path');
 
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+
+dotenv.config();
 
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -16,7 +20,9 @@ const pluginInfoRouter = require('./routes/infoRoute');
 const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
-
+const roomRouter = require('./routes/roomRoute');
+const userRouter = require('./routes/userRoute');
+const visionRouter = require('./routes/visionRoutes');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
@@ -49,10 +55,13 @@ app.use(compression());
 
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
+app.use('/api/v1/rooms', rateLimiter(), roomRouter);
+app.use('/api/v1/users', rateLimiter(), userRouter);
 app.use('/ping', rateLimiter(), pingRouter);
-app.use('/sidebar', rateLimiter(), sidebarRouter);
+app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/get-mission', missionRouter);
+app.use('/api/vision', visionRouter);
+app.use('/api/mission', missionRouter);
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

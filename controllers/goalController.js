@@ -1,67 +1,71 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const axios = require('axios');
-const Joi = require('joi');
-
+const { find, findAll, findById, insertOne, deleteOne, updateOne } = require('../db/databaseHelper');
+const {goalsSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
-const schema = Joi.object({
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  monthlyGoal: Joi.string().required(),
-  quarterlyGoal: Joi.string().required(),
-  biannualGoal: Joi.string().required(),
-  annualGoal: Joi.string().required(),
-  achieved: Joi.boolean().required(),
-  createdBy: Joi.date().required(),
+exports.getAllGoals = catchAsync(async (req, res, next) => {
+  // Search for all Goals
+  const goals = await findAll('goals')
+
+  // Returning Response
+  res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
 });
 
 exports.createGoals = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
-  const data = await schema.validateAsync(req.body);
+  await goalsSchema.validateAsync(req.body);
 
-  const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
-  /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
-    plugin_id: 'xxx',
-    organization_id: 'xxx',
-    collection_name: 'goals',
-    bulk_write: false,
-    payload: req.body,
-  }); */
-  //console.log(goals);
-  // Sending Responses
-  res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
+  // Creating a new goal
+  const goals = await insertOne('goals', req.body)
+
+  // Returning Responses
+  res.status(200).json(goals.data);
 });
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
-  const goalId = req.params.id;
-  const collectionName = 'goals';
+  // Search for Single Goal by Id
+  const goal = await findById('goals', req.params.id)
 
-  // for zuri core live API
-  // const baseUrl = 'https://zccore.herokuapp.com';
-  // const pluginId = '2333434324defef34';
-  // const organizationId = '333feafdefwd34434';
-  // const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
-
-  // fake API
-  const url = `https://test-zuri-core.herokuapp.com/crud/${collectionName}/find-one`;
-  const result = await axios.get(url, { data: { filter: { _id: goalId } } });
-  res.status(200).json(result.data);
+  // Returning Response
+  res.status(200).json({ status: 200, message: 'success', data: goal.data.data });
 });
 
-exports.createGoal = catchAsync(async(req, res, next)=>{
-
-  await res.status(201).send({message: "Success, Goal Created", data:{
-    "title": "Goal",
-    "description": "This is a quarterly goal",
-    "weeklyGoal": "false",
-    "monthlyGoal": "false",
-    "quarterlyGoal":"true",
-    "biannualGoal": "false",
-    "annualGoal": "false",
-    "achieved": "false",
-    "createdBy": "HR",
-    "createdAt": "Wed Sep 3 2020 01:00:00 GMT+0100(WAT)",
-    "updatedAt": "Wed Sep 3 2020 01:00:00 GMT+0100(WAT)"
-  }})
-
+exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
+  // First, Get the goalId from req.params
+  const goalId = req.params.id;
   
-})
+  // Then, send update to zuri core
+  const updatedGoal = await updateOne(collectionName='goals', data=req.body, filter={}, id=goalId)
+
+
+  // send the updated goal to client.
+  return res.status(200).json(updatedGoal.data);
+});
+
+exports.getArchivedGoals = catchAsync(async (req, res, next) => {
+
+  // Gets archived goals
+  const goals = await find('goals', {achieved: false});
+
+  // Condition if there are no archivedd goals
+  if (goals.data.data.length < 1) {
+    goals.data.data = 'No archived goals yet.'
+  }
+
+  // Return Response
+  res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+});
+
+exports.deleteGoal = catchAsync(async (req, res, next) => {
+  // First, Get the goalId from req.params
+  const goalId = req.params.id;
+  
+  // Then, delete the goal.
+  await deleteOne(collectionName='goals', data=req.body, filter={}, id=goalId)
+
+
+  // Then send a response message back to the client.
+  return res.status(200).json('Goal deleted successfully.');
+});
