@@ -11,7 +11,7 @@ const catchAsync = require('../utils/catchAsync');
  */
 const getUserRooms = async (req, res) => {
   const userRoomsDetails = [];
-  const { user_id, organization_id } = req;
+  const { user_id, organization_id } = req.query;
 
   // Get all rooms in the organization
   const {
@@ -32,8 +32,8 @@ const getUserRooms = async (req, res) => {
 
   // Collect connected rooms details into array
   userRoomIDS.forEach((id) => {
-    const index = orgRooms.find((room) => room.id === id);
-    userRoomsDetails.push(orgRooms[index]);
+    const roomObj = orgRooms.find((room) => room.id === id);
+    if (roomObj) userRoomsDetails.push(roomObj);
   });
 
   res.status(200).json({ rooms: userRoomsDetails });
