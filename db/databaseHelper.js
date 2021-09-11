@@ -1,8 +1,9 @@
-const { URL, payload } = require('../utils/config').DATABASE;
+/* eslint-disable camelcase */
 const axios = require('axios');
 const AppError = require('../utils/appError');
+const { URL, payload } = require('../utils/config').DATABASE;
 
-exports.insertOne = async (collectionName, data,organization_id='1') => {
+exports.insertOne = async (collectionName, data, organization_id='1') => {
   try {
     const newPayload = { ...payload };
     newPayload.collection_name = collectionName;
@@ -16,7 +17,7 @@ exports.insertOne = async (collectionName, data,organization_id='1') => {
   }
 };
 
-exports.insertMany = async (collectionName, data,organization_id='1') => {
+exports.insertMany = async (collectionName, data, organization_id='1') => {
   try {
     payload.collection_name = collectionName;
     payload.payload = data;
@@ -30,7 +31,7 @@ exports.insertMany = async (collectionName, data,organization_id='1') => {
   }
 };
 
-exports.findAll = async (collectionName,organization_id='1') => {
+exports.findAll = async (collectionName, organization_id='1') => {
   try {
     const { plugin_id } = payload;
 
@@ -41,7 +42,7 @@ exports.findAll = async (collectionName,organization_id='1') => {
   }
 };
 
-exports.findById = async (collectionName, id,organization_id='1') => {
+exports.findById = async (collectionName, id, organization_id='1') => {
   try {
 
     const { plugin_id } = payload;
@@ -54,7 +55,7 @@ exports.findById = async (collectionName, id,organization_id='1') => {
   }
 };
 
-exports.find = async (collectionName,filter,organization_id='1') =>{
+exports.find = async (collectionName, filter, organization_id='1') =>{
   try {
     const { plugin_id } = payload;
 
@@ -76,7 +77,7 @@ exports.find = async (collectionName,filter,organization_id='1') =>{
   }
 }
 
-exports.updateOne = async (collectionName, data,filter, organization_id='1' ,id=null) => {
+exports.updateOne = async (collectionName, data, filter, organization_id='1', id=null) => {
   try {
 
     payload.collection_name = collectionName;
@@ -93,7 +94,7 @@ exports.updateOne = async (collectionName, data,filter, organization_id='1' ,id=
 };
 
 
-exports.updateMany = async (collectionName, data,filter, organization_id='1') => {
+exports.updateMany = async (collectionName, data, filter, organization_id='1') => {
     try {
   
       payload.collection_name = collectionName;
@@ -110,7 +111,7 @@ exports.updateMany = async (collectionName, data,filter, organization_id='1') =>
 };
 
 
-exports.deleteOne = async(collectionName,filter, organization_id='1',id=null)=>{
+exports.deleteOne = async(collectionName, filter, organization_id='1',id=null)=>{
   try {
 
     payload.collection_name = collectionName;
@@ -129,7 +130,7 @@ exports.deleteOne = async(collectionName,filter, organization_id='1',id=null)=>{
   }
 }
 
-exports.deleteMany = async(collectionName,filter,organization_id='1')=>{
+exports.deleteMany = async(collectionName, filter, organization_id='1')=>{
   try {
   
     payload.collection_name = collectionName;
