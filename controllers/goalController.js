@@ -19,7 +19,7 @@ const schema = Joi.object({
   annualGoal: Joi.string().required(),
   achieved: Joi.boolean().required(),
   createdBy: Joi.date().required(),
-});
+}); 
 
 exports.createGoals = catchAsync(async (req, res, next) => {
   // Validating each property against their data type
