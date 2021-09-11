@@ -2,16 +2,17 @@ const Joi = require('joi');
 
 // room schema
 exports.roomSchema = Joi.object({
-    id:Joi.string().required().messages({
-        'any.required':'uuid of the room is required'
-    }),
-    title:Joi.string().required().messages({
-        'any.required':'title of the room is required'
-    }),
-    organization_id:Joi.string().required().messages({
-        'any.required':'organization id is required'
-    }),
-})
+  id: Joi.string().required().messages({
+    'any.required': 'uuid of the room is required',
+  }),
+  title: Joi.string().required().messages({
+    'any.required': 'title of the room is required',
+  }),
+  organization_id: Joi.string().required().messages({
+    'any.required': 'organization id is required',
+  }),
+  isPrivate: Joi.boolean().optional()
+});
 
 // user schema
 exports.userSchema = Joi.object({

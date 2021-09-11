@@ -8,18 +8,35 @@ const catchAsync = require('../utils/catchAsync');
 
 
 exports.createRoom = catchAsync(async (req, res, next) => {
-    const {organization_id,title} = req.query;
-    const id = uuidv4();
+  const { organization_id, title, isPrivate } = req.query;
+  const id = uuidv4();
 
-    // Validate the body
-    await roomSchema.validateAsync({id, organization_id,title});
+  // Validate the body
+  await roomSchema.validateAsync({ id, organization_id, title, isPrivate });
 
-    const room = await insertOne('rooms', {id, organization_id,title},organization_id);
+  // check if room already exists
 
-    res.status(201).json({
-        status: 'success',
-        data: room.data
-    })
+  const alreadyExists = await find('rooms', { title });
+
+  const { data: itExists } = alreadyExists.data;
+
+  if (itExists.length > 0) {
+    return res.status(400).json({ message: `Room with the title: ${title} already exists` });
+  }
+
+  const room = await insertOne('rooms', { id, organization_id, title, private: isPrivate }, organization_id);
+
+  if (isPrivate) {
+    return res.status(201).json({
+      status: 'success',
+      message: 'added private channel',
+      data: { private: isPrivate, ...room.data },
+    });
+  }
+  return res.status(201).json({
+    status: 'success',
+    data: room.data,
+  });
 });
 
 
