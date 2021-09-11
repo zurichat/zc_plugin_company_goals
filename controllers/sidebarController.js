@@ -11,7 +11,7 @@ exports.readSidebar = catchAsync(async (req, res) => {
 
   const { user: user_id, org:organization_id} = req.query;
 
-  const findUserRooms = await find('roomusers', { user_id },organization_id);
+  const findUserRooms = await find('roomusers', { user_id }, organization_id);
 
   const { data: userRooms } = findUserRooms.data;
 
@@ -30,12 +30,12 @@ exports.readSidebar = catchAsync(async (req, res) => {
 
   // get all the rooms in the goals plugin
 
-  const getAllrooms = await find('rooms',{organization_id},organization_id);
+  const getAllrooms = await find('rooms', {organization_id}, organization_id);
 
   const { data: allRoomsArr } = getAllrooms.data;
 
   // get all the room users in the goals plugin
-  const findRoomUsers = await findAll('roomusers',organization_id);
+  const findRoomUsers = await findAll('roomusers', organization_id);
   const { data: roomUsersArr } = findRoomUsers.data;
 
   // run a loop to find and populate the details of the room ids the user entered into
