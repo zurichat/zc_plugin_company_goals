@@ -8,22 +8,39 @@ const catchAsync = require('../utils/catchAsync');
 
 
 exports.createRoom = catchAsync(async (req, res, next) => {
-    const {organization_id,title} = req.query;
-    const id = uuidv4();
+  const { organization_id, title, isPrivate } = req.query;
+  const id = uuidv4();
 
-    // Validate the body
-    await roomSchema.validateAsync({id, organization_id,title});
+  // Validate the body
+  await roomSchema.validateAsync({ id, organization_id, title, isPrivate });
 
-    const room = await insertOne('rooms', {id, organization_id,title},organization_id);
+  // check if room already exists in this organization
 
-    res.status(201).json({
-        status: 'success',
-        data: room.data
-    })
+  const alreadyExists = await find('rooms', { title,organization_id },organization_id);
+
+  const { data: itExists } = alreadyExists.data;
+
+  if (itExists.length > 0) {
+    return res.status(400).json({ message: `Room with the title: ${title} already exists` });
+  }
+
+  const room = await insertOne('rooms', { id, organization_id, title, private: isPrivate }, organization_id);
+
+  if (isPrivate) {
+    return res.status(201).json({
+      status: 'success',
+      message: 'added private channel',
+      data: { private: isPrivate, ...room.data },
+    });
+  }
+  return res.status(201).json({
+    status: 'success',
+    data: room.data,
+  });
 });
 
 
-//gets all rooms for an organization
+// gets all rooms for an organization
 exports.getAllRooms = catchAsync(async (req, res, next) => {
   
   const {organization_id} = req.query;
@@ -31,16 +48,16 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
   const rooms = await find('rooms',{organization_id},organization_id);
 
 
-  if(rooms.data.data.length == 0){
-    res.status(404).json({status: "failed", message: "Room List is empty ", data: null})
+  if(rooms.data.data.length === 0){
+    res.status(404).json({status: 'failed', message: 'Room List is empty ', data: null})
   }
 
   if(rooms.data.data.length >= 1){
-    res.status(200).json({status: "success", message: "Room List found", data: rooms.data})
+    res.status(200).json({status: 'success', message: 'Room List found', data: rooms.data})
   }
 
   else{
-    res.status(500).json({message: "Server Error, Try again"})
+    res.status(500).json({message: 'Server Error, Try again'})
   }
 
 });
@@ -76,6 +93,19 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     data: roomuser.data,
   });
 });
+
+
+exports.getRoom = catchAsync(async (req, res, next) => {
+  const { room_id } = req.query;
+
+  const room = await find('rooms', { id: room_id })
+  const { data } = room.data
+  if (data.length < 1) {
+    return res.status(404).send({message: `room ${room_id} does not exist`})
+  }
+  return res.status(200).json(room.data);
+});
+
 
 
 exports.removeUserFromRoom = catchAsync(async (req,res,next)=> {

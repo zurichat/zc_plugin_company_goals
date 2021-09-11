@@ -1,19 +1,20 @@
 const Joi = require('joi');
 
-//room schema
+// room schema
 exports.roomSchema = Joi.object({
-    id:Joi.string().required().messages({
-        "any.required":"uuid of the room is required"
-    }),
-    title:Joi.string().required().messages({
-        "any.required":"title of the room is required"
-    }),
-    organization_id:Joi.string().required().messages({
-        "any.required":"organization id is required"
-    }),
-})
+  id: Joi.string().required().messages({
+    'any.required': 'uuid of the room is required',
+  }),
+  title: Joi.string().required().messages({
+    'any.required': 'title of the room is required',
+  }),
+  organization_id: Joi.string().required().messages({
+    'any.required': 'organization id is required',
+  }),
+  isPrivate: Joi.boolean().optional()
+});
 
-//user schema
+// user schema
 exports.userSchema = Joi.object({
     room_id: Joi.string().required().messages({
       'any.required': 'room id is required',
@@ -23,7 +24,7 @@ exports.userSchema = Joi.object({
     }),
 });
 
-//goals schema
+// goals schema
 exports.goalsSchema = Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
@@ -35,13 +36,13 @@ exports.goalsSchema = Joi.object({
     createdBy: Joi.date().required(),
 });
 
-//mission schema
+// mission schema
 exports.missionSchema = Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
 });
   
-//vision schema
+// vision schema
 exports.visionSchema = Joi.object({
     title: Joi.string().required(),
     body: Joi.string().required(),
