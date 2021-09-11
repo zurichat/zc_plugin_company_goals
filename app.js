@@ -54,7 +54,7 @@ app.use(xss());
 app.use(compression());
 
 // Api routes
-app.use('/api/v1/goals', rateLimiter(), goalRouter);
+app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
 app.use('/api/v1/users', rateLimiter(), userRouter);
 app.use('/ping', rateLimiter(), pingRouter);

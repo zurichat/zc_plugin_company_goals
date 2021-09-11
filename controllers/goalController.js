@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-const axios = require('axios');
+const { v4: uuidv4 } = require('uuid');
 const { find, findAll, findById, insertOne, deleteOne, updateOne } = require('../db/databaseHelper');
 const {goalsSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
@@ -13,16 +13,45 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
 });
 
+
+
 exports.createGoals = catchAsync(async (req, res, next) => {
-  // Validating each property against their data type
-  await goalsSchema.validateAsync(req.body);
+  try {
 
-  // Creating a new goal
-  const goals = await insertOne('goals', req.body)
+    console.log("step one")
+    const goal = req.body;
+    console.log(goal, "step two")
+    const roomId = uuidv4();
+    console.log(roomId, "step three")
+    const { goal_name: goalName } = req.body;
+    console.log(goalName, "step four")
+     await goalsSchema.validateAsync(req.body);
+console.log("step five")
+    const findGoal = await find('goals', { goal_name: goalName });
+console.log(findGoal, "step six")
+    const { data: foundGoal } = findGoal.data;
 
-  // Returning Responses
-  res.status(200).json(goals.data);
+    console.log(foundGoal)
+
+    if (foundGoal.length > 0) {
+      return res.status(400).send({message: `Goal with the title: ${goalName} already exists`})
+    }
+    
+    const goals = await insertOne('goals', { roomId, goal });
+    
+  
+    res.status(200).json({ status: 'success', ...goals.data, roomId, goal });
+
+  } catch (err) {
+    if (err) {
+      return res.status(400).json({error: err.details });
+    } 
+  }
 });
+
+
+
+
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   // Search for Single Goal by Id
