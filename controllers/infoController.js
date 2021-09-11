@@ -1,5 +1,5 @@
+/* eslint-disable no-unused-vars */
 const { request, response } = require('express');
-
 const pluginInfo = require('../data/pluginInfo.json');
 
 /**

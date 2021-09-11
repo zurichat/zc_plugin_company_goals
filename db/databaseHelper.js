@@ -1,6 +1,7 @@
-const { URL, payload } = require('../utils/config').DATABASE;
+/* eslint-disable camelcase */
 const axios = require('axios');
 const AppError = require('../utils/appError');
+const { URL, payload } = require('../utils/config').DATABASE;
 
 exports.insertOne = async (collectionName, data,organization_id='1') => {
   try {
