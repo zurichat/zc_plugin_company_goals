@@ -1,36 +1,102 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-const axios = require('axios');
-const { find, findAll, findById, insertOne, deleteOne, updateOne } = require('../db/databaseHelper');
+const { v4: uuidv4 } = require('uuid');
+const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } = require('../db/databaseHelper');
 const {goalsSchema } = require('../schemas');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
+  const { org_id: orgId } = req.query;
+
+  if (!orgId) {
+    return res.status(400).send({error: 'org_id is required'})
+  }
   // Search for all Goals
-  const goals = await findAll('goals')
+  const goals = await findAll('goals', orgId);
 
   // Returning Response
   res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
 });
 
-exports.createGoals = catchAsync(async (req, res, next) => {
-  // Validating each property against their data type
-  await goalsSchema.validateAsync(req.body);
 
-  // Creating a new goal
-  const goals = await insertOne('goals', req.body)
 
-  // Returning Responses
-  res.status(200).json(goals.data);
+exports.createGoal = catchAsync(async (req, res, next) => {
+
+  const roomId = uuidv4();
+  const { org_id: orgId } = req.query;
+  const { goal_name: title} = req.body;
+  const goal = req.body;
+  let goals;
+  
+   const data = {
+      room_id: roomId,
+      organization_id: orgId,
+      ...goal,
+    };
+ 
+    if (!orgId) {
+      res.status(400).send({ error: 'Organization_id is required' });
+    }
+
+
+    try {
+    const validateGoal = await goalsSchema.validateAsync(req.body);
+    } catch (err) {
+    if(err) return res.status(400).json(err.details);
+    }
+
+    try {
+       goals = await find('goals', { goal_name: title }, orgId);
+       const { data: foundGoal } = goals.data;
+       if (foundGoal.length > 0) {
+         return res.status(400).send({ error: `Goal with the title: ${title} already exists` });
+       }
+    } catch (error) {
+      goals = await insertOne('goals', data, orgId);
+    }
+
+    res.status(200).json({ message: 'success', ...goals.data, data });
 });
+
+
+
+
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
-  // Search for Single Goal by Id
-  const goal = await findById('goals', req.params.id)
+  let users;
+  const { room_id: id, org_id: org } = req.query;
+  const goal = await find('goals', { room_id: id }, org);
 
-  // Returning Response
-  res.status(200).json({ status: 200, message: 'success', data: goal.data.data });
+
+  try {
+    
+    users = await find('roomusers', { room_id: id }, org_id);
+
+    const { data: getUsers } = findUsers.data;
+    
+    const result = getUsers.map((user) => {
+      return user.user_id
+    })
+    
+    const data = {
+      goal: goal.data.data,
+      users: result
+    }
+    res.status(200).json({ status: 200, message: 'success', data });
+  } catch (err) {
+    users = 'No user has been assigned to this goal';
+    const data = {
+      goal: goal.data.data,
+      users,
+    };
+    res.status(200).json({ status: 200, message: 'success', data});
+}
+  next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
 });
+
+
+
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
@@ -60,7 +126,7 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
 
 exports.deleteGoal = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
-  const goalId = req.params.id;
+  const goalId = req.query;
   
   // Then, delete the goal.
   await deleteOne(collectionName='goals', data=req.body, filter={}, id=goalId)

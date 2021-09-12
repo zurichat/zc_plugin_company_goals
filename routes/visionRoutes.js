@@ -7,7 +7,7 @@ const router = Router();
 router.get('/all', vision.getAllVision);
 router.get('/:id', vision.getSingleVision);
 router.post('/create', vision.createVision);
-router.patch('/:id', vision.updateVision);
+router.patch('/:organization_id', vision.updateVision);
 
 // DO NOT TOUCH (TESTING)
 router.post('/', async (req, res) => {
