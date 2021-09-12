@@ -13,6 +13,7 @@ exports.insertOne = async (collectionName, data, organization_id='1') => {
     const response = await axios.post(`${URL}/write`, newPayload);
     return response;
   } catch (error) {
+    console.log(error.response.data)
     throw new AppError(`Insert One operation failed: ${error}`, 500);
   }
 };

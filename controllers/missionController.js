@@ -4,6 +4,7 @@
 const axios = require('axios');
 const {missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
+const {findAll,insertOne} = require('../db/databaseHelper')
 
 
 exports.createMission = catchAsync(async (req, res, next) => {
@@ -25,18 +26,22 @@ exports.createMission = catchAsync(async (req, res, next) => {
   res.status(200).json(goals.data);
 });
 
-exports.getSingleMission = catchAsync(async (req, res, next) => {
-  const missionId = req.params.id;
-  const collectionName = 'missions';
+// get mission for an organization
+exports.getMission = catchAsync(async (req, res, next) => {
 
-  // for zuri core live API
-  const baseUrl = 'https://zccore.herokuapp.com';
-  const pluginId = '61330fcfbfba0a42d7f38e59';
-  const organizationId = '1'; // Would be gotten from zuri main
-  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
+  const {organization_id} = req.params
 
-  const result = await axios.get(url, { params: { _id: missionId } });
-  const status = result.status || 200;
-  const data = result.data.data[0];
-  res.status(status).json({ status: status, message: 'success', data: data });
+  // check if the organization has a mission statement
+  let mission
+  try {
+    mission = await findAll('mission',organization_id);
+    [mission] = mission.data.data;
+
+  } catch (error) {
+    // if there is an error then collection hasnt been created yet.
+    mission = {mission:''}
+    await insertOne('mission',mission,organization_id)
+  }
+
+  res.status(200).json({ status: 200, message: 'success', data: mission });
 });
