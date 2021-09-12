@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-restricted-syntax */
+
 
 const { find, findAll } = require('../db/databaseHelper');
 const catchAsync = require('../utils/catchAsync');
@@ -18,48 +18,52 @@ exports.readSidebar = catchAsync(async (req, res, next) => {
     action: 'open'
   }
 
- 
+  // find all room users to get members
+ const findRoomUsers = await findAll('roomusers', organization_id);
+  const { data: roomUsersArr } = findRoomUsers.data;
+  
+  // find rooms the user is in
   const findUserRooms = await find('roomusers', { user_id });
- 
   const { data: getUserRooms } = findUserRooms.data;
 
   if (getUserRooms.length < 1) {
     return res.status(404).send({ message: `User ${user_id} has not joined any room` });
   }
 
-  const findRoomUsers = await findAll('roomusers',organization_id);
-  const { data: roomUsersArr } = findRoomUsers.data;
-
-  for (const room of getUserRooms) {
+  
+  getUserRooms.map((room) => {
     const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
-    joined_rooms.push({
-      title: room.title,
-      id: room.room_id,
-      unread: 0,
-      members,
-      icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-      action: 'open'
-    })
-  }
+    return  joined_rooms.push({
+       title: room.title,
+       id: room.room_id,
+       unread: 0,
+       members,
+       icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+       action: 'open',
+     });
+})
 
   
   const getAllRooms = await findAll('goals');
 
   const { data: allRooms } = getAllRooms.data;
 
-  for (const room of allRooms) {
-    const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
-    if (room.access === `zuri's workspace`) {
-      public_rooms.push({
-        title: room.goal_name,
-        id: room.room_id,
-        unread: 0,
-        members,
-        icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-        action: 'open',
-      });
-    }  
-  }
+  allRooms.map((room) => {
+     const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
+     if (room.access === `zuri's workspace`) {
+        public_rooms.push({
+         title: room.goal_name,
+         id: room.room_id,
+         unread: 0,
+         members,
+         icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+         action: 'open',
+       });
+    }
+    return public_rooms
+  })
+
+ 
   
   const response = {
     name: 'Company Goals Plugin',
