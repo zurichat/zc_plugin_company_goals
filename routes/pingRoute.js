@@ -1,5 +1,4 @@
 const { Router } = require('express');
-
 const { ping } = require('../controllers/pingController');
 
 const router = Router();
