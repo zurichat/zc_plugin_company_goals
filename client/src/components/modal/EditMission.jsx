@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { showEditMissionModal } from '../../redux/showEditMissionModal';
+import { showEditMissionModal, editMissionText } from '../../redux/editMission.slice';
 import { Header, TextBox, SaveBtn } from './styledEditMission';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,10 +30,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditMission() {
+const EditMission = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { showMission } = useSelector((state) => state.showMission);
+  const { showMission, missionText } = useSelector((state) => state.editMission);
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    setText(missionText);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showMission]);
+
+  const saveMission = () => {
+    dispatch(showEditMissionModal());
+    // eslint-disable-next-line no-unused-expressions
+    text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
+  }
 
   return (
     <Modal
@@ -51,11 +63,13 @@ export default function EditMission() {
       <Fade in={showMission}>
         <form className={classes.paper} onSubmit={e => e.preventDefault()}>
           <Header id="transition-modal-title">Edit Mission</Header>
-          <TextBox placeholder="Click to edit..." />
-          <SaveBtn>Save</SaveBtn>
+          <TextBox required value={text} onChange={e => setText(e.target.value)} placeholder="Click to edit..." />
+          <SaveBtn onClick={saveMission}>Save</SaveBtn>
           {/* <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn> */}
         </form>
       </Fade>
     </Modal>
   );
 }
+
+export default EditMission;
