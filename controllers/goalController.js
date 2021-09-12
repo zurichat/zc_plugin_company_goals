@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
-const { find, findAll, findById, insertOne, deleteOne, updateOne } = require('../db/databaseHelper');
+const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } = require('../db/databaseHelper');
 const {goalsSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
@@ -15,32 +15,39 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 
 
-exports.createGoals = catchAsync(async (req, res, next) => {
+exports.createGoal = catchAsync(async (req, res, next) => {
   try {
-
-    console.log("step one")
+  
+    const { organization_id: orgId } = req.query;
     const goal = req.body;
-    console.log(goal, "step two")
+ 
     const roomId = uuidv4();
-    console.log(roomId, "step three")
-    const { goal_name: goalName } = req.body;
-    console.log(goalName, "step four")
-     await goalsSchema.validateAsync(req.body);
-console.log("step five")
-    const findGoal = await find('goals', { goal_name: goalName });
-console.log(findGoal, "step six")
-    const { data: foundGoal } = findGoal.data;
 
-    console.log(foundGoal)
-
-    if (foundGoal.length > 0) {
-      return res.status(400).send({message: `Goal with the title: ${goalName} already exists`})
+    if (!orgId) {
+      res.status(400).send({ error: 'Organization_id is required' });
     }
     
-    const goals = await insertOne('goals', { roomId, goal });
+    const { goal_name: goalName } = req.body;
+
+    await goalsSchema.validateAsync(req.body);
+
+    const findGoal = await find('goals', {goal_name: goalName});
+
+    const { data: foundGoal } = findGoal.data;
+
+    if (foundGoal.length > 0) {
+      return res.status(400).send({error: `Goal with the title: ${goalName} already exists`})
+    }
+
+    const data = {
+      room_id: roomId,
+      organization_id: orgId,
+      ...goal
+    }
     
-  
-    res.status(200).json({ status: 'success', ...goals.data, roomId, goal });
+    const goals = await insertOne('goals', data);
+    
+    res.status(200).json({ message: 'success', ...goals.data, data });
 
   } catch (err) {
     if (err) {
@@ -54,11 +61,26 @@ console.log(findGoal, "step six")
 
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
+  const { room_id: id } = req.query;
   // Search for Single Goal by Id
-  const goal = await findById('goals', req.params.id)
+  const goal = await find('goals', { room_id: id });
+
+
+  const findUsers = await find('roomusers', { room_id: id });
+
+  const { data: getUsers } = findUsers.data;
+
+  const result = getUsers.map((user) => {
+    return user.user_id
+  })
+
+  const data = {
+    goal: goal.data.data,
+    users: result
+}
 
   // Returning Response
-  res.status(200).json({ status: 200, message: 'success', data: goal.data.data });
+  res.status(200).json({ status: 200, message: 'success', data});
 });
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
