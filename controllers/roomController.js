@@ -30,7 +30,6 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
 
   const rooms = await find('rooms',{organization_id},organization_id);
 
-
   if(rooms.data.data.length == 0){
     res.status(404).json({status: "failed", message: "Room List is empty ", data: null})
   }
@@ -102,4 +101,13 @@ exports.removeUserFromRoom = catchAsync(async (req,res,next)=> {
       status: 'success',
       data: response.data,
     });
+})
+
+// get the number of users in a room
+exports.getUsersInaRoom = catchAsync(async(req, res, next) => {
+  const { room_id, user_id } = req.params;
+
+  const foundRoom = await find('rooms', { id: room_id});
+  console.log(foundRoom.data);
+  res.status(200).json(foundRoom.data); 
 })
