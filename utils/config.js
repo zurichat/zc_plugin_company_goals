@@ -9,7 +9,7 @@ module.exports = {
             object_id: null,
             filter:{},
             payload: {},
-          }
+        }
     }
 
 }
