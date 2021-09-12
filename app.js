@@ -1,5 +1,4 @@
 const path = require('path');
-
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -21,6 +20,7 @@ const visionRouter = require('./routes/visionRoutes');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
 const roomRouter = require('./routes/roomRoute');
+const userRouter = require('./routes/userRoute');
 
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
@@ -55,11 +55,13 @@ app.use(compression());
 // Api routes
 app.use('/api/v1/goals', rateLimiter(), goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
+app.use('/api/v1/user', userRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/vision', visionRouter);
 app.use('/api/mission', missionRouter);
+
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
