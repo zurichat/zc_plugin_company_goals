@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import styled from 'styled-components';
 import SimpleModal from '../components/createGoal/CreateGoal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
