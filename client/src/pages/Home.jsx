@@ -6,9 +6,8 @@ import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import EditMission from '../components/Modal/EditMisssion';
-import Nav from '../components/navbar/Navbar';
+import MainNav from 'components/MainNav/MainNav';
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
-
 
 function App() {
   return (
@@ -19,7 +18,7 @@ function App() {
       <DeleteSuccessModal />
       <OrganizationVisionEditModal />
       <PluginSide>
-        <Nav />
+        <MainNav />
         <MissionVisionContainer />
         <Mainside />
         <EditMission />
