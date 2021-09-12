@@ -3,6 +3,7 @@ import deleteGoalReducer from './deleteGoal.slice';
 import newGoalReducer from './newGoalSlice';
 import visionReducer from './organizationVision.slice';
 import editMissionReducer from './showEditMissionModal';
+import snackbarReducer from './snackbar.slice';
 import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
 
@@ -14,6 +15,7 @@ const store = configureStore({
     toggleEditGoalModal: editGoalModalReducer,
     deleteGoal: deleteGoalReducer,
     newGoal: newGoalReducer,
+    snackbar: snackbarReducer,
   },
 });
 

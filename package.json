@@ -5,8 +5,8 @@
   "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
   "type": "commonjs",
   "scripts": {
-    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false yarn run build --prefix client",
-    "client:dev": "yarn start --prefix client",
+    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false yarn --cwd client run build ",
+    "client:dev": "yarn --cwd client start",
     "dev": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run client:dev\"",
     "server": "nodemon server.js",
     "server:prod": "cross-env NODE_ENV=production nodemon server.js",
