@@ -46,13 +46,14 @@ exports.goalsSchema = Joi.object({
   currency_unit: Joi.string().optional(),
   start: Joi.alternatives().try(Joi.string(), Joi.number()).optional(),
   target: Joi.alternatives().try(Joi.string(), Joi.number()).optional(),
-  milestone: Joi.string().valid(`number`, `currency`).optional(),
-  milestone_start: Joi.alternatives().try(Joi.string(), Joi.number()).optional(),
-  milestone_target: Joi.alternatives().try(Joi.string(), Joi.number()).optional(),
+  milestone1: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
+  milestone2: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
+  milestone3: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
+  milestone4: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
   goal_priority: Joi.string()
     .valid(`Low`, `Medium`, `High`, `Intermediate`)
     .required()
-    .messages({ 'any.required': 'goal priority must be inputed' }),
+    .messages({ 'any.required': 'goal priority must be inputed' })
 });
 
 // mission schema
