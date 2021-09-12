@@ -1,14 +1,11 @@
 // eslint-disable-next-line import/no-unresolved
 import styled from 'styled-components';
-<<<<<<< HEAD
 
-import GoalDetailAccordion from 'components/GoalDetailAccordion/GoalDetails';
 
-=======
 import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
 import InnerNav from 'components/goal_interface_inner_header/InnerNav';
+import GoalDetailAccordion from 'components/GoalDetailAccordion/GoalDetails';
 // import GetGoals from '../getGoals/getGoals';
->>>>>>> 735c500510a07077620c8cb15f209bb34abdbc69
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
@@ -20,12 +17,10 @@ function Mainside() {
   return (
     <Main>
       <GoalsDisplayContainer>
-<<<<<<< HEAD
         {/* <GoalsNavLayout /> */}
           {/* <Menuoption /> */}
           <GoalDetailAccordion />
         
-=======
         <GoalsNavLayout />
         <Goal>
           <InnerNav />
@@ -33,7 +28,6 @@ function Mainside() {
           {/* <Menuoption /> */}
           {/* <GetGoals /> */}
         </Goal>
->>>>>>> 735c500510a07077620c8cb15f209bb34abdbc69
         {/* <Goal> //Goal container isnt needed for the GoalItem again.
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
