@@ -13,7 +13,7 @@ exports.insertOne = async (collectionName, data, organization_id) => {
     const response = await axios.post(`${URL}/write`, newPayload);
     return response;
   } catch (error) {
-   
+    
     throw new AppError(`Insert One operation failed: ${error}`, 500);
   }
 };
@@ -40,7 +40,7 @@ exports.findAll = async (collectionName, organization_id) => {
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}`);
     return response;
   } catch (error) {
-    console.log(error.response.data);
+    ;
     throw new AppError(`find all operation failed: ${error}`, 500);
   }
 };
