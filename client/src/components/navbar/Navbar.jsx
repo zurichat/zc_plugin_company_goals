@@ -1,14 +1,13 @@
 import { useState } from 'react';
-
 import PropTypes from 'prop-types';
-
 import { useDispatch } from 'react-redux';
 
-import search from '../../Images/search.svg';
-import settings from '../../Images/settings.svg';
-
+import search from '../../Images/svg/search.svg';
+import settings from '../../Images/svg/settings.svg';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
+
 // import SearchResults from '../searchBarDisplay/Search';
+
 import SearchInteractive from '../Searchinteractive/SearchInteractive';
 import {
   Nav,
@@ -30,11 +29,6 @@ const Navbar = () => {
   console.log(searchState);
 
   const dispatch = useDispatch();
-
-  // const handleSearch = (event) => {
-  //   const value = event.type === 'blur' ? '' : event.target.value;
-  //   setSearchState(value);
-  // };
 
   const handleEdit = (e) => {
     setSearchState(e.target.value);
