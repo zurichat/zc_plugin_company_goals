@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { saveVision, showEditVisionModal } from '../../../../redux/organizationVision.slice';
-
+import { showEditVisionModal, updateOrgVision } from '../../../../redux/organizationVision.slice';
 import {
   EditVisionModal,
   EditVisionContainer,
@@ -20,6 +18,17 @@ const OrganizationVisionEditModal = () => {
   const dispatch = useDispatch();
   const showVisionModal = useSelector(({ organizationVision }) => organizationVision.showVisionModal);
   const [editText, setEditText] = useState('');
+
+  const dispatchAction = () => {
+    if (editText) {
+      dispatch(updateOrgVision(editText))
+        .then(unwrapResult)
+        .then(() => {
+          // console.log('unwrap', data);
+          dispatch(showEditVisionModal());
+        });
+    }
+  };
 
   return (
     <EditVisionModal
@@ -40,7 +49,7 @@ const OrganizationVisionEditModal = () => {
             <ActionCancelEditVisionButton onClick={() => dispatch(showEditVisionModal())}>
               Cancel
             </ActionCancelEditVisionButton>
-            <ActionButton onClick={() => editText && dispatch(saveVision(editText))}>Save</ActionButton>
+            <ActionButton onClick={dispatchAction}>Save</ActionButton>
           </ActionButtonsContainer>
         </EditVisionContainer>
       </Fade>

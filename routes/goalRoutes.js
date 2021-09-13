@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
 const { Router } = require('express');
-const { getSingleGoal, getAllGoals, createGoal, updateSingleGoalById, getArchivedGoals, deleteGoal } = require('../controllers/goalController');
-
+const {
+  getSingleGoal,
+  getAllGoals,
+  createGoal,
+  updateSingleGoalById,
+  getArchivedGoals,
+  deleteGoal,
+} = require('../controllers/goalController');
 
 const router = Router();
 
 router.route('/').post(createGoal).get(getAllGoals);
-
-
-router.route('/').get(getAllGoals);
 
 // router.route('/archived').get(getArchivedGoals)
 
@@ -16,7 +19,7 @@ router.route('/').get(getAllGoals);
 
 router.route('/:id').get(getSingleGoal);
 
-router.route('/find').get(getSingleGoal).delete(deleteGoal)
+router.route('/find').get(getSingleGoal).delete(deleteGoal);
 
 // router.put('/update/:id', updateSingleGoalById);
 
