@@ -135,3 +135,44 @@ exports.deleteGoal = catchAsync(async (req, res, next) => {
   // Then send a response message back to the client.
   return res.status(200).json('Goal deleted successfully.');
 });
+
+exports.assignGoal = catchAsync(async (req, res, next) => {
+  const { room_id, user_id, organization_id } = req.query;
+
+  // Validate the body
+  await userSchema.validateAsync({ room_id, user_id });
+
+  // check that the room_id is valid
+  const room = await find('goals', { room_id });
+
+  if (room.data.data.length <= 0) {
+    return next(new AppError('Room not found', 404));
+  }
+  // check that user isnt already in the room
+  let roomuser = await find('roomusers', { room_id, user_id }, organization_id);
+
+  if (roomuser.data.data.length > 0) {
+    return next(new AppError('user already in room', 400));
+  }
+
+  const getAllRooms = await findAll('goals');
+
+  const { data: allRooms } = getAllRooms.data;
+
+  const getRoom = allRooms.filter((el) => el.room_id === room_id);
+
+  const data = {
+    room_id: getRoom[0].room_id,
+    title: getRoom[0].goal_name,
+    access: getRoom[0].access,
+    user_id,
+  };
+
+  roomuser = await insertOne('roomusers', data, organization_id);
+  const seeAll = await findAll('roomusers');
+
+  res.status(201).json({
+    status: 'success',
+    data: roomuser.data,
+  });
+});
