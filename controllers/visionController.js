@@ -1,9 +1,9 @@
-/* eslint-disable import/order */
-/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
 const axios = require('axios');
-const {visionSchema } = require('../schemas');
-
-// this module is used to handle the vision
+// eslint-disable-next-line no-unused-vars
+const { request, response } = require('express');
+const { updateOne } = require('../db/databaseHelper');
+const { visionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
 // Global variables
@@ -11,9 +11,8 @@ const collectionName = 'vision';
 const pluginId = '61330fcfbfba0a42d7f38e59';
 const baseUrl = 'https://zccore.herokuapp.com';
 
-
 // request to get the vision
-exports.getAllVision = async (req, res, next) => {
+exports.getAllVision = async (req, res) => {
   const organizationId = '1'; // Would be gotten from zuri main
   const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
@@ -25,7 +24,7 @@ exports.getAllVision = async (req, res, next) => {
   }
 };
 
-exports.getSingleVision = catchAsync(async (req, res, next) => {
+exports.getSingleVision = catchAsync(async (req, res) => {
   const organizationId = '1'; // Would be gotten from zuri main
   const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
@@ -44,7 +43,7 @@ exports.getSingleVision = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.createVision = catchAsync(async (req, res, next) => {
+exports.createVision = catchAsync(async (req, res) => {
   // Validate data type from req.body is consistent with schema
   await visionSchema.validateAsync(req.body);
 
@@ -60,9 +59,31 @@ exports.createVision = catchAsync(async (req, res, next) => {
   res.status(200).json(vision.data);
 });
 
-exports.updateVision = (req, res) => {
-  // get the new vision from client via req.body
-  // const { vision } = req.body;
-  // find and update the vision in the database with the edited vision statement
-  res.send('Dummy response');
+/**
+ * Update an organization's vision.
+ * @param {request} req Express request object
+ * @param {response} res Express response object
+ */
+const updateVision = async (req, res, next) => {
+  const { organization_id } = req.params;
+  const { vision } = req.body;
+
+  /*
+  Check if user is admin, from the user object..
+  ..placed on the req object, by the validation middleware.
+
+  const {role} = req.user
+  if (role !== 'admin') {
+    res.status(403).json({ message: `User of ${role} priviledge is not allowed to edit organization vision.` });
+    return;
+  }
+  */
+  try {
+    const updatedVision = await updateOne('vision', vision, { organization_id }, organization_id);
+    return res.status(200).json({ vision: updatedVision });
+  } catch (error) {
+    next(error);
+  }
 };
+
+exports.updateVision = catchAsync(updateVision);
