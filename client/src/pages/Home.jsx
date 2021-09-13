@@ -6,7 +6,7 @@ import MobilePrivate from 'components/Dropdown/MobilePrivate';
 import SimpleModal from '../components/createGoal/CreateGoal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
 // eslint-disable-next-line import/no-unresolved
-import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
+// eslint-disable-next-line no-unused-vars
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
@@ -21,7 +21,7 @@ function App() {
       <SimpleModal />
       <Deletemodal />
       <BasicModal />
-      <DeleteSuccessModal />
+      {/* <DeleteSuccessModal /> */}
       <OrganizationVisionEditModal />
       <PluginSide>
         <Nav />
