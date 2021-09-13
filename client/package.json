@@ -25,7 +25,7 @@
     "yarn": "^1.22.11"
   },
   "scripts": {
-    "start": "cross-env PORT=3006 react-scripts start",
+    "start": "creact-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
