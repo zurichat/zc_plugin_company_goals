@@ -50,8 +50,11 @@ exports.createGoal = catchAsync(async (req, res, next) => {
         bulk_write: false,
         payload: {room_id: roomId, ...goal},
       };
-     await insertOne('goals', data, orgId);
-       res.status(200).json({ message: 'success', data});
+  const zzcoreResponse = await insertOne('goals', data, orgId);
+ 
+  if (zzcoreResponse.data.message === 'success') {
+    res.status(200).json({ message: 'success', data});
+  }
  
 });
 
