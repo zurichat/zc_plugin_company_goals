@@ -7,16 +7,16 @@ const {
   updateSingleGoalById,
   getArchivedGoals,
   deleteGoal,
+  getReports,
 } = require('../controllers/goalController');
 
 const router = Router();
 
 router.route('/').post(createGoal).get(getAllGoals);
 
-// router.route('/').post(createGoals);
-router.route('/').get(getAllGoals);
-
 // router.route('/archived').get(getArchivedGoals)
+
+router.route('/report').get(getReports);
 
 // router.route('/:id').get(getSingleGoal).delete(deleteGoal)
 
