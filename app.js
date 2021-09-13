@@ -23,7 +23,6 @@ const sidebarRouter = require('./routes/sidebarRoute.js');
 const roomRouter = require('./routes/roomRoute');
 const userRouter = require('./routes/userRoute');
 
-const userRouter = require('./routes/userRoute');
 const visionRouter = require('./routes/visionRoutes');
 const centrifugoTest=require('./routes/centrifugoTest');
 const AppError = require('./utils/appError');
