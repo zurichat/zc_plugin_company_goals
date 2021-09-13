@@ -27,32 +27,44 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 
 exports.createGoal = catchAsync(async (req, res, next) => {
-
   const roomId = uuidv4();
-  const { payload } = DATABASE;
   const { org_id: orgId } = req.query;
+  const { goal_name: title, category } = req.body;
   const goal = req.body;
- 
-    if (!orgId) {
-      res.status(400).send({ error: 'Organization_id is required' });
-    }
+  let goals;
 
-    try {
-     await goalsSchema.validateAsync(goal);
-    } catch (err) {
-    if(err) return res.status(400).json(err.details);
+  const data = {
+    room_id: roomId,
+    organization_id: orgId,
+    ...goal,
+  };
+
+  if (!orgId) {
+    res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  try {
+    await goalsSchema.validateAsync(req.body.payload);
+  } catch (err) {
+    if (err) return res.status(400).json(err.details);
+  }
+
+  try {
+    goals = await find('goals', { goal_name: title }, orgId);
+    const { data: foundGoal } = goals.data;
+
+    if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+      return res
+        .status(400)
+        .send({
+          error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
+        });
     }
-  
-      const data = {
-        plugin_id: payload.plugin_id,
-        organization_id: orgId,
-        collection_name: 'goals',
-        bulk_write: false,
-        payload: {room_id: roomId, ...goal},
-      };
-     await insertOne('goals', data, orgId);
-       res.status(200).json({ message: 'success', data});
- 
+  } catch (error) {
+    goals = await insertOne('goals', data, orgId);
+  }
+
+  res.status(200).json({ message: 'success', ...goals.data, data });
 });
 
 
@@ -60,6 +72,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
+  // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
   let users;
   const { room_id: id, org_id: org } = req.query;
   const goal = await find('goals', { room_id: id }, org);
