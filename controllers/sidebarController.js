@@ -1,68 +1,70 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-restricted-syntax */
 
-const { findAll, find } = require('../db/databaseHelper');
+
+const { find, findAll } = require('../db/databaseHelper');
 const catchAsync = require('../utils/catchAsync');
 
-exports.readSidebar = catchAsync(async (req, res) => {
+
+
+
+exports.readSidebar = catchAsync(async (req, res, next) => {
+  const { user: user_id, org: organization_id } = req.query;
   const joined_rooms = [];
   const public_rooms = [];
-  const details = [];
+  const defaultOption = {
+    title: 'All goals',
+    icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+    action: 'open'
+  }
 
-  const { user: user_id, org:organization_id } = req.query;
+  // find all room users to get members
+ const findRoomUsers = await findAll('roomusers', organization_id);
+  const { data: roomUsersArr } = findRoomUsers.data;
+  
+  // find rooms the user is in
+  const findUserRooms = await find('roomusers', { user_id });
+  const { data: getUserRooms } = findUserRooms.data;
 
-  const findUserRooms = await find('roomusers', { user_id },organization_id);
-
-  const { data: userRooms } = findUserRooms.data;
-
-  if (userRooms.length < 1) {
+  if (getUserRooms.length < 1) {
     return res.status(404).send({ message: `User ${user_id} has not joined any room` });
   }
 
-  const userRoomIds = userRooms.map((room) => {
-    return room.room_id;
-  });
+  
+  getUserRooms.map((room) => {
+    const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
+    return  joined_rooms.push({
+       title: room.title,
+       id: room.room_id,
+       unread: 0,
+       members,
+       icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+       action: 'open',
+     });
+})
 
-  const getAllrooms = await find('rooms',{organization_id},organization_id);
+  
+  const getAllRooms = await findAll('goals');
 
-  const { data: allRoomsArr } = getAllrooms.data;
+  const { data: allRooms } = getAllRooms.data;
 
-  const findRoomUsers = await findAll('roomusers',organization_id);
-  const { data: roomUsersArr } = findRoomUsers.data;
-
-  for (let i = 0; i < allRoomsArr.length; i++) {
-    for (const roomId of userRoomIds) {
-      if (allRoomsArr[i].id === roomId) {
-        details.push(allRoomsArr[i]);
-      }
+  allRooms.map((room) => {
+     const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
+     if (room.access === `zuri's workspace`) {
+        public_rooms.push({
+         title: room.goal_name,
+         id: room.room_id,
+         unread: 0,
+         members,
+         icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+         action: 'open',
+       });
     }
-  }
+    return public_rooms
+  })
 
-  for (const detail of details) {
-    const numOfUsers = roomUsersArr.filter((room) => room.room_id === detail.id).length;
-
-    if (!detail.private) {
-      public_rooms.push({
-        title: detail.title,
-        id: detail.id,
-        unread: 0,
-        members: numOfUsers,
-        icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-        action: 'open',
-      });
-    }
-
-    joined_rooms.push({
-      title: detail.title,
-      id: detail.id,
-      unread: 0,
-      members: numOfUsers,
-      icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-      action: 'open',
-    });
-  }
-
+ 
+  
   const response = {
     name: 'Company Goals Plugin',
     description: 'Shows company goals items',
@@ -71,9 +73,10 @@ exports.readSidebar = catchAsync(async (req, res) => {
     user_id,
     group_name: 'Goals',
     show_group: false,
+    general_room: defaultOption,
     joined_rooms,
-    public_rooms,
+    public_rooms
   };
 
-  return res.status(200).json(response);
+return res.status(200).json(response);
 });
