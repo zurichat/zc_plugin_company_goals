@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
@@ -5,6 +7,9 @@ const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } =
 const {goalsSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { DATABASE } = require('../utils/config.js');
+
+
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
@@ -24,39 +29,30 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 exports.createGoal = catchAsync(async (req, res, next) => {
 
   const roomId = uuidv4();
+  const { payload } = DATABASE;
   const { org_id: orgId } = req.query;
-  const { goal_name: title} = req.body;
   const goal = req.body;
-  let goals;
-  
-   const data = {
-      room_id: roomId,
-      organization_id: orgId,
-      ...goal,
-    };
  
     if (!orgId) {
       res.status(400).send({ error: 'Organization_id is required' });
     }
 
-
     try {
-    const validateGoal = await goalsSchema.validateAsync(req.body);
+     await goalsSchema.validateAsync(goal);
     } catch (err) {
     if(err) return res.status(400).json(err.details);
     }
-
-    try {
-       goals = await find('goals', { goal_name: title }, orgId);
-       const { data: foundGoal } = goals.data;
-       if (foundGoal.length > 0) {
-         return res.status(400).send({ error: `Goal with the title: ${title} already exists` });
-       }
-    } catch (error) {
-      goals = await insertOne('goals', data, orgId);
-    }
-
-    res.status(200).json({ message: 'success', ...goals.data, data });
+  
+      const data = {
+        plugin_id: payload.plugin_id,
+        organization_id: orgId,
+        collection_name: 'goals',
+        bulk_write: false,
+        payload: {room_id: roomId, ...goal},
+      };
+     await insertOne('goals', data, orgId);
+       res.status(200).json({ message: 'success', data});
+ 
 });
 
 
