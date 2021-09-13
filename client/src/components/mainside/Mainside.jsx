@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
+import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
 import InnerNav from 'components/goal_interface_inner_header/InnerNav';
@@ -41,7 +42,10 @@ function Mainside() {
           <Report />
           <Notification />
         </Goal> */}
+        <Link to="/faqs">Faqs</Link>
+
       </GoalsReportAndNotificationContainer>
+
     </Main>
   );
 }
@@ -75,4 +79,15 @@ const Goal = styled.div`
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
   box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
+`;
+
+const Link = styled(RouterLink)`
+  font-size:24px;
+  background-color:#00b87c;
+  color:white;
+  font-weight:600;
+  border-radius:5px;
+  padding:10px 15px;
+  text-decoration:none;
+  margin:50px 45%;
 `;

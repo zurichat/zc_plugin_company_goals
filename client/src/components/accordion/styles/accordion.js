@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
@@ -91,5 +92,26 @@ export const Body = styled.div`
   @media (max-width: 600px) {
     font-size: 16px;
     line-height: 22px;
+  }
+`;
+
+export const Home = styled(RouterLink)`
+  background: #00b87c;
+  text-decoration: none;
+  color: white;
+  font-size: 1.25rem;
+  padding: 10px 20px;
+  width: 100px;
+  border-radius: 5px;
+  text-align: center;
+
+  &:hover {
+    background: #048c31;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+    padding: 8px 10px;
+    width: 20vw;
   }
 `;

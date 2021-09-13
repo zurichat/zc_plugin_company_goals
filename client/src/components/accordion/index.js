@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 import React, { useState, useContext, createContext } from 'react';
-import { Container, Frame, Title, Item, Inner, Header, Body } from './styles/accordion';
+import { Container, Frame, Title, Item, Inner, Header, Body, Home } from './styles/accordion';
 
 const ToggleContext = createContext();
 
@@ -15,6 +15,10 @@ export default function Accordion({ children, ...restProps }) {
 
 Accordion.Title = function AccordionTitle({ children, ...restProps }) {
   return <Title {...restProps}>{children}</Title>;
+};
+
+Accordion.Home = function AccordionHome({ children, ...restProps }) {
+  return <Home {...restProps}>{children}</Home>;
 };
 
 Accordion.Frame = function AccordionFrame({ children, ...restProps }) {

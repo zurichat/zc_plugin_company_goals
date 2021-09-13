@@ -2,27 +2,27 @@
 [
   {
     "id": 1,
-    "header": "What is Company goals?",
-    "body": "Company goals is a plugin that serves the purpose of helping a firm or company to set or plan certain goals they wish to achieve with in a period of time. \n\n Company goals plugin is created with a sleek UI that enables every user to enjoy using it"
+    "header": "What is Company Goals Plugin?",
+    "body": "Company goals are goals that a business or company anticipates accomplishing in a set period of time. Using our plugin you can set business goals for your company in general as well as for particular departments, employees, managers and/or customers. \n\nCompany goals can either be set as long term or short term depending on what your company wish to achieve in a given period of time."
   },
   {
     "id": 2,
-    "header": "How can I create a goal?",
-    "body": "Watch Netflix on your smartphone, tablet, smart TV, laptop or streaming device, all for one low fixed monthly fee. Plans start from £5.99 a month. No extra costs or contracts."
+    "header": "How can I Create a Goal?",
+    "body": "A goal is what you or your team want to achieve within a specific time frame. To create a goal, simply go to the homepage and click on the button 'create goal', provide the necessary information related to the goal and that's it. \n\nYour first goal! Do not forget to set a timeline."
   },
   {
     "id": 3,
-    "header": "How can I track my goals?",
-    "body": "Watch anywhere, anytime, on an unlimited number of devices. Sign in with your Netflix account to watch instantly on the web at netflix.com from your personal computer or on any internet-connected device that offers the Netflix app, including smart TVs, smartphones, tablets, streaming media players and game consoles.\n\nYou can also download your favourite programmes with the iOS, Android, or Windows 10 app. Use downloads to watch while you're on the go and without an internet connection. Take Netflix with you anywhere."
+    "header": "How do I Edit a Goal?",
+    "body": "You may want to make some modifications to your already existing goals. To do this, click on the goal, there will be a three dot symbol, click on it and on the drop down you will find the edit button where you can click and make the required changes on the modal that pops up with the already pre-filled fields."
   },
   {
     "id": 4,
-    "header": "How do I cancel?",
-    "body": "Netflix is flexible. There are no annoying contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account at any time."
+    "header": "How can I Set my Company's Mission and Vision?",
+    "body": "Every company or team has its guiding principles. You may want to add these somewhere that will be visible to every member of the organization. You can create a company mission or vision on the homepage by clicking on the pencil icon in the field where the mission or vision is displayed. You can also edit any of them if required by following same procedure as setting a new one."
   },
   {
     "id": 5,
-    "header": "What can I watch on Netflix?",
-    "body": "Netflix has an extensive library of feature films, documentaries, TV programmes, anime, award-winning Netflix originals, and more. Watch as much as you want, any time you want."
+    "header": "What do I Track my Company Goals?",
+    "body": "You can track your goal progress very easily using this plugin. There is a progress bar on the listing component where all goals are listed, using this progress bar you can easily see the progress or completion of a particular goal. We have the notification also where you will be reminded concerning your goals progress and other inquires that you might want to know."
   }
 ]
