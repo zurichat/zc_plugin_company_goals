@@ -25,6 +25,7 @@ import {
 } from './navbar.styled';
 
 const Navbar = () => {
+  const [display, setDisplay] = useState(false);
   const [searchState, setSearchState] = useState('');
   console.log(searchState);
 
@@ -37,6 +38,7 @@ const Navbar = () => {
 
   const handleEdit = (e) => {
     setSearchState(e.target.value);
+    setDisplay(true);
   };
 
   return (
@@ -56,7 +58,7 @@ const Navbar = () => {
         <SearchContainer>
           <SearchIconStyled src={search} alt="search" />
           <SearchInput value={searchState} type="text" placeholder="Search" onChange={handleEdit} />
-          <SearchInteractive searchState={searchState} />
+          {searchState && <SearchInteractive searchState={searchState} />}
         </SearchContainer>
 
         <SettingsIconStyled src={settings} alt="settting" />
