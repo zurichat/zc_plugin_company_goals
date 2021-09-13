@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import SimpleModal from '../components/createGoal/CreateGoal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
+import DeleteErrorModal from '../components/DeleteError/DeleteErrorModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
@@ -16,6 +17,7 @@ function App() {
       <Deletemodal />
       <BasicModal />
       <DeleteSuccessModal />
+      <DeleteErrorModal/>
       <OrganizationVisionEditModal />
       <PluginSide>
         <MainNav />
