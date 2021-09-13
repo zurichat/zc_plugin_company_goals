@@ -1,0 +1,53 @@
+import styled from 'styled-components'
+
+export const Box = styled.div`
+   position: relative;
+   margin-top: 1.5rem;
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+`
+export const Input = styled.input `
+   background-color: ${(props) => props.bgColor};
+   padding: ${(props) => props.padding};
+   margin: ${(props) => props.margin};
+   width: 550px;
+   height: 48px;
+   border: none;
+
+   &::placeholder {
+      font-size: 18px;
+      font-family: 'Lato';
+      padding-left: 10px;
+      color: #999999;
+   }
+`
+export const Editbutton = styled.button `
+   border: none;
+   position: absolute;
+   background-color: transparent;
+   top: ${(props) => props.top};
+   left: ${(props) => props.left};
+   cursor: pointer;
+`
+export const CollapseButton = styled.button `
+   width: 60px;
+   height: 48px;
+   color: #fff;
+   border: none;
+   background: ${(props) => props.bgColor};
+   cursor: pointer;
+`
+export const Title = styled.h3 `
+   position: absolute;
+   font-family: 'Lato';
+   font-style: normal;
+   font-weight: bold;
+   font-size: 20px;
+   line-height: 28px;
+   top: ${(props) => props.top};
+   left: ${(props) => props.left};
+   color: ${(props) => props.color};
+`

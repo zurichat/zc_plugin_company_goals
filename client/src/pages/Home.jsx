@@ -17,7 +17,7 @@ function App() {
       <Deletemodal />
       <BasicModal />
       <DeleteSuccessModal />
-      <OrganizationVisionEditModal />
+      {/* <OrganizationVisionEditModal /> */}
       <PluginSide>
         <Nav />
         <MissionVisionContainer />
