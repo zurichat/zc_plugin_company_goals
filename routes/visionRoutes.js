@@ -1,12 +1,12 @@
 const { Router } = require('express');
-const vision = require('../controllers/visionController');
+const { getAllVision, getSingleVision, createVision, updateVision} = require('../controllers/visionController');
 
 const router = Router();
 
-router.get('/all', vision.getAllVision)
-router.get('/:id', vision.getSingleVision)
-router.post('/create', vision.createVision);
-router.patch('/:id', vision.updateVision);
+router.get('/all', getAllVision)
+router.get('/:id', getSingleVision)
+router.post('/create', createVision);
+router.patch('/:id', updateVision);
 
 // export module
 module.exports = router;
