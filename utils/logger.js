@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 const path = require('path');
-
 const { createLogger, format, transports } = require('winston');
 
 const { combine, timestamp: timestampFn, printf, prettyPrint } = format;
