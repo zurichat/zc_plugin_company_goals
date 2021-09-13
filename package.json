@@ -29,6 +29,8 @@
     "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.12",
     "winston": "^3.3.3",

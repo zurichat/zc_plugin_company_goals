@@ -19,8 +19,6 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
 });
 
-
-
 exports.createGoal = catchAsync(async (req, res, next) => {
 
   const roomId = uuidv4();
@@ -59,10 +57,6 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     res.status(200).json({ message: 'success', ...goals.data, data });
 });
 
-
-
-
-
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   let users;
   const { room_id: id, org_id: org } = req.query;
@@ -94,9 +88,6 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 }
   next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
 });
-
-
-
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params

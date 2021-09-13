@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
+const { findAll, insertOne } = require('../db/databaseHelper');
 const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const { findAll, insertOne } = require('../db/databaseHelper');
 
 // exports.createMission = catchAsync(async (req, res, next) => {
 //   // Validating each property against their data type
