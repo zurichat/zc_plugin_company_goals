@@ -24,7 +24,7 @@ const roomRouter = require('./routes/roomRoute');
 const userRouter = require('./routes/userRoute');
 
 const visionRouter = require('./routes/visionRoutes');
-const centrifugoTest=require('./routes/centrifugoTest');
+const centrifugoTest = require('./routes/centrifugoTest');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
@@ -62,7 +62,7 @@ app.use('/api/v1/users', rateLimiter(), userRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/api/vision', visionRouter);
+app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/centrifugotest', centrifugoTest);
 
