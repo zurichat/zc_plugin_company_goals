@@ -1,8 +1,8 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
-// import CloseIcon from '../../Images/png/default.png';
-import ExportButton from './ExportButton';
 import GoalFolder from './GoalFolder/GoalFolder';
 import ReportFormat from './ReportFormat/ReportFormat';
 import ReportType from './ReportType/ReportType';
