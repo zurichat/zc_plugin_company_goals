@@ -27,7 +27,7 @@ const Header = () => {
         <Missions />
         <Div>
         <DisplayOrganizationVision />
-        <CollapseButton bgColor="#00b87c" top="4.8rem" right="3.7rem"><img src={arrDown} alt="Arrow-down" /></CollapseButton>
+        <CollapseButton bgColor="#00b87c" top="54%" right="4.5%"><img src={arrDown} alt="Arrow-down" /></CollapseButton>
         </Div>
       </MVContain>
     </>

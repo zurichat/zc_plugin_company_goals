@@ -23,6 +23,9 @@ export const Input = styled.input `
       padding-left: 10px;
       color: #999999;
    }
+   &:-ms-keyboard-active {
+      border-style: none;
+   }
 `
 export const Editbutton = styled.button `
    border: none;
