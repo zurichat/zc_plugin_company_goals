@@ -43,7 +43,7 @@ const HeaderH3 = styled.h3`
   font-size: 16px;
   font-weight: bold;
   font-style: normal;
-  line-height: 28px;
+  line-height: 28px;  
 `;
 
 const History = styled.div`
