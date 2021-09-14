@@ -16,14 +16,14 @@ export const Label = styled.label`
   display: block;
   width: 5.2rem;
   text-align: center;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   padding-top: 1rem;
   padding-bottom: 1.5rem;
   &:before {
     content: ' ';
     display: inline-block;
     position: relative;
-    top: -0.18rem;
+    top: -0.62rem;
     left: 0.38rem;
     margin: 0 8px 1px 0;
     width: 10px;

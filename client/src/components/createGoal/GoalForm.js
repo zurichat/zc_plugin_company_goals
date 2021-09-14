@@ -266,7 +266,7 @@ const GoalForm = forwardRef((props) => {
                   This is optional. A short explanation on why the goal is set and how it can be achieved
                 </Info>{' '}
               </div>{' '}
-              <TextArea type="text" id="owner" onChange={(e) => onInputChange(e)} rows="5" />
+              <TextArea type="text" id="owner" onChange={(e) => onInputChange(e)} rows="3" />
             </label>
           </div>{' '}
         </Container>{' '}

@@ -71,7 +71,7 @@ export const Input = styled.input`
   font-weight: normal;
   font-size: 22px;
   margin-top: 0.5rem;
-  padding-left: 0.5rem;
+  padding: 0.5rem;
   height: 3rem;
   border: none;
   outline: none;
@@ -87,9 +87,10 @@ export const TextArea = styled.textarea`
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
-  margin-top: 0.5rem;
+  margin: 0 auto;
   font-size: 22px;
-  width: 100%;
+  width: 99% !important;
+  outline: none;
   padding: 0.5rem;
   resize: none;
   border: 1px solid #393939;

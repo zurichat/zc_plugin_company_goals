@@ -10,12 +10,7 @@ export const GoalMilestone = () => {
         <Input contentNumber="3" type="text" name="milestone" />
         <Input contentNumber="4" type="text" name="milestone" />
       </div>
-      <div>
-        <Label style={{ display: 'none' }}>
-          <Title>
-            <h4>1</h4>
-          </Title>
-        </Label>
+      <div style={{ marginTop: '1rem' }}>
         <Label>
           <Title>
             <h4>1</h4>

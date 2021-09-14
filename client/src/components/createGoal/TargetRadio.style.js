@@ -9,6 +9,7 @@ export const Label = styled.label`
   width: 6em;
   text-align: center;
   padding-bottom: 1rem;
+
   border-radius: 3px;
   &:before {
     content: ' ';
@@ -54,6 +55,7 @@ export const Input = styled.input`
 `;
 // #00b87c
 export const TargetDiv = styled.div`
+  margin-top: 2rem;
   @media only screen and (max-width: 600px) {
     ${Label}:before {
       top: 0.2rem !important;

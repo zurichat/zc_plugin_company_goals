@@ -58,6 +58,7 @@ export const Body = styled.div`
   border: 0.5px solid #393939;
   width: 87%;
   border-radius: 3px 3px 3px 0;
+  padding: 0.85rem 0;
   text-align: start;
   p {
     color: #8c8c8c;
