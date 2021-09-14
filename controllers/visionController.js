@@ -12,7 +12,15 @@ const catchAsync = require('../utils/catchAsync');
 exports.getAllVision = async (req, res) => {
   try {
     const result = await findAll('visions');
-    res.status(200).json({ message: result.data.message, data: result.data.data });
+
+    // checks if a vision already exists
+    if(result) res.status(200).json({ message: result.data.message, data: result.data.data });
+
+    // Creates a vision with an empty string if none exists
+    else {
+      const newVision = await insertOne('visions', req.body);
+      res.status(200).json({ message: newVision.data.message, data: newVision.data.data });
+    }
   } catch (error) {
     res.json({error})
     res.status(500).json({error: error.details});
