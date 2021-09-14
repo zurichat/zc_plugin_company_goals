@@ -19,7 +19,7 @@ function Mainside() {
         <GoalsNavLayout />
         <Goal>
           <InnerNav />
-          <EmptyGoal />
+          {/* <EmptyGoal /> */}
           <Goals />
           {/* <Menuoption /> */}
           {/* <GetGoals /> */}
