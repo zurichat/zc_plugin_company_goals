@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
-const {insertOne,deleteOne, find} = require('../db/databaseHelper');
+const {insertOne,deleteOne, find, findAll, updateOne} = require('../db/databaseHelper');
 const { roomSchema, userSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -69,24 +69,38 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
   await userSchema.validateAsync({ room_id, user_id });
 
   // check that the room_id is valid
-  const room = await find('rooms',{id:room_id,organization_id},organization_id)
+  const room = await find('goals', { room_id})
+  
+ 
 
   if(room.data.data.length<=0)
   {
     return next(new AppError('Room not found',404))
   }
   // check that user isnt already in the room
-  let roomuser = await find('roomusers',{room_id,user_id},organization_id)
+  let roomuser = await find('roomusers', { room_id, user_id }, organization_id)
+  
 
   if(roomuser.data.data.length >0)
   {
     return next(new AppError('user already in room',400))
   }
 
-  roomuser = await insertOne('roomusers', { room_id, user_id },organization_id);
+  const getAllRooms = await findAll('goals');
 
-  
+  const { data: allRooms } = getAllRooms.data;
 
+  const getRoom = allRooms.filter((el) => el.room_id === room_id)
+
+  const data = {
+    room_id: getRoom[0].room_id,
+    title: getRoom[0].goal_name,
+    access: getRoom[0].access,
+    user_id
+  }
+
+  roomuser = await insertOne('roomusers', data, organization_id);
+  const seeAll = await findAll('roomusers')
 
   res.status(201).json({
     status: 'success',
@@ -98,7 +112,7 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
 exports.getRoom = catchAsync(async (req, res, next) => {
   const { room_id } = req.query;
 
-  const room = await find('rooms', { id: room_id })
+  const room = await find('goals', { id: room_id })
   const { data } = room.data
   if (data.length < 1) {
     return res.status(404).send({message: `room ${room_id} does not exist`})

@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
@@ -7,12 +8,12 @@ import { Button, Box, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 import { useStyles } from '../../hooks/screenSize';
 
-import { showEditMissionModal } from '../../redux/showEditMissionModal';
+import { showEditMissionModal } from '../../redux/editMission.slice';
 import DisplayOrganizationVision from '../organization_vision/org_display_vision/VisionDisplay';
 
 const Header = () => {
@@ -22,6 +23,8 @@ const Header = () => {
   const [isAdmin] = useState(true);
 
   const classes = useStyles();
+
+  const {missionText} = useSelector(state => state.editMission);
 
   return (
     <Box
@@ -53,7 +56,7 @@ const Header = () => {
           )}
         </Box>
         <Typography className={classes.root} style={{ padding: 12, backgroundColor: 'white' }}>
-          Training A Million Youths Yearly
+          {missionText}
         </Typography>
       </Box>
       <DisplayOrganizationVision />
