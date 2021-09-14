@@ -1,9 +1,8 @@
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import styled from 'styled-components';
 
-export const StyledContainer = styled.div``;
+
 
 export const StyledCard = styled(Card)``;
 
