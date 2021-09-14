@@ -91,4 +91,4 @@ const GoalItem = (props) => {
   );
 };
 
-export default GoalItem;
+export default GoalItem
