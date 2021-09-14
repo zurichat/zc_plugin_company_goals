@@ -7,7 +7,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavContainer, Sort, SortText, GoalText } from './InnerNav.styled';
-import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles({
   root: {
@@ -47,13 +46,9 @@ const InnerNav = () => {
     setAnchorEl(null);
   };
 
-  const goals = useSelector((state) => state.goals.list);
-
-  const goalNumber = goals.data ? goals.data.length : 0;
-
   return (
     <NavContainer>
-      <GoalText>{goalNumber} Goals</GoalText>
+      <GoalText>0 Goals</GoalText>
       <Sort>
         <SortText> Sort by : </SortText>
         <List component="nav" aria-label="Sort options">
