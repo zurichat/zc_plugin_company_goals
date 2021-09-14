@@ -1,4 +1,7 @@
+/* eslint-disable import/order */
 import styled from 'styled-components';
+import MainNav from 'components/MainNav/MainNav';
+import SnackBar from 'components/snackbar/Snackbar';
 import SimpleModal from '../components/createGoal/CreateGoal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
@@ -6,7 +9,6 @@ import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
 import EditMission from '../components/Modal/EditMission';
-import MainNav from 'components/MainNav/MainNav';
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 
 function App() {
@@ -16,7 +18,8 @@ function App() {
       <Deletemodal />
       <BasicModal />
       <DeleteSuccessModal />
-      {/* <OrganizationVisionEditModal /> */}
+      <OrganizationVisionEditModal />
+      <SnackBar />
       <PluginSide>
         <MainNav />
         <MissionVisionContainer />
@@ -34,3 +37,4 @@ const PluginSide = styled.div`
   background-color: #f6f6f6;
   padding-bottom: 20px;
 `;
+

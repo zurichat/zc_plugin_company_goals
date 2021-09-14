@@ -2,7 +2,7 @@
 const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response } = require('express');
-const { updateOne } = require('../db/databaseHelper');
+// const { updateOne } = require('../db/databaseHelper');
 const { visionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
@@ -65,22 +65,18 @@ exports.createVision = catchAsync(async (req, res) => {
  * @param {response} res Express response object
  */
 const updateVision = async (req, res, next) => {
-  const { organization_id } = req.params;
+  // const { organization_id } = req.params;
   const { vision } = req.body;
+  const { role } = req.user;
 
-  /*
-  Check if user is admin, from the user object..
-  ..placed on the req object, by the validation middleware.
-
-  const {role} = req.user
   if (role !== 'admin') {
-    res.status(403).json({ message: `User of ${role} priviledge is not allowed to edit organization vision.` });
+    res.status(401).json({ message: `User is not authorized to edit organization vision.` });
     return;
   }
-  */
+
   try {
-    const updatedVision = await updateOne('vision', vision, { organization_id }, organization_id);
-    return res.status(200).json({ vision: updatedVision });
+    // const updatedVision = await updateOne('vision', vision, { organization_id }, organization_id);
+    return res.status(200).json({ update: vision });
   } catch (error) {
     next(error);
   }

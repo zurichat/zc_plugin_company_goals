@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';

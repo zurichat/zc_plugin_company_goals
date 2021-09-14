@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const centrifugo = require('../controllers/centrifugoController');
+const { test } = require('../controllers/centrifugoController');
 
 const router = Router();
 
-router.route('/').get(centrifugo);
+router.route('/').get(test);
 
 module.exports = router;
