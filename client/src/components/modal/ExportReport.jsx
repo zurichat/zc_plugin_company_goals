@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 5, 4),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: '100%',
+    },
     overflowY: 'scroll',
   },
   exportHeader: {
