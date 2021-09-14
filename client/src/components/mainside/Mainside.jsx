@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
 import InnerNav from 'components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
+import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import Goals from '../Goals/Goals';
