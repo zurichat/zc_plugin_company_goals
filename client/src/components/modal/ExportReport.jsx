@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import GoalFolder from './GoalFolder/GoalFolder';
 import ReportFormat from './ReportFormat/ReportFormat';
+import ReportType from './ReportType/ReportType';
+import ExportButton from './ExportButton';
 
 function getModalStyle() {
   const top = 50;
@@ -19,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: '759px',
-    height: '500px',
+    height: '600px',
     borderRadius: '4px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(3, 5, 4),
+    overflowY: 'scroll',
   },
   exportHeader: {
     display: 'flex',
@@ -88,6 +91,8 @@ export default function SimpleModal() {
         <div className={classes.exportBody}>
           <GoalFolder />
           <ReportFormat />
+          <ReportType />
+          <ExportButton />
         </div>
       </div>
     </div>
