@@ -2,6 +2,7 @@ import Grid from '@material-ui/core/Grid';
 
 import {Button, History, HeaderH3, Histories } from './history.styled.js';
 import HistoryItem from './historyItem';
+import Grid from '@material-ui/core/Grid';
 
 
 const history = [
