@@ -26,6 +26,7 @@ function App() {
         <Mainside />
         <EditMission />
       </PluginSide>
+      
     </>
   );
 }
