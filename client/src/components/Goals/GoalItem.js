@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import { Container, Grid } from '@material-ui/core';
+import { Container,Grid } from '@material-ui/core'
 
-import dislikes from '../../Images/png/dislikes.png';
-import ellipsis from '../../Images/png/ellipsis.png';
-import likes from '../../Images/png/likes.png';
-import views from '../../Images/png/views.png';
+import dislikes from '../../Images/png/dislikes.png'
+import ellipsis from '../../Images/png/ellipsis.png'
+import likes from '../../Images/png/likes.png'
+import views from '../../Images/png/views.png'
 import {
   useStyles,
   GoalTitle,
@@ -20,28 +20,28 @@ import {
   ProgressDetailsContainer,
 } from './GoalItem.style';
 
-const month = {
-  month_names: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-  month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-};
-
-
-const GoalItem = (props) => {  
+const GoalItem = (props) => {
   const classes = useStyles();
-  return (
+
+  const month = {
+    month_names: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  };
+
+    return (
     props.goals.data.map(goal => {
       const Progress = ((goal.milestone1 + goal.milestone2 + goal.milestone3) / 30) * 100;
       const goalStart = new Date(goal.goal_start);
