@@ -8,8 +8,7 @@ import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-import EditMission from '../components/modal/EditMission.jsx';
-import ExportReport from '../components/modal/ExportReport.jsx';
+import EditMission from '../components/Modal/EditMission';
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 
 function App() {
@@ -27,6 +26,7 @@ function App() {
         <Mainside />
         <EditMission />
       </PluginSide>
+      
     </>
   );
 }
@@ -38,3 +38,4 @@ const PluginSide = styled.div`
   background-color: #f6f6f6;
   padding-bottom: 20px;
 `;
+
