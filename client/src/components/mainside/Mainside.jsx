@@ -9,7 +9,7 @@ import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
-import ExportReport from 'components/modal/ExportReport';
+import ExportReport from 'components/Modal/ExportReport';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 function Mainside() {
