@@ -10,6 +10,7 @@ const catchAsync = require('../utils/catchAsync');
 
 exports.readSidebar = catchAsync(async (req, res, next) => {
   const { user: user_id, org: organization_id } = req.query;
+ 
   const joined_rooms = [];
   const public_rooms = [];
   const defaultOption = {
@@ -18,19 +19,25 @@ exports.readSidebar = catchAsync(async (req, res, next) => {
     action: 'open'
   }
 
+  if(!user_id || !organization_id) return res.status(400).send({ error: 'sidebar query is missing the correct parameters' });
+   
+
+  console.log('step one')
   // find all room users to get members
  const findRoomUsers = await findAll('roomusers', organization_id);
   const { data: roomUsersArr } = findRoomUsers.data;
   
+  console.log('step two');
   // find rooms the user is in
   const findUserRooms = await find('roomusers', { user_id });
+  console.log('step three');
   const { data: getUserRooms } = findUserRooms.data;
 
   if (getUserRooms.length < 1) {
     return res.status(404).send({ message: `User ${user_id} has not joined any room` });
   }
 
-  
+  console.log('step four');
   getUserRooms.map((room) => {
     const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
     return  joined_rooms.push({
@@ -43,6 +50,7 @@ exports.readSidebar = catchAsync(async (req, res, next) => {
      });
 })
 
+  console.log('step five');
   
   const getAllRooms = await findAll('goals');
 
