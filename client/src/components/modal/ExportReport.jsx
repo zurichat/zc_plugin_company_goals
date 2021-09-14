@@ -1,10 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
+// import CloseIcon from '../../Images/png/default.png';
+import ExportButton from './ExportButton';
 import GoalFolder from './GoalFolder/GoalFolder';
 import ReportFormat from './ReportFormat/ReportFormat';
 import ReportType from './ReportType/ReportType';
-import ExportButton from './ExportButton';
 
 function getModalStyle() {
   const top = 50;
@@ -89,9 +90,11 @@ export default function SimpleModal() {
           <h2 className={classes.exportH2} id="simple-modal-title">
             Export Report
           </h2>
-          <span style={{ cursor: 'pointer' }} onClick={handleCloseX}>
-            X
-          </span>
+          <div style={{ cursor: 'pointer' }} onClick={handleCloseX}>
+            {/* <CloseIcon style={{ width: '50px', height: '50px' }} />
+             */}
+             X
+          </div>
         </div>
 
         <div className={classes.exportBody}>
