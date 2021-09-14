@@ -14,28 +14,32 @@ import {
   Button,
   Grid,
   Section,
+  FlexRows,
+  FlexRow,
 } from './styledNotification';
-
-import { GridList } from '@material-ui/core';
 
 let notifyAlerts = [
   {
     id: 1,
     message: 'Your goal as been achieved',
     link: 'Create wireframe',
+    info: 'Congratulations you you have achieved this goal! All set targets have been met.',
     time: '2 mins ago',
+    finished: true,
   },
   {
     id: 2,
-    message: 'Your goal as been achieved',
+    message: 'You failed to reach this goal',
     link: 'Create wireframe',
     time: '2 weeks ago',
+    finished: false,
   },
   {
     id: 3,
     message: 'You failed to reach this goal',
     link: 'Create wireframe',
     time: '1 min ago',
+    finished: false,
   },
 ];
 
@@ -52,67 +56,55 @@ function Notification() {
         {/* Header */}
         <NotificationHeader>
           <NotificationCount style={{ marginLeft: '30px' }}>{show ? notifyAlerts.length : 0}</NotificationCount>
-          <Button style={{ marginRight: '30px' }}>
+          <Button style={{ marginRight: '30px', color: '#999999', textDecoration: 'none' }}>
             {show ? (
               <span style={{ cursor: 'pointer' }} onClick={handleClick}>
                 Mark all as read
               </span>
             ) : (
               'Empty'
-            )}{' '}
+            )}
           </Button>
         </NotificationHeader>
         <FlexColumn backgroundWhite>
           {show ? (
             <>
-              <Grid darkColor>
-                {notifyAlerts.map((alert) => (
-                  <>
-                    <MailOutlineIcon style={{ color: '#999999' }} />
-                    <FlexColumn items>
-                      <Paragraph dark achieved>
-                        {alert.message}
+              {notifyAlerts.map(({ finished, message, info, time, link }) => (
+                <Grid>
+                  <MailOutlineIcon style={{ color: '#999999', width: '100%', borderRight: '2px solid #ebebeb' }} />
+                  <FlexColumn>
+                    <FlexRow flexRow>
+                      <Grid gridInfo>
+                        <Paragraph dark achieved>
+                          {message}
+                        </Paragraph>
+                        <Paragraph green red={!finished}>
+                          {link}
+                        </Paragraph>
+                        <Paragraph style={{ fontSize: '15px', lineHeight: '20px' }} dark>
+                          {info}
+                        </Paragraph>
+                      </Grid>
+                      <Paragraph darkColor primary>
+                        {time}
                       </Paragraph>
-                      <Paragraph green>{alert.link}</Paragraph>
-                    </FlexColumn>
-                    <Paragraph darkColor primary>
-                      {alert.time}
-                    </Paragraph>
-                  </>
-                ))}
-              </Grid>
-              {/* <Grid>
-                <MailOutlineIcon style={{ color: '#999999' }} />
-                <FlexColumn items>
-                  <Paragraph achieved></Paragraph>
-                  <Paragraph green></Paragraph>
-                </FlexColumn>
-                <Paragraph primary>2mins ago</Paragraph>
-              </Grid>
-              
-              <Grid darkColor>
-                <MailOutlineIcon style={{ color: '#999999' }} />
-                <FlexColumn items>
-                  <Paragraph dark achieved>
-                    You failed to reach this goal
-                  </Paragraph>
-                  <Paragraph red>Create wireframe</Paragraph>
-                </FlexColumn>
-                <Paragraph darkColor primary>
-                  1 mins ago
-                </Paragraph>
-              </Grid>{' '} */}
+                    </FlexRow>
+                    {finished && (
+                      <FlexRows style={{ marginBottom: '12px' }}>
+                        <Button btnFunction>Delete</Button>
+                        <Button btnFunction>Mark as Read</Button>
+                        <Button btnFunction>View goal</Button>
+                      </FlexRows>
+                    )}
+                  </FlexColumn>
+                </Grid>
+              ))}
             </>
           ) : (
             <>
               <NoNotification />
             </>
           )}
-          <Section flexend>
-            <Button style={{ marginRight: '5px' }} darkColor>
-              {show && 'See Less'}
-            </Button>
-          </Section>
         </FlexColumn>
       </NotificationWrapper>
     </NotificationSection>

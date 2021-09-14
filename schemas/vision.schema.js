@@ -1,10 +1,10 @@
 const visionSchema = {
-  type: "object",
+  type: 'object',
   properties: {
-    companyId: { type: "String" },
-    body: { type: "String" },
+    companyId: { type: 'String' },
+    body: { type: 'String' },
   },
-  required: ["companyId", "body"],
+  required: ['companyId', 'body'],
   additionalProperties: false,
 };
 
