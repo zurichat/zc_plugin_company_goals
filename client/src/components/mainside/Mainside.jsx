@@ -9,44 +9,46 @@ import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import ExportReport from 'components/modal/ExportReport';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 function Mainside() {
   return (
-    <Main>
-      <GoalsDisplayContainer>
-        <GoalsNavLayout />
-        <Goal>
-          <InnerNav />
-          <EmptyGoal />
-          {/* <Menuoption /> */}
-          {/* <GetGoals /> */}
-        </Goal>
-        {/* <Goal> //Goal container isnt needed for the GoalItem again.
+    <>
+      <Main>
+        <GoalsDisplayContainer>
+          <GoalsNavLayout />
+          <Goal>
+            <InnerNav />
+            <EmptyGoal />
+            {/* <Menuoption /> */}
+            {/* <GetGoals /> */}
+          </Goal>
+          {/* <Goal> //Goal container isnt needed for the GoalItem again.
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
-        {/* //PS => The repition of the Goal Item is only temporary */}
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-      </GoalsDisplayContainer>
-      <GoalsReportAndNotificationContainer>
-        <ReportsAndNotificationContainer />
-        <HistoryList />
-        {/* <Goal primary>
+          {/* //PS => The repition of the Goal Item is only temporary */}
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+        </GoalsDisplayContainer>
+        <GoalsReportAndNotificationContainer>
+          <ReportsAndNotificationContainer />
+          <HistoryList />
+          {/* <Goal primary>
           <Report />
           <Notification />
         </Goal> */}
-        <Link to="/faqs">Faqs</Link>
-
-      </GoalsReportAndNotificationContainer>
-
-    </Main>
+          <Link to="/faqs">Faqs</Link>
+        </GoalsReportAndNotificationContainer>
+      </Main>
+      <ExportReport />
+    </>
   );
 }
 
@@ -82,12 +84,12 @@ const Goal = styled.div`
 `;
 
 const Link = styled(RouterLink)`
-  font-size:24px;
-  background-color:#00b87c;
-  color:white;
-  font-weight:600;
-  border-radius:5px;
-  padding:10px 15px;
-  text-decoration:none;
-  margin:50px 45%;
+  font-size: 24px;
+  background-color: #00b87c;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 10px 15px;
+  text-decoration: none;
+  margin: 50px 45%;
 `;

@@ -7,6 +7,7 @@ export const createGoalModalSlice = createSlice({
   },
   reducers: {
     toggleCreateGoalModalAction: (state) => {
+      // eslint-disable-next-line no-param-reassign
       state.showCreateGoalModal = !state.showCreateGoalModal;
     },
   },
