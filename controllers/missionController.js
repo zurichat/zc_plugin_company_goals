@@ -56,7 +56,7 @@ exports.updateMission = catchAsync(async (req, res, next)=> {
   }
   try {
     const updatedMission = await updateOne(collectionName, mission, organization_id, organization_id);
-    return res.status(200).json({message: "Update Sucessful", update: mission});
+    return res.status(200).json({message: "Update Sucessful", update: updatedMission.data});
   }
   catch(error) {
     next(error);
