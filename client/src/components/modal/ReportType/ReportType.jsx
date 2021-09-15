@@ -3,7 +3,7 @@ import badge from '../../../Images/png/Frame 756.png';
 
 const GoalFolderSection = styled.section`
   display: flex;
-  margin-bottom: 3rem;
+  margin-top: 3rem;
 `;
 const GoalRadios = styled.div`
   display: flex;
@@ -28,13 +28,13 @@ const GoalDetails = styled.div`
   margin-left: 1rem;
 `;
 
-const GoalFolder = () => {
+const ReportType = () => {
   return (
     <GoalFolderSection>
       <img style={{ width: '50px', height: '50px' }} src={badge} alt="" />
 
       <GoalDetails>
-        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px' }}>Goal Folder</h3>
+        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px' }}>Report Type</h3>
         <p
           style={{
             fontFamily: 'Lato',
@@ -46,7 +46,7 @@ const GoalFolder = () => {
             marginBottom: '20px',
           }}
         >
-          Select the type of folder to export
+          Select report timeline to export
         </p>
         <GoalRadios>
           <GoalRadio>
@@ -61,7 +61,7 @@ const GoalFolder = () => {
                 marginTop: '16px',
               }}
             >
-              All
+              Instantly
             </p>
           </GoalRadio>
 
@@ -102,4 +102,4 @@ const GoalFolder = () => {
   );
 };
 
-export default GoalFolder;
+export default ReportType;
