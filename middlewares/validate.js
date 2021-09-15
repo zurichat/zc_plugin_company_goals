@@ -1,6 +1,7 @@
 const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response, NextFunction } = require('express');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 /**
@@ -49,3 +50,53 @@ const verifyToken = async (req, res, next) => {
 };
 
 exports.verifyToken = catchAsync(verifyToken);
+
+
+// check if user is part of this organization
+exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
+  const organization_id = req.query.organization_id || req.body.organization_id || req.params.organization_id
+
+  const tokenHeader = req.headers.authorization
+
+  let organization = await axios.get(
+    `https://api.zuri.chat/organizations/${organization_id}`,
+    {},
+    {
+      headers: {
+        Authorization: tokenHeader,
+      },
+    }
+  )
+
+  organization = organization.data.data
+
+  if(organization.creator_email===req.user.email)
+  {
+    req.user.role = 'owner'
+    next()
+  }
+
+
+  let  allMembers = await axios.get(
+    `https://api.zuri.chat/organizations/${organization_id}/members`,
+    {},
+    {
+      headers: {
+        Authorization: tokenHeader,
+      },
+    }
+  )
+
+  allMembers = allMembers.data.data
+
+  for(let user of allMembers)
+  {
+    if(req.user._id===user._id)
+
+    {
+      req.user.role = 'user'
+      return next()
+    }
+  }
+  return next(new AppError('User is not a member of this organization',400))
+}) 
