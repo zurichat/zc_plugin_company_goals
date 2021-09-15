@@ -4,7 +4,10 @@
 const axios = require('axios');
 const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const { findAll, insertOne } = require('../db/databaseHelper');
+const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
+
+//Global Variables
+const collectionName = "mission";
 
 // exports.createMission = catchAsync(async (req, res, next) => {
 //   // Validating each property against their data type
@@ -41,4 +44,21 @@ exports.getMission = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).json({ status: 200, message: 'success', data: mission });
+});
+
+exports.updateMission = catchAsync(async (req, res, next)=> {
+  const { mission } = req.body;
+  const { role } = req.user;
+  const organization_id = req.params;
+
+  if (role !=='admin') {
+    res.status(401).json({message: "You are not authorized to perform this action"})
+  }
+  try {
+    const updatedMission = await updateOne(collectionName, mission, organization_id, organization_id);
+    return res.status(200).json({message: "Update Sucessful", update: updatedMission.data});
+  }
+  catch(error) {
+    next(error);
+  }
 });
