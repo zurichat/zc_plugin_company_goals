@@ -60,8 +60,7 @@ const GoalItem = () => {
     <React.Fragment>
       {status === 'success' && !hasGoal && <EmptyGoal />}
       {status === 'success' &&
-        hasGoal &&
-        goals.map((goal) => {
+        hasGoal && goals.data.map(goal => {
           const Progress = ((goal.milestone1 + goal.milestone2 + goal.milestone3) / 30) * 100;
           const goalStart = new Date(goal.goal_start);
           const goalEnd = new Date(goal.goal_end);
@@ -117,7 +116,7 @@ const GoalItem = () => {
                 <img src={ellipsis} alt="more-options-icon" />
               </MoreOptions>
             </Container>
-          );
+            );
         })}
         {/* Loading UI should be here */}
       {status === 'loading' && <p>Loading...</p>}
