@@ -5,19 +5,7 @@ import GoalItem from './GoalItem';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 
 const Goals = () => {
-  const dispatch = useDispatch();
-  const goals = useSelector((state) => state.goals.list);
-  const status = useSelector((state) => state.goals.status);
-  const errorMessage = useSelector((state) => state.goals.errorMessage);
   
-
-  useEffect(() => {
-    dispatch(getGoals()).catch(obj => {
-      console.log("Shite!")
-    });
-  }, [dispatch]);
-
-  const hasGoal = goals.data ? 1 : 0;  
   return (
     <React.Fragment>
       {status === 'success' && !hasGoal && <EmptyGoal />}

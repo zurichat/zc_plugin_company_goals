@@ -19,8 +19,11 @@ function Mainside() {
         <GoalsNavLayout />
         <Goal>
           <InnerNav />
-          <EmptyGoal />
-          <Goals />
+          {/* We don't need EmptyGoal anymore */}
+          {/* 
+            <EmptyGoal /> 
+          */}
+          <GoalItem />
           {/* <Menuoption /> */}
           {/* <GetGoals /> */}
         </Goal>
