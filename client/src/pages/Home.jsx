@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import styled from 'styled-components';
 import MainNav from 'components/MainNav/MainNav';
 import SnackBar from 'components/snackbar/Snackbar';
@@ -25,6 +26,7 @@ function App() {
         <Mainside />
         <EditMission />
       </PluginSide>
+      
     </>
   );
 }
@@ -36,3 +38,4 @@ const PluginSide = styled.div`
   background-color: #f6f6f6;
   padding-bottom: 20px;
 `;
+
