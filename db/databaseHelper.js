@@ -90,11 +90,10 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id=nul
     payload.filter = filter
     payload.object_id = id
     payload.organization_id = organization_id
-
+    
     const response = await axios.put(`${URL}/write`, payload);
     return response;
   } catch (error) {
-    
     throw new AppError(`Update One operation failed: ${error}`, 500);
   }
 };
@@ -112,7 +111,6 @@ exports.updateMany = async (collectionName, data, filter, organization_id) => {
       const response = await axios.put(`${URL}/write`, payload);
       return response;
     } catch (error) {
-
       throw new AppError(`Update One operation failed: ${error}`, 500);
     }
 };
@@ -157,4 +155,3 @@ exports.deleteMany = async(collectionName, filter, organization_id)=>{
     throw new AppError(`Update One operation failed: ${error}`, 500);
   }
 }
-
