@@ -1,14 +1,12 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
-
 import { deleteGoalAction } from '../../redux/deleteGoal.slice';
 import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
 
