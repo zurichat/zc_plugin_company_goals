@@ -9,7 +9,7 @@ import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
 import InnerNav from 'components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
-import ExportReport from 'components/modal/ExportReport';
+// import ExportReport from 'components/modal/ExportReport';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
@@ -17,6 +17,7 @@ import HistoryList from '../history/historyList';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 import MobilePrivate from 'components/Dropdown/MobilePrivate';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
+
 
 function Mainside() {
   return (
@@ -27,7 +28,6 @@ function Mainside() {
           <Goal>
             <InnerNav />
             <EmptyGoal />
-            <GoalItem />
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
@@ -35,7 +35,6 @@ function Mainside() {
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
           {/* //PS => The repition of the Goal Item is only temporary */}
-          {/* 
           <GoalItem />
           <GoalItem />
           <GoalItem />
@@ -43,8 +42,7 @@ function Mainside() {
           <GoalItem />
           <GoalItem />
           <GoalItem />
-          <GoalItem /> 
-          */}
+          <GoalItem />
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
@@ -56,12 +54,14 @@ function Mainside() {
           <Link to="/faqs">Faqs</Link>
         </GoalsReportAndNotificationContainer>
       </Main>
-      <ExportReport />
+      {/* <ExportReport /> */}
       {/* the dropdown for the main menu and others */}
       <Design />
       <MenuOption />
       <Mobile />
       <MobilePrivate />
+     
+
     </>
   );
 }
