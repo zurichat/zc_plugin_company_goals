@@ -106,4 +106,4 @@ const Link = styled(RouterLink)`
   padding: 10px 15px;
   text-decoration: none;
   margin: 50px 45%;
-`
+`;
