@@ -119,11 +119,12 @@ const GoalItem = () => {
             </Container>
           );
         })}
+        {/* Loading UI should be here */}
       {status === 'loading' && <p>Loading...</p>}
       {status === 'failed' && (
         <p>
+          {/* A button might be here to retry and this errorMessage will be in the error UI*/}
           {errorMessage}
-          {/* A button might be here to retry */}
         </p>
       )}
     </React.Fragment>
