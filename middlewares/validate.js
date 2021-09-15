@@ -53,9 +53,14 @@ exports.verifyToken = catchAsync(verifyToken);
 
 
 // check if user is part of this organization
+//will be called after the above
 exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
-  const organization_id = req.query.organization_id || req.body.organization_id || req.params.organization_id
+  const {organization_id} = req.query
 
+  if(!organization_id)
+  {
+    return next(new AppError('organization_id is required',400))
+  }
   const tokenHeader = req.headers.authorization
 
   let organization = await axios.get(
