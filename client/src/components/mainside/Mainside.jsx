@@ -35,14 +35,14 @@ function Mainside() {
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
           {/* //PS => The repition of the Goal Item is only temporary */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
-          {/* <GoalItem /> */}
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
+          <GoalItem />
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
