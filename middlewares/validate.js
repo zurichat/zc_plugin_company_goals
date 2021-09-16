@@ -34,12 +34,13 @@ const verifyToken = async (req, res, next) => {
     }
 
     // Small hack to assign roles to users -- for testing purposes
-    const date = new Date().getMinutes();
-    if (date % 2 === 0) {
-      data.user.role = 'admin';
-    } else {
-      data.user.role = 'user';
-    }
+    // const date = new Date().getMinutes();
+    // if (date % 2 === 0) {
+    //   data.user.role = 'admin';
+    // } else {
+    //   data.user.role = 'user';
+    // }
+    data.user.role = 'admin';
 
     // Set user on req Object
     req.user = data.user;
@@ -51,63 +52,51 @@ const verifyToken = async (req, res, next) => {
 
 exports.verifyToken = catchAsync(verifyToken);
 
-
 // check if user is part of this organization
 //will be called after the above
-exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
-  const {organization_id} = req.query
+exports.checkIsValidUser = catchAsync(async (req, res, next) => {
+  const { organization_id } = req.query;
 
-  if(!organization_id)
-  {
-    return next(new AppError('organization_id is required',400))
+  if (!organization_id) {
+    return next(new AppError('organization_id is required', 400));
   }
-  const tokenHeader = req.headers.authorization
+  const tokenHeader = req.headers.authorization;
   let organization = await axios({
     method: 'get',
     url: `https://api.zuri.chat/organizations/${organization_id}`,
-    headers: {'Authorization': tokenHeader}
-  })
+    headers: { Authorization: tokenHeader },
+  });
 
+  organization = organization.data.data;
 
-  organization = organization.data.data
-
-  if(organization.creator_email===req.user.email)
-  {
-    req.user.role = 'owner'
-    next()
+  if (organization.creator_email === req.user.email) {
+    req.user.role = 'owner';
+    next();
   }
-
 
   let allMembers = await axios({
-      method: 'get',
-      url: `https://api.zuri.chat/organizations/${organization_id}/members`,
-      headers: {'Authorization': tokenHeader}
-    })
-  
-    allMembers = allMembers.data.data
+    method: 'get',
+    url: `https://api.zuri.chat/organizations/${organization_id}/members`,
+    headers: { Authorization: tokenHeader },
+  });
 
-  for(let user of allMembers)
-  {
-    if(req.user.email===user.email)
+  allMembers = allMembers.data.data;
 
-    {
-      req.user.role = 'user'
-      return next()
+  for (let user of allMembers) {
+    if (req.user.email === user.email) {
+      req.user.role = 'user';
+      return next();
     }
   }
-  return next(new AppError('User is not a member of this organization',400))
-}) 
+  return next(new AppError('User is not a member of this organization', 400));
+});
 
-
-exports.requireRoles = (roles)=>{
-  
-  return (req,res,next)=>{
-    
-    if(!roles.includes(req.user.role))
-    {
-      return next(new AppError("You are not authorized to perform this action"))
+exports.requireRoles = (roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError('You are not authorized to perform this action'));
     }
 
-    next()
-  }
-}
+    next();
+  };
+};

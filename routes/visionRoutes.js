@@ -1,14 +1,12 @@
 const { Router } = require('express');
 const { publish } = require('../controllers/centrifugoController');
-const vision = require('../controllers/visionController');
+const { getVision, updateVision } = require('../controllers/visionController');
 const { verifyToken } = require('../middlewares/validate');
 
 const router = Router();
 
-router.get('/:organization_id', vision.getAllVision);
-// router.get('/:id', vision.getSingleVision);
-router.post('/create', vision.createVision);
-router.patch('/:organization_id', verifyToken, vision.updateVision);
+router.get('/:organization_id', getVision);
+router.patch('/:organization_id', verifyToken, updateVision);
 
 // DO NOT TOUCH (TESTING)
 router.post('/', async (req, res) => {
