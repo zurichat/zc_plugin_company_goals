@@ -16,7 +16,6 @@ exports.getAllVision = catchAsync(async (req, res) => {
     vision = await findAll('vision', organization_id);
   } catch (error) {
     // if there is an error then collection hasnt been created yet.
-    console.log(error.response.data)
     vision = { vision: '' };
     await insertOne('vision', vision, organization_id);
   }
