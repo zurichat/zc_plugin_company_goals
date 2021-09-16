@@ -23,6 +23,7 @@ const sidebarRouter = require('./routes/sidebarRoute.js');
 const roomRouter = require('./routes/roomRoute');
 const userRouter = require('./routes/userRoute');
 const notificationRouter = require('./routes/notificationRoute')
+const authRouter = require('./routes/auth')
 
 const visionRouter = require('./routes/visionRoutes');
 const centrifugoTest = require('./routes/centrifugoTest');
@@ -87,6 +88,7 @@ app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/centrifugotest', centrifugoTest);
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api/v1/auth', authRouter)
 
 
 // To serve frontend static files in production

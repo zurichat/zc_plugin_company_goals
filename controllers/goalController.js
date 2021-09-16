@@ -10,8 +10,6 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { createNotification } = require('./notificationController')
 
-
-
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
 
