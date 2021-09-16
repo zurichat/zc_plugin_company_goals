@@ -1,11 +1,18 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/order */
+/* eslint-disable no-unused-vars */
+import React, { Suspense } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Faqs from 'pages/faqs';
+import Home from './pages/Home';
 import { useEffect } from 'react';
 import CentrifugeClient from 'centrifuge';
 import { useDispatch } from 'react-redux';
 import { saveVision } from 'redux/organizationVision.slice';
 import { activateSnackbar } from 'redux/snackbar.slice';
-import Home from './pages/Home';
 
-const App = () => {
+function App() {
   const dispatch = useDispatch();
   const centrifugeConnect = new CentrifugeClient('wss://realtime.zuri.chat/connection/websocket', { minRetry: 100000 });
   // const centrifugeConnect = new CentrifugeClient('ws://localhost:8000/connection/websocket');
@@ -33,7 +40,18 @@ const App = () => {
 
     centrifugeConnect.connect();
   }, []);
-  return <Home />;
-};
+  return (
+    <>
+      <Router>
+        <Suspense fallback={<CircularProgress />}>
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/faqs" component={Faqs} />
+          </Switch>
+        </Suspense>
+      </Router>
+    </>
+  );
+}
 
 export default App;

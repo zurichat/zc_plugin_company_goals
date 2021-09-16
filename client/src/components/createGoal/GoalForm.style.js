@@ -5,28 +5,29 @@ export const GlobalStyles = createGlobalStyle`
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #ffffff; 
+  background: #F6F6F6;
 }
 ::-webkit-scrollbar-thumb {
   background: #C9C9C9; 
   border-radius: 10px;
 }
+
 `;
 export const Goal = styled.div`
   font-family: Lato;
-  padding: 1.5rem;
-  margin: 2rem auto;
-  width: 85%;
+  padding: 1.5rem 3rem;
 
-  @media only screen and (max-width: 500px) {
+  width: 100%;
+  background-color: #f6f6f6;
+
+  @media only screen and (max-width: 600px) {
     width: 100% !important;
-    padding: 1rem 0.5rem !important;
+    padding: 1rem !important;
   }
 `;
 export const Form = styled.form`
-  background-color: #fff;
-  width: 95%;
-  margin: 1.5rem auto;
+  width: 100%;
+  margin: 1.5rem 0;
 
   div {
     width: 100%;
@@ -68,15 +69,36 @@ export const Input = styled.input`
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
-  margin-top: 2rem;
+  font-size: 22px;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  height: 3rem;
   border: none;
   outline: none;
-  color: #999999;
-  border-bottom: 0.5px solid #00b87c;
+  border: 1px solid #393939;
+  background-color: #ffffff;
   width: 100%;
+  &:focus {
+    border: 0.5px solid #00b87c;
+  }
 `;
 
+export const TextArea = styled.textarea`
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  margin: 0 auto;
+  font-size: 22px;
+  width: 99% !important;
+  outline: none;
+  padding: 0.5rem;
+  resize: none;
+  border: 1px solid #393939;
+  background-color: #ffffff;
+  &:focus {
+    border: 0.5px solid #00b87c;
+  }
+`;
 export const Button = styled.button`
   background-color: #00b87c;
   border: none;
@@ -86,41 +108,7 @@ export const Button = styled.button`
   padding: ${(props) => props.buttonPadding};
   font-size: 12px;
 `;
-export const AccessDiv = styled.div`
-  width: 60% !important;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
 
-export const AccessButton = styled.button`
-  display: inline-block;
-  outline: none;
-  border: ${(props) => props.borderDetails};
-  border-radius: 8px;
-  height: 8.5625rem;
-  padding: 1rem 0;
-  margin-bottom: 1rem;
-  width: 10.625rem;
-  background-color: #fff;
-  color: #999999;
-
-  @media only screen and(max-width: 500px) {
-    width: 7rem !important;
-    font-size: 18px !important;
-  }
-`;
-export const AccessText = styled.h6`
-  margin-bottom: 0;
-  font-family: Lato;
-  font-weight: Bold;
-  font-size: 21px;
-  color: ${(props) => props.titleColor};
-
-  @media only screen and(max-width: 500px) {
-    font-size: 12px !important;
-  }
-`;
 export const CreateButton = styled.div`
   text-align: center;
   margin-top: 2rem;
@@ -137,8 +125,8 @@ export const Box = styled.div`
   }
 `;
 export const TargetContainerA = styled.div`
-  width: 65% !important;
-  padding-left: 1rem;
+  width: 100% !important;
+
   display: flex;
   justify-content: space-between;
   /* @media only screen and (max-width: 500px) {
@@ -148,14 +136,10 @@ export const TargetContainerA = styled.div`
 export const TargetContainerB = styled.div`
   display: flex;
   margin-top: 2rem;
-  justify-content: spaces-between;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   @media only screen and (max-width: 500px) {
-    flex-wrap: wrap !important;
-    input {
-      width: 90% !important;
-    }
-  }
-  @media only screen and (max-width: 840px) {
     flex-wrap: wrap !important;
     input {
       width: 90% !important;
@@ -163,37 +147,26 @@ export const TargetContainerB = styled.div`
   }
 `;
 export const TargetInput = styled.input`
-  width: 280px;
+  width: 100%;
   height: 33px;
-  color: #999999;
-  border: 0.5px solid #999999;
+  font-size: 22px;
+  padding-left: 0.2rem;
+  color: #000000;
+  border: 0.5px solid #393939;
+  outline: none;
   border-radius: 3px;
-
+  height: 3rem;
   &:focus {
-    outline: #999999;
+    border: 0.5px solid #00b87c;
   }
 `;
 
 export const PriorityContainer = styled.div`
-  border-top: 2px solid #00b87c;
   margin-top: 2rem;
+  width: 80%;
+  border-radius: 0px 0px 3px 3px; ;
 `;
-export const PriorityDiv = styled.div`
-  background-color: #f6f6f6;
-  margin-bottom: 0.5rem;
-  height: 52px;
-  padding-left: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-export const PrioritySpan = styled.span`
-  margin-right: 1rem;
 
-  img {
-    margin-left: 1rem;
-  }
-`;
 export const CloseButton = styled.button`
   outline: none;
   border: none;
