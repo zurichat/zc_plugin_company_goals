@@ -55,7 +55,7 @@ exports.createVision = catchAsync(async (req, res) => {
     await visionSchema.validateAsync(req.body);
     const data = {
       ...vision
-    }
+    };
 
     const foundVision = findAll('vision', orgId);
     if(foundVision){
