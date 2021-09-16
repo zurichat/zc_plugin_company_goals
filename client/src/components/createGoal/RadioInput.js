@@ -19,13 +19,8 @@ export const secondLabel = () => {
   );
 };
 export const thirdLabel = () => {
-  return (
-    <RadioLabel>
-      <LabelTitle>Currency</LabelTitle>
-      <LabelBody>Like &#8358;10,000</LabelBody>
-    </RadioLabel>
-  );
+  return <RadioLabel />;
 };
-export const PriorityLabel = (label) => {
+export const PriorityLabels = (label) => {
   return <PriorityTitle>{label}</PriorityTitle>;
 };

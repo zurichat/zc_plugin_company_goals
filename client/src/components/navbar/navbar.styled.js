@@ -50,6 +50,10 @@ export const SearchContainer = styled.div`
   border-radius: 15px;
   position: relative;
   cursor: text;
+
+  &:active {
+    border: 2px solid red;
+  }
 `;
 export const AddIconStyled = styled(AddIcon)`
   font-size: 1.2rem;

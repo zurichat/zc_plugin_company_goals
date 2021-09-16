@@ -6,15 +6,12 @@ const {
   createGoal,
   updateSingleGoalById,
   getArchivedGoals,
-  deleteGoal,
+  deleteGoalById,
 } = require('../controllers/goalController');
 
 const router = Router();
 
 router.route('/').post(createGoal).get(getAllGoals);
-
-// router.route('/').post(createGoals);
-router.route('/').get(getAllGoals);
 
 // router.route('/archived').get(getArchivedGoals)
 
@@ -22,7 +19,10 @@ router.route('/').get(getAllGoals);
 
 router.route('/:id').get(getSingleGoal);
 
-router.route('/find').get(getSingleGoal).delete(deleteGoal);
+router.route('/delete').delete(deleteGoalById);
+
+
+// router.patch('/update/:id', updateSingleGoalById);
 
 router.put('/update/:id', updateSingleGoalById);
 
