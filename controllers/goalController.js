@@ -25,7 +25,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
-  const { org_id: orgId, user_id: userId } = req.query;
+  const { org_id: orgId } = req.query;
   const { goal_name: title, category } = req.body;
   const goal = req.body;
   let goals;
@@ -64,12 +64,6 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   } catch (error) {
     goals = await insertOne('goals', data, orgId);    
   }
-  try{
-    await createNotification(userId, orgId, data.goal_name, 'assignGoal')
-  } catch (error) {
-    return res.status(500).json(error.details)
-  }
-
   res.status(200).json({ message: 'success', ...goals.data, data });
 });
 
