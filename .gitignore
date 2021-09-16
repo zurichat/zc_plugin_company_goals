@@ -5,3 +5,5 @@ config.env
 logs/
 .env
 yarn-error.log*
+.vscode
+settings.json
