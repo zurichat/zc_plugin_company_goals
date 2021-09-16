@@ -8,6 +8,9 @@ const {
   updateSingleGoalById,
   getArchivedGoals,
   deleteGoalById,
+  likeGoal,
+  getGoalLikes,
+  checkUserLike,
 } = require('../controllers/goalController');
 
 const router = Router();
@@ -16,16 +19,15 @@ router.route('/').post(createGoal).get(getAllGoals);
 
 // router.route('/archived').get(getArchivedGoals)
 
+
+// router.route('/:id').get(getSingleGoal).delete(deleteGoal)
+router.get('/like', likeGoal);
+router.get('/goallikes', getGoalLikes);
+router.get('/userlike', checkUserLike);
+
 router.route('/assign').post(assignGoal)
-
-
-<<<<<<< HEAD
-router.route('/find').get(getSingleGoal).delete(deleteGoalById);
-=======
 router.route('/single').get(getSingleGoal);
 router.route('/delete').delete(deleteGoalById);
->>>>>>> e6d0b1ec0631568cb47287f11ca69f8c5ef10fd2
-
 
 // router.patch('/update/:id', updateSingleGoalById);
 
