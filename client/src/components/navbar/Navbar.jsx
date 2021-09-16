@@ -1,9 +1,6 @@
 import { useState } from 'react';
-
 import PropTypes from 'prop-types';
-
 import { useDispatch } from 'react-redux';
-
 import search from '../../Images/svg/search.svg';
 import settings from '../../Images/svg/settings.svg';
 
