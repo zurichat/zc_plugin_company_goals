@@ -19,7 +19,7 @@ router.route('/').post(createGoal).get(getAllGoals);
 
 router.route('/:id').get(getSingleGoal);
 
-router.route('/delete').delete(deleteGoalById);
+router.route('/find').get(getSingleGoal).delete(deleteGoalById);
 
 // router.put('/update/:id', updateSingleGoalById);
 

@@ -1,4 +1,5 @@
-const { findAll, insertOne, deleteOne, updateOne, updateMany } = require('../db/databaseHelper');
+/* eslint-disable no-unused-vars */
+const { find, insertOne, deleteOne, updateOne, updateMany } = require('../db/databaseHelper');
 const { notificationSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -21,7 +22,7 @@ const notificationStructure = {
 exports.createNotification = async (userId, orgId, goalName, funcName) => {
     const notification = {
         user_id: userId,
-        organization_id: orgId,
+        org_id: orgId,
         header: notificationStructure[funcName][0],
         goalName,
         status: 'unread',
@@ -32,41 +33,44 @@ exports.createNotification = async (userId, orgId, goalName, funcName) => {
         await insertOne('notifications', notification, orgId);
 };
 
-exports.fetchNotifications = catchAsync(async (req, res, next) => {
+exports.getUserNotifications = catchAsync(async (req, res, next) => {
     const { org_id: orgId, user_id: userId } = req.query;
     
-    // Check for user_id and organization_id
+    // Check for org_id and user_id
     if (!orgId) {
-        return next(new AppError('organization_id is required', 403));
+      return res.status(403).send({error: 'org_id is required'})
     }
     if (!userId) {
-        return next(new AppError('user_id is required', 403));
-      }
-
-    // Search for all Goals
-    const userNotifications = await findAll('notifications', {userId, orgId}, orgId);
+        return res.status(403).send({error: 'user_id is required'})
+    }
+    try {
+        // Search for all Goals
+        const goals = await find('notifications', { org_id: orgId, user_id: userId }, orgId);
   
-    // Returning Response
-    res.status(200).json({ status: 200, message: 'success', data: userNotifications.data.data })
+        // Returning Response
+        res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
+    } catch (error) {
+        res.status(500).json({ status: 500, message: 'There was an error processing this request.' })
+    }
+    
 });
 
 exports.updateNotification = catchAsync(async (req, res, next) => {
     const { org_id: orgId, user_id: userId, notification_id: notificationId } = req.query;
 
-    // Check for user_id and organization_id
+    // Check for org_id and user_id
     if (!orgId) {
-        return next(new AppError('organization_id is required', 403));
+        return res.status(403).send({error: 'org_id is required'})
       }
     if (!userId) {
-        return next(new AppError('user_id is required', 403));
+        return res.status(403).send({error: 'user_id is required'})
     }
     if (!notificationId) {
-        return next(new AppError('notification_id is required', 403));
+        return res.status(403).send({error: 'notification_id is required'})
     }
-
     const update = {status: 'read'}
     try {
-        await updateOne('notifications', update, { _id: notificationId }, orgId)
+        await updateOne('notifications', update, {}, orgId, notificationId)
         return res.status(200).json('Notification read.')
     } catch (error) {
         return next(new AppError('An error has eoccured while processing this request', 500));
@@ -96,21 +100,20 @@ exports.updateNotifications = catchAsync(async (req, res, next) => {
 exports.deleteNotification = catchAsync(async (req, res, next) => {
     const { org_id: orgId, user_id: userId, notification_id: notificationId } = req.query;
 
-    // Check for user_id and organization_id
+    // Check for org_id and user_id
     if (!orgId) {
-        return next(new AppError('organization_id is required', 403));
+        return res.status(403).send({error: 'org_id is required'})
       }
     if (!userId) {
-        return next(new AppError('user_id is required', 403));
+        return res.status(403).send({error: 'user_id is required'})
     }
     if (!notificationId) {
-        return next(new AppError('notification_id is required', 403));
+        return res.status(403).send({error: 'notification_id is required'})
     }
-
     try {
         await deleteOne('notifications', orgId, notificationId)
-        return res.status(200).json('Notification deleted successfully.')
+        return res.status(200).json('Notification deleted.')
     } catch (error) {
         return next(new AppError('An error has eoccured while processing this request', 500));
     }
-});
+})

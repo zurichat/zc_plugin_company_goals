@@ -70,10 +70,11 @@ exports.visionSchema = Joi.object({
 
 // notifications schema
 exports.notificationSchema = Joi.object({
-  userId: Joi.string().required(),
-  orgId: Joi.string().required(),
+  user_id: Joi.string().required(),
+  org_id: Joi.string().required(),
   header: Joi.string().required(),
   goalName: Joi.string().required(),
+  status: Joi.string().required(),
   description: Joi.string().required(),
   createdAt: Joi.date().timestamp('unix')
 })

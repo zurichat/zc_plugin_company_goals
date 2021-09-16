@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const {
-  fetchNotifications,
+  getUserNotifications,
   updateNotification,
   updateNotifications,
   deleteNotification
@@ -8,9 +8,9 @@ const {
 
 const router = Router();
 
-router.get('/', fetchNotifications)
+router.get('/', getUserNotifications)
 router.put('/', updateNotification)
-router.put('/', updateNotifications)
+router.put('/all', updateNotifications)
 router.delete('/', deleteNotification)
 
 

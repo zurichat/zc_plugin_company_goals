@@ -27,7 +27,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
-  const { org_id: orgId } = req.query;
+  const { org_id: orgId, user_id: userId } = req.query;
   const { goal_name: title, category } = req.body;
   const goal = req.body;
   let goals;
@@ -40,6 +40,10 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
   if (!orgId) {
     res.status(400).send({ error: 'Organization_id is required' });
+  }
+  
+  if (!userId) {
+    res.status(400).send({ error: 'User_id is required' });
   }
 
   try {
@@ -60,7 +64,12 @@ exports.createGoal = catchAsync(async (req, res, next) => {
         });
     }
   } catch (error) {
-    goals = await insertOne('goals', data, orgId);
+    goals = await insertOne('goals', data, orgId);    
+  }
+  try{
+    await createNotification(userId, orgId, data.goal_name, 'assignGoal')
+  } catch (error) {
+    return res.status(500).json(error.details)
   }
 
   res.status(200).json({ message: 'success', ...goals.data, data });
@@ -149,7 +158,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 });
 
 exports.assignGoal = catchAsync(async (req, res, next) => {
-  const { room_id, user_id, organization_id } = req.query;
+  const { room_id, user_id, org_id } = req.query;
 
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
@@ -161,7 +170,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
-  let roomuser = await find('roomusers', { room_id, user_id }, organization_id);
+  let roomuser = await find('roomusers', { room_id, user_id }, org_id);
 
   if (roomuser.data.data.length > 0) {
     return next(new AppError('user already in room', 400));
@@ -180,8 +189,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     user_id,
   };
 
-  roomuser = await insertOne('roomusers', data, organization_id);
-  createNotification(user_id, organization_id, data.title, 'assignGoal')
+  roomuser = await insertOne('roomusers', data, org_id);
   const seeAll = await findAll('roomusers');
 
   res.status(201).json({
