@@ -62,16 +62,12 @@ exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
     return next(new AppError('organization_id is required',400))
   }
   const tokenHeader = req.headers.authorization
+  let organization = await axios({
+    method: 'get',
+    url: `https://api.zuri.chat/organizations/${organization_id}`,
+    headers: {'Authorization': tokenHeader}
+  })
 
-  let organization = await axios.get(
-    `https://api.zuri.chat/organizations/${organization_id}`,
-    {},
-    {
-      headers: {
-        Authorization: tokenHeader,
-      },
-    }
-  )
 
   organization = organization.data.data
 
@@ -82,21 +78,17 @@ exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
   }
 
 
-  let  allMembers = await axios.get(
-    `https://api.zuri.chat/organizations/${organization_id}/members`,
-    {},
-    {
-      headers: {
-        Authorization: tokenHeader,
-      },
-    }
-  )
-
-  allMembers = allMembers.data.data
+  let allMembers = await axios({
+      method: 'get',
+      url: `https://api.zuri.chat/organizations/${organization_id}/members`,
+      headers: {'Authorization': tokenHeader}
+    })
+  
+    allMembers = allMembers.data.data
 
   for(let user of allMembers)
   {
-    if(req.user._id===user._id)
+    if(req.user.email===user.email)
 
     {
       req.user.role = 'user'
@@ -105,3 +97,17 @@ exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
   }
   return next(new AppError('User is not a member of this organization',400))
 }) 
+
+
+exports.requireRoles = (roles)=>{
+  
+  return (req,res,next)=>{
+    
+    if(!roles.includes(req.user.role))
+    {
+      return next(new AppError("You are not authorized to perform this action"))
+    }
+
+    next()
+  }
+}
