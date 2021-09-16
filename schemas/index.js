@@ -68,3 +68,25 @@ exports.visionSchema = Joi.object({
     description: Joi.string().required(),
 });
   
+// likeGoal schema
+exports.likeGoalSchema = Joi.object({
+  goalId: Joi.string().required().messages({
+    'any.required': 'goal id is required',
+  }),
+  userId: Joi.string().required().messages({
+    'any.required': 'user id is required',
+  }),
+  orgId: Joi.string().required().messages({
+    'any.required': 'organization id is required',
+  }),
+});
+
+// getGoalLikes schema
+exports.getGoalLikesSchema = Joi.object({
+  goalId: Joi.string().required().messages({
+    'any.required': 'goal id is required',
+  }),
+  orgId: Joi.string().required().messages({
+    'any.required': 'organization id is required',
+  }),
+});
