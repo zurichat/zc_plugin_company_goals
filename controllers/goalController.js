@@ -25,6 +25,17 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 });
 
 
+  // const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
+  // /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
+  //   plugin_id: 'xxx',
+  //   organization_id: 'xxx',
+  //   collection_name: 'goals',
+  //   bulk_write: false,
+  //   payload: req.body,
+  // }); */
+  // //console.log(goals);
+  // // Sending Responses
+  // res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 
 exports.createGoal = async (error, req, res, next) => {
   
@@ -131,7 +142,7 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   // Gets archived goals
   const goals = await find('goals', {achieved: false});
 
-  // Condition if there are no archivedd goals
+  // Condition if there are no archived goals
   if (goals.data.data.length < 1) {
     goals.data.data = 'No archived goals yet.'
   }
@@ -140,16 +151,27 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
 });
 
-exports.deleteGoal = catchAsync(async (req, res, next) => {
-  // First, Get the goalId from req.params
-  const goalId = req.query;
-  
+exports.deleteGoalById = catchAsync(async (req, res, next) => {
+  // First, Get the goalId & orgid from req.params
+  const { goal_id: id, org_id: org } = req.query;
+
+  // The organization id is required.
+  if (!org) {
+    res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  // find the goal first to ensure the goal was created by the organization
+  const goal = await find('goals', { _id: id }, org);
+
+  if (!goal.data.data) {
+    res.status(404).send({ error: 'There is no goal of this id attached to this organization id that was found.' });
+  }
+
   // Then, delete the goal.
-  await deleteOne(collectionName='goals', data=req.body, filter={}, id=goalId)
+  const response = await deleteOne(collectionName='goals', data=org, _id=id);
 
+  res.status(200).json({status: 200, message: 'Goal deleted successfully.', rsponse: response.data.data});
 
-  // Then send a response message back to the client.
-  return res.status(200).json('Goal deleted successfully.');
 });
 
 

@@ -1,6 +1,7 @@
-// const axios = require('axios');
+const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response, NextFunction } = require('express');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 /**
@@ -10,64 +11,103 @@ const catchAsync = require('../utils/catchAsync');
  * @param {NextFunction} next
  */
 const verifyToken = async (req, res, next) => {
-  /**
-   * TODO:
-   * Refactor URL to zuri-core's URL
-   * Refactor authorization property on cookie object to SID
+  const URL = `https://api.zuri.chat/auth/verify-token`;
 
-    const token = req.cookies.authorization;
-    const URL = `https://test-zuri-core.herokuapp.com/auth/verify/${token}`;
+  try {
+    const tokenHeader = req.headers.authorization;
+    if (!tokenHeader) return res.status(401).json('No auth token was provided.');
 
-    try {
-      const {
-        data: { data },
-      } = await axios.post(URL);
-
-      if (!data) {
-        return res.status(403).json('User is not authorized.');
+    const {
+      data: { data },
+    } = await axios.post(
+      URL,
+      {},
+      {
+        headers: {
+          Authorization: tokenHeader,
+        },
       }
+    );
 
-      next();
-    } catch (error) {
-      return res.status(403).json(error.response.data);
+    if (!data) {
+      return res.status(401).json('User is not authorized.');
     }
-   */
 
-  /**
-   * For testing purposes, since we can't simulate the login flow.
-   *
-   * Usage:
-   *
-   * - Attach middleware to routes that require protection.
-   * - Use a 'token' query param to set priviledges
-   * -- e.g localhost:4000/info/?token=admin, localhost:4000/info/?token=daddyshowkey
-   *
-   * - Omit query param or use 'err' in query param to simulate invalid token.
-   * -- e.g localhost:4000/info/?token=err, localhost:4000/info
-   *
-   * priviledges:
-   * - admin
-   * - intern
-   */
-  const { token } = req.query;
-  let role = 'intern';
+    // Small hack to assign roles to users -- for testing purposes
+    const date = new Date().getMinutes();
+    if (date % 2 === 0) {
+      data.user.role = 'admin';
+    } else {
+      data.user.role = 'user';
+    }
 
-  if (!token || token.search(/err/i) >= 0) return res.status(401).json({ message: 'User is not authorized.' });
-
-  if (token.search(/admin/i) >= 0) {
-    role = 'admin';
+    // Set user on req Object
+    req.user = data.user;
+    next();
+  } catch (error) {
+    return res.status(401).json(error.response.data);
   }
-
-  const user = {
-    _id: '612e4a8f020e672b5e5a274e',
-    name: 'Aalegra',
-    email: 'celeste@goals.com',
-    password: 'lanadelray',
-    role: `${role}`,
-  };
-
-  req.user = user;
-  next();
 };
 
 exports.verifyToken = catchAsync(verifyToken);
+
+
+// check if user is part of this organization
+//will be called after the above
+exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
+  const {organization_id} = req.query
+
+  if(!organization_id)
+  {
+    return next(new AppError('organization_id is required',400))
+  }
+  const tokenHeader = req.headers.authorization
+  let organization = await axios({
+    method: 'get',
+    url: `https://api.zuri.chat/organizations/${organization_id}`,
+    headers: {'Authorization': tokenHeader}
+  })
+
+
+  organization = organization.data.data
+
+  if(organization.creator_email===req.user.email)
+  {
+    req.user.role = 'owner'
+    next()
+  }
+
+
+  let allMembers = await axios({
+      method: 'get',
+      url: `https://api.zuri.chat/organizations/${organization_id}/members`,
+      headers: {'Authorization': tokenHeader}
+    })
+  
+    allMembers = allMembers.data.data
+
+  for(let user of allMembers)
+  {
+    if(req.user.email===user.email)
+
+    {
+      req.user.role = 'user'
+      return next()
+    }
+  }
+  return next(new AppError('User is not a member of this organization',400))
+}) 
+
+
+exports.requireRoles = (roles)=>{
+  
+  return (req,res,next)=>{
+    
+    if(!roles.includes(req.user.role))
+    {
+      return next(new AppError("You are not authorized to perform this action"))
+    }
+
+    next()
+  }
+}

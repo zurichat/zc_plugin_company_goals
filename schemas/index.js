@@ -58,13 +58,13 @@ exports.goalsSchema = Joi.object({
 
 // mission schema
 exports.missionSchema = Joi.object({
-    title: Joi.string().required(),
+    title: Joi.string().optional(),
     description: Joi.string().required(),
 });
   
 // vision schema
 exports.visionSchema = Joi.object({
-    title: Joi.string().required(),
-    body: Joi.string().required(),
+    title: Joi.string().optional(),
+    description: Joi.string().required(),
 });
   
