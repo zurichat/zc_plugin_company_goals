@@ -4,11 +4,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
-const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } = require('../db/databaseHelper');
-const {goalsSchema } = require('../schemas');
+const { find, findAll, insertOne, deleteOne, updateOne } = require('../db/databaseHelper');
+const { goalsSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const { DATABASE } = require('../utils/config.js');
+const { createNotification } = require('./notificationController')
 
 
 
@@ -181,6 +181,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
   };
 
   roomuser = await insertOne('roomusers', data, organization_id);
+  createNotification(user_id, organization_id, data.title, 'assignGoal')
   const seeAll = await findAll('roomusers');
 
   res.status(201).json({
