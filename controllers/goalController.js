@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
 const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } = require('../db/databaseHelper');
-const {goalsSchema } = require('../schemas');
+const { goalsSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { DATABASE } = require('../utils/config.js');
@@ -225,5 +225,99 @@ console.log('step seven');
   res.status(201).json({
     status: 'success',
     data: roomuser.data,
+  });
+});
+
+exports.likeGoal = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already liked goal
+  const like = await find('goallikes', { goal_id: goalId, user_id: userId }, orgId);
+
+  // add like if it doesnt exist
+  if (!like.data.data) {
+    addedLike = await insertOne('goallikes', { goal_id: goalId, user_id: userId }, orgId);
+
+    return res.status(201).json({
+      status: 'success',
+      message: 'Goal like added',
+      data: {},
+    });
+  }
+
+  removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
+  // delete like from db
+  res.status(201).json({
+    status: 'success',
+    message: 'Goal like removed',
+    data: {},
+  });
+});
+
+exports.getGoalLikes = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await getGoalLikesSchema.validateAsync({ goalId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already liked goal
+  const like = await find('goallikes', { goal_id: goalId }, orgId);
+  if (!like.data.data) {
+    return res.status(200).json({
+      status: 'success',
+      data: { count: 0, likes: [] },
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count: like.data.data.length,
+      likes: like.data.data,
+    },
+  });
+});
+
+exports.checkUserLike = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already liked goal
+  const like = await find('goallikes', { goal_id: goalId, user_id: userId }, orgId);
+  if (!like.data.data) {
+    return res.status(200).json({
+      status: 'success',
+      data: false,
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: true,
   });
 });
