@@ -37,46 +37,53 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   // // Sending Responses
   // res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 
-exports.createGoal = catchAsync(async (req, res, next) => {
-  const roomId = uuidv4();
-  const { org_id: orgId } = req.query;
-  const { goal_name: title, category } = req.body;
-  const goal = req.body;
-  let goals;
+exports.createGoal = async (error, req, res, next) => {
+  
+  if (error) {
+   
+    return res.status(400).send({message: 'unable to connect to goals api'})
 
-  const data = {
-    room_id: roomId,
-    organization_id: orgId,
-    ...goal,
-  };
+  } 
+    const roomId = uuidv4();
+    const { org_id: orgId } = req.query;
+    const { goal_name: title, category } = req.body;
+    const goal = req.body;
+    let goals;
 
-  if (!orgId) {
-    res.status(400).send({ error: 'Organization_id is required' });
-  }
+    const data = {
+      room_id: roomId,
+      organization_id: orgId,
+      ...goal,
+    };
 
-  try {
-    await goalsSchema.validateAsync(req.body.payload);
-  } catch (err) {
-    if (err) return res.status(400).json(err.details);
-  }
-
-  try {
-    goals = await find('goals', { goal_name: title }, orgId);
-    const { data: foundGoal } = goals.data;
-
-    if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
-      return res
-        .status(400)
-        .send({
-          error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
-        });
+    if (!orgId) {
+      res.status(400).send({ error: 'Organization_id is required' });
     }
-  } catch (error) {
-    goals = await insertOne('goals', data, orgId);
-  }
 
-  res.status(200).json({ message: 'success', ...goals.data, data });
-});
+    try {
+      await goalsSchema.validateAsync(req.body.payload);
+    } catch (err) {
+      if (err) return res.status(400).json(err.details);
+    }
+
+    try {
+      goals = await find('goals', { goal_name: title }, orgId);
+      const { data: foundGoal } = goals.data;
+
+      if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+        return res
+          .status(400)
+          .send({
+            error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
+          });
+      }
+    } catch (error) {
+      goals = await insertOne('goals', data, orgId);
+    }
+
+    res.status(200).json({ message: 'success', ...goals.data, data });
+  
+};
 
 
 
@@ -167,8 +174,12 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
 });
 
+
+
 exports.assignGoal = catchAsync(async (req, res, next) => {
   const { room_id, user_id, organization_id } = req.query;
+
+console.log('step one')
 
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
@@ -176,11 +187,15 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
   // check that the room_id is valid
   const room = await find('goals', { room_id });
 
+  console.log('step two');
+
   if (room.data.data.length <= 0) {
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
   let roomuser = await find('roomusers', { room_id, user_id }, organization_id);
+
+  console.log('step three');
 
   if (roomuser.data.data.length > 0) {
     return next(new AppError('user already in room', 400));
@@ -188,9 +203,13 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
 
   const getAllRooms = await findAll('goals');
 
+  console.log('step four');
+
   const { data: allRooms } = getAllRooms.data;
 
   const getRoom = allRooms.filter((el) => el.room_id === room_id);
+
+  console.log('step five');
 
   const data = {
     room_id: getRoom[0].room_id,
@@ -199,9 +218,10 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     user_id,
   };
 
+  console.log('step six');
   roomuser = await insertOne('roomusers', data, organization_id);
-  const seeAll = await findAll('roomusers');
-
+  // const seeAll = await findAll('roomusers');
+console.log('step seven');
   res.status(201).json({
     status: 'success',
     data: roomuser.data,
