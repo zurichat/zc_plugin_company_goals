@@ -6,6 +6,7 @@ import visionReducer from './organizationVision.slice';
 import snackbarReducer from './snackbar.slice';
 import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
+import showGoalSliceReducer from './showGoalSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     deleteGoal: deleteGoalReducer,
     newGoal: newGoalReducer,
     snackbar: snackbarReducer,
+    goals: showGoalSliceReducer,
   },
 });
 

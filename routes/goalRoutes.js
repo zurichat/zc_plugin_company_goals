@@ -21,6 +21,9 @@ router.route('/:id').get(getSingleGoal);
 
 router.route('/delete').delete(deleteGoalById);
 
-// router.put('/update/:id', updateSingleGoalById);
+
+// router.patch('/update/:id', updateSingleGoalById);
+
+router.put('/update/:id', updateSingleGoalById);
 
 module.exports = router;

@@ -134,3 +134,12 @@ exports.removeUserFromRoom = catchAsync(async (req,res,next)=> {
       data: response.data,
     });
 })
+
+// get the number of users in a room
+exports.getUsersInaRoom = catchAsync(async(req, res, next) => {
+  const { room_id, user_id } = req.params;
+
+  const foundRoom = await find('rooms', { id: room_id});
+  console.log(foundRoom.data);
+  res.status(200).json(foundRoom.data); 
+})
