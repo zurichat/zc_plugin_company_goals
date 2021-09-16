@@ -25,6 +25,17 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 });
 
 
+  // const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
+  // /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
+  //   plugin_id: 'xxx',
+  //   organization_id: 'xxx',
+  //   collection_name: 'goals',
+  //   bulk_write: false,
+  //   payload: req.body,
+  // }); */
+  // //console.log(goals);
+  // // Sending Responses
+  // res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
