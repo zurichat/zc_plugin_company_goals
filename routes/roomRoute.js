@@ -7,5 +7,5 @@ router.route('/').get(createRoom);
 router.route('/join').get(joinRoom);
 router.route('/remove').get(removeUserFromRoom)
 router.route('/room').get(getRoom)
-router.route('/room/:id').get(getUsersInaRoom);
+// router.route('/room/:id').get(getUsersInaRoom);
 module.exports = router;
