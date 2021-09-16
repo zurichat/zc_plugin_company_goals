@@ -90,3 +90,13 @@ exports.getGoalLikesSchema = Joi.object({
     'any.required': 'organization id is required',
   }),
 });
+
+// notifications schema
+exports.notificationSchema = Joi.object({
+  userId: Joi.string().required(),
+  orgId: Joi.string().required(),
+  header: Joi.string().required(),
+  goalName: Joi.string().required(),
+  description: Joi.string().required(),
+  createdAt: Joi.date().timestamp('unix')
+})

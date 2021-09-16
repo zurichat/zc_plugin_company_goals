@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response, NextFunction } = require('express');
@@ -53,7 +54,7 @@ exports.verifyToken = catchAsync(verifyToken);
 
 
 // check if user is part of this organization
-//will be called after the above
+// will be called after the above
 exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
   const {organization_id} = req.query
 
@@ -86,15 +87,14 @@ exports.checkIsValidUser =  catchAsync(async(req,res,next)=>{
   
     allMembers = allMembers.data.data
 
-  for(let user of allMembers)
-  {
-    if(req.user.email===user.email)
-
-    {
+  const userRole = (user) => {
+    if(req.user.email === user.email) {
       req.user.role = 'user'
       return next()
     }
   }
+  allMembers.forEach(userRole);
+
   return next(new AppError('User is not a member of this organization',400))
 }) 
 
@@ -105,7 +105,7 @@ exports.requireRoles = (roles)=>{
     
     if(!roles.includes(req.user.role))
     {
-      return next(new AppError("You are not authorized to perform this action"))
+      return next(new AppError('You are not authorized to perform this action'))
     }
 
     next()
