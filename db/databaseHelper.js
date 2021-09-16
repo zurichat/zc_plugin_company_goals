@@ -90,11 +90,10 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id=nul
     payload.filter = filter
     payload.object_id = id
     payload.organization_id = organization_id
-
+    
     const response = await axios.put(`${URL}/write`, payload);
     return response;
   } catch (error) {
-    
     throw new AppError(`Update One operation failed: ${error}`, 500);
   }
 };
@@ -112,29 +111,27 @@ exports.updateMany = async (collectionName, data, filter, organization_id) => {
       const response = await axios.put(`${URL}/write`, payload);
       return response;
     } catch (error) {
-
       throw new AppError(`Update One operation failed: ${error}`, 500);
     }
 };
 
 
-exports.deleteOne = async(collectionName, filter, organization_id,id=null)=>{
+exports.deleteOne = async(collectionName, organization_id, _id)=>{
   try {
 
     payload.collection_name = collectionName;
-    payload.filter = filter
-    payload.object_id = id
-    payload.organization_id = organization_id
+    payload.object_id = _id;
+    payload.organization_id = organization_id;
 
     const response = await axios({
-      method: 'delete',
-      url: `${URL}/write`,
+      method: 'post',
+      url: `${URL}/delete`,
       data: payload
     });
     return response;
   } catch (error) {
    
-    throw new AppError(`Update One operation failed: ${error}`, 500);
+    throw new AppError(`Delete one operation failed: ${error}`, 500);
   } 
 }
 
@@ -158,4 +155,3 @@ exports.deleteMany = async(collectionName, filter, organization_id)=>{
     throw new AppError(`Update One operation failed: ${error}`, 500);
   }
 }
-

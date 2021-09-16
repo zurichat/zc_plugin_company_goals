@@ -5,8 +5,8 @@ const { verifyToken } = require('../middlewares/validate');
 
 const router = Router();
 
-router.get('/all', vision.getAllVision);
-router.get('/:id', vision.getSingleVision);
+router.get('/:organization_id', vision.getAllVision);
+// router.get('/:id', vision.getSingleVision);
 router.post('/create', vision.createVision);
 router.patch('/:organization_id', verifyToken, vision.updateVision);
 
