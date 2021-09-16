@@ -1,4 +1,11 @@
 {
-  "cSpell.words": ["Parens", "Zuri", "eqeqeq", "printf", "zurichat"],
+  "cSpell.words": [
+    "Deletemodal",
+    "eqeqeq",
+    "Parens",
+    "printf",
+    "Zuri",
+    "zurichat"
+  ],
   "deno.enable": false
 }

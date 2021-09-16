@@ -7,9 +7,11 @@ export const deleteGoalSlice = createSlice({
   },
   reducers: {
     deleteGoalAction: (state) => {
+      // eslint-disable-next-line no-param-reassign
       state.showDeleteGoalModal = true;
     },
     closeDeleteGoalModal: (state) => {
+      // eslint-disable-next-line no-param-reassign
       state.showDeleteGoalModal = false;
     },
   },
