@@ -1,31 +1,27 @@
 /* eslint-disable camelcase */
-// const axios = require('axios');
+const axios = require('axios');
 
 // const { request, response } = require('express');
 const { insertOne, findAll } = require('../db/databaseHelper');
 const { visionSchema } = require('../schemas');
-// this module is used to handle the vision
 const catchAsync = require('../utils/catchAsync');
 
 
 // request to get the vision
-exports.getAllVision = async (req, res) => {
+exports.getAllVision = catchAsync(async (req, res) => {
+  const { organization_id } = req.params;
+  // check if the organization has a vision statement
+  let vision;
   try {
-    const result = await findAll('visions');
-
-    // checks if a vision already exists
-    if(result) res.status(200).json({ message: result.data.message, data: result.data.data });
-
-    // Creates a vision with an empty string if none exists
-    else {
-      const newVision = await insertOne('visions', req.body);
-      res.status(200).json({ message: newVision.data.message, data: newVision.data.data });
-    }
+    vision = await findAll('vision', organization_id);
   } catch (error) {
-    res.json({error})
-    res.status(500).json({error: error.details});
+    // if there is an error then collection hasnt been created yet.
+    console.log(error.response.data)
+    vision = { vision: '' };
+    await insertOne('vision', vision, organization_id);
   }
-};
+  res.status(200).json({ status: 200, message: 'success',  ...vision.data });
+});
 
 // exports.getSingleVision = catchAsync(async (req, res) => {
 //   const organizationId = '1'; // Would be gotten from zuri main
@@ -62,19 +58,20 @@ exports.createVision = catchAsync(async (req, res) => {
       ...vision
     }
 
-    const visions = await insertOne('visions', data);
+    const foundVision = findAll('vision', orgId);
+    if(foundVision){
+      return res.status(200).json({ message: 'A vision is already set. Use the get endpoint to view it.' })
+    }
+
+    const visions = await insertOne('vision', data, orgId);
     // Sending Responses
     res.status(200).json({ message: 'success', ...visions.data, data });
-
   }
-
   catch(err){
     if (err) {
       return res.status(400).json({error: err.details });
     } 
-  }
-
-  
+  }  
 });
 
 /**
