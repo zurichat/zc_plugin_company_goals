@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable camelcase */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-shadow */
@@ -23,49 +24,66 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
 });
 
-exports.createGoal = catchAsync(async (req, res, next) => {
-  const roomId = uuidv4();
-  const { org_id: orgId } = req.query;
-  const { goal_name: title, category } = req.body;
-  const goal = req.body;
-  let goals;
 
-  const data = {
-    room_id: roomId,
-    organization_id: orgId,
-    ...goal,
-  };
+  // const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
+  // /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
+  //   plugin_id: 'xxx',
+  //   organization_id: 'xxx',
+  //   collection_name: 'goals',
+  //   bulk_write: false,
+  //   payload: req.body,
+  // }); */
+  // //console.log(goals);
+  // // Sending Responses
+  // res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 
-  if (!orgId) {
-    res.status(400).send({ error: 'Organization_id is required' });
-  }
+exports.createGoal = async (error, req, res, next) => {
   
-  if (!userId) {
-    res.status(400).send({ error: 'User_id is required' });
-  }
+  if (error) {
+   
+    return res.status(400).send({message: 'unable to connect to goals api'})
 
-  try {
-    await goalsSchema.validateAsync(req.body.payload);
-  } catch (err) {
-    if (err) return res.status(400).json(err.details);
-  }
+  } 
+    const roomId = uuidv4();
+    const { org_id: orgId } = req.query;
+    const { goal_name: title, category } = req.body;
+    const goal = req.body;
+    let goals;
 
-  try {
-    goals = await find('goals', { goal_name: title }, orgId);
-    const { data: foundGoal } = goals.data;
+    const data = {
+      room_id: roomId,
+      organization_id: orgId,
+      ...goal,
+    };
 
-    if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
-      return res
-        .status(400)
-        .send({
-          error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
-        });
+    if (!orgId) {
+      res.status(400).send({ error: 'Organization_id is required' });
     }
-  } catch (error) {
-    goals = await insertOne('goals', data, orgId);    
-  }
-  res.status(200).json({ message: 'success', ...goals.data, data });
-});
+
+    try {
+      await goalsSchema.validateAsync(req.body.payload);
+    } catch (err) {
+      if (err) return res.status(400).json(err.details);
+    }
+
+    try {
+      goals = await find('goals', { goal_name: title }, orgId);
+      const { data: foundGoal } = goals.data;
+
+      if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+        return res
+          .status(400)
+          .send({
+            error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
+          });
+      }
+    } catch (error) {
+      goals = await insertOne('goals', data, orgId);
+    }
+
+    res.status(200).json({ message: 'success', ...goals.data, data });
+  
+};
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
@@ -149,8 +167,12 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
 });
 
+
+
 exports.assignGoal = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id } = req.query;
+
+  console.log('step one')
 
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
@@ -158,11 +180,15 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
   // check that the room_id is valid
   const room = await find('goals', { room_id });
 
+  console.log('step two');
+
   if (room.data.data.length <= 0) {
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
   let roomuser = await find('roomusers', { room_id, user_id }, org_id);
+
+  console.log('step three');
 
   if (roomuser.data.data.length > 0) {
     return next(new AppError('user already in room', 400));
@@ -170,9 +196,13 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
 
   const getAllRooms = await findAll('goals');
 
+  console.log('step four');
+
   const { data: allRooms } = getAllRooms.data;
 
   const getRoom = allRooms.filter((el) => el.room_id === room_id);
+
+  console.log('step five');
 
   const data = {
     room_id: getRoom[0].room_id,
@@ -181,9 +211,10 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     user_id,
   };
 
-  roomuser = await insertOne('roomusers', data, org_id);
-  const seeAll = await findAll('roomusers');
-
+  console.log('step six');
+  roomuser = await insertOne('roomusers', data, organization_id);
+  // const seeAll = await findAll('roomusers');
+console.log('step seven');
   res.status(201).json({
     status: 'success',
     data: roomuser.data,

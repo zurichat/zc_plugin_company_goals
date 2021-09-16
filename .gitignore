@@ -5,4 +5,9 @@ config.env
 logs/
 .env
 yarn-error.log*
+<<<<<<< HEAD
 test.js
+=======
+.vscode
+settings.json
+>>>>>>> e6d0b1ec0631568cb47287f11ca69f8c5ef10fd2
