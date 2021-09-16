@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const axios = require('axios');
 const { SOCKET_KEY, SOCKET_URL } = require('../centrifugo_config/index');
 const CustomError = require('../utils/appError');

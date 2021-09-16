@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
+/* eslint-disable camelcase */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
@@ -7,9 +10,7 @@ const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } =
 const { goalsSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const { DATABASE } = require('../utils/config.js');
-
-
+const { createNotification } = require('./notificationController')
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
@@ -85,10 +86,6 @@ exports.createGoal = async (error, req, res, next) => {
   
 };
 
-
-
-
-
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
   let users;
@@ -121,9 +118,6 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 }
   next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
 });
-
-
-
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
@@ -177,9 +171,9 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
 
 exports.assignGoal = catchAsync(async (req, res, next) => {
-  const { room_id, user_id, organization_id } = req.query;
+  const { room_id, user_id, org_id } = req.query;
 
-console.log('step one')
+  console.log('step one')
 
   // Validate the body
   await userSchema.validateAsync({ room_id, user_id });
@@ -193,7 +187,7 @@ console.log('step one')
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
-  let roomuser = await find('roomusers', { room_id, user_id }, organization_id);
+  let roomuser = await find('roomusers', { room_id, user_id }, org_id);
 
   console.log('step three');
 
