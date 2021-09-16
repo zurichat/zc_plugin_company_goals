@@ -20,6 +20,17 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 });
 
 
+  // const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
+  // /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
+  //   plugin_id: 'xxx',
+  //   organization_id: 'xxx',
+  //   collection_name: 'goals',
+  //   bulk_write: false,
+  //   payload: req.body,
+  // }); */
+  // //console.log(goals);
+  // // Sending Responses
+  // res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 
 exports.createGoal = catchAsync(async (req, res, next) => {
 
@@ -55,9 +66,19 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     } catch (error) {
       goals = await insertOne('goals', data, orgId);
     }
+  })
 
-    res.status(200).json({ message: 'success', ...goals.data, data });
-});
+// <<<<<<< HEAD
+//   } catch (err) {
+//     if (err) {
+//       return res.status(400).json({error: err.details });
+//     } 
+//   }
+// >>>>>>> 125b02986033554193e1abc512c209a90bb2a0f4
+// =======
+//     res.status(200).json({ message: 'success', ...goals.data, data });
+// >>>>>>> 6477fec577082770239fdef04310243eb925e641
+// });
 
 
 
@@ -124,14 +145,13 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
 });
 
-exports.deleteGoal = catchAsync(async (req, res, next) => {
-  // First, Get the goalId from req.params
-  const goalId = req.query;
+// exports.deleteGoal = catchAsync(async (req, res, next) => {
+//   // First, Get the goalId from req.params
+//   const goalId = req.query;
   
-  // Then, delete the goal.
-  await deleteOne(collectionName='goals', data=req.body, filter={}, id=goalId)
+//   // Then, delete the goal.
+//   await deleteOne(collectionName='goals', data=req.body, filter={}, id=goalId)
 
 
-  // Then send a response message back to the client.
-  return res.status(200).json('Goal deleted successfully.');
-});
+//   // Then send a response message back to the client.
+//   return res.status(200).json({ message: 'Goal deleted successfully.'})

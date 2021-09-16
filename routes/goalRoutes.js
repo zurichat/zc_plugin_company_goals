@@ -22,7 +22,7 @@ router.route('/').get(getAllGoals);
 
 router.route('/:id').get(getSingleGoal);
 
-router.route('/find').get(getSingleGoal).delete(deleteGoal);
+// router.route('/find').get(getSingleGoal).delete(deleteGoal);
 
 
 // router.patch('/update/:id', updateSingleGoalById);
