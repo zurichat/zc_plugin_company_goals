@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
 import styled from 'styled-components';
-import MainNav from 'components/MainNav/MainNav';
-import SnackBar from 'components/snackbar/Snackbar';
+import MainNav from '../components/MainNav/MainNav';
+import SnackBar from '../components/snackbar/Snackbar';
 import SimpleModal from '../components/createGoal/CreateGoal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
@@ -35,5 +35,6 @@ export default App;
 const PluginSide = styled.div`
   width: 100%;
   background-color: #f6f6f6;
+  border: 1px solid red;
   padding-bottom: 20px;
 `;

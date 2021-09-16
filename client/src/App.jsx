@@ -4,13 +4,13 @@
 import React, { Suspense } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Faqs from 'pages/faqs';
+import Faqs from './pages/Faq';
 import Home from './pages/Home';
 import { useEffect } from 'react';
 import CentrifugeClient from 'centrifuge';
 import { useDispatch } from 'react-redux';
-import { saveVision } from 'redux/organizationVision.slice';
-import { activateSnackbar } from 'redux/snackbar.slice';
+import { saveVision } from './redux/organizationVision.slice';
+import { activateSnackbar } from './redux/snackbar.slice';
 
 function App() {
   const dispatch = useDispatch();
