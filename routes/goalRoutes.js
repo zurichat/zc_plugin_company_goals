@@ -4,6 +4,7 @@ const {
   getSingleGoal,
   getAllGoals,
   createGoal,
+  assignGoal,
   updateSingleGoalById,
   getArchivedGoals,
   deleteGoal,
@@ -15,11 +16,10 @@ router.route('/').post(createGoal).get(getAllGoals);
 
 // router.route('/archived').get(getArchivedGoals)
 
-// router.route('/:id').get(getSingleGoal).delete(deleteGoal)
+router.route('/assign').post(assignGoal)
 
-router.route('/:id').get(getSingleGoal);
 
-router.route('/find').get(getSingleGoal).delete(deleteGoal);
+router.route('/single').get(getSingleGoal).delete(deleteGoal);
 
 // router.put('/update/:id', updateSingleGoalById);
 
