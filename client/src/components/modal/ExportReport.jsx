@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GoalFolder from './GoalFolder/GoalFolder';
 import ReportFormat from './ReportFormat/ReportFormat';
 import ReportType from './ReportType/ReportType';
+import ExportButton from './ExportButton';
 
 function getModalStyle() {
   const top = 50;
@@ -93,7 +94,7 @@ export default function SimpleModal() {
           <div style={{ cursor: 'pointer' }} onClick={handleCloseX}>
             {/* <CloseIcon style={{ width: '50px', height: '50px' }} />
              */}
-             X
+            X
           </div>
         </div>
 

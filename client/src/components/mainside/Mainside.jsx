@@ -5,19 +5,18 @@ import styled from 'styled-components';
 import Design from 'components/Dropdown/Design';
 import MenuOption from 'components/Dropdown/MenuOption';
 import Mobile from 'components/Dropdown/Mobile';
+import MobilePrivate from 'components/Dropdown/MobilePrivate';
 import EmptyGoal from 'components/empty-goal-interface/EmptyGoal';
 import InnerNav from 'components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
-import ExportReport from 'components/modal/ExportReport';
+import ExportReport from 'components/Modal/ExportReport';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
-import MobilePrivate from 'components/Dropdown/MobilePrivate';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
-
 
 function Mainside() {
   return (
@@ -60,8 +59,6 @@ function Mainside() {
       <MenuOption />
       <Mobile />
       <MobilePrivate />
-     
-
     </>
   );
 }
