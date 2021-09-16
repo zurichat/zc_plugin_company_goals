@@ -26,38 +26,6 @@ import ReportsAndNotificationContainer from '../reports_and_notifications/Report
 
 function Mainside() {
   return (
-<<<<<<< HEAD
-    <Main>
-      <GoalsDisplayContainer>
-        {/* <GoalsNavLayout /> */}
-          {/* <Menuoption /> */}
-          <GoalDetailAccordion />
-        
-        <GoalsNavLayout />
-        <Goal>
-          <InnerNav />
-          <EmptyGoal />
-          {/* <Menuoption /> */}
-          {/* <GetGoals /> */}
-        </Goal>
-        {/* <Goal> //Goal container isnt needed for the GoalItem again.
-          <Menuoption /> //whoever is setting up can enable this and see how it looks.
-        </Goal> */}
-        {/* //PS => The repition of the Goal Item is only temporary */}
-        {/* <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem />
-        <GoalItem /> */}
-      </GoalsDisplayContainer>
-      <GoalsReportAndNotificationContainer>
-        <ReportsAndNotificationContainer />
-        <HistoryList />
-        {/* <Goal primary>
-=======
     <>
       <Main>
         <GoalsDisplayContainer>
@@ -85,7 +53,6 @@ function Mainside() {
           <ReportsAndNotificationContainer />
           <HistoryList />
           {/* <Goal primary>
->>>>>>> 5c060c4902863e3c47b41425f48de511794d6b8b
           <Report />
           <Notification />
         </Goal> */}
