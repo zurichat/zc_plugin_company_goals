@@ -57,6 +57,14 @@ const GoalItem = () => {
 
         <MoreOptions>
           <img src={ellipsis} alt="more-options-icon" />
+          <ul>
+          <li>
+            Delete
+          </li>
+          <li>
+            EditGoal
+          </li>
+        </ul>
         </MoreOptions>
       </Container>
   );

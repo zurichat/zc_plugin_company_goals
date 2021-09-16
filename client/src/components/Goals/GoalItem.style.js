@@ -97,7 +97,16 @@ export const IconItemCount = styled.span`
 export const MoreOptions = styled.div`
     margin-top: 0.5rem;
     cursor: pointer;
+    position: relative;
     &:hover {
       color: #00B87C;
+    }
+    ul {
+      position: absolute;
+      right: 0;
+      top: 25px;
+      list-style-type: none;
+      color: white;
+      background-color: black;
     }
 `;
