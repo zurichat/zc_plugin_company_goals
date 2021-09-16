@@ -1,13 +1,15 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable camelcase */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
+const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
 const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
 
-//Global Variables
-const collectionName = "mission";
+// Global Variables
+const collectionName = 'mission';
 
 // exports.createMission = catchAsync(async (req, res, next) => {
 //   // Validating each property against their data type
@@ -52,13 +54,13 @@ exports.updateMission = catchAsync(async (req, res, next)=> {
   const {organization_id} = req.params;
 
   if (role !=='admin') {
-    res.status(401).json({message: "You are not authorized to perform this action"})
+    res.status(401).json({message: 'You are not authorized to perform this action'})
   }
   try {
     let prevMission = await findAll(collectionName,organization_id);
     [prevMission] = prevMission.data.data
-    const updatedMission = await updateOne(collectionName, mission,{},organization_id,prevMission._id);
-    return res.status(200).json({message: "Update Sucessful", update: updatedMission.data});
+    const updatedMission = await updateOne(collectionName, mission,{},organization_id, prevMission._id);
+    return res.status(200).json({message: 'Update Sucessful', update: updatedMission.data});
   }
   catch(error) {
     next(error);

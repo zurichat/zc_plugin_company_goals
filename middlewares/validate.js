@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response, NextFunction } = require('express');
@@ -34,12 +35,12 @@ const verifyToken = async (req, res, next) => {
     }
 
     // Small hack to assign roles to users -- for testing purposes
-    // const date = new Date().getMinutes();
-    // if (date % 2 === 0) {
-    //   data.user.role = 'admin';
-    // } else {
-    //   data.user.role = 'user';
-    // }
+    const date = new Date().getMinutes();
+    if (date % 2 === 0) {
+      data.user.role = 'admin';
+    } else {
+      data.user.role = 'user';
+    }
     data.user.role = 'admin';
 
     // Set user on req Object
@@ -53,7 +54,7 @@ const verifyToken = async (req, res, next) => {
 exports.verifyToken = catchAsync(verifyToken);
 
 // check if user is part of this organization
-//will be called after the above
+// will be called after the above
 exports.checkIsValidUser = catchAsync(async (req, res, next) => {
   const { organization_id } = req.query;
 
@@ -82,12 +83,14 @@ exports.checkIsValidUser = catchAsync(async (req, res, next) => {
 
   allMembers = allMembers.data.data;
 
-  for (let user of allMembers) {
+  const userRole = (user) => {
     if (req.user.email === user.email) {
       req.user.role = 'user';
       return next();
     }
-  }
+  };
+  allMembers.forEach(userRole);
+
   return next(new AppError('User is not a member of this organization', 400));
 });
 
