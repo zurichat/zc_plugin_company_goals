@@ -2,22 +2,14 @@ import styled from 'styled-components';
 
 // eslint-disable-next-line import/prefer-default-export
 export const EmptyGoalContainer = styled.div`
-  /* align-self: center; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin-top: 46px; */
 `;
 
-// export const EmptyImgContainer = styled.div`
-//   height: 165px;
-//   width: 165px;
-//   margin-bottom: ;
-// `;
-
 export const EmptyGoalText = styled.p`
-  font-family: Lato;
+  font-family: 'Lato';
   font-style: normal;
   font-weight: bold;
   font-size: 15px;
