@@ -1,145 +1,318 @@
-const axios = require('axios');
-const Joi = require('joi');
-
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
+/* eslint-disable camelcase */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-shadow */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+const { v4: uuidv4 } = require('uuid');
+const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } = require('../db/databaseHelper');
+const { goalsSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { createNotification } = require('./notificationController')
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const goals = await axios.get(`https://test-zuri-core.herokuapp.com/crud/goals/find`);
+  const { org_id: orgId } = req.query;
 
-  // Sending Responses
-  res.status(200).json({ data: goals.data })
+  if (!orgId) {
+    return res.status(400).send({error: 'org_id is required'})
+  }
+  // Search for all Goals
+  const goals = await findAll('goals', orgId);
+
+  // Returning Response
+  res.status(200).json({ status: 200, message: 'success', data: goals.data.data })
 });
 
-const schema = Joi.object({
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  monthlyGoal: Joi.string().required(),
-  quarterlyGoal: Joi.string().required(),
-  biannualGoal: Joi.string().required(),
-  annualGoal: Joi.string().required(),
-  achieved: Joi.boolean().required(),
-  createdBy: Joi.date().required(),
-});
 
-exports.createGoals = catchAsync(async (req, res, next) => {
-  // Validating each property against their data type
-  await schema.validateAsync(req.body);
+  // const goals = await axios.post(`https://test-zuri-core.herokuapp.com/crud/goals/insert-one`, req.body);
+  // /* const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
+  //   plugin_id: 'xxx',
+  //   organization_id: 'xxx',
+  //   collection_name: 'goals',
+  //   bulk_write: false,
+  //   payload: req.body,
+  // }); */
+  // //console.log(goals);
+  // // Sending Responses
+  // res.status(200).json({ status: 'success', data: { id: goals.data.insertedId, ...data } });
 
-  // Fake API
-  // https://api.zuri.chat/data/write
+exports.createGoal = async (error, req, res, next) => {
+  
+  if (error) {
+   
+    return res.status(400).send({message: 'unable to connect to goals api'})
 
-  const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
-    plugin_id: '61330fcfbfba0a42d7f38e59',
-    organization_id: '1',
-    collection_name: 'goals',
-    bulk_write: false,
-    payload: req.body,
-  });
+  } 
+    const roomId = uuidv4();
+    const { org_id: orgId } = req.query;
+    const { goal_name: title, category } = req.body;
+    const goal = req.body;
+    let goals;
 
-  // Sending Responses
-  res.status(200).json(goals.data);
-});
+    const data = {
+      room_id: roomId,
+      organization_id: orgId,
+      ...goal,
+    };
+
+    if (!orgId) {
+      res.status(400).send({ error: 'Organization_id is required' });
+    }
+
+    try {
+      await goalsSchema.validateAsync(req.body.payload);
+    } catch (err) {
+      if (err) return res.status(400).json(err.details);
+    }
+
+    try {
+      goals = await find('goals', { goal_name: title }, orgId);
+      const { data: foundGoal } = goals.data;
+
+      if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+        return res
+          .status(400)
+          .send({
+            error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
+          });
+      }
+    } catch (error) {
+      goals = await insertOne('goals', data, orgId);
+    }
+
+    res.status(200).json({ message: 'success', ...goals.data, data });
+  
+};
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
-  const goalId = req.params.id;
-  const collectionName = 'goals';
+  // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
+  let users;
+  const { room_id: id, org_id: org } = req.query;
+  const goal = await find('goals', { room_id: id }, org);
 
-  // for zuri core live API
-  const baseUrl = 'https://zccore.herokuapp.com';
-  const pluginId = '61330fcfbfba0a42d7f38e59';
-  const organizationId = '1'; // Would be gotten from zuri main
-  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
 
-  const result = await axios.get(url, { params: { _id: goalId } });
-  const status = result.status || 200;
-  const {data} = result;
-  res.status(status).json({ data: data });
-});
+  try {
+    
+    users = await find('roomusers', { room_id: id }, org_id);
 
-exports.createGoal = catchAsync(async (req, res, next) => {
-  await res.status(201).send({
-    message: 'Success, Goal Created',
-    data: {
-      title: 'Goal',
-      description: 'This is a quarterly goal',
-      weeklyGoal: 'false',
-      monthlyGoal: 'false',
-      quarterlyGoal: 'true',
-      biannualGoal: 'false',
-      annualGoal: 'false',
-      achieved: 'false',
-      createdBy: 'HR',
-      createdAt: 'Wed Sep 3 2020 01:00:00 GMT+0100(WAT)',
-      updatedAt: 'Wed Sep 3 2020 01:00:00 GMT+0100(WAT)',
-    },
-  });
+    const { data: getUsers } = findUsers.data;
+    
+    const result = getUsers.map((user) => {
+      return user.user_id
+    })
+    
+    const data = {
+      goal: goal.data.data,
+      users: result
+    }
+    res.status(200).json({ status: 200, message: 'success', data });
+  } catch (err) {
+    users = 'No user has been assigned to this goal';
+    const data = {
+      goal: goal.data.data,
+      users,
+    };
+    res.status(200).json({ status: 200, message: 'success', data});
+}
+  next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
 });
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
-  // First, Get update from req.body
+  // First, Get the goalId from req.params
   const goalId = req.params.id;
-  const collectionName = 'goals';
-
+  const { org_id: orgId } = req.query;
+  
   // Then, send update to zuri core
-  // const url = `https://zccore.herokuapp.com/data/write/61330fcfbfba0a42d7f38e59/${collectionName}/${goalId}`;
-  const updatedGoal = await axios.put(`https://zccore.herokuapp.com/data/write`, {
-    plugin_id: '61330fcfbfba0a42d7f38e59',
-    organization_id: '1',
-    collection_name: collectionName,
-    bulk_write: false,
-    object_id: goalId,
-    payload: req.body,
-  })
+  const updatedGoal = await updateOne(collectionName='goals', organization_id=orgId, data=req.body, filter={}, id=goalId)
+
 
   // send the updated goal to client.
   return res.status(200).json(updatedGoal.data);
 });
 
 exports.getArchivedGoals = catchAsync(async (req, res, next) => {
-  const collectionName = 'goals';
 
-  // for zuri core live API
-  const baseUrl = 'https://zccore.herokuapp.com';
-  const pluginId = '61330fcfbfba0a42d7f38e59';
-  const organizationId = '1';
-  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
+  // Gets archived goals
+  const goals = await find('goals', {achieved: false});
 
-  // Gets all goals
-  const goals = await axios.get(url);
-  let archivedGoals = []
-
-  // Checks if a goal is archived
-  const goalChecker = (value) => {
-    if (value.achieved === true) {
-        archivedGoals.push(value)
-    }
+  // Condition if there are no archived goals
+  if (goals.data.data.length < 1) {
+    goals.data.data = 'No archived goals yet.'
   }
-  goals.data.data.forEach(goalChecker);
 
-  if (archivedGoals.length < 1) {
-    archivedGoals = 'No archived goals yet.'
-  }
-  // Returns all archived goals
-  res.status(200).json({ status: 200, message: 'success', data: archivedGoals});
+  // Return Response
+  res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
 });
 
-exports.deleteGoal = catchAsync(async (req, res, next) => {
-  // Delete by Id
-  const goalId = req.params.id;
+exports.deleteGoalById = catchAsync(async (req, res, next) => {
+  // First, Get the goalId & orgid from req.params
+  const { goal_id: id, org_id: org } = req.query;
 
-  const collectionName = 'goals';
+  // The organization id is required.
+  if (!org) {
+    res.status(400).send({ error: 'Organization_id is required' });
+  }
 
-  // Then, delete from zuri core
-  // const url = `https://zccore.herokuapp.com/data/write/61330fcfbfba0a42d7f38e59/${collectionName}/${goalId}`;
-    await axios.delete(`https://zccore.herokuapp.com`, {
-    plugin_id: '61330fcfbfba0a42d7f38e59',
-    organization_id: '1',
-    collection_name: collectionName,
-    bulk_write: false,
-    object_id: goalId,
-    filter: {},
-    payload: {}
-  })
-  // Response message.
-  return res.status(200).json("Goal deleted succefully");
+  // find the goal first to ensure the goal was created by the organization
+  const goal = await find('goals', { _id: id }, org);
+
+  if (!goal.data.data) {
+    res.status(404).send({ error: 'There is no goal of this id attached to this organization id that was found.' });
+  }
+
+  // Then, delete the goal.
+  const response = await deleteOne(collectionName='goals', data=org, _id=id);
+
+  res.status(200).json({status: 200, message: 'Goal deleted successfully.', rsponse: response.data.data});
+
+});
+
+
+
+exports.assignGoal = catchAsync(async (req, res, next) => {
+  const { room_id, user_id, org_id } = req.query;
+
+  console.log('step one')
+
+  // Validate the body
+  await userSchema.validateAsync({ room_id, user_id });
+
+  // check that the room_id is valid
+  const room = await find('goals', { room_id });
+
+  console.log('step two');
+
+  if (room.data.data.length <= 0) {
+    return next(new AppError('Room not found', 404));
+  }
+  // check that user isnt already in the room
+  let roomuser = await find('roomusers', { room_id, user_id }, org_id);
+
+  console.log('step three');
+
+  if (roomuser.data.data.length > 0) {
+    return next(new AppError('user already in room', 400));
+  }
+
+  const getAllRooms = await findAll('goals');
+
+  console.log('step four');
+
+  const { data: allRooms } = getAllRooms.data;
+
+  const getRoom = allRooms.filter((el) => el.room_id === room_id);
+
+  console.log('step five');
+
+  const data = {
+    room_id: getRoom[0].room_id,
+    title: getRoom[0].goal_name,
+    access: getRoom[0].access,
+    user_id,
+  };
+
+  console.log('step six');
+  roomuser = await insertOne('roomusers', data, organization_id);
+  // const seeAll = await findAll('roomusers');
+console.log('step seven');
+  res.status(201).json({
+    status: 'success',
+    data: roomuser.data,
+  });
+});
+
+exports.likeGoal = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already liked goal
+  const like = await find('goallikes', { goal_id: goalId, user_id: userId }, orgId);
+
+  // add like if it doesnt exist
+  if (!like.data.data) {
+    addedLike = await insertOne('goallikes', { goal_id: goalId, user_id: userId }, orgId);
+
+    return res.status(201).json({
+      status: 'success',
+      message: 'Goal like added',
+      data: {},
+    });
+  }
+
+  removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
+  // delete like from db
+  res.status(201).json({
+    status: 'success',
+    message: 'Goal like removed',
+    data: {},
+  });
+});
+
+exports.getGoalLikes = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await getGoalLikesSchema.validateAsync({ goalId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already liked goal
+  const like = await find('goallikes', { goal_id: goalId }, orgId);
+  if (!like.data.data) {
+    return res.status(200).json({
+      status: 'success',
+      data: { count: 0, likes: [] },
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count: like.data.data.length,
+      likes: like.data.data,
+    },
+  });
+});
+
+exports.checkUserLike = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already liked goal
+  const like = await find('goallikes', { goal_id: goalId, user_id: userId }, orgId);
+  if (!like.data.data) {
+    return res.status(200).json({
+      status: 'success',
+      data: false,
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: true,
+  });
 });

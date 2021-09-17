@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 const path = require('path');
 
 const compression = require('compression');
@@ -17,11 +18,15 @@ const globalErrorHandler = require('./controllers/errorController');
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
 const missionRouter = require('./routes/missionRoute.js');
-const visionRouter = require('./routes/visionRoutes');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
 const roomRouter = require('./routes/roomRoute');
+const userRouter = require('./routes/userRoute');
+const notificationRouter = require('./routes/notificationRoute')
+const authRouter = require('./routes/auth')
 
+const visionRouter = require('./routes/visionRoutes');
+const centrifugoTest = require('./routes/centrifugoTest');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
@@ -52,14 +57,39 @@ app.use(xss());
 // Compress text sent to client
 app.use(compression());
 
+// swagger setup
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDocument = require('swagger-jsdoc');
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Company Goals Plugin API',
+      version: '1.0.0',
+      description: 'Company Goals plugin api for zuri chat application documentation',
+      servers: ['https://goals.zuri.chat/api'],
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+const swaggerDocs = swaggerJSDocument(swaggerOptions);
+
+
 // Api routes
-app.use('/api/v1/goals', rateLimiter(), goalRouter);
+app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
+app.use('/api/v1/users', rateLimiter(), userRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/api/vision', visionRouter);
-app.use('/api/mission', missionRouter);
+app.use('/api/v1/vision', visionRouter);
+app.use('/api/v1/mission', missionRouter);
+app.use('/api/v1/notifications', notificationRouter);
+app.use('/api/centrifugotest', centrifugoTest);
+app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api/v1/auth', authRouter)
+
 
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

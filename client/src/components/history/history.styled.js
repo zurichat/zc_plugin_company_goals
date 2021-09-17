@@ -35,6 +35,7 @@ const Button = styled.button`
   font-weight: 400;
   background: transparent;
   text-decoration: none;
+  cursor: pointer;
 `;
 
 const HeaderH3 = styled.h3`

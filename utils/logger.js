@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 const path = require('path');
-
 const { createLogger, format, transports } = require('winston');
 
 const { combine, timestamp: timestampFn, printf, prettyPrint } = format;
@@ -31,7 +31,7 @@ const rejectionsTransport = new transports.File({
 });
 
 const logger = createLogger({
-  format: combine(timestampFn(), myFormat, prettyPrint()),
+  format: combine(timestampFn(), myFormat, prettyPrint(), format.colorize(), format.json({ space: 2 })),
 });
 
 // If we're not in production then log to the `console` with the format:

@@ -1,12 +1,14 @@
-const { URL, payload } = require('../utils/config').DATABASE;
+/* eslint-disable camelcase */
 const axios = require('axios');
 const AppError = require('../utils/appError');
+const { URL, payload } = require('../utils/config').DATABASE;
 
-exports.insertOne = async (collectionName, data) => {
+exports.insertOne = async (collectionName, data, organization_id) => {
   try {
     const newPayload = { ...payload };
     newPayload.collection_name = collectionName;
     newPayload.payload = data;
+    newPayload.organization_id = organization_id;
 
     const response = await axios.post(`${URL}/write`, newPayload);
     return response;
@@ -15,11 +17,12 @@ exports.insertOne = async (collectionName, data) => {
   }
 };
 
-exports.insertMany = async (collectionName, data) => {
+exports.insertMany = async (collectionName, data, organization_id) => {
   try {
     payload.collection_name = collectionName;
     payload.payload = data;
     payload.bulk_write = true;
+    payload.organization_id = organization_id;
 
     const response = await axios.post(`${URL}/write`, payload);
     return response;
@@ -28,9 +31,9 @@ exports.insertMany = async (collectionName, data) => {
   }
 };
 
-exports.findAll = async (collectionName) => {
+exports.findAll = async (collectionName, organization_id) => {
   try {
-    const { plugin_id, organization_id } = payload;
+    const { plugin_id } = payload;
 
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}`);
     return response;
@@ -39,9 +42,9 @@ exports.findAll = async (collectionName) => {
   }
 };
 
-exports.findById = async (collectionName, id) => {
+exports.findById = async (collectionName, id, organization_id) => {
   try {
-    const { plugin_id, organization_id } = payload;
+    const { plugin_id } = payload;
 
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}?_id=${id}`);
     return response;
@@ -50,14 +53,33 @@ exports.findById = async (collectionName, id) => {
   }
 };
 
-
-exports.updateOne = async (collectionName, data,filter, id=null) => {
+exports.find = async (collectionName, filter, organization_id) => {
   try {
+    const { plugin_id } = payload;
 
+    let url = `${URL}/read/${plugin_id}/${collectionName}/${organization_id}?`;
+
+    const allKeys = Object.keys(filter);
+    allKeys.forEach((key) => {
+      url += `${key}=${filter[key]}&`;
+    });
+
+    url = url.substr(0, url.length - 1);
+
+    const response = await axios.get(url);
+    return response;
+  } catch (error) {
+    throw new AppError(`find by id operation failed: ${error}`, 500);
+  }
+};
+
+exports.updateOne = async (collectionName, data, filter, organization_id, id = null) => {
+  try {
     payload.collection_name = collectionName;
     payload.payload = data;
-    payload.filter = filter
-    payload.object_id = id
+    payload.filter = filter;
+    payload.object_id = id;
+    payload.organization_id = organization_id;
 
     const response = await axios.put(`${URL}/write`, payload);
     return response;
@@ -66,21 +88,53 @@ exports.updateOne = async (collectionName, data,filter, id=null) => {
   }
 };
 
+exports.updateMany = async (collectionName, data, filter, organization_id) => {
+  try {
+    payload.collection_name = collectionName;
+    payload.payload = data;
+    payload.filter = filter;
+    payload.bulk_write = true;
+    payload.organization_id = organization_id;
 
-exports.updateMany = async (collectionName, data,filter) => {
-    try {
-  
-      payload.collection_name = collectionName;
-      payload.payload = data;
-      payload.filter = filter
-      payload.bulk_write = true
-  
-      const response = await axios.put(`${URL}/write`, payload);
-      return response;
-    } catch (error) {
-      throw new AppError(`Update One operation failed: ${error}`, 500);
-    }
+    const response = await axios.put(`${URL}/write`, payload);
+    return response;
+  } catch (error) {
+    throw new AppError(`Update One operation failed: ${error}`, 500);
+  }
 };
 
+exports.deleteOne = async (collectionName, organization_id, _id) => {
+  try {
+    payload.collection_name = collectionName;
+    payload.object_id = _id;
+    payload.organization_id = organization_id;
 
+    const response = await axios({
+      method: 'post',
+      url: `${URL}/delete`,
+      data: payload,
+    });
+    return response;
+  } catch (error) {
+    throw new AppError(`Delete one operation failed: ${error}`, 500);
+  }
+};
 
+exports.deleteMany = async (collectionName, filter, organization_id) => {
+  try {
+    payload.collection_name = collectionName;
+    payload.filter = filter;
+    payload.bulk_write = true;
+    payload.organization_id = organization_id;
+
+    const response = await axios({
+      method: 'delete',
+      url: `${URL}/write`,
+      data: payload,
+    });
+
+    return response;
+  } catch (error) {
+    throw new AppError(`Update One operation failed: ${error}`, 500);
+  }
+};

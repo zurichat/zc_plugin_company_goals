@@ -1,14 +1,14 @@
 import { useState } from 'react';
-
 import PropTypes from 'prop-types';
-
 import { useDispatch } from 'react-redux';
 
-import search from '../../Images/search.svg';
-import settings from '../../Images/settings.svg';
-
+import search from '../../Images/svg/search.svg';
+import settings from '../../Images/svg/settings.svg';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
-import SearchResults from '../searchBarDisplay/Search';
+
+// import SearchResults from '../searchBarDisplay/Search';
+
+import SearchInteractive from '../Searchinteractive/SearchInteractive';
 import {
   Nav,
   Menu,
@@ -22,17 +22,18 @@ import {
   Header,
   HeaderText,
 } from './navbar.styled';
-import SearchInteractive from '../Searchinteractive/SearchInteractive';
 
 const Navbar = () => {
-  const [display, setDisplay] = useState(false)
+  const [display, setDisplay] = useState(false);
   const [searchState, setSearchState] = useState('');
+
   const dispatch = useDispatch();
-  const handleSearch = (event) => {
-    const value = event.type === 'blur' ? '' : event.target.value;
-    setSearchState(value);
-    setDisplay(true)
+
+  const handleEdit = (e) => {
+    setSearchState(e.target.value);
+    setDisplay(true);
   };
+
   return (
     <div>
       <Header>
@@ -49,8 +50,8 @@ const Navbar = () => {
 
         <SearchContainer>
           <SearchIconStyled src={search} alt="search" />
-          <SearchInput type="text" placeholder="Search" onChange={handleSearch} onBlur={handleSearch} />
-          {searchState && <SearchInteractive />}
+          <SearchInput value={searchState} type="text" placeholder="Search" onChange={handleEdit} />
+          {searchState && <SearchInteractive searchState={searchState} />}
         </SearchContainer>
 
         <SettingsIconStyled src={settings} alt="settting" />
@@ -60,6 +61,7 @@ const Navbar = () => {
 };
 
 Navbar.propTypes = {
+  searchState: PropTypes.string.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   onSearch: PropTypes.func.isRequired,
 };
