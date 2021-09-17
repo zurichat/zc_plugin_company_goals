@@ -18,7 +18,7 @@ const verifyToken = async (req, res, next) => {
     const tokenHeader = req.headers.authorization;
 
     if (!tokenHeader) {
-      return next(new AppError('No auth token was provided.', 404));
+      return next(new AppError('No auth token was provided.', 401));
     }
 
     const {
@@ -40,6 +40,7 @@ const verifyToken = async (req, res, next) => {
     } else {
       data.user.role = 'user';
     }
+    // data.user.role = 'admin';  Uncomment this line for complete admin access
 
     // Set user on req Object
     req.user = data.user;
@@ -99,17 +100,17 @@ const checkIsValidUser = async (req, res, next) => {
   };
   allMembers.forEach(userRole);
 
-  return next(new AppError('User is not a member of this organization', 400));
+  return next(new AppError('User is not a member of this organization', 403));
 };
 
 /**
  * Perform role authorization on user request.
- * @param {String} roles List of authorized roles.
+ * @param {String[]} roles List of authorized roles.
  */
 const requireRoles = (roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(new AppError('You are not authorized to perform this action'));
+      return next(new AppError('You are not authorized to perform this action', 401));
     }
 
     return next();
