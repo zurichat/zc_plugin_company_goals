@@ -1,52 +1,36 @@
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
-
+// import Button from '@material-ui/core/Button';
+// import Typography from '@material-ui/core/Typography';
+// import AddIcon from '@material-ui/icons/Add';
+import editImg from './visionAsset/editImg.png'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useStyles } from '../../../hooks/screenSize';
 import { showEditVisionModal } from '../../../redux/organizationVision.slice';
+import { 
+  Editbutton,
+  Input,
+  Title,
+  Box,
+  Line
+} from './vision.style';
+
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
   const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
   const classes = useStyles();
+
   return (
-    <Box>
-      <Box
-        container
-        className={classes.root.work}
-        display="flex"
-        style={{
-          fontWeight: 'bold',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '3px solid #00B87C',
-        }}
-      >
-        <Button style={{ fontWeight: 'bold' }}>Vision</Button>
+    <>
+    <Title top="15%" right="45%" rsTop="50%" rsRight="78%" color="#000000">Vision</Title>
+     {/* <Line className="line" top="53%" right="9%"></Line> */}
+    <Box className="box">
         <div>
-          {true && (
-            <Button
-              startIcon={<AddIcon />}
-              style={{ fontWeight: 'bold' }}
-              onClick={() => dispatch(showEditVisionModal())}
-            >
-              Edit Vision
-            </Button>
-          )}
-          {/* <span>
-                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
-                  <ExpandLessIcon />
-                </Button>
-              </span> */}
+          <Input className="visionInput" padding="5px" placeholder="Click to add vision"></Input>
         </div>
-      </Box>
-      <Typography className={classes.root} style={{ padding: 12, backgroundColor: 'white' }}>
-        {visionText || 'Tech Hub Builder'}
-      </Typography>
+      <Editbutton className="editbutton" right="7%" rsRight="16%"><img src={editImg} alt="edit" /></Editbutton>
     </Box>
+    </>
   );
 };
 
