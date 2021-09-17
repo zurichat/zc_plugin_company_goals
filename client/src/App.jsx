@@ -42,7 +42,7 @@ function App() {
   }, []);
   return (
     <>
-      <Router>
+      <Router basename="/goals">
         <Suspense fallback={<CircularProgress />}>
           <Switch>
             <Route path="/" component={Home} exact />

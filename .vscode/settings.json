@@ -1,11 +1,5 @@
 {
-  "cSpell.words": [
-    "Deletemodal",
-    "eqeqeq",
-    "Parens",
-    "printf",
-    "Zuri",
-    "zurichat"
-  ],
-  "deno.enable": false
+  "cSpell.words": ["Deletemodal", "eqeqeq", "Parens", "printf", "Zuri", "zurichat"],
+  "deno.enable": false,
+  "liveServer.settings.port": 5501
 }

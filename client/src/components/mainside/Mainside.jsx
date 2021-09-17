@@ -35,13 +35,6 @@ function Mainside() {
         </Goal> */}
           {/* //PS => The repition of the Goal Item is only temporary */}
           <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
