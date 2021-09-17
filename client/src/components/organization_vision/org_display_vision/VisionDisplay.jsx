@@ -22,13 +22,13 @@ const DisplayOrganizationVision = () => {
 
   return (
     <>
-    <Title top="15%" right="45%" color="#000000">Vision</Title>
-     <Line className="line" top="53%" right="9%"></Line>
+    <Title top="15%" right="45%" rsTop="50%" rsRight="78%" color="#000000">Vision</Title>
+     {/* <Line className="line" top="53%" right="9%"></Line> */}
     <Box className="box">
         <div>
           <Input className="visionInput" padding="5px" placeholder="Click to add vision"></Input>
         </div>
-      <Editbutton className="editbutton" right="7%"><img src={editImg} alt="edit" /></Editbutton>
+      <Editbutton className="editbutton" right="7%" rsRight="16%"><img src={editImg} alt="edit" /></Editbutton>
     </Box>
     </>
   );

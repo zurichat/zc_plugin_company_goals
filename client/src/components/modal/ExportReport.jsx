@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
 import GoalFolder from './GoalFolder/GoalFolder';
 import ReportFormat from './ReportFormat/ReportFormat';
+import ReportType from './ReportType/ReportType';
+import ExportButton from './ExportButton';
 
 function getModalStyle() {
   const top = 50;
@@ -19,11 +23,18 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: '759px',
-    height: '500px',
+    height: '600px',
     borderRadius: '4px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(3, 5, 4),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: '100%',
+    },
+    overflowY: 'scroll',
   },
   exportHeader: {
     display: 'flex',
@@ -80,14 +91,18 @@ export default function SimpleModal() {
           <h2 className={classes.exportH2} id="simple-modal-title">
             Export Report
           </h2>
-          <span style={{ cursor: 'pointer' }} onClick={handleCloseX}>
+          <div style={{ cursor: 'pointer' }} onClick={handleCloseX}>
+            {/* <CloseIcon style={{ width: '50px', height: '50px' }} />
+             */}
             X
-          </span>
+          </div>
         </div>
 
         <div className={classes.exportBody}>
           <GoalFolder />
           <ReportFormat />
+          <ReportType />
+          <ExportButton />
         </div>
       </div>
     </div>

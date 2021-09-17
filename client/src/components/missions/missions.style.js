@@ -13,8 +13,8 @@ export const Input = styled.input `
    background-color: ${(props) => props.bgColor};
    padding: ${(props) => props.padding};
    margin: ${(props) => props.margin};
-   width: 550px;
-   height: 48px;
+   width: 518px;
+   height: 61px;
    border: none;
 
    &::placeholder {
@@ -26,6 +26,10 @@ export const Input = styled.input `
    &:-ms-keyboard-active {
       border-style: none;
    }
+   @media only screen and (max-width: 420px){
+      width: 340px;
+      height: 45px;
+   }
 `
 export const Editbutton = styled.button `
    border: none;
@@ -34,6 +38,10 @@ export const Editbutton = styled.button `
    top: ${(props) => props.top};
    left: ${(props) => props.left};
    cursor: pointer;
+
+   @media only screen and (max-width: 420px){
+      left: ${(props) => props.rsLeft};
+   }
 `
 export const CollapseButton = styled.button `
    width: 60px;
@@ -53,4 +61,9 @@ export const Title = styled.h3 `
    top: ${(props) => props.top};
    left: ${(props) => props.left};
    color: ${(props) => props.color};
+
+   @media only screen and (max-width: 420px){
+      top: ${(props) => props.rsTop};
+      left: ${(props) => props.rsLeft};
+   }
 `

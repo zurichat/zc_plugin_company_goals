@@ -12,17 +12,14 @@ const logger = require('../utils/logger');
  * @returns
  */
 const sendErrorDev = (err, req, res) => {
-  // For API
-  if (req.originalUrl.startsWith('/api')) {
-    return res.status(err.statusCode).json({
-      status: err.status,
-      error: err,
-      message: err.message,
-      stack: err.stack,
-    });
-  }
+  logger.error({
+    message: `[errorController.js] (line 14) - ${err.message}`,
+  });
 
-  logger.error(`[errorController.js] (line 14) - ${err.message}`);
+  return res.status(err.statusCode).json({
+    ...err,
+    message: err.message,
+  });
 };
 
 /**
