@@ -10,7 +10,7 @@ import { NavContainer, Sort, SortText, GoalText } from './InnerNav.styled';
 
 const useStyles = makeStyles({
   root: {
-    color: '#828282',
+    color: '#B0AFB0',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: '12px',
@@ -18,13 +18,14 @@ const useStyles = makeStyles({
     fontFamily: 'Lato',
     letterSpacing: '0.02em',
   },
-  contain: {
-    // background: '#FFFFFF',
-    boxShadow: '-2px -2px 3px rgba(149, 149, 149, 0.25), 2px 2px 3px rgba(149, 149, 149, 0.25)',
-    borderRadius: '5px',
-    width: '170px',
-    padding: '12px 16px 27px 16px',
-  },
+  // contain: {
+  //   // background: '#FFFFFF',
+  //   boxShadow: '-2px -2px 3px rgba(149, 149, 149, 0.25), 2px 2px 3px rgba(149, 149, 149, 0.25)',
+  //   borderRadius: '5px',
+  //   width: '170px',
+  //   padding: '12px 16px 27px 16px',
+  //   color: 'red',
+  // },
 });
 
 const options = ['Most Recent', 'Due Date', 'Progress', 'Category', 'Visibility', 'Timeline'];
@@ -61,13 +62,15 @@ const InnerNav = () => {
           >
             <ListItemText
               style={{
-                color: '#999999',
-                fontSize: '12px',
+                color: '#B0AFB0',
+                fontSize: '13px !important',
                 fontWeight: 'normal',
                 lineHeight: '28px',
                 fontStyle: 'normal',
+                marginRight: '20px',
+                marginLeft: '0',
               }}
-              secondary={options[selectedIndex]}
+              primary={options[selectedIndex]}
             />
           </ListItem>
         </List>
