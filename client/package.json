@@ -37,7 +37,7 @@
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",
-    "prepare": "husky install",
+    "prepare": "cd ../ husky install client/.husky",
     "coverage": "cross-env BABEL_ENV=test jest --coverage"
   },
   "browserslist": {
