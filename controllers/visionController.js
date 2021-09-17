@@ -17,8 +17,6 @@ const getVision = async (req, res, next) => {
   const { organization_id } = req.params;
   let vision;
 
-  console.log(organization_id);
-
   if (!organization_id) {
     return next(new AppError('organization_id is required', 400));
   }
@@ -46,38 +44,6 @@ const getVision = async (req, res, next) => {
 
   res.status(200).json({ status: 200, message: 'success', payload: vision });
 };
-
-/*
-const createVision = async (req, res, next) => {
-  try {
-    // Validate data type from req.body is consistent with schema
-
-    const { organization_id: orgId } = req.query;
-    const {vision} = req.body;
-
-    if (!orgId) {
-      res.status(400).send({ error: 'Organization_id is required' });
-    }
-
-    const data = {
-      ...vision,
-    };
-
-    const foundVision = findAll('vision', orgId);
-    if (foundVision) {
-      return res.status(200).json({ message: 'A vision is already set. Use the get endpoint to view it.' });
-    }
-
-    const visions = await insertOne('vision', data, orgId);
-    // Sending Responses
-    res.status(200).json({ message: 'success', ...visions.data, data });
-  } catch (err) {
-    if (err) {
-      return res.status(400).json({ error: err.details });
-    }
-  }
-};
-*/
 
 /**
  * Update an organization's vision.
@@ -117,7 +83,7 @@ const updateVision = async (req, res, next) => {
       return next(new AppError('No matching documents were found', 404));
     }
 
-    return res.status(200).json({ status: 200, message: 'success', payload });
+    return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
     return next(new AppError('Something unexpected occured.', 500));
   }
