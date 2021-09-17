@@ -17,6 +17,12 @@ const getVision = async (req, res, next) => {
   const { organization_id } = req.params;
   let vision;
 
+  console.log(organization_id);
+
+  if (!organization_id) {
+    return next(new AppError('organization_id is required', 400));
+  }
+
   try {
     const {
       data: { data },
@@ -35,7 +41,7 @@ const getVision = async (req, res, next) => {
       await insertOne('vision', vision, organization_id);
     }
   } catch (error) {
-    next(new AppError('Something unexpected occured.', 500));
+    return next(new AppError('Something unexpected occured.', 500));
   }
 
   res.status(200).json({ status: 200, message: 'success', payload: vision });
@@ -82,11 +88,9 @@ const createVision = async (req, res, next) => {
 const updateVision = async (req, res, next) => {
   const { organization_id } = req.params;
   const { vision } = req.body;
-  const { role } = req.user;
 
-  if (role !== 'admin') {
-    res.status(401).json({ status: 401, message: `User is not authorized to edit organization vision.` });
-    return;
+  if (!organization_id) {
+    return next(new AppError('organization_id is required', 400));
   }
 
   try {
@@ -110,12 +114,12 @@ const updateVision = async (req, res, next) => {
 
     // Handle if no matches were found
     if (match.matched_documents === 0) {
-      next(new AppError('No matching documents were found', 404));
+      return next(new AppError('No matching documents were found', 404));
     }
 
     return res.status(200).json({ status: 200, message: 'success', payload });
   } catch (error) {
-    next(new AppError('Something unexpected occured.', 500));
+    return next(new AppError('Something unexpected occured.', 500));
   }
 };
 
