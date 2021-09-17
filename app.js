@@ -9,6 +9,9 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+const swaggerUi= require('swagger-ui-express');
+const yaml = require('yamljs');
+const documentation = yaml.load('./docs/documentation.yaml');
 
 dotenv.config();
 
@@ -55,6 +58,9 @@ app.use(xss());
 
 // Compress text sent to client
 app.use(compression());
+
+// Swagger Documentation
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 
 // Api routes
 app.use('/api/v1/goals', goalRouter);

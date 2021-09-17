@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  title: Goal Plugin API
+  description: This list all the api's for goal plugin.
+  version: 0.0.1
+servers:
+  - url: https://goals.zuri.chat/api/v1
+    description: This point to Goals Plugin (Production server)
+  - url: http://localhost:4000/api/v1
+    description: This point to Goals Plugin (Development server)
+
+components:
+  schemas:
+    Goals:
+      type: object
+      properties:
+        status: 
+          type: string
+          example: 200
+        message:
+          type: string
+          example: 'success'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGoal'
+    SingleGoal:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '613ddbd3e4010959c8dc0c5e'
+        access:
+          type: string
+          example: 'zuris workspace'
+        category:
+          type: string
+          example: '#backend'
+        createdBy:
+          type: string
+          example: 'Depeju'
+        description:
+          type: string
+          example: 'test goal'
+        goal_start:
+          type: date
+          example: '2020-10-02'
+        goal_end:
+          type: date
+          example: '2020-10-02'
+        goal_folder:
+          type: string
+          example: 'annual'
+        goal_name:
+          type: string
+          example: 'public room'
+        milestone1:
+          type: number
+          example: 1
+        milestone2:
+          type: number
+          example: 6
+        milestone3:
+          type: number
+          example: 9
+        organization_id:
+          type: string
+          example: '613dce9ae4010959c8dc0c58'
+        room_id:
+          type: string
+          example: 'b66e5fe5-2c66-413c-b2fc-a38d6ab76330'
+        start:
+          type: number
+          example: 1
+        target:
+          type: number
+          example: 3
+  responses:
+    BadRequest:
+      description: 'Bad request'
+    Unauthorized:
+      description: 'Unauthorized'
+    ServerError:
+      description: 'Internal server error'
+    201GoalSuccess:
+      description: Successfully created.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleGoal'
+    200GoalSuccess:
+      description: Successfully get all data.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Goals'
+paths:
+  /goals:
+    get:
+      summary: Returns a list of all goals.
+      description: This endpoint list all the goals for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to fetch for all your goals.
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    get:
+      summary: Returns a single goals.
+      description: This endpoint return a single goal for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to fetch a single goal.
+        - name: room_id
+          in: query
+          schema:
+            type: string
+          description: Provide a room_id to fetch a single goal.
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/update/{id}:
+    put:
+      summary: Update a single goals.
+      description: This endpoint updates a single goal for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to fetch a single goal.
+        - name: room_id
+          in: query
+          schema:
+            type: string
+          description: Provide a room_id to fetch a single goal.
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
