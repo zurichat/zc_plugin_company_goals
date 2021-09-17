@@ -105,7 +105,7 @@ const checkIsValidUser = async (req, res, next) => {
 
 /**
  * Perform role authorization on user request.
- * @param {String} roles List of authorized roles.
+ * @param {String[]} roles List of authorized roles.
  */
 const requireRoles = (roles) => {
   return (req, res, next) => {
