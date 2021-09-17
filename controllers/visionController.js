@@ -1,85 +1,128 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
 const { request, response } = require('express');
-// const { updateOne } = require('../db/databaseHelper');
-const { visionSchema } = require('../schemas');
+const { insertOne, find, updateOne } = require('../db/databaseHelper');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
-// Global variables
-const collectionName = 'vision';
-const pluginId = '61330fcfbfba0a42d7f38e59';
-const baseUrl = 'https://zccore.herokuapp.com';
+/**
+ * Get an organization's vision,
+ * create an empty vision if none exists.
+ * @param {request} req Express request object
+ * @param {response} res Express response object
+ * @param {NextFunction} next Express next function
+ */
+const getVision = async (req, res, next) => {
+  const { organization_id } = req.params;
+  let vision;
 
-// request to get the vision
-exports.getAllVision = async (req, res) => {
-  const organizationId = '1'; // Would be gotten from zuri main
-  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
+  console.log(organization_id);
+
+  if (!organization_id) {
+    return next(new AppError('organization_id is required', 400));
+  }
 
   try {
-    const result = await axios.get(url);
-    res.status(result.data.status).json({ message: result.data.message, data: result.data.data });
+    const {
+      data: { data },
+    } = await find('vision', { organization_id }, organization_id);
+
+    // Check for multiple vision objects
+    if (Array.isArray(data)) {
+      [vision] = data;
+    } else {
+      vision = data;
+    }
+
+    // If no vision exists
+    if (!data) {
+      vision = { vision: '', organization_id };
+      await insertOne('vision', vision, organization_id);
+    }
   } catch (error) {
-    res.status(500).json('Server Error, Try again');
+    return next(new AppError('Something unexpected occured.', 500));
   }
+
+  res.status(200).json({ status: 200, message: 'success', payload: vision });
 };
 
-exports.getSingleVision = catchAsync(async (req, res) => {
-  const organizationId = '1'; // Would be gotten from zuri main
-  const url = `${baseUrl}/data/read/${pluginId}/${collectionName}/${organizationId}`;
-
-  const visionId = req.params.id;
-
+/*
+const createVision = async (req, res, next) => {
   try {
-    const result = await axios.get(url, { params: { _id: visionId } });
+    // Validate data type from req.body is consistent with schema
 
-    if (result.data.data != null) {
-      // const vision = result.data.data.find((visionObj) => visionObj.id === visionId);
-      res.status(result.data.status).json({ message: result.data.message, data: result.data.data });
+    const { organization_id: orgId } = req.query;
+    const {vision} = req.body;
+
+    if (!orgId) {
+      res.status(400).send({ error: 'Organization_id is required' });
     }
-    res.status(404).json({ message: 'failed, provide a valid vision id', data: null });
-  } catch (error) {
-    res.status(500).json('Server error, try again');
+
+    const data = {
+      ...vision,
+    };
+
+    const foundVision = findAll('vision', orgId);
+    if (foundVision) {
+      return res.status(200).json({ message: 'A vision is already set. Use the get endpoint to view it.' });
+    }
+
+    const visions = await insertOne('vision', data, orgId);
+    // Sending Responses
+    res.status(200).json({ message: 'success', ...visions.data, data });
+  } catch (err) {
+    if (err) {
+      return res.status(400).json({ error: err.details });
+    }
   }
-});
-
-exports.createVision = catchAsync(async (req, res) => {
-  // Validate data type from req.body is consistent with schema
-  await visionSchema.validateAsync(req.body);
-
-  const vision = await axios.post(`https://zccore.herokuapp.com/data/write`, {
-    plugin_id: pluginId,
-    organization_id: '1',
-    collection_name: collectionName,
-    bulk_write: false,
-    payload: req.body,
-  });
-
-  // Sending Responses
-  res.status(200).json(vision.data);
-});
+};
+*/
 
 /**
  * Update an organization's vision.
  * @param {request} req Express request object
  * @param {response} res Express response object
+ * @param {NextFunction} next Express next function
  */
 const updateVision = async (req, res, next) => {
-  // const { organization_id } = req.params;
+  const { organization_id } = req.params;
   const { vision } = req.body;
-  const { role } = req.user;
 
-  if (role !== 'admin') {
-    res.status(401).json({ message: `User is not authorized to edit organization vision.` });
-    return;
+  if (!organization_id) {
+    return next(new AppError('organization_id is required', 400));
   }
 
   try {
-    // const updatedVision = await updateOne('vision', vision, { organization_id }, organization_id);
-    return res.status(200).json({ update: vision });
+    let payload;
+
+    const {
+      data: { data: found },
+    } = await find('vision', { organization_id }, organization_id);
+
+    // Check for multiple vision objects
+    if (Array.isArray(found)) {
+      [payload] = found;
+    } else {
+      payload = found;
+    }
+
+    // Update matched vision
+    const {
+      data: { data: match },
+    } = await updateOne('vision', { vision }, { organization_id }, organization_id, payload._id);
+
+    // Handle if no matches were found
+    if (match.matched_documents === 0) {
+      return next(new AppError('No matching documents were found', 404));
+    }
+
+    return res.status(200).json({ status: 200, message: 'success', payload });
   } catch (error) {
-    next(error);
+    return next(new AppError('Something unexpected occured.', 500));
   }
 };
 
+// Exports
+exports.getVision = catchAsync(getVision);
 exports.updateVision = catchAsync(updateVision);
