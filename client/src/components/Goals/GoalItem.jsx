@@ -63,24 +63,31 @@ const GoalItem = () => {
       hasGoal && goals.data.map(goal => {
           const Progress = ((goal.milestone1 + goal.milestone2 + goal.milestone3) / 30) * 100;
           const goalStart = new Date(goal.goal_start);
-          const goalEnd = new Date(goal.goal_end);
+        const goalEnd = new Date(goal.goal_end);
+        const startMonth = month.month_names_short[goalStart.getMonth()];
+        const startDate = goalStart.getDate();
+        const endMonth = month.month_names_short[goalEnd.getMonth()];
+        const endDate = goalEnd.getDate();
+        
 
           return (
             <Container className={classes.root} key={goal._id}>
               <Grid item xs={12} sm={3} className={classes.rightSpacing}>
-                <GoalTitle>{goal.goal_name}</GoalTitle>
+                <GoalTitle>{goal.goal_name ? goal.goal_name : 'No name'}</GoalTitle>
                 <GoalTagsContainer>
-                  <GoalTags>{goal.category}</GoalTags>
+                  <GoalTags>{goal.category ? goal.category : 'No category'}</GoalTags>
                 </GoalTagsContainer>
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <ProgressBar variant="determinate" value={Progress} />
+                <ProgressBar variant="determinate" value={Progress ? Progress : 0} />
                 <ProgressDetailsContainer>
-                  <ProgressRate>Progress Rate: {Progress}%</ProgressRate>
+                  <ProgressRate>Progress Rate: {Progress ? Progress : 0}%</ProgressRate>
                   <ProgressDate>
-                    {month.month_names_short[goalStart.getMonth()]} {goalStart.getDate()} -{' '}
-                    {month.month_names_short[goalEnd.getMonth()]} {goalEnd.getDate()}
+                    {goal.goal_start && goal.goal_end
+                      ? `${startMonth} ${startDate} - ${endMonth} ${endDate}`
+                      : 'No date set'}
+                    {/* {startMonth} {startDate} - {endMonth} {endDate} */}
                   </ProgressDate>
                 </ProgressDetailsContainer>
               </Grid>
@@ -93,8 +100,8 @@ const GoalItem = () => {
                 <IconItemContainer>
                   <Likes>
                     <img src={likes} alt="likes-icon" className={classes.iconImages} />
+                    <IconItemCount>8</IconItemCount>
                   </Likes>
-                  <IconItemCount>8</IconItemCount>
                 </IconItemContainer>
                 <IconItemContainer>
                   <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />

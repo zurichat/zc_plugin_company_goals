@@ -13,7 +13,7 @@ export const useStyles = makeStyles(() => ({
     fontFamily: 'Lato',
     '@media (max-width: 768px)': {
       flexDirection: 'column',
-      height: '8%',
+      height: '17%',
       position: 'relative',
     },
   },

@@ -53,9 +53,9 @@ exports.updateMission = catchAsync(async (req, res, next)=> {
   const { role } = req.user;
   const {organization_id} = req.params;
 
-  if (role !=='admin') {
-    res.status(401).json({message: 'You are not authorized to perform this action'})
-  }
+  // if (role !=='admin') {
+  //   res.status(401).json({message: 'You are not authorized to perform this action'})
+  // }
   try {
     let prevMission = await findAll(collectionName,organization_id);
     [prevMission] = prevMission.data.data
