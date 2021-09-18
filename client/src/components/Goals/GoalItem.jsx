@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getGoals } from '../../redux/showGoalSlice';
 import {addLike, addDisLike} from '../../redux/likeGoalSlice'
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
-import {likeGoal} from '../../redux/likeGoal-actions'
 
 const GoalItem = () => {
   const classes = useStyles();
@@ -58,10 +57,7 @@ const GoalItem = () => {
     });
   }, [dispatch]);
 
-  useEffect (()=> {
-dispatch(likeGoal)
 
-  }, [likes])
   const likeGoal = ()=> {
   dispatch(addLike(1))
   }
