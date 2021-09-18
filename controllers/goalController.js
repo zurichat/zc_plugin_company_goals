@@ -157,6 +157,14 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   message.id = messageId.data.object_id;
   await publish('notifications', message);
 
+  // Then, send update to zuri core
+  const updatedGoal = await updateOne(
+    (collectionName = 'goals'),
+    (organization_id = orgId),
+    (data = req.body),
+    (filter = {}),
+    (id = goalId)
+  );
 
   // send the updated goal to client.
   return res.status(200).json(updatedGoal.data);
@@ -198,7 +206,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
   // Then, delete the goal.
   const response = await deleteOne((collectionName = 'goals'), (data = org), (_id = id));
-
+  
   const message = {
     message: `The goal "${goal.data.data.title}" has been deleted `,
     time: Date.now(),
