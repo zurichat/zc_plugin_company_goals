@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontFamily: 'Lato',
     fontWeight: '400',
-    fontSize: '24px',
+    fontSize: '1.5em',
     lineHeight: '28.8px',
     marginBottom: '14px',
   },
@@ -84,6 +84,7 @@ export default function SimpleModal() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100%',
+          width:'100%',
           flexDirection: 'column',
         }}
       >
