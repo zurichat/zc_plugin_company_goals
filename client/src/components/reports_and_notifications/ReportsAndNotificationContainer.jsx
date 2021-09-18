@@ -6,6 +6,8 @@ import { Tabs } from './ReportsAndNotificationContainer.styled';
 import { NavTabs } from './ReportsAndNotificationContainer.styled';
 import { NavContainer } from './ReportsAndNotificationContainer.styled';
 import { TabButton } from './ReportsAndNotificationContainer.styled';
+import { TabButtonNotification } from './ReportsAndNotificationContainer.styled';
+import { Span } from './ReportsAndNotificationContainer.styled';
 
 const ReportsAndNotificationContainer = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -16,14 +18,24 @@ const ReportsAndNotificationContainer = () => {
     <Tabs>
       <NavTabs>
         <NavContainer>
-          <TabButton onClick={handleTab1} color={activeTab === 'tab1'}>
-            Reports
-          </TabButton>
+          <TabButtonNotification border={activeTab === 'tab1'}>
+            <TabButton
+              color={activeTab === 'tab1'}
+              style={{ cursor: 'pointer' }}
+              onClick={handleTab1}
+              color={activeTab === 'tab1'}
+            >
+              Reports
+            </TabButton>
+          </TabButtonNotification>
         </NavContainer>
         <NavContainer>
-          <TabButton color={activeTab === 'tab2'} onClick={handleTab2}>
-            Notifications
-          </TabButton>
+          <TabButtonNotification border={activeTab === 'tab2'}>
+            <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
+              Notifications
+            </TabButton>
+            <Span>6</Span>
+          </TabButtonNotification>
         </NavContainer>
       </NavTabs>
       <div style={{ width: '100%' }}>{activeTab === 'tab1' ? <Report /> : <Notification />}</div>
