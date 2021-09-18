@@ -1,12 +1,20 @@
 const { Router } = require('express');
 const { publish } = require('../controllers/centrifugoController');
 const { getVision, updateVision } = require('../controllers/visionController');
-const { verifyToken, requireRoles } = require('../middlewares/validate');
+// const { verifyToken, requireRoles } = require('../middlewares/validate');
 
 const router = Router();
 
+/*
+TODO: Uncomment when zcore auth is up.
+
 router.get('/:organization_id', verifyToken, requireRoles(['admin', 'user', 'owner']), getVision);
 router.patch('/:organization_id', verifyToken, requireRoles(['admin']), updateVision);
+*/
+
+// TODO: Delete when zcore auth is up.
+router.get('/:organization_id', getVision);
+router.patch('/:organization_id', updateVision);
 
 // DO NOT TOUCH (TESTING)
 router.post('/', async (req, res) => {
