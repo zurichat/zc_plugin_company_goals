@@ -50,7 +50,6 @@ const EditGoalForm = React.forwardRef((props) => {
           </Icon>{' '}
           <div>
             {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="name">
               <Title titleColor="#393939"> Goal Name </Title>
               <Info textColor="#999999">
