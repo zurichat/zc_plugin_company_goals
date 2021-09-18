@@ -21,7 +21,9 @@ import {
 } from './GoalItem.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGoals } from '../../redux/showGoalSlice';
+import {addLike, addDisLike} from '../../redux/likeGoalSlice'
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import {likeGoal} from '../../redux/likeGoal-actions'
 
 const GoalItem = () => {
   const classes = useStyles();
@@ -46,6 +48,8 @@ const GoalItem = () => {
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.goals.list);
   const status = useSelector((state) => state.goals.status);
+  const goalLikes = useSelector(state=> state.likeGoals.likes)
+  const goalDislikes = useSelector(state => state.likeGoals.dislikes)
   const errorMessage = useSelector((state) => state.goals.errorMessage);
 
   useEffect(() => {
@@ -53,6 +57,17 @@ const GoalItem = () => {
       console.log('Shite!');
     });
   }, [dispatch]);
+
+  useEffect (()=> {
+dispatch(likeGoal)
+
+  }, [likes])
+  const likeGoal = ()=> {
+  dispatch(addLike(1))
+  }
+  const disLikeGoal = ()=> {
+    dispatch(addDisLike(1))
+  }
 
   const hasGoal = goals.data ? 1 : 0;
   if (status === 'success' && !hasGoal) return <EmptyGoal />;
@@ -102,12 +117,12 @@ const GoalItem = () => {
                   <IconItemCount>66</IconItemCount>
                 </IconItemContainer>
                 <IconItemContainer>
-                  <img src={likes} alt="likes-icon" className={classes.iconImages} />
-                  <IconItemCount>8</IconItemCount>
+                  <img src={likes} alt="likes-icon" className={classes.iconImages} onClick={likeGoal}/>
+                  <IconItemCount>{goalLikes}</IconItemCount>
                 </IconItemContainer>
                 <IconItemContainer>
-                  <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
-                  <IconItemCount>8</IconItemCount>
+                  <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} onClick={disLikeGoal}/>
+                  <IconItemCount>{goalDislikes}</IconItemCount>
                 </IconItemContainer>
               </Grid>
 
