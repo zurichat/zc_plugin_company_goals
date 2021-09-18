@@ -26,7 +26,7 @@ const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
 
 const visionRouter = require('./routes/visionRoutes');
-const centrifugoTest = require('./routes/centrifugoTest');
+const realTimeupdateRouter = require('./routes/realTimeupdates');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
@@ -96,7 +96,7 @@ app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
-app.use('/api/centrifugotest', centrifugoTest);
+app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1/auth', authRouter);
 
