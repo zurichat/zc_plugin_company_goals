@@ -19,7 +19,7 @@ const store = configureStore({
     newGoal: newGoalReducer,
     snackbar: snackbarReducer,
     goals: showGoalSliceReducer,
-    organizationCreateAndEditGoal: createAndEditGoalReducer,
+    organizationCreateAndEditGoalData: createAndEditGoalReducer,
   },
 });
 
