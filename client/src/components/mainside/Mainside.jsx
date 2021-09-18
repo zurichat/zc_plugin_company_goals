@@ -12,6 +12,7 @@ import InnerNav from 'components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
 import ExportReport from 'components/Modal/ExportReport';
+import { getGoals } from '../../redux/showGoalSlice';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
@@ -19,14 +20,12 @@ import HistoryList from '../history/historyList';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
-import { getGoals } from '../../redux/showGoalSlice';
-
 function Mainside() {
-
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.goals.list);
   const status = useSelector((state) => state.goals.status);
   const errorMessage = useSelector((state) => state.goals.errorMessage);
+  
   useEffect(() => {
     dispatch(getGoals()).catch((obj) => {
       console.log('Shite!');
@@ -55,7 +54,7 @@ function Mainside() {
             status === 'success' &&
               hasGoal &&
               goals.data.map((goal) => {
-                return <GoalItem {...goal}/>;
+                return <GoalItem {...goals} />;
               })
           }
           {status === 'failed' && (

@@ -1,6 +1,6 @@
-import { GoalDropDown } from './GoalItem.style';
 import { useDispatch } from 'react-redux';
 import { deleteConfirmationAction } from '../../redux/deleteGoal.slice';
+import { GoalDropDown } from './GoalItem.style';
 
 export default function GoalDrop({ show: {showDropDown,setDropDown}, goal_id }) {
 

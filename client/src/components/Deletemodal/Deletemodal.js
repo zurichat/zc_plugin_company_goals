@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import { deleteConfirmationAction, deleteSuccessAction, deleteErrorAction } from '../../redux/deleteGoal.slice';
 import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
@@ -13,7 +12,7 @@ const Deletemodal = () => {
     fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=200&goal_id${goalID}`, { method: 'delete' })
       .then((res) => {
         if (!res.ok) {
-          throw 'Error deleting';
+          throw Error('Error deleting');
         }
         return res.json;
       })

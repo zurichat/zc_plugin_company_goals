@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice} from '@reduxjs/toolkit';
 
 
 
@@ -14,7 +14,7 @@ export const deleteGoalSlice = createSlice({
     deleteConfirmationAction: (state, { payload }) => {
       // eslint-disable-next-line no-param-reassign
       state.showDeleteConfirmationModal = !state.showDeleteConfirmationModal;
-      state.goalID=payload
+      state.goalID = payload;
     },
     deleteSuccessAction: (state) => {
       // eslint-disable-next-line no-param-reassign

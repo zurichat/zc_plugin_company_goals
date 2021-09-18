@@ -1,11 +1,10 @@
 import {useState } from 'react';
-
 import { Container, Grid } from '@material-ui/core';
-
 import dislikes from '../../Images/png/dislikes.png';
 import ellipsis from '../../Images/png/ellipsis.png';
 import likes from '../../Images/png/likes.png';
 import views from '../../Images/png/views.png';
+import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
   GoalTitle,
@@ -19,7 +18,7 @@ import {
   MoreOptions,
   ProgressDetailsContainer,
 } from './GoalItem.style';
-import GoalDropDown from './GoalDropDown';
+
 
 const GoalItem = ({_id, milestone1, milestone2, milestone3,goal_start,goal_end}) => {
   const classes = useStyles();
