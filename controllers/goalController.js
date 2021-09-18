@@ -137,15 +137,6 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
 
   const goals = await findById('goals', goalId, orgId);
 
-  // Then, send update to zuri core
-  const updatedGoal = await updateOne(
-    (collectionName = 'goals'),
-    (organization_id = orgId),
-    (data = req.body),
-    (filter = {}),
-    (id = goalId)
-  );
-
   const message = {
     message: `The goal "${goals.data.data.title}" has been updated `,
     time: Date.now(),
