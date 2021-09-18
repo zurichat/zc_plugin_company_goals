@@ -122,14 +122,15 @@ exports.deleteOne = async (collectionName, organization_id, _id) => {
 
 exports.deleteMany = async (collectionName, filter, organization_id) => {
   try {
+    
     payload.collection_name = collectionName;
     payload.filter = filter;
-    payload.bulk_write = true;
+    payload.bulk_delete = true;
     payload.organization_id = organization_id;
 
     const response = await axios({
-      method: 'delete',
-      url: `${URL}/write`,
+      method: 'post',
+      url: `${URL}/delete`,
       data: payload,
     });
 
