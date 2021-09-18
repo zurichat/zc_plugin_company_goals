@@ -9,8 +9,7 @@ const {
 const {
     notificationSchema
 } = require('../schemas');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
+
 
 const notificationStructure = {
     assignGoal: [
@@ -36,6 +35,7 @@ const notificationStructure = {
     ]
 };
 
+
 exports.createNotification = async (req, res, userId, orgId, goalName, funcName) => {
     const notification = {
         user_id: userId,
@@ -59,6 +59,7 @@ exports.createNotification = async (req, res, userId, orgId, goalName, funcName)
         return res.status(500).json(error.details)
     }
 };
+
 
 exports.getUserNotifications = async (req, res, next) => {
     const {
@@ -100,7 +101,8 @@ exports.getUserNotifications = async (req, res, next) => {
 
 };
 
-exports.updateNotification = catchAsync(async (req, res, next) => {
+
+exports.updateNotification = async (req, res, next) => {
     const {
         org_id: orgId,
         user_id: userId,
@@ -136,9 +138,10 @@ exports.updateNotification = catchAsync(async (req, res, next) => {
             message: "Unable to update this notification"
         })
     }
-});
+};
 
-exports.updateNotifications = catchAsync(async (req, res, next) => {
+
+exports.updateNotifications = async (req, res, next) => {
     const {
         org_id: orgId,
         user_id: userId
@@ -172,9 +175,10 @@ exports.updateNotifications = catchAsync(async (req, res, next) => {
             message: "Unable to mark all notifications read."
         })
     }
-});
+};
 
-exports.deleteNotification = catchAsync(async (req, res, next) => {
+
+exports.deleteNotification = async (req, res, next) => {
     const {
         org_id: orgId,
         user_id: userId,
@@ -210,4 +214,4 @@ exports.deleteNotification = catchAsync(async (req, res, next) => {
             message: "Unable to delete this notification"
         })
     }
-})
+}
