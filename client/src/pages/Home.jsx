@@ -7,6 +7,7 @@ import Deletemodal from '../components/Deletemodal/Deletemodal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
+import EditMission from '../components/Modal/EditMission'
 import Mainside from '../components/mainside/Mainside';
 import ExportReport from '../components/modal/ExportReport'
 //import EditMission from '../components/modal/EditMission';
@@ -25,8 +26,8 @@ function App() {
         <MainNav />
         <MissionVisionContainer />
         <Mainside />
+        <EditMission />
         <ExportReport/>
-        {/* <EditMission /> */}
       </PluginSide>
     </>
   );
