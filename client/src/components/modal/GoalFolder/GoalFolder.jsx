@@ -6,22 +6,55 @@ const GoalFolderSection = styled.section`
   margin-bottom: 3rem;
 `;
 const GoalRadios = styled.div`
+  width:100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
-
+const input = styled.input`
+:hover {
+  color: #00b87c; 
+  cursor:pointer; 
+  border: 1px solid #00b87c;
+}
+:focus {
+  color: #00b87c; 
+  border: 1px solid #00b87c;
+}
+`
 const GoalRadio = styled.div`
-  width: 59px;
+  :hover {
+    color: #00b87c; 
+    cursor:pointer; 
+    border: 1px solid #00b87c;
+  }
+  :focus {
+    color: #00b87c; 
+    border: 1px solid #00b87c;
+  }
+  min-width: 3.7em;
   height: 68px;
+  margin-left:5em;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 1px solid #00b87c;
 `;
-
+const SelectPTag = styled.p`
+  :hover{
+    color: #00b87c;
+  }
+  :active{
+    color: #00b87c;
+  }
+  color: #000,
+  fontFamily: Lato,
+  fontWeight: 500,
+  fontSize: 1em,
+  lineHeight: 19.2px,
+  marginTop: 16px,
+`
 const GoalDetails = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,12 +67,12 @@ const GoalFolder = () => {
       <img style={{ width: '50px', height: '50px' }} src={badge} alt="" />
 
       <GoalDetails>
-        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px' }}>Goal Folder</h3>
+        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '1.31em', lineHeight: '1.57em' }}>Goal Folder</h3>
         <p
           style={{
             fontFamily: 'Lato',
             fontWeight: 400,
-            fontSize: '12px',
+            fontSize: '0.75em',
             lineHeight: '14.4px',
             marginTop: '17px',
             color: '#999999',
@@ -51,50 +84,17 @@ const GoalFolder = () => {
         <GoalRadios>
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              All
-            </p>
+             <SelectPTag> All</SelectPTag>
           </GoalRadio>
 
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              Annual
-            </p>
+             <SelectPTag> Annual</SelectPTag>
           </GoalRadio>
 
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              Quarterly
-            </p>
+              <SelectPTag>Quarterly</SelectPTag>
           </GoalRadio>
         </GoalRadios>
       </GoalDetails>

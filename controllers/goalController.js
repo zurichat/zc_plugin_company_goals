@@ -7,7 +7,7 @@
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
 const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne, deleteMany } = require('../db/databaseHelper');
-const { goalsSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -30,11 +30,11 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
 
 exports.createGoal = async ( req, res, next) => {
-  
 
     const roomId = uuidv4();
     const { org_id: orgId } = req.query;
-    const { goal_name: title, category } = req.body;
+  const { goal_name: title, category } = req.body;
+  
     const goal = req.body;
     let goals;
 
@@ -43,15 +43,14 @@ exports.createGoal = async ( req, res, next) => {
       organization_id: orgId,
       ...goal,
     };
-  
-
 
     if (!orgId) {
       res.status(400).send({ error: 'Organization_id is required' });
     }
 
-    try {
-      await goalsSchema.validateAsync(req.body);
+  try {
+     
+   await goalSchema.validateAsync(req.body);
 
     } catch (err) {
       if (err) return res.status(400).json(err.details);
@@ -59,8 +58,9 @@ exports.createGoal = async ( req, res, next) => {
 
     try {
       goals = await find('goals', { goal_name: title }, orgId);
+      
       const { data: foundGoal } = goals.data;
-  
+
 
       if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
         return res
