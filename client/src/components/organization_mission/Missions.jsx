@@ -1,5 +1,6 @@
 import React from 'react'
 import {useDispatch , useSelector} from 'react-redux';
+import { showEditMissionModal } from '../../redux/editMission.slice';
 import EditMission from '../Modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png'
 import { 
@@ -17,7 +18,7 @@ const Missions = () => {
          <Title top="15%" left="10.5%" rsTop="5%" rsLeft="7%" color="#000000">Mission</Title>
         <Box className="box"> 
             <MissionField>{missionText}</MissionField>
-            <Editbutton onClick={<EditMission />} className="editMissionbutton" left="90%" rsLeft="80%" ><img src={editImg} alt="edit" /></Editbutton>
+            <Editbutton onClick={() => dispatch(showEditMissionModal())} className="editMissionbutton" left="90%" rsLeft="80%" ><img src={editImg} alt="edit" /></Editbutton>
         </Box>
       </div>
    )
