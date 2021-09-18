@@ -1,16 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { closeDeleteGoalModal } from '../../redux/deleteGoal.slice';
+import { deleteConfirmationAction, deleteSuccessAction } from '../../redux/deleteGoal.slice';
 import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
 
 const Deletemodal = () => {
   const dispatch = useDispatch();
-  const showDeleteGoalModal = useSelector(({ deleteGoal }) => deleteGoal.showDeleteGoalModal);
+  const showDeleteConfirmationModal = useSelector(({ deleteGoal }) => deleteGoal.showDeleteConfirmationModal);
+
+  const showSuccess = () => {
+    dispatch(deleteConfirmationAction());
+    dispatch(deleteSuccessAction());
+  };
   return (
-    <FadedBg className="faded" show={showDeleteGoalModal}>
+    <FadedBg className="faded" show={showDeleteConfirmationModal}>
       <DeleteModal>
-        <XBtn onClick={() => dispatch(closeDeleteGoalModal())}>X</XBtn>
+        <XBtn onClick={() => dispatch(deleteConfirmationAction())}>X</XBtn>
         <Images>
           <img src={deleteDataImg.trash} alt="trash" />
         </Images>
@@ -19,7 +24,9 @@ const Deletemodal = () => {
           <DeleteInfo>
             Clicking the proceed button means that people will no longer have access to view this goal.
           </DeleteInfo>
-          <DelButton type="submit">Proceed</DelButton>
+          <DelButton type="submit" onClick={showSuccess}>
+            Proceed
+          </DelButton>
         </DeleteContent>
       </DeleteModal>
     </FadedBg>
