@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Goal = styled.div`
   font-family: Lato;
-  padding: 0.5rem 1rem 1rem 1rem;
+  padding: 0.5remgit push  1rem 1rem 1rem;
 
   width: 100%;
   background-color: #fff;
