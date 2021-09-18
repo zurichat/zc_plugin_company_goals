@@ -1,16 +1,13 @@
 // eslint-disable-next-line import/no-unresolved
-import { MenuOpen } from '@material-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
-import Design from '../Dropdown/Design';
-import MenuOption from '../Dropdown/MenuOption';
-import Mobile from '../Dropdown/Mobile';
-import MobilePrivate from '../Dropdown/MobilePrivate';
-import EmptyGoal from '../empty-goal-interface/EmptyGoal';
-import InnerNav from '../goal_interface_inner_header/InnerNav';
+import Design from '../../components/Dropdown/Design';
+import MenuOption from '../../components/Dropdown/MenuOption';
+import Mobile from '../../components/Dropdown/Mobile';
+import MobilePrivate from '../../components/Dropdown/MobilePrivate';
+import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
-//import ExportReport from 'components/modal/ExportReport';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
@@ -26,14 +23,7 @@ function Mainside() {
           <GoalsNavLayout />
           <Goal>
             <InnerNav />
-            <EmptyGoal />
-            {/* <Menuoption /> */}
-            {/* <GetGoals /> */}
           </Goal>
-          {/* <Goal> //Goal container isnt needed for the GoalItem again.
-          <Menuoption /> //whoever is setting up can enable this and see how it looks.
-        </Goal> */}
-          {/* //PS => The repition of the Goal Item is only temporary */}
           <GoalItem />
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>

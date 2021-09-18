@@ -35,8 +35,6 @@ exports.createNotification = async (userId, orgId, goalName, funcName) => {
 
 exports.getUserNotifications = catchAsync(async (req, res, next) => {
   const { org_id: orgId, user_id: userId } = req.query;
-  console.log(orgId);
-  console.log(userId);
 
   // Check for org_id and user_id
   if (!orgId) {
@@ -52,7 +50,6 @@ exports.getUserNotifications = catchAsync(async (req, res, next) => {
     // Returning Response
     res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ status: 500, message: 'There was an error processing this request.' });
   }
 });
