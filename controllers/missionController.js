@@ -4,14 +4,8 @@
 /* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
-const {
-  findAll,
-  insertOne,
-  updateOne
-} = require('../db/databaseHelper');
-const {
-  missionSchema
-} = require('../schemas');
+const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
+const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 
 // Global Variables
@@ -38,9 +32,7 @@ const collectionName = 'mission';
 
 // get mission for an organization
 exports.getMission = catchAsync(async (req, res, next) => {
-  const {
-    organization_id
-  } = req.params;
+  const { organization_id } = req.params;
 
   // check if the organization has a mission statement
   let mission;
@@ -49,40 +41,28 @@ exports.getMission = catchAsync(async (req, res, next) => {
     [mission] = mission.data.data;
   } catch (error) {
     // if there is an error then collection hasnt been created yet.
-    mission = {
-      mission: ''
-    };
+    mission = { mission: '' };
     await insertOne('mission', mission, organization_id);
   }
 
-  res.status(200).json({
-    status: 200,
-    message: 'success',
-    data: mission
-  });
+  res.status(200).json({ status: 200, message: 'success', data: mission });
 });
 
-exports.updateMission = catchAsync(async (req, res, next) => {
+exports.updateMission = catchAsync(async (req, res, next)=> {
   const mission = req.body;
-  const {
-    role
-  } = req.user;
-  const {
-    organization_id
-  } = req.params;
+  const { role } = req.user;
+  const {organization_id} = req.params;
 
   // if (role !=='admin') {
   //   res.status(401).json({message: 'You are not authorized to perform this action'})
   // }
   try {
-    let prevMission = await findAll(collectionName, organization_id);
+    let prevMission = await findAll(collectionName,organization_id);
     [prevMission] = prevMission.data.data
-    const updatedMission = await updateOne(collectionName, mission, {}, organization_id, prevMission._id);
-    return res.status(200).json({
-      message: 'Update Sucessful',
-      update: updatedMission.data
-    });
-  } catch (error) {
+    const updatedMission = await updateOne(collectionName, mission,{},organization_id, prevMission._id);
+    return res.status(200).json({message: 'Update Sucessful', update: updatedMission.data});
+  }
+  catch(error) {
     next(error);
   }
 });

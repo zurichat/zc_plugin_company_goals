@@ -1,16 +1,11 @@
 /* eslint-disable camelcase */
 const axios = require('axios');
 const AppError = require('../utils/appError');
-const {
-  URL,
-  payload
-} = require('../utils/config').DATABASE;
+const { URL, payload } = require('../utils/config').DATABASE;
 
 exports.insertOne = async (collectionName, data, organization_id) => {
   try {
-    const newPayload = {
-      ...payload
-    };
+    const newPayload = { ...payload };
     newPayload.collection_name = collectionName;
     newPayload.payload = data;
     newPayload.organization_id = organization_id;
@@ -38,9 +33,7 @@ exports.insertMany = async (collectionName, data, organization_id) => {
 
 exports.findAll = async (collectionName, organization_id) => {
   try {
-    const {
-      plugin_id
-    } = payload;
+    const { plugin_id } = payload;
 
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}`);
     return response;
@@ -51,9 +44,7 @@ exports.findAll = async (collectionName, organization_id) => {
 
 exports.findById = async (collectionName, id, organization_id) => {
   try {
-    const {
-      plugin_id
-    } = payload;
+    const { plugin_id } = payload;
 
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}?_id=${id}`);
     return response;
@@ -64,9 +55,7 @@ exports.findById = async (collectionName, id, organization_id) => {
 
 exports.find = async (collectionName, filter, organization_id) => {
   try {
-    const {
-      plugin_id
-    } = payload;
+    const { plugin_id } = payload;
 
     let url = `${URL}/read/${plugin_id}/${collectionName}/${organization_id}?`;
 
@@ -133,7 +122,7 @@ exports.deleteOne = async (collectionName, organization_id, _id) => {
 
 exports.deleteMany = async (collectionName, filter, organization_id) => {
   try {
-
+    
     payload.collection_name = collectionName;
     payload.filter = filter;
     payload.bulk_delete = true;

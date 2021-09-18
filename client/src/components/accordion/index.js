@@ -2,8 +2,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useContext, createContext } from 'react';
 import { Container, Frame, Title, Item, Inner, Header, Body, Home } from './styles/accordion';
-import add from '../../Images/png/add.png';
-import cancel from '../../Images/png/close-slim.png'
 
 const ToggleContext = createContext();
 
@@ -44,9 +42,9 @@ Accordion.Header = function AccordionHeader({ children, ...restProps }) {
     <Header onClick={() => setToggleShow(!toggleShow)} {...restProps}>
       {children}
       {toggleShow ? (
-        <img src={cancel} alt="Close" />
+        <img src="/images/icons/close-slim.png" alt="Close" />
       ) : (
-        <img src={add} alt="Open" />
+        <img src="/images/icons/add.png" alt="Open" />
       )}
     </Header>
   );
