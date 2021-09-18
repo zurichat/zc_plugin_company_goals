@@ -2,10 +2,11 @@
 import { MenuOpen } from '@material-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
-import Design from '../Dropdown/Design';
-import MenuOption from '../Dropdown/MenuOption';
-import Mobile from '../Dropdown/Mobile';
-import MobilePrivate from '../Dropdown/MobilePrivate';
+import Timeline from 'components/Sortoptions/Timeline';
+import Category from 'components/Sortoptions/Category';
+import Date from 'components/Sortoptions/Date';
+import Progress from 'components/Sortoptions/Progress';
+import MenuOption from '../Sortoptions/MenuOption';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import InnerNav from '../goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
@@ -48,10 +49,13 @@ function Mainside() {
       </Main>
       {/* <ExportReport /> */}
       {/* the dropdown for the main menu and others */}
-      <Design />
+    
       <MenuOption />
-      <Mobile />
-      <MobilePrivate />
+      <Category />
+      <Date />
+      <Progress />
+      <Timeline />
+      
     </>
   );
 }
