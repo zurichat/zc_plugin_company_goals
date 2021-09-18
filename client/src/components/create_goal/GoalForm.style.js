@@ -82,6 +82,7 @@ export const Select = styled.select`
   option {
     color: #b0afb0;
     font-size: 13px;
+    height: 2rem;
     margin: 5rem 0 1rem 0.5rem;
     background-color: #fff;
   }
@@ -174,7 +175,7 @@ export const CloseButton = styled.button`
   float: right;
   background: none;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 15px;
   color: #333333;
   cursor: pointer;
 `;

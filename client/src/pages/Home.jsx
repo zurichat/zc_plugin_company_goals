@@ -11,7 +11,6 @@ import Mainside from '../components/mainside/Mainside';
 import ExportReport from '../components/Modal/ExportReport';
 //import EditMission from '../components/modal/EditMission';
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
-import TargetDialog from 'components/Goal Target/CreateTarget';
 
 function App() {
   return (
@@ -19,7 +18,7 @@ function App() {
       <SimpleModal />
       <Deletemodal />
       <BasicModal />
-      <TargetDialog />
+
       <DeleteSuccessModal />
       <OrganizationVisionEditModal />
       <SnackBar />
