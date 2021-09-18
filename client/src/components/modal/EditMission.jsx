@@ -32,19 +32,19 @@ const useStyles = makeStyles((theme) => ({
 
 const EditMission = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const { showMission, missionText } = useSelector((state) => state.editMission);
-  const [text, setText] = useState('');
+  // const dispatch = useDispatch();
+  // const { showMission, missionText } = useSelector((state) => state.editMission);
+  const [text, setText] = useState('Training A Million Youths Yearly');
 
   useEffect(() => {
-    setText(missionText);
+    setText();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showMission]);
+  }, []);
 
   const saveMission = () => {
-    dispatch(showEditMissionModal());
+    // dispatch(showEditMissionModal());
     // eslint-disable-next-line no-unused-expressions
-    text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
+    // text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
   }
 
   return (
@@ -64,7 +64,7 @@ const EditMission = () => {
         <form className={classes.paper} onSubmit={e => e.preventDefault()}>
           <Header id="transition-modal-title">Edit Mission</Header>
           <TextBox required value={text} onChange={e => setText(e.target.value)} placeholder="Click to edit..." />
-          <SaveBtn onClick={saveMission}>Save</SaveBtn>
+          <SaveBtn>Save</SaveBtn>
           {/* <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn> */}
         </form>
       </Fade>
