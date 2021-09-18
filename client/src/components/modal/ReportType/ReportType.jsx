@@ -6,20 +6,26 @@ const GoalFolderSection = styled.section`
   margin-top: 3rem;
 `;
 const GoalRadios = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: flex !important;
+  justify-content: space-between !important;
   align-items: center;
 `;
 
 const GoalRadio = styled.div`
-  width: 59px;
+:hover {
+  color: #00b87c; 
+  cursor:pointer; 
+  border: 1px solid #00b87c;
+}
+  min-width: 59px;
   height: 68px;
   border-radius: 4px;
   display: flex;
+  margin-left:5em;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 1px solid #00b87c;
+  //border: 1px solid #00b87c;
 `;
 
 const GoalDetails = styled.div`
@@ -27,6 +33,20 @@ const GoalDetails = styled.div`
   flex-direction: column;
   margin-left: 1rem;
 `;
+const SelectPTag = styled.p`
+  :hover{
+    color: #00b87c;
+  }
+  :active{
+    color: #00b87c;
+  }
+  color: #000,
+  fontFamily: Lato,
+  fontWeight: 500,
+  fontSize: 1em,
+  lineHeight: 19.2px,
+  marginTop: 16px,
+`
 
 const ReportType = () => {
   return (
@@ -51,50 +71,17 @@ const ReportType = () => {
         <GoalRadios>
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              Instantly
-            </p>
+              <SelectPTag>Instantly</SelectPTag>
           </GoalRadio>
 
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              Annual
-            </p>
+              <SelectPTag>Annual</SelectPTag>
           </GoalRadio>
 
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              Quarterly
-            </p>
+              <SelectPTag>Quarterly</SelectPTag>
           </GoalRadio>
         </GoalRadios>
       </GoalDetails>

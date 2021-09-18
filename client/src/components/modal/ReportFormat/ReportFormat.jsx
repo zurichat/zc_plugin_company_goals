@@ -11,14 +11,20 @@ const GoalRadios = styled.div`
 `;
 
 const GoalRadio = styled.div`
-  width: 100%;
+  :hover {
+    color: #00b87c; 
+    cursor:pointer; 
+    border: 1px solid #00b87c;
+  }
+
+  min-width: 3.7em;
   height: 68px;
+  margin-left:5em;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 1px solid #00b87c;
 `;
 
 const GoalDetails = styled.div`
@@ -26,6 +32,21 @@ const GoalDetails = styled.div`
   flex-direction: column;
   margin-left: 1rem;
 `;
+
+const SelectPTag = styled.p`
+  :hover{
+    color: #00b87c;
+  }
+  :active{
+    color: #00b87c;
+  }
+  color: #000,
+  fontFamily: Lato,
+  fontWeight: 500,
+  fontSize: 1em,
+  lineHeight: 19.2px,
+  marginTop: 16px,
+`
 
 const ReportFormat = () => {
   return (
@@ -50,34 +71,12 @@ const ReportFormat = () => {
         <GoalRadios>
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              PDF
-            </p>
+            <SelectPTag>PDF</SelectPTag> 
           </GoalRadio>
 
           <GoalRadio>
             <input type="radio" />
-            <p
-              style={{
-                color: '#00b87c',
-                fontFamily: 'Lato',
-                fontWeight: 500,
-                fontSize: '16px',
-                lineHeight: '19.2px',
-                marginTop: '16px',
-              }}
-            >
-              SpreadSheet
-            </p>
+              <SelectPTag>SpreadSheet</SelectPTag>
           </GoalRadio>
         </GoalRadios>
       </GoalDetails>

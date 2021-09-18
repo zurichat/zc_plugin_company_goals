@@ -84,6 +84,7 @@ export default function SimpleModal() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100%',
+          width:'100%',
           flexDirection: 'column',
         }}
       >
