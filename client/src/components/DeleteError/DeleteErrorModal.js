@@ -10,7 +10,7 @@ const DeleteError = () => {
   return (
     <FadedBg className="faded" show={showDeleteErrorModal}>
       <DeleteModal>
-        <XBtn onClick={() => dispatch(closeDeleteGoalModal())}>X</XBtn>
+        <XBtn onClick={() => dispatch(deleteErrorAction())}>X</XBtn>
         <Images>
           <img src={deleteErrorImg.Error} alt="trash" />
         </Images>
