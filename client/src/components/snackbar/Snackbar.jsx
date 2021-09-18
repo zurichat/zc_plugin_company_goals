@@ -1,7 +1,7 @@
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { deactivateSnackbar } from 'redux/snackbar.slice';
+import { deactivateSnackbar } from '../../redux/snackbar.slice';
 
 const SnackBar = () => {
   const dispatch = useDispatch();

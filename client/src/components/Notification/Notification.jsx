@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import NoNotification from './NoNotification';
 
@@ -29,31 +31,43 @@ let notifyAlerts = [
     link: 'Create wireframe',
     info: 'Congratulations you you have achieved this goal! All set targets have been met.',
     time: '2 mins ago',
-    finished: true,
+    status: 'finished',
   },
   {
     id: 2,
-    message: 'You failed to reach this goal',
+    message: 'Some goals updated, Please check',
     link: 'Create wireframe',
     time: '2 weeks ago',
-    finished: false,
+    info: 'Goal Updated, Do needful.',
+    status: 'updated',
   },
   {
     id: 3,
     message: 'You failed to reach this goal',
     link: 'Create wireframe',
+    info: 'Oops, you failed this goal.',
     time: '1 min ago',
-    finished: false,
+    status: 'failed',
   },
 ];
 
 function Notification() {
   const [show, setShow] = useState(true);
+  const [isActive, setIsActive] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const handleClick = () => {
     notifyAlerts = [];
     setShow(false);
   };
+
+  const handleAccordion = (e, id) => {
+    if (e.target.name !== 'create-wireframe') {
+      setIsActive(!isActive);
+      setIndex(id);
+    }
+  };
+
   return (
     <NotificationSection>
       <NotificationWrapper>
@@ -73,36 +87,45 @@ function Notification() {
         <FlexColumn backgroundWhite>
           {show ? (
             <>
-              {notifyAlerts.map(({ finished, message, info, time, link }) => (
-                <Grid>
-                  <MailOutlineIcon style={{ color: '#999999', width: '100%', borderRight: '2px solid #ebebeb' }} />
-                  <FlexColumn>
-                    <FlexRow flexRow>
-                      <Grid gridInfo>
-                        <Paragraph dark achieved>
-                          {message}
-                        </Paragraph>
-                        <Paragraph green red={!finished}>
-                          {link}
-                        </Paragraph>
-                        <Paragraph style={{ fontSize: '15px', lineHeight: '20px' }} dark>
-                          {info}
-                        </Paragraph>
-                      </Grid>
-                      <Paragraph darkColor primary>
-                        {time}
-                      </Paragraph>
-                    </FlexRow>
-                    {finished && (
-                      <FlexRows style={{ marginBottom: '12px' }}>
-                        <Button btnFunction>Delete</Button>
-                        <Button btnFunction>Mark as Read</Button>
-                        <Button btnFunction>View goal</Button>
+              {notifyAlerts.map(({ id, status, message, info, time, link }) => {
+                return (
+                  <Grid key={id} gridActive={id === index} borderBottom>
+                    <MailOutlineIcon style={{ margin: '0 auto', color: '#999999' }} />
+                    <FlexColumn>
+                      <FlexRows onClick={(e) => handleAccordion(e, id)} Rows goalachievedTimeline>
+                        <FlexColumn flexBasicsColumn>
+                          <Paragraph style={{ marginBottom: '10px' }} goalParagraphHeader>
+                            {message}
+                          </Paragraph>
+                          <Button
+                            status
+                            name="create-wireframe"
+                            failed={status === 'failed'}
+                            finished={status === 'finished'}
+                            updated={status === 'updated'}
+                            goalButtonHeaderWireframe
+                          >
+                            {link}
+                          </Button>
+                        </FlexColumn>
+                        <FlexColumn arrowContainer>
+                          {index === id && isActive ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                          <Paragraph flexbasicsParagraph>{time}</Paragraph>
+                        </FlexColumn>
                       </FlexRows>
-                    )}
-                  </FlexColumn>
-                </Grid>
-              ))}
+                      {index === id && isActive && (
+                        <FlexColumn moreNotificationInfo>
+                          <Paragraph moreInfo>{info}</Paragraph>
+                          <FlexRows>
+                            <Button btnFunction>View goal</Button>
+                            <Button btnFunction>Mark as Unread</Button>
+                          </FlexRows>
+                        </FlexColumn>
+                      )}
+                    </FlexColumn>
+                  </Grid>
+                );
+              })}
             </>
           ) : (
             <>
