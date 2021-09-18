@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
-import { MenuOpen } from '@material-ui/icons';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Design from 'components/Dropdown/Design';
@@ -18,7 +19,22 @@ import HistoryList from '../history/historyList';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
+import { getGoals } from '../../redux/showGoalSlice';
+
 function Mainside() {
+
+  const dispatch = useDispatch();
+  const goals = useSelector((state) => state.goals.list);
+  const status = useSelector((state) => state.goals.status);
+  const errorMessage = useSelector((state) => state.goals.errorMessage);
+  useEffect(() => {
+    dispatch(getGoals()).catch((obj) => {
+      console.log('Shite!');
+    });
+  }, [dispatch]);
+
+  const hasGoal = goals.data ? 1 : 0;
+
   return (
     <>
       <Main>
@@ -26,22 +42,28 @@ function Mainside() {
           <GoalsNavLayout />
           <Goal>
             <InnerNav />
-            <EmptyGoal />
+            {status === 'loading' && <p>Loading...</p>}
+            {status === 'success' && !hasGoal && <EmptyGoal />}
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
           {/* <Goal> //Goal container isnt needed for the GoalItem again.
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
-          {/* //PS => The repition of the Goal Item is only temporary */}
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
-          <GoalItem />
+          {
+            /* //PS => The repition of the Goal Item is only temporary */
+            status === 'success' &&
+              hasGoal &&
+              goals.data.map((goal) => {
+                return <GoalItem {...goal}/>;
+              })
+          }
+          {status === 'failed' && (
+            <p>
+              {/* A button might be here to retry and this errorMessage will be in the error UI*/}
+              {errorMessage}
+            </p>
+          )}
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />

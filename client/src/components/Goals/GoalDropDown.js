@@ -2,7 +2,8 @@ import { GoalDropDown } from './GoalItem.style';
 import { useDispatch } from 'react-redux';
 import { deleteConfirmationAction } from '../../redux/deleteGoal.slice';
 
-export default function GoalDrop({ show: {showDropDown,setDropDown} }) {
+export default function GoalDrop({ show: {showDropDown,setDropDown}, goal_id }) {
+
   const dispatch = useDispatch();
   return (
     <GoalDropDown show={showDropDown}>
@@ -21,7 +22,7 @@ export default function GoalDrop({ show: {showDropDown,setDropDown} }) {
           onClick={(e) => {
             e.preventDefault();
             setDropDown(!showDropDown);
-            dispatch(deleteConfirmationAction());
+            dispatch(deleteConfirmationAction(goal_id));
           }}
         >
           Delete
