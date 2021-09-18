@@ -27,5 +27,42 @@ jobs:
           yarn install
           yarn build
           
+      - name: Git Pull on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ZURI_HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd zc_plugin_company_goals/
+            git pull 
+            cd client/
+            yarn install
+            cd ../serve-client
+            yarn install
+            cd .. 
+            yarn install 
+  
+            
+      - name: copy build to server
+        uses: Creepios/sftp-action@v1.0.1
+        with:
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.ZURI_HOST }}
+          password: ${{ secrets.PASSWORD }}
+          localPath: './client/build/'
+          remotePath: '/home/plato/zc_plugin_company_goals/client/build'
+          
+      - name: restart pm2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ZURI_HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            pm2 list
+            pm2 restart 1
+
+          
           
      
