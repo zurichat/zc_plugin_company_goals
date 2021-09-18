@@ -110,6 +110,7 @@ export const Button = styled.button`
   outline: none;
   padding: ${(props) => props.buttonPadding};
   font-size: 12px;
+  cursor: pointer;
 `;
 
 export const CreateButton = styled.div`
