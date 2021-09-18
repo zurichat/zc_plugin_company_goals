@@ -5,9 +5,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-const {
-  v4: uuidv4
-} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const {
   find,
   findAll,
@@ -25,6 +23,7 @@ const {
 } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { createNotification } = require('./notificationController')
 
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
@@ -53,9 +52,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 exports.createGoal = async (req, res, next) => {
 
   const roomId = uuidv4();
-  const {
-    org_id: orgId
-  } = req.query;
+  const { org_id: orgId } = req.query;
   const {
     goal_name: title,
     category
@@ -89,10 +86,7 @@ exports.createGoal = async (req, res, next) => {
       goal_name: title
     }, orgId);
 
-    const {
-      data: foundGoal
-    } = goals.data;
-
+    const { data: foundGoal } = goals.data;
 
     if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
       return res
@@ -112,6 +106,7 @@ exports.createGoal = async (req, res, next) => {
   });
 
 };
+
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
@@ -185,21 +180,18 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 });
 
 
-
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
   const goalId = req.params.id;
-  const {
-    org_id: orgId
-  } = req.query;
+  const { org_id: orgId } = req.query;
 
   // Then, send update to zuri core
   const updatedGoal = await updateOne(collectionName = 'goals', organization_id = orgId, data = req.body, filter = {}, id = goalId)
-
-
+  
   // send the updated goal to client.
   return res.status(200).json(updatedGoal.data);
 });
+
 
 exports.getArchivedGoals = catchAsync(async (req, res, next) => {
 
@@ -220,6 +212,7 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
     data: goals.data.data
   });
 });
+
 
 exports.deleteGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId & orgid from req.params
@@ -246,10 +239,12 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     });
   }
 
+  const { room_id: roomId } = goal.data.data;
 
-  const {
-    room_id: roomId
-  } = goal.data.data;
+    // Get all users assigned to that goal.
+  const assignedUsers = await find('roomusers', { 
+    room_id: roomId 
+  }, org)
 
   // delete assigned records
   await deleteMany('roomusers', {
@@ -259,6 +254,12 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   // Then, delete the goal.
   const response = await deleteOne(collectionName = 'goals', data = org, _id = id);
 
+  // Send a notification to all assigned users
+  const notificationCreater = async (user) => {
+    await createNotification(user.user_id, orgId, response.data.data.goal_name, 'deleteGoal')
+  }
+  assignedUsers.data.data.forEach(notificationCreater)
+
 
   res.status(200).json({
     status: 200,
@@ -267,7 +268,6 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   });
 
 });
-
 
 
 exports.assignGoal = catchAsync(async (req, res, next) => {
@@ -319,6 +319,9 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       };
 
       const roomuser = await insertOne('roomusers', data, org);
+    
+      // Send a notification to all assigned users
+      await createNotification(user_id, orgId, data.title, 'assignGoal')
 
       res.status(201).json({
         status: 'success',
@@ -327,9 +330,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     }
   }
 
-
 });
-
 
 
 exports.removeAssigned = catchAsync(async (req, res, next) => {
@@ -367,17 +368,17 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     });
   }
 
-
   const deleteRoomUser = await deleteOne(data = 'roomusers', data = org, _id = assignedObjectId);
+
+  const goalRoom = room.data.data
+  await createNotification(user_id, orgId, goalRoom.goal_name, 'unassignGoal')
 
   res.status(201).json({
     status: 'success',
     data: deleteRoomUser.data,
   });
 
-
 });
-
 
 
 exports.likeGoal = catchAsync(async (req, res, next) => {
@@ -432,6 +433,7 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
   });
 });
 
+
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
   const {
     goal_id: goalId,
@@ -475,6 +477,7 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 
 exports.checkUserLike = catchAsync(async (req, res, next) => {
   const {
