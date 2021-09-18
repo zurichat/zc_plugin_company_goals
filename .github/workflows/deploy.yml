@@ -40,6 +40,7 @@ jobs:
             yarn install
             cd ../serve-client
             yarn install
+            yarn build
             cd .. 
             yarn install 
   
@@ -50,8 +51,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           host: ${{ secrets.ZURI_HOST }}
           password: ${{ secrets.PASSWORD }}
-          localPath: './client/build/'
-          remotePath: '/home/plato/zc_plugin_company_goals/client/build'
+          localPath: './client/dist/'
+          remotePath: '/home/plato/zc_plugin_company_goals/client/dist'
           
       - name: restart pm2
         uses: appleboy/ssh-action@master
