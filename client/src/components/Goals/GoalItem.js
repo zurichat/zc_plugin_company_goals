@@ -1,11 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react';
-
 import { Container,Grid } from '@material-ui/core'
-
+import { useDispatch, useSelector } from 'react-redux';
 import dislikes from '../../Images/png/dislikes.png'
 import ellipsis from '../../Images/png/ellipsis.png'
 import likes from '../../Images/png/likes.png'
 import views from '../../Images/png/views.png'
+import { getGoals } from '../../redux/showGoalSlice';
+import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import {
   useStyles,
   GoalTitle,
@@ -16,12 +18,10 @@ import {
   ProgressDate,
   IconItemContainer,
   IconItemCount,
+  Likes,
   MoreOptions,
   ProgressDetailsContainer,
 } from './GoalItem.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGoals } from '../../redux/showGoalSlice';
-import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 
 const GoalItem = () => {
   const classes = useStyles();
@@ -49,51 +49,39 @@ const GoalItem = () => {
     const errorMessage = useSelector((state) => state.goals.errorMessage);
     
 
-    useEffect(() => {
+  useEffect(() => {
+    console.log('always');
       dispatch(getGoals()).catch(obj => {
-        console.log("Shite!")
+        console.log('Shite!')
       });
     }, [dispatch]);
 
-    const hasGoal = goals.data ? 1 : 0;  
+  const hasGoal = goals.data ? 1 : 0;
   return (
-    <React.Fragment>
-      {status === 'success' && !hasGoal && <EmptyGoal />}
-      {status === 'success' &&
-        hasGoal && goals.data.map(goal => {
+    <>
+      {status === 'success' && !hasGoal ? <div><EmptyGoal /></div> : status === 'success' &&
+      hasGoal && goals.data.map(goal => {
           const Progress = ((goal.milestone1 + goal.milestone2 + goal.milestone3) / 30) * 100;
           const goalStart = new Date(goal.goal_start);
           const goalEnd = new Date(goal.goal_end);
 
           return (
-            // Add a key of {goal._id} to the container id to avoid unnecessary errors
-
-            <Container className={classes.root} maxWidth="lg">
-              <Grid item xs={12} sm={3}>
-                {/* This GoalTitle here should be replaced with {goal.goal_name} */}
-
-                <GoalTitle>Create WireFrame</GoalTitle>
+            <Container className={classes.root} key={goal._id}>
+              <Grid item xs={12} sm={3} className={classes.rightSpacing}>
+                <GoalTitle>{goal.goal_name}</GoalTitle>
                 <GoalTagsContainer>
-                  {/* This GoalTags here should be replaced with {goal.category} */}
-
-                  <GoalTags># ui/ux</GoalTags>
-                  <GoalTags># mobile</GoalTags>
+                  <GoalTags>{goal.category}</GoalTags>
                 </GoalTagsContainer>
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                {/* This ProgressBar value here should be replaced with {Progress} */}
-
-                <ProgressBar variant="determinate" value={73} />
+                <ProgressBar variant="determinate" value={Progress} />
                 <ProgressDetailsContainer>
-                  {/* This ProgressRate here should be replaced with {Progress}% */}
-
-                  <ProgressRate>Progress Rate: 73%</ProgressRate>
-
-                  {/* This ProgressDate here should be replaced with 
-                {month.month_names_short[goalStart.getMonth()]} {goalStart.getDate()} - {month.month_names_short[goalEnd.getMonth()]} {goalEnd.getDate()}*/}
-
-                  <ProgressDate>Sep 1 - Sep 30</ProgressDate>
+                  <ProgressRate>Progress Rate: {Progress}%</ProgressRate>
+                  <ProgressDate>
+                    {month.month_names_short[goalStart.getMonth()]} {goalStart.getDate()} -{' '}
+                    {month.month_names_short[goalEnd.getMonth()]} {goalEnd.getDate()}
+                  </ProgressDate>
                 </ProgressDetailsContainer>
               </Grid>
 
@@ -103,7 +91,9 @@ const GoalItem = () => {
                   <IconItemCount>66</IconItemCount>
                 </IconItemContainer>
                 <IconItemContainer>
-                  <img src={likes} alt="likes-icon" className={classes.iconImages} />
+                  <Likes>
+                    <img src={likes} alt="likes-icon" className={classes.iconImages} />
+                  </Likes>
                   <IconItemCount>8</IconItemCount>
                 </IconItemContainer>
                 <IconItemContainer>
@@ -116,17 +106,16 @@ const GoalItem = () => {
                 <img src={ellipsis} alt="more-options-icon" />
               </MoreOptions>
             </Container>
-            );
+          );
         })}
-        {/* Loading UI should be here */}
       {status === 'loading' && <p>Loading...</p>}
       {status === 'failed' && (
         <p>
-          {/* A button might be here to retry and this errorMessage will be in the error UI*/}
+          {/* A button might be here to retry and this errorMessage will be in the error UI */}
           {errorMessage}
         </p>
       )}
-    </React.Fragment>
+    </>
   );
 }
 
