@@ -168,14 +168,15 @@ exports.deleteMany = async (collectionName, filter, organization_id) => {
   console.log(`Delete many operation in ${collectionName} of ${organization_id} started. The operation would delete all 
   documents that match the filter: ${filter}`);
   try {
+    
     payload.collection_name = collectionName;
     payload.filter = filter;
-    payload.bulk_write = true;
+    payload.bulk_delete = true;
     payload.organization_id = organization_id;
 
     const response = await axios({
-      method: 'delete',
-      url: `${URL}/write`,
+      method: 'post',
+      url: `${URL}/delete`,
       data: payload,
     });
 

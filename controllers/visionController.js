@@ -33,13 +33,17 @@ const getVision = async (req, res, next) => {
       vision = data;
     }
 
-    // If no vision exists
+    // If no vision exists -- case 1 (no error thrown)
     if (!data) {
-      vision = { vision: '', organization_id };
-      await insertOne('vision', vision, organization_id);
+      const payload = { vision: '', organization_id };
+      await insertOne('vision', payload, organization_id);
+      vision = payload;
     }
   } catch (error) {
-    return next(new AppError('Something unexpected occured.', 500));
+    // If no vision exists -- case 2 (error thrown)
+    const payload = { vision: '', organization_id };
+    await insertOne('vision', payload, organization_id);
+    vision = payload;
   }
 
   res.status(200).json({ status: 200, message: 'success', payload: vision });
@@ -85,7 +89,7 @@ const updateVision = async (req, res, next) => {
 
     return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
-    return next(new AppError('Something unexpected occured.', 500));
+    return next(new AppError('No vision exists for this organization.', 404));
   }
 };
 

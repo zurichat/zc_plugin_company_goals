@@ -6,6 +6,7 @@ module.exports = {
             organization_id: '1',
             collection_name: '',
             bulk_write: false,
+            bulk_delete: false,
             object_id: null,
             filter:{},
             payload: {},

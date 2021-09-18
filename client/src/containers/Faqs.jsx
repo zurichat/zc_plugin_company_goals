@@ -3,7 +3,7 @@ import React from 'react';
 import { Accordion } from '../components';
 import faqsData from '../fixtures/faqs';
 
-export function FaqsContainer() {
+const FaqsContainer = () => {
   return (
     <Accordion>
       <Accordion.Title>Frequently Asked Questions</Accordion.Title>
@@ -19,4 +19,6 @@ export function FaqsContainer() {
       <Accordion.Home to="/">Home</Accordion.Home>
     </Accordion>
   );
-}
+};
+
+export default FaqsContainer;
