@@ -7,6 +7,7 @@ const axios = require('axios');
 const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
 const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
+const publish = require('./centrifugoController');
 
 // Global Variables
 const collectionName = 'mission';
@@ -60,6 +61,15 @@ exports.updateMission = catchAsync(async (req, res, next)=> {
     let prevMission = await findAll(collectionName,organization_id);
     [prevMission] = prevMission.data.data
     const updatedMission = await updateOne(collectionName, mission,{},organization_id, prevMission._id);
+    const message = {
+      message: `The mission ${prevMission} has been updated to ${mission} `,
+      time: Date.now(),
+      id: '',
+    };
+  
+    const messageId = await insertOne('goalEvents', message, organization_id)
+    message.id = messageId.data.object_id;
+    await publish('notifications', message);
     return res.status(200).json({message: 'Update Sucessful', update: updatedMission.data});
   }
   catch(error) {
