@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MainNav from 'components/MainNav/MainNav';
 import SnackBar from 'components/snackbar/Snackbar';
 import SimpleModal from '../components/createGoal/CreateGoal';
+import DeleteErrorModal from '../components/DeleteError/DeleteErrorModal';
 import Deletemodal from '../components/Deletemodal/Deletemodal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
@@ -19,6 +20,7 @@ function App() {
       <Deletemodal />
       <BasicModal />
       <DeleteSuccessModal />
+      <DeleteErrorModal/>
       <OrganizationVisionEditModal />
       <SnackBar />
       <PluginSide>
