@@ -1,8 +1,7 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { forwardRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { saveGoal } from '../../redux/newGoalSlice';
-import { GoalAcess } from './GoalAccess';
-import { GoalFolder } from './GoalFolder';
 import {
   Goal,
   Form,
@@ -10,22 +9,18 @@ import {
   Button,
   Title,
   Info,
-  Icon,
   Container,
   CloseButton,
   CreateButton,
-  GlobalStyles,
   TargetInput,
-  TargetContainerB,
   TargetContainerA,
-  PriorityContainer,
-  TextArea,
+  TargetContainerB,
+  Select,
+  SelectDiv,
+  MainTitle,
+  Wrap,
 } from './GoalForm.style';
-import { GoalMilestone } from './GoalMilestone';
-import img from './icon/active.png';
-import { PriorityRadio } from './PriorityRadio';
 import { LabelBody } from './RadioInput.style';
-import { TargetRadio } from './TargetRadio';
 
 const GoalForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
@@ -55,135 +50,85 @@ const GoalForm = forwardRef((props) => {
 
   return (
     <Goal>
-      <GlobalStyles />
       <CloseButton type="button" onClick={handleClose}>
         x{' '}
       </CloseButton>{' '}
       <Form action="">
         <Container>
           {' '}
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
           <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="goal-name">
-              <Title titleColor="#393939"> Goal Name </Title>
-              <Info textColor="#999999">
-                Goals are high level containers that can be broken down into smaller target.Learn more{' '}
-              </Info>{' '}
-              <Input
-                type="text"
-                id="goalName"
-                onChange={(e) => onInputChange(e)}
-                placeholder="Goals are high level containers that can be broken down into"
-              />
+              <MainTitle> Create Goal </MainTitle>
+              <Info fontSize="13px">
+                Goal setting helps in creating a pathway for achieving your long and short terms mission
+              </Info>
             </label>{' '}
           </div>{' '}
         </Container>{' '}
         <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
+          {' '}
+          <div style={{ paddingTop: '0.5rem' }}>
+            {' '}
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
+            <label htmlFor="goal-name">
+              <Title> Goal Name </Title>
+
+              <Input type="text" id="goalName" onChange={(e) => onInputChange(e)} />
+            </label>{' '}
+          </div>{' '}
+        </Container>{' '}
+        <Container>
           <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="owner">
-              <div>
-                <Title titleColor="#393939"> Owner </Title>{' '}
-                <Info textColor="#999999"> This is optional, who will take responsibility for the goals </Info>{' '}
-              </div>{' '}
-              <Input type="text" id="owner" placeholder="Mark Essien" onChange={(e) => onInputChange(e)} />
+              <Wrap>
+                <Title> Goal Description </Title> <Info fontSize="15px"> (Optional) </Info>{' '}
+              </Wrap>{' '}
+              <Input type="text" id="owner" onChange={(e) => onInputChange(e)} />
             </label>
           </div>{' '}
         </Container>{' '}
         <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
           <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <label htmlFor="goal-access">
-              <div>
-                <Title titleColor="#393939"> Who has access to this goal ? </Title>{' '}
-                <div
-                  style={{
-                    marginTop: '2rem',
-                  }}
-                >
-                  <GoalAcess />{' '}
-                </div>{' '}
-              </div>{' '}
+            <label htmlFor="owner">
+              <Wrap>
+                <Title> Goal Sort </Title> <Info fontSize="15px"> (Set goal Type and Category and Priority) </Info>{' '}
+              </Wrap>{' '}
+              <TargetContainerA>
+                <SelectDiv>
+                  <label htmlFor="goal-type">
+                    <Select name="goal-type" id="">
+                      <option value="">Type</option>
+                      <option value="Annual Goal">Annual Goal</option>
+                      <option value="Quaterly Goaal"> Quaterly Goal</option>
+                    </Select>
+                  </label>
+                </SelectDiv>
+                <SelectDiv>
+                  <label htmlFor="category">
+                    <Select name="category" id="">
+                      <option value="">Category</option>
+                      <option value="Product Design">Product Design</option>
+                      <option value="Marketing"> Marketing</option>
+                    </Select>
+                  </label>
+                </SelectDiv>
+              </TargetContainerA>
             </label>
           </div>{' '}
         </Container>{' '}
         <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            <div>
-              <Title titleColor="#393939"> Goal Folder (Optional) </Title>{' '}
-              <Info textColor="#999999"> This shows if it&apos;s an annual or quarterly goal. </Info>{' '}
-            </div>{' '}
-            <TargetContainerA>
-              <GoalFolder />
-            </TargetContainerA>
-          </div>
-        </Container>
-        <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
           <div style={{ paddingTop: '0.5rem' }}>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="date">
               <div>
-                <Title titleColor="#393939"> Goal Timeline (Optional) </Title>{' '}
-                <Info textColor="#999999"> This is optional. </Info>{' '}
+                <Title> Goal Timeline </Title>{' '}
               </div>{' '}
               <TargetContainerB>
                 <div style={{ width: '45%', marginRight: '0.5rem' }}>
@@ -196,7 +141,7 @@ const GoalForm = forwardRef((props) => {
                     }}
                     // eslint-disable-next-line no-return-assign
                     onBlur={(e) => (e.currentTarget.type = 'text')}
-                    placeholder="mm/dd/yy"
+                    placeholder="01/02/2021"
                   />
                 </div>
                 <div style={{ width: '50%' }}>
@@ -209,208 +154,11 @@ const GoalForm = forwardRef((props) => {
                     }}
                     // eslint-disable-next-line no-return-assign
                     onBlur={(e) => (e.currentTarget.type = 'text')}
-                    placeholder="mm/dd/yy"
+                    placeholder="11/02/2021"
                   />
                 </div>
               </TargetContainerB>
             </label>
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <label htmlFor="owner">
-              <div>
-                <Title titleColor="#393939">Categories/Tags (Optional)</Title>{' '}
-                <Info textColor="#999999">
-                  {' '}
-                  This is optional. A categorization that will help in sorting from multiples
-                </Info>{' '}
-              </div>{' '}
-              <Input type="text" id="owner" placeholder="#" onChange={(e) => onInputChange(e)} />
-            </label>
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <label htmlFor="owner">
-              <div>
-                <Title titleColor="#393939">Description (Optional)</Title>{' '}
-                <Info textColor="#999999">
-                  {' '}
-                  This is optional. A short explanation on why the goal is set and how it can be achieved
-                </Info>{' '}
-              </div>{' '}
-              <TextArea type="text" id="owner" onChange={(e) => onInputChange(e)} rows="3" />
-            </label>
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <label htmlFor="category">
-              <div>
-                <Title titleColor="#393939"> Category </Title>{' '}
-                <Info textColor="#999999">
-                  This is optional.A categorization that will help in sorting from multiples{' '}
-                </Info>{' '}
-              </div>{' '}
-              <Input type="text" id="category" placeholder="Product Design" onChange={(e) => onInputChange(e)} />
-            </label>
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          {' '}
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <label htmlFor="description">
-              <div>
-                <Title titleColor="#393939"> Description </Title>{' '}
-                <Info textColor="#999999">
-                  This is optional.A short explanation on why the goal is set and how it can be achieved{' '}
-                </Info>{' '}
-              </div>{' '}
-              <Input type="text" id="description" onChange={(e) => onInputChange(e)} />
-            </label>
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          {' '}
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <div>
-              <Title titleColor="#393939"> Target Type </Title>{' '}
-              <Info textColor="#999999">
-                This is optional.A short explanation on why the goal is set and how it can be achieved{' '}
-              </Info>{' '}
-            </div>{' '}
-            <TargetContainerA>
-              <TargetRadio />
-            </TargetContainerA>
-            <TargetContainerB>
-              <div style={{ width: '45%', marginRight: '0.5rem' }}>
-                <LabelBody style={{ marginBottom: '0.5rem' }}>Start</LabelBody>
-                <TargetInput
-                  type="text"
-                  name=""
-                  id="Start"
-                  style={{ marginRight: '0.8rem', paddingLeft: '0.5rem' }}
-                  placeholder="0"
-                />
-              </div>
-              <div style={{ width: '50%' }}>
-                <LabelBody style={{ marginBottom: '0.5rem' }}>Target</LabelBody>
-                <TargetInput type="text" name="" id="Target" placeholder="4" style={{ paddingLeft: '0.5rem' }} />
-              </div>
-            </TargetContainerB>
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          {' '}
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <div>
-              <Title titleColor="#393939">Number of Milestones (Optional)</Title>{' '}
-              <Info textColor="#999999">
-                This is optional. It is used to break down the goals into achievable targets{' '}
-              </Info>{' '}
-            </div>{' '}
-            <GoalMilestone />
-          </div>{' '}
-        </Container>{' '}
-        <Container>
-          {' '}
-          <Icon>
-            <img
-              src={img}
-              alt="icon"
-              width="20px"
-              height="30px"
-              style={{
-                paddingTop: '0.6rem',
-              }}
-            />{' '}
-          </Icon>{' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <Title titleColor="#393939">Set Goal Priority</Title>{' '}
-            <PriorityContainer>
-              <PriorityRadio />
-            </PriorityContainer>
           </div>{' '}
         </Container>{' '}
         <CreateButton>

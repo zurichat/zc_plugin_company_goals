@@ -1,33 +1,20 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
-export const GlobalStyles = createGlobalStyle`
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #F6F6F6;
-}
-::-webkit-scrollbar-thumb {
-  background: #C9C9C9; 
-  border-radius: 10px;
-}
-
-`;
 export const Goal = styled.div`
   font-family: Lato;
-  padding: 1.5rem 3rem;
+  padding: 0.5rem 1rem 1rem 1rem;
 
   width: 100%;
-  background-color: #f6f6f6;
+  background-color: #fff;
 
   @media only screen and (max-width: 600px) {
     width: 100% !important;
-    padding: 1rem !important;
+    padding: 0.8rem !important;
   }
 `;
 export const Form = styled.form`
   width: 100%;
-  margin: 1.5rem 0;
+  margin: 0 0 1.5rem 0;
 
   div {
     width: 100%;
@@ -36,24 +23,25 @@ export const Form = styled.form`
 export const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 5rem;
-`;
-export const Icon = styled.div`
-  width: 40px !important;
-  height: 40px !important;
-
-  margin-right: 0.8rem;
-  background: #e3eeff;
-  text-align: center;
-  border-radius: 50%;
+  margin-bottom: 1rem;
 `;
 
+export const MainTitle = styled.h3`
+  margin-bottom: 0;
+  font-weight: Bold;
+  font-size: 28px;
+  color: #1d1c1d;
+`;
+export const Wrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
 export const Title = styled.h5`
   margin-bottom: 0;
-
+  margin-right: 0.2rem;
   font-weight: Bold;
-  font-size: 21px;
-  color: ${(props) => props.titleColor};
+  font-size: 15px;
+  color: #1d1c1d;
 `;
 
 export const Info = styled.p`
@@ -61,28 +49,43 @@ export const Info = styled.p`
   margin-top: 0.3rem;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
-
-  color: ${(props) => props.textColor};
+  font-size: ${(props) => props.fontSize};
+  color: #999999;
 `;
 export const Input = styled.input`
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
-  font-size: 22px;
+  font-size: 15px;
   margin-top: 0.5rem;
-  padding: 0.5rem;
+  padding-left: 0.5rem;
   height: 3rem;
   border: none;
   outline: none;
-  border: 1px solid #393939;
+  border: 1px solid #a1a1a1;
   background-color: #ffffff;
   width: 100%;
-  &:focus {
-    border: 0.5px solid #00b87c;
+`;
+export const SelectDiv = styled.div`
+  width: 45% !important;
+  margin-top: 1rem;
+`;
+export const Select = styled.select`
+  width: 100%;
+  height: 50px;
+  background-color: #00b87c;
+  border-radius: 3px;
+  color: #fff;
+  padding: 0 0.7rem;
+  border: none;
+  outline: none;
+  option {
+    color: #b0afb0;
+    font-size: 13px;
+    margin: 5rem 0 1rem 0.5rem;
+    background-color: #fff;
   }
 `;
-
 export const TextArea = styled.textarea`
   font-family: Lato;
   font-style: normal;
@@ -135,7 +138,7 @@ export const TargetContainerA = styled.div`
 `;
 export const TargetContainerB = styled.div`
   display: flex;
-  margin-top: 2rem;
+  margin-top: 0.7rem;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -149,16 +152,13 @@ export const TargetContainerB = styled.div`
 export const TargetInput = styled.input`
   width: 100%;
   height: 33px;
-  font-size: 22px;
+  font-size: 15px;
   padding-left: 0.2rem;
   color: #000000;
-  border: 0.5px solid #393939;
+  border: 0.5px solid #a1a1a1;
   outline: none;
   border-radius: 3px;
   height: 3rem;
-  &:focus {
-    border: 0.5px solid #00b87c;
-  }
 `;
 
 export const PriorityContainer = styled.div`
