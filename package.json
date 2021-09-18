@@ -5,8 +5,9 @@
   "repository": "git@github.com:zurichat/zc_plugin_company_goals.git",
   "type": "commonjs",
   "scripts": {
-    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false yarn --cwd client run build ",
-    "client:dev": "yarn --cwd client start",
+    "client:build": "cross-env INLINE_RUNTIME_CHUNK=false yarn --cwd client run build && yarn serve-client:build",
+    "serve-client:build": "cross-env INLINE_RUNTIME_CHUNK=false yarn --cwd serve-client run build",
+    "client:dev": "concurrently \"yarn --cwd serve-client start\" \"yarn --cwd client start\"",
     "dev": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run client:dev\"",
     "server": "nodemon server.js",
     "server:dev": "cross-env NODE_ENV=development nodemon server.js",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
     "cspell": "^5.8.2",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",

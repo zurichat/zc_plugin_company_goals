@@ -1,11 +1,11 @@
 // eslint-disable-next-line import/no-unresolved
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
-import Design from 'components/Dropdown/Design';
-import MenuOption from 'components/Dropdown/MenuOption';
-import Mobile from 'components/Dropdown/Mobile';
-import MobilePrivate from 'components/Dropdown/MobilePrivate';
-import InnerNav from 'components/goal_interface_inner_header/InnerNav';
+import Design from '../../components/Dropdown/Design';
+import MenuOption from '../../components/Dropdown/MenuOption';
+import Mobile from '../../components/Dropdown/Mobile';
+import MobilePrivate from '../../components/Dropdown/MobilePrivate';
+import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
