@@ -122,9 +122,10 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
   const goalId = req.params.id;
+  const { org_id: orgId } = req.query;
   
   // Then, send update to zuri core
-  const updatedGoal = await updateOne(collectionName='goals', data=req.body, filter={}, id=goalId)
+  const updatedGoal = await updateOne(collectionName='goals', organization_id=orgId, data=req.body, filter={}, id=goalId)
 
 
   // send the updated goal to client.
