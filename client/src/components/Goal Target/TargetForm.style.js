@@ -2,20 +2,19 @@ import styled from 'styled-components';
 
 export const Goal = styled.div`
   font-family: Lato;
-  padding: 0.5rem 1rem 1rem 1rem;
+  padding: 0 1rem 1rem 2rem;
 
   width: 100%;
   background-color: #fff;
 
-  @media only screen and (max-width: 600px) {
+  /* @media only screen and (max-width: 600px) {
     width: 100% !important;
     padding: 0.8rem !important;
-  }
+  } */
 `;
 export const Form = styled.form`
   width: 100%;
   margin: 0 0 1.5rem 0;
-
   div {
     width: 100%;
   }
@@ -27,6 +26,7 @@ export const Container = styled.div`
 `;
 
 export const MainTitle = styled.h3`
+  margin-top: 0;
   margin-bottom: 0;
   font-weight: Bold;
   font-size: 28px;
@@ -128,8 +128,8 @@ export const Box = styled.div`
   }
 `;
 export const TargetContainerA = styled.div`
-  width: 100% !important;
-
+  width: 85% !important;
+  float: right;
   display: flex;
   justify-content: space-between;
   /* @media only screen and (max-width: 500px) {
@@ -173,7 +173,7 @@ export const CloseButton = styled.button`
   float: right;
   background: none;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #333333;
   cursor: pointer;
 `;
