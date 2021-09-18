@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { deleteGoalAction } from '../../redux/deleteGoal.slice';
+import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
 
 const useStyles = makeStyles({
   root: {
@@ -16,6 +18,7 @@ const useStyles = makeStyles({
 
 export default function Menuoption() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -36,7 +39,13 @@ export default function Menuoption() {
           {' '}
           <Typography variant="body2">View</Typography>
         </MenuItem>
-        <MenuItem className={classes.root} onClick={handleClose}>
+        <MenuItem
+          className={classes.root}
+          onClick={() => {
+            handleClose();
+            dispatch(toggleEditGoalModalAction());
+          }}
+        >
           {' '}
           <Typography variant="body2">Edit</Typography>
         </MenuItem>
@@ -49,7 +58,13 @@ export default function Menuoption() {
         <MenuItem className={classes.root} onClick={handleClose}>
           <Typography variant="body2">Duplicate</Typography>
         </MenuItem>
-        <MenuItem className={classes.root} onClick={handleClose}>
+        <MenuItem
+          className={classes.root}
+          onClick={() => {
+            handleClose();
+            dispatch(deleteGoalAction());
+          }}
+        >
           <Typography variant="body2" style={{ color: '#f44336' }}>
             Delete
           </Typography>

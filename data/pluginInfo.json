@@ -1,17 +1,16 @@
 {
   "status": "success",
   "pluginInfo": {
-    "id": "zc-company-goals",
+    "id": "61330fcfbfba0a42d7f38e59",
     "name": "Company Goals Management Plug-In",
-    "pluginUrl": "http://goals.zuri.chat/",
-    "sidebarUrl": "http://goals.zuri.chat/sidebar",
-    "infoUrl": "http://goals.zuri.chat/info",
-    "pingUrl": "http://goals.zuri.chat/ping",
-    "description": [
-      "Zuri.goals plugin",
-      "An effective goal management system that organizes an organization's short and long term goals, breaks them down into smaller actionable targets, and assigns them to teams within the organization."
-    ],
-    "author": "Team Plato ~ HNGi8",
+    "description": "An effective goal management system that organizes an organization's short and long term goals, breaks them down into smaller actionable targets, and assigns them to teams within the organization.",
+    "template_url": "https://goals.zuri.chat/",
+    "sidebar_url": "https://goals.zuri.chat/sidebar",
+    "install_url": "https://goals.zuri.chat/install",
+    "info_url": "http://goals.zuri.chat/info",
+    "developer_name": "Team Plato ~ HNGi8",
+    "developer_email": "teamplato@gmail.com",
+    "icon_url": "none",
     "authoredAt": "2021-09-01T10:41:38Z",
     "version": "1.0.0"
   }

@@ -1,0 +1,58 @@
+.all {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.up img {
+    display: block;
+    margin: auto;
+    height: 26px;
+    width: 26px;
+
+}
+
+.x {
+    margin-top: 12px;
+    margin-left: 95%;
+    width: 16px;
+    height: 16px;
+    border: none;
+    background-color: none;
+    color: #00B87C;
+    text-align: center;
+}
+
+.up {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color:  #00B87C;
+}
+
+h3 {
+    color: #00B87C;
+    margin-top: 20px;
+}
+
+ p{
+    margin: 14px;
+    font-weight: 9px;
+   
+   
+}
+
+.Proceed {
+    height: 36px;
+    width: 100px;
+    border: none;
+    background-color: #00B87C;
+    margin: 24px;
+    color: white;
+}
