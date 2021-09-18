@@ -10,7 +10,6 @@ import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
 import likeGoalReducer from './likeGoalSlice';
 
-
 const store = configureStore({
   reducer: {
     editMission: editMissionReducer,
@@ -21,8 +20,8 @@ const store = configureStore({
     newGoal: newGoalReducer,
     snackbar: snackbarReducer,
     goals: showGoalSliceReducer,
-    organizationCreateAndEditGoal: createAndEditGoalReducer,
-    likeGoals: likeGoalReducer
+    organizationCreateAndEditGoalData: createAndEditGoalReducer,
+    likeGoals: likeGoalReducer,
   },
 });
 
