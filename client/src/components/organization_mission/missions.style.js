@@ -67,3 +67,17 @@ export const Title = styled.h3 `
       left: ${(props) => props.rsLeft};
    }
 `
+
+export const MissionField = styled.p`
+  width: 518px;
+  border: none;
+  background-color: white;
+  padding: 21px 15px;
+  &:-ms-keyboard-active {
+    border-style: none;
+  }
+  @media only screen and (max-width: 420px) {
+    width: 340px;
+    height: 45px;
+  }
+`;
