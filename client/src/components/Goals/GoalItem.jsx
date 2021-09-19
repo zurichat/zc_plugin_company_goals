@@ -23,37 +23,37 @@ import {
   ProgressDetailsContainer,
 } from './GoalItem.style';
 
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getGoals } from '../../redux/showGoalSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGoals } from '../../redux/showGoalSlice';
 import { addLike, addDisLike } from '../../redux/likeGoalSlice';
-// import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 
-// const GoalItem = () => {
-//   const classes = useStyles();
-//   const month = {
-//     month_names: [
-//       'January',
-//       'February',
-//       'March',
-//       'April',
-//       'May',
-//       'June',
-//       'July',
-//       'August',
-//       'September',
-//       'October',
-//       'November',
-//       'December',
-//     ],
-//     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-//   };
+const GoalItem = () => {
+  const classes = useStyles();
+  const month = {
+    month_names: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  };
 
-//   const dispatch = useDispatch();
-//   const goals = useSelector((state) => state.goals.list);
-//   const status = useSelector((state) => state.goals.status);
-//   const goalLikes = useSelector(state=> state.likeGoals.likes)
-//   const goalDislikes = useSelector(state => state.likeGoals.dislikes)
-//   const errorMessage = useSelector((state) => state.goals.errorMessage);
+  const dispatch = useDispatch();
+  const goals = useSelector((state) => state.goals.list);
+  const status = useSelector((state) => state.goals.status);
+  const goalLikes = useSelector(state=> state.likeGoals.likes)
+  const goalDislikes = useSelector(state => state.likeGoals.dislikes)
+  const errorMessage = useSelector((state) => state.goals.errorMessage);
 
 const GoalItem = () => {
   const classes = useStyles();
