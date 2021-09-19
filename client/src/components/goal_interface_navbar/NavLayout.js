@@ -1,7 +1,9 @@
+import { useDispatch } from 'react-redux';
+import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
-import NavName from './NavName';
+import { NavName, CreateGoalButton } from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
@@ -67,6 +69,7 @@ const SortDrpDw = styled.div`
   }
 `;
 const GoalsNavLayout = () => {
+  const dispatch = useDispatch();
   function showDrpDw() {
     const sortDrpContainer = document.getElementById('sort_drop_down');
     sortDrpContainer.classList.toggle('active');
@@ -76,8 +79,10 @@ const GoalsNavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort type="button" onClick={() => showDrpDw()}>
+      <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; create goal</CreateGoalButton>
+      {/* <Sort type="button" onClick={() => showDrpDw()}>
         <div> Sort by </div> <img src={img} alt="sort icon" />
+
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
             <li>More Recent</li>
@@ -88,7 +93,7 @@ const GoalsNavLayout = () => {
             <li>Timeline </li>
           </ul>
         </SortDrpDw>
-      </Sort>
+      </Sort> */}
     </GridLayout>
   );
 };
