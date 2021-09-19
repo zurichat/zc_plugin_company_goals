@@ -5,7 +5,7 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { showEditMissionModal, editMissionText } from '../../redux/editMission.slice';
-import { Header, TextBox, SaveBtn, Paper , ModalBody } from './styledEditMission';
+import { Header, TextBox, SaveBtn, Paper , ModalBody } from '../Modal/styledEditMission';
 // const useStyles = makeStyles((theme) => ({
 //   modal: {
 //     display: 'flex',
