@@ -5,12 +5,9 @@ import search from '../../Images/svg/search.svg';
 import settings from '../../Images/svg/settings.svg';
 
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
-<<<<<<< HEAD
-=======
 
 // import SearchResults from '../searchBarDisplay/Search';
 
->>>>>>> 5c060c4902863e3c47b41425f48de511794d6b8b
 import SearchInteractive from '../Searchinteractive/SearchInteractive';
 import {
   Nav,
