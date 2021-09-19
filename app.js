@@ -78,13 +78,12 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
 // To serve frontend build files in production
-
   app.use(express.static(path.join(__dirname, 'client/dist')));
   app.use(express.static(path.join(__dirname, 'serve-client/dist')));
-}
+
 app.get('/zuri-plugin-company-goals.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/zuri-plugin-company-goals.js'));
-
+});
 // Api routes
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
