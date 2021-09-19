@@ -5,7 +5,7 @@ const { request, response } = require('express');
 const { insertOne, find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const publish = require('./centrifugoController');
+const {publish} = require('./centrifugoController');
 
 /**
  * Get an organization's vision,
