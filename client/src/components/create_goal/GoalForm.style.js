@@ -117,16 +117,11 @@ export const CreateButton = styled.div`
   text-align: center;
   margin-top: 2rem;
 `;
-export const Box = styled.div`
-  margin-top: 2rem;
-  width: 25% !important;
-  display: flex;
-  float: right;
-  align-items: center;
-  justify-content: space-between;
-  @media only screen and (max-width: 400px) {
-    width: 50% !important;
-  }
+export const LabelBody = styled.p`
+  color: #393939;
+  font-size: 10px;
+  width: 70%;
+  margin: 0;
 `;
 export const TargetContainerA = styled.div`
   width: 100% !important;
