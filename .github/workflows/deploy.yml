@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             pm2 list
-            pm2 restart 1
+            pm2 restart 3
 
           
           
