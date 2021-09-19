@@ -11,7 +11,6 @@ import { Editbutton, Title, Box, VisionField } from './vision.style';
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
   const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
-  const classes = useStyles();
 
   return (
     <>
