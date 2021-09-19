@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-
 import search from '../../Images/svg/search.svg';
 import settings from '../../Images/svg/settings.svg';
+
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 
 // import SearchResults from '../searchBarDisplay/Search';
@@ -24,7 +24,7 @@ import {
 } from './navbar.styled';
 
 const Navbar = () => {
-  const [display, setDisplay] = useState(false);
+  const [display, setDisplay] = useState(false)
   const [searchState, setSearchState] = useState('');
 
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const Navbar = () => {
   const handleEdit = (e) => {
     setSearchState(e.target.value);
     setDisplay(true);
-  };
+  };an
 
   return (
     <div>
