@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
 
@@ -38,7 +38,7 @@ app.use(cors());
 app.options('*', cors());
 
 // Add secure headers
-app.use(helmet());
+//app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
