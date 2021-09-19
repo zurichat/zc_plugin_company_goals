@@ -15,42 +15,44 @@ const catchAsync = require('../utils/catchAsync');
  */
 const verifyToken = async (req, res, next) => {
   const URL = `https://api.zuri.chat/auth/verify-token`;
+  let tokenHeader = req.headers.authorization;
+  const cooky = req.headers.cookie;
+  let resHeaders;
   let bearer;
+
   try {
-    let tokenHeader = req.headers.authorization;
-    if (!tokenHeader) {
-      return next(new AppError('No auth token was provided.', 401));
+    if (tokenHeader) {
+      [bearer, tokenHeader, req.organization_id] = tokenHeader.split(' ');
+      tokenHeader = `${bearer} ${tokenHeader}`;
+      // Set token header
+      resHeaders = {
+        Authorization: tokenHeader,
+      };
+
+      req.tokenHeader = tokenHeader;
+    } else if (cooky) {
+      // Set cookie header
+      resHeaders = {
+        Cookie: cooky,
+        withCredentials: true,
+      };
+    } else {
+      return next(new AppError('No auth token or cookie was provided.', 401));
     }
-
-    [bearer, tokenHeader, req.organization_id] = tokenHeader.split(' ');
-    tokenHeader = `${bearer} ${tokenHeader}`;
-
-    req.tokenHeader = tokenHeader;
 
     const {
       data: { data },
     } = await axios({
       method: 'post',
       url: URL,
-      headers: {
-        Authorization: tokenHeader,
-      },
+      headers: resHeaders,
     });
 
     if (!data) {
       return next(new AppError('User is not authorized.', 401));
     }
 
-    /*
-    Small hack to assign roles to users -- for testing purposes
-
-    const date = new Date().getMinutes();
-    if (date % 2 === 0) {
-      data.user.role = 'admin';
-    } else {
-      data.user.role = 'user';
-    }
-    */
+    // Set admin priviledge
     data.user.role = 'admin';
 
     // Set user on req Object
