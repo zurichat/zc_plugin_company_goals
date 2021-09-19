@@ -20,9 +20,9 @@ const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas')
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
-const { createNotification } = require('./notificationController');
 const {publish} = require('./centrifugoController');
-const { createNotification } = require('./notificationController')
+const { createNotification } = require('./notificationController');
+
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const {
@@ -42,13 +42,6 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.createGoal = async (req, res, next) => {
-  const roomId = uuidv4();
-  const { org_id: orgId } = req.query;
-  const { goal_name: title, category } = req.body;
-
-  const goal = req.body;
-  let goals;
 exports.createGoal = async ( req, res, next) => {
 
   logger.info(`Started creating a new goal.`);
@@ -341,7 +334,6 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     return res.status(404).send({ error: `This room does not exist on the goals collection` });
   }
 
-
   const roomuser = await find('roomusers', { room_id, user_id }, org);
 
   const {
@@ -379,14 +371,6 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     status: 'success',
     data: deleteRoomUser.data,
   });
-
-  const deleteRoomUser = await deleteOne(data = 'roomusers', data = org, _id=assignedObjectId);
-
- res.status(201).json({
-   status: 'success',
-   data: deleteRoomUser.data,
- });
-
 
 });
 
@@ -526,4 +510,5 @@ exports.checkUserLike = catchAsync(async (req, res, next) => {
     status: 'success',
     data: true,
   });
+
 });
