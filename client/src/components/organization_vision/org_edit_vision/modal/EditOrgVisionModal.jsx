@@ -17,16 +17,13 @@ import {
 const OrganizationVisionEditModal = () => {
   const dispatch = useDispatch();
   const showVisionModal = useSelector(({ organizationVision }) => organizationVision.showVisionModal);
+  const vision = useSelector(({ organizationVision }) => organizationVision.vision);
+  const loading = useSelector(({ organizationVision }) => organizationVision.loading);
   const [editText, setEditText] = useState('');
 
   const dispatchAction = () => {
     if (editText) {
-      dispatch(updateOrgVision(editText))
-        .then(unwrapResult)
-        .then(() => {
-          // console.log('unwrap', data);
-          dispatch(showEditVisionModal());
-        });
+      dispatch(updateOrgVision(editText));
     }
   };
 
@@ -46,10 +43,17 @@ const OrganizationVisionEditModal = () => {
           <Header id="transition-modal-title">Edit Vision</Header>
           <TextBox placeholder="Click to edit..." value={editText} onChange={(e) => setEditText(e.target.value)} />
           <ActionButtonsContainer>
-            <ActionCancelEditVisionButton onClick={() => dispatch(showEditVisionModal())}>
+            <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
               Cancel
             </ActionCancelEditVisionButton>
-            <ActionButton onClick={dispatchAction}>Save</ActionButton>
+            <ActionButton
+              disabled={loading}
+              onClick={() => {
+                dispatchAction();
+              }}
+            >
+              {loading ? 'please wait' : 'save'}
+            </ActionButton>
           </ActionButtonsContainer>
         </EditVisionContainer>
       </Fade>

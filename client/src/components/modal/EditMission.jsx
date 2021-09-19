@@ -8,6 +8,8 @@ import { showEditMissionModal, editMissionText } from '../../redux/editMission.s
 import { Header, TextBox, SaveBtn, Paper , ModalBody } from './styledEditMission';
 import {useStickyState} from '../../hooks/useSticky';
 import  MissionContext  from '../../context/mission'
+
+
 // const useStyles = makeStyles((theme) => ({
 //   modal: {
 //     display: 'flex',

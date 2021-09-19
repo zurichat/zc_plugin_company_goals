@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { saveVision } from './redux/organizationVision.slice';
 import { activateSnackbar } from './redux/snackbar.slice';
 import {setNewMission , getMission} from './services/missionAPI'
+import AppHeader from './components/app_header/AppHeader';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +45,7 @@ function App() {
   }, []);
   return (
     <>
+      <AppHeader />
       <Router basename="/goals">
         <Suspense fallback={<CircularProgress />}>
           <Switch>
