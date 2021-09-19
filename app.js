@@ -78,12 +78,11 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
 // To serve frontend build files in production
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')));
   app.use(express.static(path.join(__dirname, 'serve-client/dist')));
+}
 
-app.get('/zuri-root-config.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'serve-client/dist/zuri-root-config.js'));
-});
 app.get('/zuri-plugin-company-goals.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/zuri-plugin-company-goals.js'));
 });
@@ -102,7 +101,7 @@ app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1/auth', authRouter);
 
 // Send all 404 requests not handled by the server to the Client app
-app.use('*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'serve-client/dist', 'index.html'));
 });
 
