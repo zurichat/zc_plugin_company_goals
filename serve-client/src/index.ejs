@@ -17,10 +17,12 @@
     This CSP allows any SSL-enabled host and for arbitrary eval(), but you should limit these directives further to increase your app's security.
     Learn more about CSP policies at https://content-security-policy.com/#directive
   -->
+  <!--
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' https: localhost:*; script-src cdn.jsdelivr.net/npm localhost:*; connect-src https: localhost:* ws://localhost:* wss://realtime.zuri.chat:*; style-src 'unsafe-inline' https:; object-src 'none';"
     />
+    -->
     
     <meta name="importmap-type" content="systemjs-importmap" />
     <!-- If you wish to turn off import-map-overrides for specific environments (prod), uncomment the line below -->
@@ -41,6 +43,7 @@
           "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
           "react": "https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js",
           "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js",
+          "@zuri/root-config": "https://goals.zuri.chat/zuri-root-config.js",
           "@zuri/zuri-plugin-company-goals": "https://goals.zuri.chat/zuri-plugin-company-goals.js"
         }
       }

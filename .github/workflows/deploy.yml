@@ -35,7 +35,10 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd zc_plugin_company_goals/
-            git pull 
+            git stash
+            git fetch --all
+            git reset --hard origin/prod
+            git pull origin/prod
             cd client/
             yarn install
             cd ../serve-client
@@ -62,7 +65,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             pm2 list
-            pm2 restart 1
+            pm2 restart 3
 
           
           

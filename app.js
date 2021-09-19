@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
 
@@ -33,12 +33,12 @@ const rateLimiter = require('./utils/rateLimiter');
 const app = express();
 
 // Implement cors
-app.use(cors());
+app.use(cors({origin:["*"]}));
 
-app.options('*', cors());
+//app.options('*', cors());
 
 // Add secure headers
-app.use(helmet());
+//app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -82,10 +82,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')));
   app.use(express.static(path.join(__dirname, 'serve-client/dist')));
 }
+
 app.get('/zuri-plugin-company-goals.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/zuri-plugin-company-goals.js'));
 });
-
 // Api routes
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);

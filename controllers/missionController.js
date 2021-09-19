@@ -13,7 +13,7 @@ const {
   missionSchema
 } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const publish = require('./centrifugoController');
+const {publish} = require('./centrifugoController');
 
 // Global Variables
 const collectionName = 'mission';
@@ -66,9 +66,6 @@ exports.getMission = catchAsync(async (req, res, next) => {
 exports.updateMission = catchAsync(async (req, res, next) => {
   const mission = req.body;
   const {
-    role
-  } = req.user;
-  const {
     organization_id
   } = req.params;
 
@@ -88,6 +85,7 @@ exports.updateMission = catchAsync(async (req, res, next) => {
   
     const messageId = await insertOne('goalEvents', message, organization_id)
     message.id = messageId.data.object_id;
+    
     await publish('notifications', message);
 
     return res.status(200).json({
