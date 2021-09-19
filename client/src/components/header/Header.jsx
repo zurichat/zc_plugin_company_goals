@@ -43,7 +43,7 @@ const Header = () => {
         </CollapseButton>
         <Div>
           <DisplayOrganizationVision />
-          <CollapseButton bgColor="#00b87c" top="49%" right="5.8%" rstop="68%" rsright="3%" onClick={collapseInput}>
+          <CollapseButton bgColor="#00b87c" top="50%" right="5.8%" rstop="68%" rsright="3%" onClick={collapseInput}>
             <img src={arrDown} alt="Arrow-down" />
           </CollapseButton>
         </Div>

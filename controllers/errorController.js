@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-const { request, response } = require('express');
+const {
+  request,
+  response
+} = require('express');
 const logger = require('../utils/logger');
 
 /**
@@ -62,7 +65,9 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') sendErrorDev(err, req, res);
   //
   else if (process.env.NODE_ENV === 'production') {
-    const error = { ...err };
+    const error = {
+      ...err
+    };
 
     error.message = err.message;
 
