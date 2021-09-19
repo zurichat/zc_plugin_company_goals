@@ -18,6 +18,7 @@ function App() {
       <SimpleModal />
       <Deletemodal />
       <BasicModal />
+
       <DeleteSuccessModal />
       <OrganizationVisionEditModal />
       <SnackBar />
