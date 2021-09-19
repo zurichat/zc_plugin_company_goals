@@ -33,9 +33,9 @@ const rateLimiter = require('./utils/rateLimiter');
 const app = express();
 
 // Implement cors
-app.use(cors());
+app.use(cors({origin:["*"]}));
 
-app.options('*', cors());
+//app.options('*', cors());
 
 // Add secure headers
 //app.use(helmet());
