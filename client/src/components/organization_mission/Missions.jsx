@@ -1,7 +1,7 @@
 import React from 'react'
 import {useDispatch , useSelector} from 'react-redux';
 import { showEditMissionModal } from '../../redux/editMission.slice';
-import EditMission from '../Modal/EditMission'
+import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png'
 import { 
    Editbutton,
