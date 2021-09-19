@@ -84,7 +84,6 @@ const swaggerDocs = swaggerJSDocument(swaggerOptions);
 app.get('/zuri-plugin-company-goals.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/zuri-plugin-company-goals.js'));
 });
-
 // Api routes
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
