@@ -31,17 +31,10 @@ const Navbar = () => {
   const [searchState, setSearchState] = useState('');
 
   const dispatch = useDispatch();
-<<<<<<< HEAD
-  const handleSearch = (event) => {
-    const value = event.type === 'blur' ? '' : event.target.value;
-    setSearchState(value);
-    setDisplay(true)
-=======
 
   const handleEdit = (e) => {
     setSearchState(e.target.value);
     setDisplay(true);
->>>>>>> 5c060c4902863e3c47b41425f48de511794d6b8b
   };
 
   return (
