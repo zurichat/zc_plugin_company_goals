@@ -32,7 +32,7 @@ const Navbar = () => {
   const handleEdit = (e) => {
     setSearchState(e.target.value);
     setDisplay(true);
-  };
+  };an
 
   return (
     <div>
