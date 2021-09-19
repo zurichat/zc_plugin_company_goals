@@ -141,10 +141,11 @@ const GoalItem = () => {
                     <img src={likes} alt="likes-icon" className={classes.iconImages} onClick={likeGoal} />
                     <IconItemCount>{goalLikes}</IconItemCount>
 
+                    {/* 
                     <Likes>
                       <img src={likes} alt="likes-icon" className={classes.iconImages} />
                       <IconItemCount>8</IconItemCount>
-                    </Likes>
+                    </Likes> */}
                   </IconItemContainer>
                   <IconItemContainer>
                     <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} onClick={disLikeGoal} />
@@ -169,5 +170,4 @@ const GoalItem = () => {
       </>
     );
   };
-};
 export default GoalItem;
