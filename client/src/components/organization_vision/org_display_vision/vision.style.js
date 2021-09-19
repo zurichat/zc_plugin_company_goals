@@ -57,13 +57,19 @@ export const Title = styled.h3 `
    right: ${(props) => props.rsRight};
    }
 `
-// export const Line = styled.div `
-//    width: 1102px;
-//    height: 2px;
-//    display: block;
-//    position: absolute;
-//    top: ${(props) => props.top};
-//    right: ${(props) => props.right};
-//    background-color: #eee3e3;
-//    z-index: 1;
-// `
+export const VisionField = styled.p`
+  width: 40vw;
+  border: none;
+  background-color: white;
+  padding: 21px 15px;
+
+  &:-ms-keyboard-active {
+    border-style: none;
+  }
+
+  @media only screen and (max-width: 720px) {
+    width: 70vw;
+    height: 45px;
+    padding: 21px 15px;
+  }
+`

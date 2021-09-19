@@ -8,10 +8,9 @@ import { useStyles } from '../../../hooks/screenSize';
 import { showEditVisionModal } from '../../../redux/organizationVision.slice';
 import { 
   Editbutton,
-  Input,
   Title,
   Box,
-  Line
+  VisionField
 } from './vision.style';
 
 
@@ -23,12 +22,9 @@ const DisplayOrganizationVision = () => {
   return (
     <>
     <Title top="15%" right="45%" rsTop="50%" rsRight="78%" color="#000000">Vision</Title>
-     {/* <Line className="line" top="53%" right="9%"></Line> */}
     <Box className="box">
-        <div>
-          <Input className="visionInput" padding="5px" placeholder="Click to add vision"></Input>
-        </div>
-      <Editbutton className="editbutton" right="7%" rsRight="16%"><img src={editImg} alt="edit" /></Editbutton>
+          <VisionField className="visionInput">Vision Text</VisionField>
+      <Editbutton className="editbutton" right="9%" rsRight="16%"><img src={editImg} alt="edit" /></Editbutton>
     </Box>
     </>
   );
