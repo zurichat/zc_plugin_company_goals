@@ -60,6 +60,8 @@ const MVContain = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2.7rem 0.3rem 0.5rem 0.2rem;
+  top: 3rem;
+  margin-bottom: 4.64rem;
 
   @media only screen and (max-width: 420px) {
     flex-direction: column;

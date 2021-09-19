@@ -23,25 +23,16 @@ export default function SimpleDialog() {
   const handleClose = () => {
     dispatch(toggleCreateGoalModalAction());
   };
-  // const [open, setOpen] = useState(false);
 
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
   return (
-    <>
-      <Button variant="outlined" color="primary" onClick={handleClose}>
-        Open simple dialog
-      </Button>
-      <Dialog
-        open={showCreateGoalModal}
-        onClose={handleClose}
-        maxWidth="xs"
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <GoalForm className={classes.paper} handleClose={handleClose} />
-      </Dialog>
-    </>
+    <Dialog
+      open={showCreateGoalModal}
+      onClose={handleClose}
+      maxWidth="xs"
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <GoalForm className={classes.paper} handleClose={handleClose} />
+    </Dialog>
   );
 }
