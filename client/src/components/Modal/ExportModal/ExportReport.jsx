@@ -3,9 +3,9 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
-import GoalFolder from './GoalFolder/GoalFolder';
-import ReportFormat from './ReportFormat/ReportFormat';
-import ReportType from './ReportType/ReportType';
+import GoalFolder from './GoalFolder';
+import ReportFormat from './ReportFormat';
+import ReportType from './ReportType';
 import ExportButton from './ExportButton';
 
 function getModalStyle() {
@@ -84,7 +84,7 @@ export default function SimpleModal() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100%',
-          width:'100%',
+          width: '100%',
           flexDirection: 'column',
         }}
       >
@@ -111,8 +111,8 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
+      <button type="button" onClick={handleOpen} style={{ padding: '0.5rem' }}>
+        Export Report
       </button>
       <Modal
         open={open}
