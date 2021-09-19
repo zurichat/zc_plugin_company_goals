@@ -10,7 +10,8 @@ const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne, de
 const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-
+const publish = require('./centrifugoController');
+const { createNotification } = require('./notificationController')
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
@@ -73,6 +74,16 @@ exports.createGoal = async ( req, res, next) => {
       goals = await insertOne('goals', data, orgId);
     }
 
+  const message = {
+    message: `A goal "${title}" has been created `,
+    time: Date.now(),
+    id: '',
+  };
+
+  const messageId = await insertOne('goalEvents', message, orgId)
+  message.id = messageId.data.object_id;
+  await publish('notifications', message);
+  res.status(200).json({ message: 'success', ...goals.data, data });
     res.status(200).json({ message: 'success', ...goals.data, data });
   
 };
@@ -129,6 +140,29 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
   const goalId = req.params.id;
   const { org_id: orgId } = req.query;
+
+  const goals = await findById('goals', goalId, orgId);
+
+  const message = {
+    message: `The goal "${goals.data.data.title}" has been updated `,
+    time: Date.now(),
+    id: '',
+  };
+
+
+  const messageId = await insertOne('goalEvents', message, orgId)
+  message.id = messageId.data.object_id;
+  await publish('notifications', message);
+
+  // Then, send update to zuri core
+  const updatedGoal = await updateOne(
+    (collectionName = 'goals'),
+    (organization_id = orgId),
+    (data = req.body),
+    (filter = {}),
+    (id = goalId)
+  );
+
   
   // Then, send update to zuri core
   const updatedGoal = await updateOne(collectionName='goals', organization_id=orgId, data=req.body, filter={}, id=goalId)
@@ -180,6 +214,18 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
   res.status(200).json({status: 200, message: 'Goal deleted successfully.', response: response.data.data});
 
+  const message = {
+    message: `The goal "${goal.data.data.title}" has been deleted `,
+    time: Date.now(),
+    id: '',
+  };
+
+
+  const messageId = await insertOne('goalEvents', message, org)
+  message.id = messageId.data.object_id;
+  await publish('notifications', message);
+
+  res.status(200).json({ status: 200, message: 'Goal deleted successfully.', response: response.data.data });
 });
 
 
@@ -218,6 +264,18 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
         access: getRoom[0].access,
         user_id,
       };
+
+      const roomuser = await insertOne('roomusers', data, org);
+
+      const message = {
+        message: `The goal "${getRoom[0].title}" has been assigned `,
+        time: Date.now(),
+        id: '',
+      };
+    
+      const messageId = await insertOne('goalEvents', message, org)
+      message.id = messageId.data.object_id;
+      await publish('notifications', message);
     
       const roomuser = await insertOne('roomusers', data, org);
    
@@ -264,6 +322,19 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
  
 });
 
+  const goalRoom = room.data.data
+
+  const message = {
+    message: `The goal "${room.data.data._id}" has removed an assignee `,
+    time: Date.now(),
+    id: '',
+  };
+
+  const messageId = await insertOne('goalEvents', message, org)
+  message.id = messageId.data.object_id;
+  await publish('notifications', message);
+
+  await createNotification(user_id, orgId, goalRoom.goal_name, 'unassignGoal')
 
 
 exports.likeGoal = catchAsync(async (req, res, next) => {
