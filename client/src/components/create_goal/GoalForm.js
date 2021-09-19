@@ -23,33 +23,15 @@ import {
   Wrap,
 } from './GoalForm.style';
 import { LabelBody } from './RadioInput.style';
+import { goalCreateEditDataApi } from './create-edit-goal.utils';
+import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
+import { activateSnackbar } from '../../redux/snackbar.slice';
 
 const GoalForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
-  const [user, setUser] = useState(null);
   const dispatch = useDispatch();
-  const createAndEditGoalData = useSelector((state) => state.organizationCreateAndEditGoal);
-
-  const onInputChange = (e) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      [e.target.id]: e.target.value,
-    }));
-  };
-
-  const onCreateGoal = (e) => {
-    e.preventDefault();
-    const fieldNames = ['goalName', 'owner', 'goalAccess', 'category', 'description', 'date'];
-
-    const isValid = user !== null && fieldNames.every((v) => user[v]);
-    if (isValid) {
-      dispatch(saveGoal(user));
-      setUser(null);
-    } else {
-      dispatch(saveGoal('input all fields'));
-    }
-  };
+  const createAndEditGoalData = useSelector((state) => state.organizationCreateAndEditGoalData);
 
   return (
     <Goal>
@@ -59,8 +41,22 @@ const GoalForm = forwardRef((props) => {
       <Formik
         validationSchema={createGoalSchema}
         initialValues={createAndEditGoalData}
-        onSubmit={(values) => {
-          console.log('done', values);
+        onSubmit={async (values, { setSubmitting }) => {
+          setSubmitting(true);
+          if (false) {
+            console.log('editdone', values);
+          } else {
+            try {
+              const createdGoal = await goalCreateEditDataApi.create(values);
+              dispatch(toggleCreateGoalModalAction());
+              dispatch(activateSnackbar({ content: 'Goal successfully created 🥳', severity: 'success' }));
+              console.log('goal-create-success', createdGoal);
+            } catch (err) {
+              setSubmitting(false);
+              dispatch(activateSnackbar({ content: 'Failed to create your goal 😭', severity: 'error' }));
+              console.log('goal-create-failure', err);
+            }
+          }
         }}
       >
         {({ errors, values, touched, isSubmitting, handleSubmit, handleChange }) => (
@@ -98,7 +94,7 @@ const GoalForm = forwardRef((props) => {
                   <Wrap>
                     <Title> Goal Description </Title> <Info fontSize="15px"> (Optional) </Info>{' '}
                   </Wrap>{' '}
-                  <Input type="text" id="goal-description" name="goal_description" onChange={handleChange} />
+                  <Input type="text" id="goal-description" name="description" onChange={handleChange} />
                 </label>
               </div>{' '}
             </Container>{' '}
@@ -115,21 +111,16 @@ const GoalForm = forwardRef((props) => {
                       <label htmlFor="goal-type">
                         <Select name="goal_type" id="goal-type" value={values.goal_type} onChange={handleChange}>
                           <option value="">Type</option>
-                          <option value="annual_goal">Annual Goal</option>
-                          <option value="quaterly_goal"> Quaterly Goal</option>
+                          <option value="annual">Annual Goal</option>
+                          <option value="quarterly"> Quaterly Goal</option>
                         </Select>
                       </label>
                     </SelectDiv>
                     <SelectDiv>
                       <label htmlFor="goal-category">
-                        <Select
-                          name="goal_category"
-                          id="goal-category"
-                          value={values.goal_category}
-                          onChange={handleChange}
-                        >
+                        <Select name="category" id="goal-category" value={values.category} onChange={handleChange}>
                           <option value="">Category</option>
-                          <option value="product_design">Product Design</option>
+                          <option value="product design">Product Design</option>
                           <option value="marketing"> Marketing</option>
                         </Select>
                       </label>
@@ -152,7 +143,7 @@ const GoalForm = forwardRef((props) => {
                       <TargetInput
                         type="text"
                         id="goal-start-date"
-                        name="goal_start_date"
+                        name="start_date"
                         onFocus={(e) => {
                           e.currentTarget.type = 'date';
                         }}
@@ -160,16 +151,16 @@ const GoalForm = forwardRef((props) => {
                         // eslint-disable-next-line no-return-assign
                         // onBlur={(e) => (e.currentTarget.type = 'text')}
                         placeholder="01/02/2021"
-                        value={values.goal_start_date}
+                        value={values.start_date}
                       />
-                      <span>{touched.goal_start_date && errors.goal_start_date}</span>
+                      <span>{touched.start_date && errors.start_date}</span>
                     </div>
                     <div style={{ width: '50%' }}>
                       <LabelBody style={{ marginBottom: '0.5rem' }}>Due Date</LabelBody>
                       <TargetInput
                         type="text"
                         id="goal-due-date"
-                        name="goal_due_date"
+                        name="due_date"
                         onFocus={(e) => {
                           e.currentTarget.type = 'date';
                         }}
@@ -177,9 +168,9 @@ const GoalForm = forwardRef((props) => {
                         // eslint-disable-next-line no-return-assign
                         // onBlur={(e) => (e.currentTarget.type = 'text')}
                         placeholder="11/02/2021"
-                        value={values.goal_due_date}
+                        value={values.due_date}
                       />
-                      <span>{touched.goal_due_date && errors.goal_due_date}</span>
+                      <span>{touched.due_date && errors.due_date}</span>
                     </div>
                   </TargetContainerB>
                 </label>
