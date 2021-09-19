@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-require('dotenv').config({
-  path: './config.env'
-});
+require('dotenv').config({ path: './config.env' });
 
 const app = require('./app');
 const logger = require('./utils/logger');
