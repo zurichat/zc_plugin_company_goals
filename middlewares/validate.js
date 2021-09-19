@@ -3,14 +3,9 @@
 /* eslint-disable camelcase */
 const axios = require('axios');
 // eslint-disable-next-line no-unused-vars
-const {
-  request,
-  response,
-  NextFunction
-} = require('express');
+const { request, response, NextFunction } = require('express');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-
 
 /**
  * Check if user is authenticated.
@@ -20,44 +15,43 @@ const catchAsync = require('../utils/catchAsync');
  */
 const verifyToken = async (req, res, next) => {
   const URL = `https://api.zuri.chat/auth/verify-token`;
-  let bearer
+  let bearer;
   try {
-
     let tokenHeader = req.headers.authorization;
     if (!tokenHeader) {
       return next(new AppError('No auth token was provided.', 401));
     }
 
-    [bearer, tokenHeader, req.organization_id] = tokenHeader.split(' ')
-    tokenHeader = `${bearer} ${tokenHeader}`
+    [bearer, tokenHeader, req.organization_id] = tokenHeader.split(' ');
+    tokenHeader = `${bearer} ${tokenHeader}`;
 
-    req.tokenHeader = tokenHeader
+    req.tokenHeader = tokenHeader;
 
     const {
-      data: {
-        data
-      },
+      data: { data },
     } = await axios({
       method: 'post',
       url: URL,
       headers: {
-        Authorization: tokenHeader
+        Authorization: tokenHeader,
       },
     });
-
 
     if (!data) {
       return next(new AppError('User is not authorized.', 401));
     }
 
-    // Small hack to assign roles to users -- for testing purposes
+    /*
+    Small hack to assign roles to users -- for testing purposes
+
     const date = new Date().getMinutes();
     if (date % 2 === 0) {
       data.user.role = 'admin';
     } else {
       data.user.role = 'user';
     }
-    // data.user.role = 'admin';  Uncomment this line for complete admin access
+    */
+    data.user.role = 'admin';
 
     // Set user on req Object
     req.user = data.user;
@@ -65,13 +59,10 @@ const verifyToken = async (req, res, next) => {
   } catch (error) {
     const {
       response: {
-        data: {
-          message,
-          status
-        },
+        data: { message, status },
       },
     } = error;
-    console.log(error.response.data)
+    console.log(error.response.data);
     return next(new AppError(message, status));
   }
 };
@@ -84,11 +75,7 @@ const verifyToken = async (req, res, next) => {
  * @description Will be called after verifyToken.
  */
 const checkIsValidUser = async (req, res, next) => {
-
-  const {
-    organization_id,
-    tokenHeader
-  } = req;
+  const { organization_id, tokenHeader } = req;
 
   if (!organization_id) {
     return next(new AppError('organization_id is required', 400));
@@ -98,7 +85,7 @@ const checkIsValidUser = async (req, res, next) => {
     method: 'get',
     url: `https://api.zuri.chat/organizations/${organization_id}`,
     headers: {
-      Authorization: tokenHeader
+      Authorization: tokenHeader,
     },
   });
 
@@ -113,7 +100,7 @@ const checkIsValidUser = async (req, res, next) => {
     method: 'get',
     url: `https://api.zuri.chat/organizations/${organization_id}/members`,
     headers: {
-      Authorization: tokenHeader
+      Authorization: tokenHeader,
     },
   });
 
@@ -121,10 +108,10 @@ const checkIsValidUser = async (req, res, next) => {
 
   const userRole = (user) => {
     if (req.user.email === user.email) {
-      req.user.role = 'user'
-      return next()
+      req.user.role = 'user';
+      return next();
     }
-  }
+  };
   allMembers.forEach(userRole);
   return next(new AppError('User is not a member of this organization', 403));
 };

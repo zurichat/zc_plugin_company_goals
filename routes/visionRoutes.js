@@ -6,7 +6,7 @@ const { verifyToken, requireRoles } = require('../middlewares/validate');
 const router = Router();
 
 router.get('/:organization_id', verifyToken, requireRoles(['admin', 'user', 'owner']), getVision);
-router.patch('/:organization_id', verifyToken, requireRoles(['admin']), updateVision);
+router.patch('/:organization_id', verifyToken, requireRoles(['admin', 'owner']), updateVision);
 
 // DO NOT TOUCH (TESTING)
 router.post('/', async (req, res) => {
