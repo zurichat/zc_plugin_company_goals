@@ -20,10 +20,6 @@ import {
   FlexRow,
 } from './styledNotification';
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2869f49249f6734b3afb3c0ba3e4554af58c4aa3
 let notifyAlerts = [
   {
     id: 1,

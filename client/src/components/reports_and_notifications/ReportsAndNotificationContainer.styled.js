@@ -1,16 +1,10 @@
-import styled from 'styled-components';
+ import styled from 'styled-components';
 
-<<<<<<< HEAD
-const ReportsAndNotificationAppBar = styled(AppBar)`
-  background-color: #fff;
-  marrgin-top: 1rem !important;
-=======
 export const Tabs = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
->>>>>>> 2869f49249f6734b3afb3c0ba3e4554af58c4aa3
 `;
 
 export const NavTabs = styled.section`

@@ -1,17 +1,5 @@
 import { useState } from 'react';
-<<<<<<< HEAD
-
-import PropTypes from 'prop-types';
-
 import Report from '../updates/Report';
-import {
-  ReportsAndNotificationAppBar,
-  ReportsAndNotificationTabs,
-  ReportsAndNotificationTab,
-} from './ReportsAndNotificationContainer.styled';
-=======
-import Report from '../updates/Report';
->>>>>>> 2869f49249f6734b3afb3c0ba3e4554af58c4aa3
 import Notification from '../Notification/Notification';
 
 import { Tabs } from './ReportsAndNotificationContainer.styled';
