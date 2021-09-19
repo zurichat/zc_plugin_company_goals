@@ -9,7 +9,7 @@ import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
-import GoalItem from '../Goals/GoalItem';
+// import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
@@ -24,7 +24,7 @@ function Mainside() {
           <Goal>
             <InnerNav />
           </Goal>
-          <GoalItem />
+          {/* <GoalItem /> */}
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
