@@ -34,7 +34,6 @@ const verifyToken = async (req, res, next) => {
       // Set cookie header
       resHeaders = {
         Cookie: cooky,
-        withCredentials: true,
       };
     } else {
       return next(new AppError('No auth token or cookie was provided.', 401));
@@ -78,6 +77,7 @@ const verifyToken = async (req, res, next) => {
  */
 const checkIsValidUser = async (req, res, next) => {
   const { organization_id, tokenHeader } = req;
+  let matchedUser;
 
   if (!organization_id) {
     return next(new AppError('organization_id is required', 400));
@@ -111,10 +111,11 @@ const checkIsValidUser = async (req, res, next) => {
   const userRole = (user) => {
     if (req.user.email === user.email) {
       req.user.role = 'user';
-      return next();
+      matchedUser = true;
     }
   };
   allMembers.forEach(userRole);
+  if (matchedUser) return next();
   return next(new AppError('User is not a member of this organization', 403));
 };
 
