@@ -24,6 +24,14 @@ import {
   ProgressDetailsContainer,
 } from './GoalItem.style';
 
+<<<<<<< HEAD
+import { useDispatch, useSelector } from 'react-redux';
+import { getGoals } from '../../redux/showGoalSlice';
+import { addLike, addDisLike } from '../../redux/likeGoalSlice';
+import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+
+=======
+>>>>>>> 32d7ddec040f75902a0bc5b8496c5acc01171ebd
 const GoalItem = () => {
   const classes = useStyles();
   const month = {
