@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react';
-import { Container,Grid } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import dislikes from '../../Images/png/dislikes.png'
-import ellipsis from '../../Images/png/ellipsis.png'
-import likes from '../../Images/png/likes.png'
-import views from '../../Images/png/views.png'
+import dislikes from '../../Images/png/dislikes.png';
+import ellipsis from '../../Images/png/ellipsis.png';
+import likes from '../../Images/png/likes.png';
+import views from '../../Images/png/views.png';
 import { getGoals } from '../../redux/showGoalSlice';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import {
@@ -23,10 +23,37 @@ import {
   ProgressDetailsContainer,
 } from './GoalItem.style';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { getGoals } from '../../redux/showGoalSlice';
-import {addLike, addDisLike} from '../../redux/likeGoalSlice'
-import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { getGoals } from '../../redux/showGoalSlice';
+import { addLike, addDisLike } from '../../redux/likeGoalSlice';
+// import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+
+// const GoalItem = () => {
+//   const classes = useStyles();
+//   const month = {
+//     month_names: [
+//       'January',
+//       'February',
+//       'March',
+//       'April',
+//       'May',
+//       'June',
+//       'July',
+//       'August',
+//       'September',
+//       'October',
+//       'November',
+//       'December',
+//     ],
+//     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+//   };
+
+//   const dispatch = useDispatch();
+//   const goals = useSelector((state) => state.goals.list);
+//   const status = useSelector((state) => state.goals.status);
+//   const goalLikes = useSelector(state=> state.likeGoals.likes)
+//   const goalDislikes = useSelector(state => state.likeGoals.dislikes)
+//   const errorMessage = useSelector((state) => state.goals.errorMessage);
 
 const GoalItem = () => {
   const classes = useStyles();
@@ -51,65 +78,40 @@ const GoalItem = () => {
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.goals.list);
   const status = useSelector((state) => state.goals.status);
-  const goalLikes = useSelector(state=> state.likeGoals.likes)
-  const goalDislikes = useSelector(state => state.likeGoals.dislikes)
   const errorMessage = useSelector((state) => state.goals.errorMessage);
-
-const GoalItem = () => {
-  const classes = useStyles();
-    const month = {
-      month_names: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ],
-      month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    };
-
-    const dispatch = useDispatch();
-    const goals = useSelector((state) => state.goals.list);
-    const status = useSelector((state) => state.goals.status);
-    const errorMessage = useSelector((state) => state.goals.errorMessage);
-    
-
 
   useEffect(() => {
     console.log('always');
-      dispatch(getGoals()).catch(obj => {
-        console.log('Shite!')
-      });
-    }, [dispatch]);
+    dispatch(getGoals()).catch((obj) => {
+      console.log('Shite!');
+    });
+  }, [dispatch]);
 
-
-  const likeGoal = ()=> {
-  dispatch(addLike(1))
-  }
-  const disLikeGoal = ()=> {
-    dispatch(addDisLike(1))
-  }
+  const likeGoal = () => {
+    dispatch(addLike(1));
+  };
+  const disLikeGoal = () => {
+    dispatch(addDisLike(1));
+  };
 
   const hasGoal = goals.data ? 1 : 0;
   return (
     <>
-      {status === 'success' && !hasGoal ? <div><EmptyGoal /></div> : status === 'success' &&
-      hasGoal && goals.data.map(goal => {
+      {status === 'success' && !hasGoal ? (
+        <div>
+          <EmptyGoal />
+        </div>
+      ) : (
+        status === 'success' &&
+        hasGoal &&
+        goals.data.map((goal) => {
           const Progress = ((goal.milestone1 + goal.milestone2 + goal.milestone3) / 30) * 100;
           const goalStart = new Date(goal.goal_start);
-        const goalEnd = new Date(goal.goal_end);
-        const startMonth = month.month_names_short[goalStart.getMonth()];
-        const startDate = goalStart.getDate();
-        const endMonth = month.month_names_short[goalEnd.getMonth()];
-        const endDate = goalEnd.getDate();
-        
+          const goalEnd = new Date(goal.goal_end);
+          const startMonth = month.month_names_short[goalStart.getMonth()];
+          const startDate = goalStart.getDate();
+          const endMonth = month.month_names_short[goalEnd.getMonth()];
+          const endDate = goalEnd.getDate();
 
           return (
             <Container className={classes.root} key={goal._id}>
@@ -139,18 +141,16 @@ const GoalItem = () => {
                   <IconItemCount>66</IconItemCount>
                 </IconItemContainer>
                 <IconItemContainer>
-
-                  <img src={likes} alt="likes-icon" className={classes.iconImages} onClick={likeGoal}/>
+                  <img src={likes} alt="likes-icon" className={classes.iconImages} onClick={likeGoal} />
                   <IconItemCount>{goalLikes}</IconItemCount>
 
                   <Likes>
                     <img src={likes} alt="likes-icon" className={classes.iconImages} />
                     <IconItemCount>8</IconItemCount>
                   </Likes>
-
                 </IconItemContainer>
                 <IconItemContainer>
-                  <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} onClick={disLikeGoal}/>
+                  <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} onClick={disLikeGoal} />
                   <IconItemCount>{goalDislikes}</IconItemCount>
                 </IconItemContainer>
               </Grid>
@@ -160,7 +160,8 @@ const GoalItem = () => {
               </MoreOptions>
             </Container>
           );
-        })}
+        })
+      )}
       {status === 'loading' && <p>Loading...</p>}
       {status === 'failed' && (
         <p>
@@ -170,6 +171,6 @@ const GoalItem = () => {
       )}
     </>
   );
-}
+};
 
-export default GoalItem
+export default GoalItem;
