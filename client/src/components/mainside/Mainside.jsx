@@ -14,6 +14,7 @@ import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
+import GoalItem from '../Goals/GoalItem';
 
 function Mainside() {
   return (
@@ -23,6 +24,7 @@ function Mainside() {
           <GoalsNavLayout />
           <Goal>
             <InnerNav />
+            <GoalItem />
           </Goal>
           {/* <GoalItem /> */}
         </GoalsDisplayContainer>
