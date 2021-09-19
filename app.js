@@ -81,6 +81,9 @@ const swaggerDocs = swaggerJSDocument(swaggerOptions);
   app.use(express.static(path.join(__dirname, 'client/dist')));
   app.use(express.static(path.join(__dirname, 'serve-client/dist')));
 
+app.get('/zuri-root-config.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'serve-client/dist/zuri-root-config.js'));
+});
 app.get('/zuri-plugin-company-goals.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist/zuri-plugin-company-goals.js'));
 });
