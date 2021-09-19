@@ -36,7 +36,7 @@ import  MissionContext  from '../../context/mission'
 const EditMission = () => {
   const dispatch = useDispatch();
   const { showMission, missionText } = useSelector((state) => state.editMission);
-  const [text, setText] = useStickyState('Training A Million Youths Yearly', 'mission');
+  const [text, setText] = useStickyState('Click on pen icon to set mission', 'mission');
 
 
   // useEffect(() => {
