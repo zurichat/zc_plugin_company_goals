@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import generatePDF from '../Modal/generatePDF';
+import generateEXCEL from '../Modal/generateEXCEL';
 
 const Button = styled.button`
   appearance: none;
@@ -18,7 +20,19 @@ const Button = styled.button`
 `;
 
 const ExportButton = () => {
-  return <Button>Export</Button>;
+  const submitExportHandler = async () => {
+    try {
+      const data = await fetch('http://localhost:4000/api/v1/goals/?org_id=6145d099285e4a184020742e');
+      const response = await data.json();
+      // console.log(response.data);
+      generatePDF(response.data);
+      // generateEXCEL(response.data);
+    } catch (err) {
+      console.log('err.message');
+    }
+  };
+
+  return <Button onClick={submitExportHandler}>Export</Button>;
 };
 
 export default ExportButton;
