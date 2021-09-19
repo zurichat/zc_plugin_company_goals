@@ -3,10 +3,25 @@ import axios from 'axios';
 
 export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatus', async (visionText) => {
   console.log(visionText);
+  /**
+   * TODO:
+   * Refactor to dynamically retrieve token on login.
+   * As currently done, token would have to be manually edited everytime it expires.
+   */
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TVRrNU1qVTBOM3hIZDNkQlIwUlplRTVFVW10UFJFWm9UbXBKTWs5RWFHdFpWRlY2VFVSS2FGa3lUWHBOZHowOWZOZy16Q2wwclFtTjlVdXA1Tm5NNDk2U0V4Tk1IR1lrVUJOZE9YWVo4MDU2IiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE0NGQ4MWE2MjY4OGRhNTMwMmFjYzMzIiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6NjMwNzIwMDAwMCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.Rj8b8Kqnv8xcJ9Nugv8t-hdMV-VlYPHqLYwp9xwtZ7M';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpBMU56TXhPSHhIZDNkQlIwUlplRTVFVFRST1ZFVjZXa1JCZVU5RVVtbFplbHBvVDFSSmVVMTZWbXROWnowOWZEWGRoYXVMZ0Y1TWtOTFRiMkdEZ2ZHeFFKYWMwUjEydEVfSTJxTlZ4MnBQIiwiZW1haWwiOiJ1c2VyMUBnb2Fscy5jb20iLCJpZCI6IjYxNDM4NTEzZDAyODRiYzZhOTIyMzVkMiIsIm9wdGlvbnMiOnsiUGF0aCI6Ii8iLCJEb21haW4iOiIiLCJNYXhBZ2UiOjYzMDcyMDAwMDAsIlNlY3VyZSI6ZmFsc2UsIkh0dHBPbmx5IjpmYWxzZSwiU2FtZVNpdGUiOjB9LCJzZXNzaW9uX25hbWUiOiJmNjgyMmFmOTRlMjliYTExMmJlMzEwZDNhZjQ1ZDVjNyJ9.TQH0BokU7XhxnDEIxmmOTs9zvIhF18lhnHAagm-DtAY';
   const organizationId = '6145d099285e4a184020742e';
-  const response = await axios.patch('/api/v1/vision/1/?token=admin', { vision: visionText }, { authorization: token });
+
+  const response = await axios({
+    method: 'patch',
+    url: `/api/v1/vision/${organizationId}/`,
+    data: { vision: visionText },
+    headers: {
+      Authorization: `Bearer ${token} ${organizationId}`,
+    },
+    withCredentials: true,
+  });
+
   return response.data;
 });
 

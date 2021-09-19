@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const {
     find,
@@ -36,28 +37,25 @@ const notificationStructure = {
 };
 
 
-exports.createNotification = async (req, res, userId, orgId, goalName, funcName) => {
-    const notification = {
-        user_id: userId,
-        org_id: orgId,
-        header: notificationStructure[funcName][0],
-        goalName,
-        status: 'unread',
-        description: notificationStructure[funcName][1],
-        createdAt: Date.now()
-    };
-
+exports.createNotification = async (userId, orgId, goalName, funcName) => {
+    
     try {
+        const notification = {
+            user_id: userId,
+            org_id: orgId,
+            header: notificationStructure[funcName][0],
+            goalName,
+            status: 'unread',
+            description: notificationStructure[funcName][1],
+            createdAt: Date.now()
+        };
+
         await notificationSchema.validateAsync(notification);
-    } catch (error) {
-        return res.status(400).json(error.details)
-    }
-
-    try {
         await insertOne('notifications', notification, orgId);
     } catch (error) {
-        return res.status(500).json(error.details)
+        return res.status(400).json(error)
     }
+
 };
 
 
@@ -80,10 +78,7 @@ exports.getUserNotifications = async (req, res, next) => {
     }
     try {
         // Search for all Goals
-        const notifications = await find('notifications', {
-            org_id: orgId,
-            user_id: userId
-        }, orgId);
+        const notifications = await find('notifications', {}, orgId);
 
         // Returning Response
         res.status(200).json({

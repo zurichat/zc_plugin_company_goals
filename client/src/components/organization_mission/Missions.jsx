@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {useDispatch , useSelector} from 'react-redux';
 import { showEditMissionModal } from '../../redux/editMission.slice';
-import EditMission from '../Modal/EditMission'
+import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png'
 import { 
    Editbutton,
@@ -13,12 +13,21 @@ import {
 const Missions = () => {
   const dispatch = useDispatch();
   const { missionText } = useSelector(state => state.editMission);
+   const jsonMissionText = window.localStorage.getItem('mission');
+   const text = JSON.parse(jsonMissionText)
+  
+
+  const handleClick = () => dispatch(showEditMissionModal())
+
+
+
    return (
       <div>
          <Title top="15%" left="10.5%" rsTop="5%" rsLeft="7%" color="#000000">Mission</Title>
         <Box className="box"> 
-            <MissionField>{missionText}</MissionField>
-            <Editbutton onClick={() => dispatch(showEditMissionModal())} className="editMissionbutton" left="90%" rsLeft="80%" ><img src={editImg} alt="edit" /></Editbutton>
+            {/* <MissionField>{missionText}</MissionField> */}
+            <MissionField>{text}</MissionField>
+            <Editbutton onClick={handleClick} className="editMissionbutton" left="90%" rsLeft="80%" ><img src={editImg} alt="edit" /></Editbutton>
         </Box>
       </div>
    )
