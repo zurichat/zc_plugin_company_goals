@@ -60,7 +60,7 @@ const SortDrpDw = styled.div`
 
   &.active {
     right: 0px;
-
+    z-index: 10;
     visibility: visible;
     opacity: 1;
     transition: all 0.2s linear;

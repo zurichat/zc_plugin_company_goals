@@ -27,6 +27,7 @@ const EditGoalForm = React.forwardRef((props) => {
   const { name, owner, status, endDate, category, description } = useSelector(
     ({ toggleEditGoalModal }) => toggleEditGoalModal
   );
+  // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
   return (
     <Goal>
@@ -49,13 +50,12 @@ const EditGoalForm = React.forwardRef((props) => {
           </Icon>{' '}
           <div>
             {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="name">
               <Title titleColor="#393939"> Goal Name </Title>
               <Info textColor="#999999">
                 Goals are high level containers that can be broken down into smaller target.Learn more{' '}
               </Info>{' '}
-              <Input  type="text" id="name" defaultValue={name} />{' '}
+              <Input type="text" id="name" defaultValue={name} />{' '}
             </label>{' '}
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
@@ -101,12 +101,7 @@ const EditGoalForm = React.forwardRef((props) => {
                 <Title titleColor="#393939"> Owner </Title>{' '}
                 <Info textColor="#999999"> This is optional, who will take responsibility for the goals </Info>{' '}
               </div>{' '}
-              <Input
-                type="owner"
-                id="name"
-                placeholder="Mark Essien"
-                defaultValue={owner}
-              />{' '}
+              <Input type="owner" id="name" placeholder="Mark Essien" defaultValue={owner} />{' '}
             </label>
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
@@ -160,7 +155,7 @@ const EditGoalForm = React.forwardRef((props) => {
                     <>
                       <AccessButton active>
                         <img src={people} alt="" />
-                        <Title active> Zuri & apos; s workspace </Title>{' '}
+                        <Title active> Zuri workspace </Title>{' '}
                       </AccessButton>{' '}
                       <AccessButton>
                         <img src={lock} alt="" />
@@ -181,7 +176,7 @@ const EditGoalForm = React.forwardRef((props) => {
                   )}{' '}
                 </div>{' '}
               </div>{' '}
-              <Input  type="text" id="status" defaultValue={status} />{' '}
+              <Input type="text" id="status" defaultValue={status} />{' '}
             </label>
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
@@ -285,13 +280,7 @@ const EditGoalForm = React.forwardRef((props) => {
                   This is optional.A categorization that will help in sorting from multiples{' '}
                 </Info>{' '}
               </div>{' '}
-              <Input
-                
-                type="text"
-                id="category"
-                placeholder="Product Design"
-                defaultValue={category}
-              />{' '}
+              <Input type="text" id="category" placeholder="Product Design" defaultValue={category} />{' '}
             </label>
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">
@@ -340,11 +329,7 @@ const EditGoalForm = React.forwardRef((props) => {
                   This is optional.A short explanation on why the goal is set and how it can be achieved{' '}
                 </Info>{' '}
               </div>{' '}
-              <Input
-                type="text"
-                id="description"
-                defaultValue={description}
-              />{' '}
+              <Input type="text" id="description" defaultValue={description} />{' '}
             </label>
             <Box>
               <Button type="Button" buttonPadding="0.625rem 0.875rem" borderRadius="3px">

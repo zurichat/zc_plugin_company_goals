@@ -1,13 +1,8 @@
 import Dialog from '@material-ui/core/Dialog';
-
 import { makeStyles } from '@material-ui/core/styles';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import { toggleEditGoalModalAction } from '../../redux/toggleEditGoalModal.slice';
-
 import { GlobalStyles } from './EdiGoalForm.styled';
-
 import EditGoalForm from './EditGoalForm';
 
 
