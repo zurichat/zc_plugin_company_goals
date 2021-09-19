@@ -40,22 +40,22 @@ export const Editbutton = styled.button`
     right: ${(props) => props.rsRight};
   }
 `;
-export const Title = styled.h3`
-  position: absolute;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 28px;
-  top: ${(props) => props.top};
-  right: ${(props) => props.right};
-  color: ${(props) => props.color};
+export const Title = styled.h3 `
+   position: absolute;
+   font-family: 'Lato';
+   font-style: normal;
+   font-weight: bold;
+   font-size: 20px;
+   line-height: 28px;
+   top: ${(props) => props.top};
+   right: ${(props) => props.right};
+   color: ${(props) => props.color};
 
-  @media only screen and (max-width: 420px) {
-    top: ${(props) => props.rsTop};
-    right: ${(props) => props.rsRight};
-  }
-`;
+   @media only screen and (max-width: 420px){
+   top: ${(props) => props.rsTop};
+   right: ${(props) => props.rsRight};
+   }
+`
 export const VisionField = styled.p`
   width: 40vw;
   border: none;

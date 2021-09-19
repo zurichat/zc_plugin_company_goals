@@ -13,7 +13,7 @@ export const Input = styled.input `
    background-color: ${(props) => props.bgColor};
    padding: ${(props) => props.padding};
    margin: ${(props) => props.margin};
-   width: 40vw;
+   width: 518px;
    height: 61px;
    border: none;
 
@@ -26,8 +26,8 @@ export const Input = styled.input `
    &:-ms-keyboard-active {
       border-style: none;
    }
-   @media only screen and (max-width: 720px){
-      width: 70vw;
+   @media only screen and (max-width: 420px){
+      width: 340px;
       height: 45px;
    }
 `
@@ -39,7 +39,7 @@ export const Editbutton = styled.button `
    left: ${(props) => props.left};
    cursor: pointer;
 
-   @media only screen and (max-width: 720px){
+   @media only screen and (max-width: 420px){
       left: ${(props) => props.rsLeft};
    }
 `
@@ -62,22 +62,8 @@ export const Title = styled.h3 `
    left: ${(props) => props.left};
    color: ${(props) => props.color};
 
-   @media only screen and (max-width: 720px){
+   @media only screen and (max-width: 420px){
       top: ${(props) => props.rsTop};
       left: ${(props) => props.rsLeft};
    }
 `
-
-export const MissionField = styled.p`
-  width: 40vw;
-  border: none;
-  background-color: white;
-  padding: 21px 15px;
-  &:-ms-keyboard-active {
-    border-style: none;
-  }
-  @media only screen and (max-width: 720px) {
-    width: 70vw;
-    height: 45px;
-  }
-`;
