@@ -280,9 +280,9 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
         id: '',
       };
       
-      // const messageId = await insertOne('goalEvents', message, org)
-      // message.id = messageId.data.object_id;
-      // await publish('notifications', message);
+      const messageId = await insertOne('goalEvents', message, org)
+      message.id = messageId.data.object_id;
+      await publish('notifications', message);
 
       res.status(201).json({
         status: 'success',
