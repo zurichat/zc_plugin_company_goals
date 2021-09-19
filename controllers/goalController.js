@@ -240,7 +240,6 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
-
   try {
     const roomuser = await find('roomusers', {
       room_id,
@@ -271,18 +270,19 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
 
       const roomuser = await insertOne('roomusers', data, org);
 
+      // Send a notification to the user.
+      await createNotification(user_id, org, data.title, 'assignGoal')
+      // Please don't delete the above line of code. It doesn't affect this controller.
+
       const message = {
         message: `The goal "${getRoom[0].title}" has been assigned `,
         time: Date.now(),
         id: '',
       };
-    
-      const messageId = await insertOne('goalEvents', message, org)
-      message.id = messageId.data.object_id;
-      await publish('notifications', message);
-    
-      // Send a notification to all assigned users
-      await createNotification(user_id, orgId, data.title, 'assignGoal')
+      
+      // const messageId = await insertOne('goalEvents', message, org)
+      // message.id = messageId.data.object_id;
+      // await publish('notifications', message);
 
       res.status(201).json({
         status: 'success',
@@ -292,7 +292,6 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
   }
 
 });
-
 
 exports.removeAssigned = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
@@ -318,7 +317,10 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
 
   const deleteRoomUser = await deleteOne(data = 'roomusers', data = org, _id = assignedObjectId);
 
+  // Send notification to user.
   const goalRoom = room.data.data
+  await createNotification(user_id, org, goalRoom[0].goal_name, 'unassignGoal')
+  // Please don't delete the above line of code. It doesn't affect this controller.
 
   const message = {
     message: `The goal "${room.data.data._id}" has removed an assignee `,
@@ -329,13 +331,6 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   const messageId = await insertOne('goalEvents', message, org)
   message.id = messageId.data.object_id;
   await publish('notifications', message);
-
-  await createNotification(user_id, orgId, goalRoom.goal_name, 'unassignGoal')
-
-  res.status(201).json({
-    status: 'success',
-    data: deleteRoomUser.data,
-  });
 
   res.status(201).json({
     status: 'success',
