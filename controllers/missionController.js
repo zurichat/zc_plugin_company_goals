@@ -66,9 +66,6 @@ exports.getMission = catchAsync(async (req, res, next) => {
 exports.updateMission = catchAsync(async (req, res, next) => {
   const mission = req.body;
   const {
-    role
-  } = req.user;
-  const {
     organization_id
   } = req.params;
 
