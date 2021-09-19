@@ -19,7 +19,7 @@ const {
 const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const publish = require('./centrifugoController');
+const {publish} = require('./centrifugoController');
 const { createNotification } = require('./notificationController')
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {

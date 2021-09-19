@@ -5,7 +5,7 @@ const { request, response } = require('express');
 const { insertOne, find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-// const publish = require('./centrifugoController');
+const { publish } = require('./centrifugoController');
 
 /**
  * Get an organization's vision,
@@ -97,13 +97,7 @@ const updateVision = async (req, res, next) => {
     const messageId = await insertOne('goalEvents', message, organization_id);
     message.id = messageId.data.object_id;
 
-    /**
-     * @Bolubee101
-     * This is breaking the update vision functionality
-     * Don't uncomment until you've tested that they work in tandem.
-     *
-     * await publish('notifications', message);
-     */
+    await publish('notifications', message);
 
     return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
