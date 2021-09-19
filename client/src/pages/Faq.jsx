@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/header/Header';
-import EditMission from '../components/Modal/EditMission';
+import EditMission from '../components/modal/EditMission';
 import FaqsContainer from '../containers/Faqs';
 
 const Faqs = () => {
