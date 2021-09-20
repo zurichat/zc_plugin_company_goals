@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Report from '../updates/Report';
 import Notification from '../Notification/Notification';
 
@@ -8,11 +8,21 @@ import { NavContainer } from './ReportsAndNotificationContainer.styled';
 import { TabButton } from './ReportsAndNotificationContainer.styled';
 import { TabButtonNotification } from './ReportsAndNotificationContainer.styled';
 import { Span } from './ReportsAndNotificationContainer.styled';
+import { useSelector } from 'react-redux';
+import { selectNotifications, getNotifications } from '../../redux/notificationSlice';
+import { useDispatch } from 'react-redux';
 
 const ReportsAndNotificationContainer = () => {
   const [activeTab, setActiveTab] = useState('tab1');
   const handleTab1 = () => setActiveTab('tab1');
   const handleTab2 = () => setActiveTab('tab2');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getNotifications());
+  }, [dispatch]);
+
+  const notifications = useSelector(selectNotifications);
 
   return (
     <Tabs>
@@ -34,7 +44,7 @@ const ReportsAndNotificationContainer = () => {
             <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
               Notifications
             </TabButton>
-            <Span>6</Span>
+            <Span>{notifications.length}</Span>
           </TabButtonNotification>
         </NavContainer>
       </NavTabs>
