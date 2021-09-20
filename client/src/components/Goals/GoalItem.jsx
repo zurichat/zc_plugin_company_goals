@@ -19,10 +19,13 @@ import {
   MoreOptions,
   ProgressDetailsContainer,
 } from './GoalItem.style';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addDisLike, addLike } from '../../redux/likeGoalSlice';
+import Menuoption from '../../components/Menuoption/Menuoption';
 
 const GoalItem = ({ goalData }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const month = {
     month_names: [
       'January',
@@ -46,12 +49,15 @@ const GoalItem = ({ goalData }) => {
   const goalDislikes = useSelector((state) => state.likeGoals.dislikes);
   const errorMessage = useSelector((state) => state.goals.errorMessage);
 
-  const likeGoal = () => {
+  const likeGoal = (e) => {
+    e.stopPropagation();
     dispatch(addLike(1));
   };
-  const disLikeGoal = () => {
+  const disLikeGoal = (e) => {
+    e.stopPropagation();
     dispatch(addDisLike(1));
   };
+  console.log(goalLikes, goalDislikes);
   const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
   const goalStart = new Date(goalData.goal_start);
   const goalEnd = new Date(goalData.goal_end);
@@ -82,19 +88,25 @@ const GoalItem = ({ goalData }) => {
       </Grid>
 
       <Grid item xs={12} sm={3} className={classes.icons}>
-        <IconItemContainer>
-          <img src={likes} alt="likes-icon" className={classes.iconImages} onClick={likeGoal} />
+        <IconItemContainer onClick={(ev) => likeGoal(ev)}>
+          <img src={likes} alt="likes-icon" className={classes.iconImages} />
           <IconItemCount>{goalLikes}</IconItemCount>
         </IconItemContainer>
-        <IconItemContainer>
-          <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} onClick={disLikeGoal} />
+        <IconItemContainer onClick={(ev) => disLikeGoal(ev)}>
+          <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
           <IconItemCount>{goalDislikes}</IconItemCount>
         </IconItemContainer>
       </Grid>
 
-      <MoreOptions>
+      <MoreOptions
+        onClick={(evt) => {
+          evt.stopPropagation();
+          setDropDown(!showDropDown);
+        }}
+      >
         <img src={ellipsis} alt="more-options-icon" />
       </MoreOptions>
+      {/* <Menuoption show={showDropDown} toggleShowDropDown={() => setDropDown(!showDropDown)} /> */}
       <GoalDropDown show={{ showDropDown, setDropDown }} goal_id={goalData.room_id} />
     </Container>
   );
