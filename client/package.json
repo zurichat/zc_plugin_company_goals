@@ -26,6 +26,7 @@
     "react-router-dom": "^5.3.0",
     "single-spa-react": "^4.3.1",
     "styled-components": "^5.3.1",
+    "swr": "^1.0.1",
     "web-vitals": "^1.0.1",
     "ws": "^8.2.2",
     "xlsx": "^0.17.2",
