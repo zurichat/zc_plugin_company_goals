@@ -136,10 +136,7 @@ export const Button = styled.button`
   font-size: 12px;
   font-weight: 400;
   line-height: 28px;
-
-  ${(props) => props.failed && `color:red`};
-  ${(props) => props.finished && `color:green`};
-  ${(props) => props.updated && `color:blue`};
+  color: ${(props) => props.colour};
 
   ${(props) =>
     props.goalButtonHeaderWireframe &&

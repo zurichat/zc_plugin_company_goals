@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import deleteGoalReducer from './deleteGoal.slice';
 import editMissionReducer from './editMission.slice';
 import newGoalReducer from './newGoalSlice';
+import notificationReducer from './notificationSlice';
 import createAndEditGoalReducer from './organizationGoal.slice';
 import visionReducer from './organizationVision.slice';
 import showGoalSliceReducer from './showGoalSlice';
@@ -21,6 +22,8 @@ const store = configureStore({
     newGoal: newGoalReducer,
     snackbar: snackbarReducer,
     goals: showGoalSliceReducer,
+    organizationCreateAndEditGoal: createAndEditGoalReducer,
+    notifications: notificationReducer,
     organizationCreateAndEditGoalData: createAndEditGoalReducer,
     likeGoals: likeGoalReducer,
     getVision: getVisionSliceReducer,
