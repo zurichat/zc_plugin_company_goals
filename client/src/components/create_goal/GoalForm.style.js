@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Goal = styled.div`
   font-family: Lato;
   padding: 0.5rem 1rem 1rem 1rem;
-
   width: 100%;
   background-color: #fff;
 
@@ -82,6 +81,7 @@ export const Select = styled.select`
   option {
     color: #b0afb0;
     font-size: 13px;
+    height: 2rem;
     margin: 5rem 0 1rem 0.5rem;
     background-color: #fff;
   }
@@ -117,16 +117,11 @@ export const CreateButton = styled.div`
   text-align: center;
   margin-top: 2rem;
 `;
-export const Box = styled.div`
-  margin-top: 2rem;
-  width: 25% !important;
-  display: flex;
-  float: right;
-  align-items: center;
-  justify-content: space-between;
-  @media only screen and (max-width: 400px) {
-    width: 50% !important;
-  }
+export const LabelBody = styled.p`
+  color: #393939;
+  font-size: 10px;
+  width: 70%;
+  margin: 0;
 `;
 export const TargetContainerA = styled.div`
   width: 100% !important;
@@ -174,7 +169,7 @@ export const CloseButton = styled.button`
   float: right;
   background: none;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 15px;
   color: #333333;
   cursor: pointer;
 `;

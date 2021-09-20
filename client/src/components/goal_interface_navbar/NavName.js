@@ -1,3 +1,4 @@
+import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 
 const NavName = styled.div`
@@ -16,4 +17,14 @@ const NavName = styled.div`
   }
 `;
 
-export default NavName;
+const CreateGoalButton = styled(Button)`
+  background-color: #00b87c;
+  text-transform: capitalize;
+  color: #fff;
+
+  :hover {
+    background-color: #00b87c;
+  }
+`;
+
+export { NavName, CreateGoalButton };
