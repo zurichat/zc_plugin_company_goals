@@ -57,7 +57,6 @@ const GoalItem = ({ goalData }) => {
     e.stopPropagation();
     dispatch(addDisLike(1));
   };
-  console.log(goalLikes, goalDislikes);
   const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
   const goalStart = new Date(goalData.goal_start);
   const goalEnd = new Date(goalData.goal_end);
