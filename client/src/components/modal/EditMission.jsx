@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
@@ -38,14 +38,14 @@ const EditMission = () => {
 
   useEffect(() => {
     setText(missionText);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showMission]);
 
   const saveMission = () => {
     dispatch(showEditMissionModal());
     // eslint-disable-next-line no-unused-expressions
     text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
-  }
+  };
 
   return (
     <Modal
@@ -61,15 +61,15 @@ const EditMission = () => {
       }}
     >
       <Fade in={showMission}>
-        <form className={classes.paper} onSubmit={e => e.preventDefault()}>
+        <form className={classes.paper} onSubmit={(e) => e.preventDefault()}>
           <Header id="transition-modal-title">Edit Mission</Header>
-          <TextBox required value={text} onChange={e => setText(e.target.value)} placeholder="Click to edit..." />
+          <TextBox required value={text} onChange={(e) => setText(e.target.value)} placeholder="Click to edit..." />
           <SaveBtn onClick={saveMission}>Save</SaveBtn>
-          {/* <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn> */}
+          <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn>
         </form>
       </Fade>
     </Modal>
   );
-}
+};
 
 export default EditMission;
