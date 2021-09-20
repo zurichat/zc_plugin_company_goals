@@ -15,7 +15,7 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3rem auto;
+  margin: auto;
   cursor: pointer;
 `;
 
