@@ -1,5 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getVisionSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+
+// my API begins here
+// export const getVision = createAsyncThunk('showVision/getVision',async () => {
+//   return fetch('https://goals.zuri.chat/api/v1/vision?org_id=61433d7ad0284bc6a92233bb').
+//   then(
+//     (res) => res.json()
+//   );
+// })
+
+export const getVision = async () => {
+  console.log('hkjj');
+  const response = axios.get('https://goals.zuri.chat/api/v1/vision/org_id=61433d7ad0284bc6a92233bb');
+  console.log(response.data);
+}
+// my API ends here
 
 export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatus', async (visionText) => {
   console.log(visionText);
