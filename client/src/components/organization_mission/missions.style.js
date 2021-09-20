@@ -69,7 +69,7 @@ export const Title = styled.h3 `
 `
 
 export const MissionField = styled.p`
-  width: 40vw;
+  width: 36vw;
   border: none;
   background-color: white;
   padding: 21px 15px;
