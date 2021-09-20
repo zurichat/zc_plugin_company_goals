@@ -33,9 +33,9 @@ const rateLimiter = require('./utils/rateLimiter');
 const app = express();
 
 
-if(process.env.NODE_ENV==='production')
+if(process.env.NODE_ENV === 'production')
 {
-  app.use(cors({ origin: ['*'] }));
+  app.use(cors({ origin: 'https://zuri.chat' }));
 }
 else
 {
