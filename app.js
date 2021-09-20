@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
-//const helmet = require('helmet');
+// const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
 
@@ -32,8 +32,41 @@ const rateLimiter = require('./utils/rateLimiter');
 
 const app = express();
 
+
+if(process.env.NODE_ENV==='production')
+{
+  app.use(cors({ origin: ['*'] }));
+}
+else
+{
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
+  const corsOptions = {
+    origin(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+  app.use(cors(corsOptions));
+}
+
 // Implement cors
-app.use(cors({ origin: ['*'] }));
+// const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
+//const corsOptions = {
+//  origin(origin, callback) {
+//    if (whitelist.indexOf(origin) !== -1 || !origin) {
+//      callback(null, true);
+//    } else {
+//      callback(new Error('Not allowed by CORS'));
+//   }
+//  },
+//};
+//app.use(cors(corsOptions));
+
+// app.use(cors({ origin: whitelist }));
+
 // const corsoption = {
 //   origin: function (origin, callback) {
 // 		if (
@@ -51,10 +84,10 @@ app.use(cors({ origin: ['*'] }));
 // }
 // app.use(cors(corsoption));
 
-//app.options('*', cors());
+// app.options('*', cors());
 
 // Add secure headers
-//app.use(helmet());
+// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {

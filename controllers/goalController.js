@@ -20,18 +20,15 @@ const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas')
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
-const {publish} = require('./centrifugoController');
+const { publish } = require('./centrifugoController');
 const { createNotification } = require('./notificationController');
 
-
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const {
-    org_id: orgId
-  } = req.query;
+  const { org_id: orgId } = req.query;
 
   if (!orgId) {
     logger.info(`Can't get goals for null organisation id... Exiting...`);
-    return res.status(400).send({error: 'org_id is required'});
+    return res.status(400).send({ error: 'org_id is required' });
   }
   logger.info(`Started getting all goals for the organization: ${orgId}`);
   // Search for all Goals
@@ -42,16 +39,15 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.createGoal = async ( req, res, next) => {
-
+exports.createGoal = async (req, res, next) => {
   logger.info(`Started creating a new goal.`);
 
-    const roomId = uuidv4();
-    const { org_id: orgId } = req.query;
-    const { goal_name: title, category } = req.body;
+  const roomId = uuidv4();
+  const { org_id: orgId } = req.query;
+  const { goal_name: title, category } = req.body;
 
-    const goal = req.body;
-    let goals;
+  const goal = req.body;
+  let goals;
 
   const data = {
     room_id: roomId,
@@ -60,41 +56,40 @@ exports.createGoal = async ( req, res, next) => {
     isExpired: false,
     ...goal,
   };
-  console.log('ddd', orgId);
 
-    if (!orgId) {
-      logger.info(`Unable to create a goal as organization id isn't provided.`);
-      res.status(400).send({ error: 'Organization_id is required' });
-      return;
-    }
+  if (!orgId) {
+    logger.info(`Unable to create a goal as organization id isn't provided.`);
+    res.status(400).send({ error: 'Organization_id is required' });
+    return;
+  }
 
   try {
-   await goalSchema.validateAsync(req.body);
-   logger.info(`Successfully validated the request body.`);
-    } catch (err) {
-      logger.info(`There are errors with the request body: ${err.details}`);
-      if (err) return res.status(400).json(err.details);
+    await goalSchema.validateAsync(req.body);
+    logger.info(`Successfully validated the request body.`);
+  } catch (err) {
+    logger.info(`There are errors with the request body: ${err.details}`);
+    if (err) return res.status(400).json(err.details);
+  }
+
+  try {
+    logger.info(
+      `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
+    );
+    goals = await find('goals', { goal_name: title }, orgId);
+
+    const { data: foundGoal } = goals.data;
+
+    if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+      logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
+      return res.status(400).send({
+        error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
+      });
     }
-
-    try {
-      logger.info(`Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`);
-      goals = await find('goals', { goal_name: title }, orgId);
-
-      const { data: foundGoal } = goals.data;
-
-      if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
-        logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
-        return res
-          .status(400)
-          .send({
-            error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
-          });
-      }
-    } catch (error) {
-      logger.info(`There are no goals with the title: ${title}`);
-      goals = await insertOne('goals', data, orgId);
-      logger.info(`Successfully created a new goal: ${goals.data.data}`);
-    }
+  } catch (error) {
+    logger.info(`There are no goals with the title: ${title}`);
+    goals = await insertOne('goals', data, orgId);
+    logger.info(`Successfully created a new goal: ${goals.data.data}`);
+  }
 
   const message = {
     message: `A goal "${title}" has been created `,
@@ -102,12 +97,11 @@ exports.createGoal = async ( req, res, next) => {
     id: '',
   };
 
-  const messageId = await insertOne('goalEvents', message, orgId)
+  const messageId = await insertOne('goalEvents', message, orgId);
   message.id = messageId.data.object_id;
   await publish('notifications', message);
   res.status(200).json({ message: 'success', ...goals.data, data });
 };
-
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
@@ -154,11 +148,10 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
     };
 
     logger.info(`Successfully found users attached to the goal.`);
-    res.status(200).json({ status: 200, message: 'success', data});
-}
-  next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
+    res.status(200).json({ status: 200, message: 'success', data });
+  }
+  next(new AppError({ message: 'invalid request' }, { statusCode: 400 }));
 });
-
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
@@ -174,7 +167,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
     id: '',
   };
 
-  const messageId = await insertOne('goalEvents', message, orgId)
+  const messageId = await insertOne('goalEvents', message, orgId);
   message.id = messageId.data.object_id;
   await publish('notifications', message);
 
@@ -208,12 +201,10 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   //   }
   // }
 
-
   // send the updated goal to client.
   logger.info(`Successfully updated the goal and got the response: ${updatedGoal.data.data}`);
   return res.status(200).json(updatedGoal.data);
 });
-
 
 exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   // Gets archived goals
@@ -228,10 +219,9 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 200,
     message: 'success',
-    data: goals.data.data
+    data: goals.data.data,
   });
 });
-
 
 exports.deleteGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId & orgid from req.params
@@ -268,16 +258,13 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     id: '',
   };
 
-
-  const messageId = await insertOne('goalEvents', message, org)
+  const messageId = await insertOne('goalEvents', message, org);
   message.id = messageId.data.object_id;
   await publish('notifications', message);
 
   logger.info(`Successfully deleted the goal with id: ${id}`);
-  res.status(200).json({status: 200, message: 'Goal deleted successfully.', rsponse: response.data.data});
-
+  res.status(200).json({ status: 200, message: 'Goal deleted successfully.', rsponse: response.data.data });
 });
-
 
 exports.assignGoal = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
@@ -290,22 +277,24 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
   }
   // check that user isnt already in the room
   try {
-    const roomuser = await find('roomusers', {
-      room_id,
-      user_id
-    }, org);
+    const roomuser = await find(
+      'roomusers',
+      {
+        room_id,
+        user_id,
+      },
+      org
+    );
 
     if (roomuser !== null && roomuser.data.data.length > 0) {
       return res.status(400).send({
-        message: 'User already assigned to goal'
+        message: 'User already assigned to goal',
       });
     }
   } catch (error) {
     if (error) {
       const getAllRooms = await findAll('goals', org);
-      const {
-        data: allRooms
-      } = getAllRooms.data;
+      const { data: allRooms } = getAllRooms.data;
 
       const getRoom = allRooms.filter((el) => el.room_id === room_id);
 
@@ -320,7 +309,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       const roomuser = await insertOne('roomusers', data, org);
 
       // Send a notification to the user.
-      await createNotification(user_id, org, room_id, data.title, 'assignGoal')
+      await createNotification(user_id, org, room_id, data.title, 'assignGoal');
       // Please don't delete the above line of code. It doesn't affect this controller.
 
       const message = {
@@ -328,7 +317,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
         time: Date.now(),
         id: '',
       };
-      const messageId = await insertOne('goalEvents', message, org)
+      const messageId = await insertOne('goalEvents', message, org);
       message.id = messageId.data.object_id;
       await publish('notifications', message);
 
@@ -339,7 +328,6 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     }
   }
 });
-
 
 exports.removeAssigned = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
@@ -354,19 +342,17 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
 
   if (roomuser.data.data === null) {
     return res.status(404).send({
-      message: 'There are no users assigned to this goal'
+      message: 'There are no users assigned to this goal',
     });
   }
 
-  const {
-    _id: assignedObjectId
-  } = roomuser.data.data[0];
+  const { _id: assignedObjectId } = roomuser.data.data[0];
 
-  const deleteRoomUser = await deleteOne(data = 'roomusers', data = org, _id = assignedObjectId);
+  const deleteRoomUser = await deleteOne((data = 'roomusers'), (data = org), (_id = assignedObjectId));
 
   // Send notification to user.
-  const goalRoom = room.data.data
-  await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal')
+  const goalRoom = room.data.data;
+  await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal');
   // Please don't delete the above line of code. in Jesus name. It doesn't affect this controller.
 
   const message = {
@@ -375,7 +361,7 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     id: '',
   };
 
-  const messageId = await insertOne('goalEvents', message, org)
+  const messageId = await insertOne('goalEvents', message, org);
   message.id = messageId.data.object_id;
   await publish('notifications', message);
 
@@ -385,42 +371,49 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.likeGoal = catchAsync(async (req, res, next) => {
-  const {
-    goal_id: goalId,
-    user_id: userId,
-    org_id: orgId
-  } = req.query;
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
 
   // Validate the body
   await likeGoalSchema.validateAsync({
     goalId,
     userId,
-    orgId
+    orgId,
   });
 
   // check that the goal_id is valid
-  const goal = await find('goals', {
-    _id: goalId
-  }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
   if (!goal.data.data) {
     return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
   }
 
   // check if user already liked goal
-  const like = await find('goallikes', {
-    goal_id: goalId,
-    user_id: userId
-  }, orgId);
+  const like = await find(
+    'goallikes',
+    {
+      goal_id: goalId,
+      user_id: userId,
+    },
+    orgId
+  );
 
   // add like if it doesnt exist
   if (!like.data.data) {
-    addedLike = await insertOne('goallikes', {
-      goal_id: goalId,
-      user_id: userId
-    }, orgId);
+    addedLike = await insertOne(
+      'goallikes',
+      {
+        goal_id: goalId,
+        user_id: userId,
+      },
+      orgId
+    );
 
     return res.status(201).json({
       status: 'success',
@@ -438,38 +431,42 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
-  const {
-    goal_id: goalId,
-    org_id: orgId
-  } = req.query;
+  const { goal_id: goalId, org_id: orgId } = req.query;
 
   // Validate the body
   await getGoalLikesSchema.validateAsync({
     goalId,
-    orgId
+    orgId,
   });
 
   // check that the goal_id is valid
-  const goal = await find('goals', {
-    _id: goalId
-  }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
   if (!goal.data.data) {
     return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
   }
 
   // check if user already liked goal
-  const like = await find('goallikes', {
-    goal_id: goalId
-  }, orgId);
+  const like = await find(
+    'goallikes',
+    {
+      goal_id: goalId,
+    },
+    orgId
+  );
   if (!like.data.data) {
     return res.status(200).json({
       status: 'success',
       data: {
         count: 0,
-        likes: []
+        likes: [],
       },
     });
   }
@@ -483,35 +480,38 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.checkUserLike = catchAsync(async (req, res, next) => {
-  const {
-    goal_id: goalId,
-    user_id: userId,
-    org_id: orgId
-  } = req.query;
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
 
   // Validate the body
   await likeGoalSchema.validateAsync({
     goalId,
     userId,
-    orgId
+    orgId,
   });
 
   // check that the goal_id is valid
-  const goal = await find('goals', {
-    _id: goalId
-  }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
   if (!goal.data.data) {
     return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
   }
 
   // check if user already liked goal
-  const like = await find('goallikes', {
-    goal_id: goalId,
-    user_id: userId
-  }, orgId);
+  const like = await find(
+    'goallikes',
+    {
+      goal_id: goalId,
+      user_id: userId,
+    },
+    orgId
+  );
   if (!like.data.data) {
     return res.status(200).json({
       status: 'success',

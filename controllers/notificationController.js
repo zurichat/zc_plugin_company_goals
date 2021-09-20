@@ -139,14 +139,17 @@ exports.updateNotification = async (req, res) => {
             error: 'notification_id is required'
         })
     }
+
     const notification = await find('notifications', {
         _id: notificationId
     }, orgId)
-    if (!notification) {
+
+    if (!notification || notification.data.data === null) {
         return res.status(400).send({
             error: "This notification doesn't exist."
         })
     }
+
     const status = notification.data.data.isRead
     const update = {
         isRead: !status
@@ -155,7 +158,16 @@ exports.updateNotification = async (req, res) => {
         await updateOne('notifications', update, {
             _id: notificationId
         }, orgId, notificationId)
-        return res.status(200).json('Notification updated.')
+
+        const Notification = await find('notifications', {
+            _id: notificationId
+        }, orgId)
+
+        res.status(200).json({
+            status: 200,
+            message: 'success',
+            data: Notification.data.data
+        })
     } catch (error) {
         res.status(500).json({
             status: 500,
@@ -184,15 +196,25 @@ exports.updateNotifications = async (req, res) => {
         })
     }
 
+    const filter = {
+        org_id: orgId,
+        user_id: userId
+    }
+
     const update = {
         isRead: true
     }
     try {
-        await updateMany('notifications', update, {
-            org_id: orgId,
-            user_id: userId
-        }, orgId)
-        return res.status(200).json('All notifications read.')
+        await updateMany('notifications', update, filter, orgId)
+
+        const Notifications = await find('notifications', filter, orgId)
+        
+        res.status(200).json({
+            status: 200,
+            message: 'success',
+            data: Notifications.data.data
+        })
+
     } catch (error) {
         res.status(500).json({
             status: 500,
@@ -230,7 +252,11 @@ exports.deleteNotification = async (req, res) => {
 
     try {
         await deleteOne('notifications', orgId, notificationId)
-        return res.status(200).json('Notification deleted.')
+
+        res.status(200).json({
+            status: 200,
+            message: 'Notification successfully deleted.'
+        })
     } catch (error) {
         res.status(500).json({
             status: 500,
