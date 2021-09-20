@@ -13,7 +13,8 @@ import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
 //import ExportReport from 'components/Modal/ExportModal/ExportReport';
 import { getGoals } from '../../redux/showGoalSlice';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
-// import GoalItem from '../Goals/GoalItem';
+import GoalItem from '../Goals/GoalItem';
+import EmptyGoal from '../empty-goal-interface/EmptyGoal'
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
