@@ -148,11 +148,11 @@ app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
-app.use('/api/v1/realTimeupdates/:orgId', realTimeupdateRouter);
+app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1/auth', authRouter);
 
-<<<<<<< HEAD
+
 // To serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
@@ -161,13 +161,12 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
-console.log(getVision());
-=======
+
 // Send all 404 requests not handled by the server to the Client app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'serve-client/dist', 'index.html'));
 });
->>>>>>> 6a342e623e74d32644d3aaedaa9238efacf166ab
+
 
 // To catch all unhandled routes
 app.all('*', (req, res, next) => {
