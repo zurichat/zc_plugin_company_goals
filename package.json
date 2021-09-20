@@ -35,10 +35,12 @@
     "morgan": "^1.10.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
+    "timeago-react": "^3.0.3",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.12",
     "winston": "^3.3.3",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "yarn": "^1.22.11"
   },
   "devDependencies": {
     "concurrently": "^6.2.1",
