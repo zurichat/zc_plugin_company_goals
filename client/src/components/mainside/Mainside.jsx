@@ -16,10 +16,10 @@ import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
 import { getGoals } from '../../redux/showGoalSlice';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
-import EmptyGoal from '../empty-goal-interface/EmptyGoal'
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 function Mainside() {
@@ -48,23 +48,7 @@ function Mainside() {
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
-          {/* <Goal> //Goal container isnt needed for the GoalItem again.
-          <Menuoption /> //whoever is setting up can enable this and see how it looks.
-        </Goal> */}
-          {
-            /* //PS => The repition of the Goal Item is only temporary */
-            status === 'success' &&
-              hasGoal &&
-              goals.data.map((goal) => {
-                return <GoalItem {...goals} />;
-              })
-          }
-          {status === 'failed' && (
-            <p>
-              {/* A button might be here to retry and this errorMessage will be in the error UI*/}
-              {errorMessage}
-            </p>
-          )}
+          <GoalDetailAccordion />
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
