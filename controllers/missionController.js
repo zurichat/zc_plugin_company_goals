@@ -78,7 +78,7 @@ exports.updateMission = catchAsync(async (req, res, next) => {
     const updatedMission = await updateOne(collectionName, mission, {}, organization_id, prevMission._id);
     
     const message = {
-      message: `The mission ${prevMission} has been updated to ${mission} `,
+      message: `The mission ${prevMission.title} has been updated to ${mission.title} `,
       time: Date.now(),
       id: '',
     };
