@@ -14,6 +14,7 @@ import {
   Container,
   CloseButton,
   CreateButton,
+  LabelBody,
   TargetInput,
   TargetContainerA,
   TargetContainerB,
@@ -22,7 +23,6 @@ import {
   MainTitle,
   Wrap,
 } from './GoalForm.style';
-import { LabelBody } from './RadioInput.style';
 import { goalCreateEditDataApi } from './create-edit-goal.utils';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import { activateSnackbar } from '../../redux/snackbar.slice';
@@ -177,7 +177,7 @@ const GoalForm = forwardRef((props) => {
               </div>{' '}
             </Container>{' '}
             <CreateButton>
-              <Button type="submit" buttonPadding="1rem 4rem" borderRadius="6px" disabled={isSubmitting}>
+              <Button type="submit" buttonPadding="1rem 3rem" borderRadius="6px" disabled={isSubmitting}>
                 Create Goal{' '}
               </Button>{' '}
             </CreateButton>{' '}

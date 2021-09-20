@@ -19,6 +19,7 @@ function App() {
       <SimpleModal />
       <Deletemodal />
       <BasicModal />
+
       <DeleteSuccessModal />
       <DeleteErrorModal/>
       <OrganizationVisionEditModal />
