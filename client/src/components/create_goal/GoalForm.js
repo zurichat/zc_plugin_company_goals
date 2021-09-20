@@ -7,10 +7,10 @@ import createGoalSchema from './create-edit-goal.schema';
 import {
   Goal,
   Form,
-  Input,
+  GoalInput,
   Button,
-  Title,
-  Info,
+  GoalTitle,
+  GoalInfo,
   Container,
   CloseButton,
   CreateButton,
@@ -71,9 +71,9 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-name">
                   <MainTitle> Create Goal </MainTitle>
-                  <Info fontSize="13px">
+                  <GoalInfo fontSize="13px">
                     Goal setting helps in creating a pathway for achieving your long and short terms mission
-                  </Info>
+                  </GoalInfo>
                 </label>{' '}
               </div>{' '}
             </Container>{' '}
@@ -83,9 +83,15 @@ const GoalForm = forwardRef((props) => {
                 {' '}
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-name">
-                  <Title> Goal Name </Title>
+                  <GoalTitle> Goal Name </GoalTitle>
 
-                  <Input type="text" id="goal-name" name="goal_name" value={values.goal_name} onChange={handleChange} />
+                  <GoalInput
+                    type="text"
+                    id="goal-name"
+                    name="goal_name"
+                    value={values.goal_name}
+                    onChange={handleChange}
+                  />
                 </label>{' '}
               </div>{' '}
             </Container>{' '}
@@ -95,9 +101,9 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-description">
                   <Wrap>
-                    <Title> Goal Description </Title> <Info fontSize="15px"> (Optional) </Info>{' '}
+                    <GoalTitle> Goal Description </GoalTitle> <GoalInfo fontSize="15px"> (Optional) </GoalInfo>{' '}
                   </Wrap>{' '}
-                  <Input type="text" id="goal-description" name="description" onChange={handleChange} />
+                  <GoalInput type="text" id="goal-description" name="description" onChange={handleChange} />
                 </label>
               </div>{' '}
             </Container>{' '}
@@ -107,7 +113,8 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="owner">
                   <Wrap>
-                    <Title> Goal Sort </Title> <Info fontSize="15px"> (Set goal Type and Category and Priority) </Info>{' '}
+                    <GoalTitle> Goal Sort </GoalTitle>{' '}
+                    <GoalInfo fontSize="15px"> (Set goal Type and Category and Priority) </GoalInfo>{' '}
                   </Wrap>{' '}
                   <TargetContainerA>
                     <SelectDiv>
@@ -138,7 +145,7 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="date">
                   <div>
-                    <Title> Goal Timeline </Title>{' '}
+                    <GoalTitle> Goal Timeline </GoalTitle>{' '}
                   </div>{' '}
                   <TargetContainerB>
                     <div style={{ width: '45%', marginRight: '0.5rem' }}>
