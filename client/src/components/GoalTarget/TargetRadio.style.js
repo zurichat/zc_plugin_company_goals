@@ -6,7 +6,7 @@ export const TatgetContainer = styled.div`
 `;
 export const Label = styled.label`
   display: block;
-  width: 6em;
+  width: 100%;
   text-align: center;
   padding-bottom: 1rem;
 
@@ -15,7 +15,8 @@ export const Label = styled.label`
     content: ' ';
     display: inline-block;
     position: relative;
-    top: 5px;
+    top: 0.3rem;
+    right: 1.4rem;
     margin: 0 8px 1px 0;
     width: 10px;
     height: 10px;
@@ -23,6 +24,24 @@ export const Label = styled.label`
 
     background-color: transparent;
   }
+`;
+export const RadioLabel = styled.div`
+  text-align: center;
+
+  padding-top: 1rem;
+`;
+
+export const LabelTitle = styled.h6`
+  font-size: 13px;
+  color: #b0afb0;
+  width: 70%;
+`;
+
+export const LabelBody = styled.p`
+  color: #b0afb0;
+  font-size: 13px;
+  width: 70%;
+  margin: 0;
 `;
 export const Input = styled.input`
   box-sizing: border-box;
@@ -38,14 +57,19 @@ export const Input = styled.input`
   cursor: pointer;
   position: relative;
   display: flex;
-  margin-left: 2.25rem;
+  margin-left: 3.15rem;
   margin-bottom: -1.45rem;
   border-radius: 50%;
   &:checked {
     border: 1px solid #00b87c;
   }
   &:checked + ${Label} {
-    border: 1px solid #00b87c;
+    ${RadioLabel} {
+      h6,
+      p {
+        color: #00b87c !important;
+      }
+    }
   }
   &:checked + ${Label}:before {
     background-color: #00b87c;
@@ -56,10 +80,12 @@ export const Input = styled.input`
 // #00b87c
 export const TargetDiv = styled.div`
   margin-top: 2rem;
+  width: 50% !important;
+  text-align: end;
   @media only screen and (max-width: 600px) {
     ${Label}:before {
-      top: 0.2rem !important;
-      left: 0.1rem !important;
+      top: 0.3rem !important;
+      left: -1.15rem !important;
     }
   }
 `;

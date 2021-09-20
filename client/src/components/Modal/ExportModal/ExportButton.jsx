@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import generatePDF from '../Modal/generatePDF';
-import generateEXCEL from '../Modal/generateEXCEL';
+import generatePDF from './generatePDF';
+import generateEXCEL from './generateEXCEL';
 
 const Button = styled.button`
   appearance: none;

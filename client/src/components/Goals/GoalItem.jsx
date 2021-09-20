@@ -1,16 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect } from 'react';
-import useSWR from 'swr';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
 import dislikes from '../../Images/png/dislikes.png';
 import ellipsis from '../../Images/png/ellipsis.png';
 import likes from '../../Images/png/likes.png';
 import views from '../../Images/png/views.png';
-import { getGoals } from '../../redux/showGoalSlice';
-import { addLike, addDisLike } from '../../redux/likeGoalSlice';
-import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
   GoalTitle,
@@ -21,11 +16,10 @@ import {
   ProgressDate,
   IconItemContainer,
   IconItemCount,
-  Likes,
   MoreOptions,
   ProgressDetailsContainer,
 } from './GoalItem.style';
-import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
+import { useSelector } from 'react-redux';
 
 const GoalItem = ({ goalData }) => {
   const classes = useStyles();
@@ -47,9 +41,7 @@ const GoalItem = ({ goalData }) => {
     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   };
 
-  const dispatch = useDispatch();
-  const goals = useSelector((state) => state.goals.list);
-  const status = useSelector((state) => state.goals.status);
+  const [showDropDown, setDropDown] = useState(false);
   const goalLikes = useSelector((state) => state.likeGoals.likes);
   const goalDislikes = useSelector((state) => state.likeGoals.dislikes);
   const errorMessage = useSelector((state) => state.goals.errorMessage);
@@ -91,17 +83,8 @@ const GoalItem = ({ goalData }) => {
 
       <Grid item xs={12} sm={3} className={classes.icons}>
         <IconItemContainer>
-          <img src={views} alt="views-icon" className={classes.iconImages} />
-          <IconItemCount>66</IconItemCount>
-        </IconItemContainer>
-        <IconItemContainer>
           <img src={likes} alt="likes-icon" className={classes.iconImages} onClick={likeGoal} />
           <IconItemCount>{goalLikes}</IconItemCount>
-
-          <Likes>
-            <img src={likes} alt="likes-icon" className={classes.iconImages} />
-            <IconItemCount>8</IconItemCount>
-          </Likes>
         </IconItemContainer>
         <IconItemContainer>
           <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} onClick={disLikeGoal} />
@@ -112,7 +95,9 @@ const GoalItem = ({ goalData }) => {
       <MoreOptions>
         <img src={ellipsis} alt="more-options-icon" />
       </MoreOptions>
+      <GoalDropDown show={{ showDropDown, setDropDown }} goal_id={goalData.room_id} />
     </Container>
   );
 };
+
 export default GoalItem;
