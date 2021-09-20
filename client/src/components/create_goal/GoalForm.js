@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveGoal } from '../../redux/newGoalSlice';
-import createGoalSchema from './create-edit-goal.schema';
+//import createGoalSchema from './create-edit-goal.schema';
 import {
   Goal,
   Form,
@@ -41,7 +41,7 @@ const GoalForm = forwardRef((props) => {
         x{' '}
       </CloseButton>{' '}
       <Formik
-        validationSchema={createGoalSchema}
+        //validationSchema={createGoalSchema}
         initialValues={createAndEditGoalData}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
