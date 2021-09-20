@@ -33,23 +33,23 @@ const rateLimiter = require('./utils/rateLimiter');
 const app = express();
 
 // Implement cors
-// app.use(cors({ origin: ['*'] }));
-const corsoption = {
-  origin: function (origin, callback) {
-		if (
-			!origin ||
-			origin === 'null' ||
-			origin.includes('zuri.chat') ||
-			origin.includes('localhost')
-		) {
-			callback(null, true);
-		} else {
-			callback(new Error('not allowed by CORS'));
-		}
-	},
-	credentials: true,
-}
-app.use(cors(corsoption));
+app.use(cors({ origin: ['*'] }));
+// const corsoption = {
+//   origin: function (origin, callback) {
+// 		if (
+// 			!origin ||
+// 			origin === 'null' ||
+// 			origin.includes('zuri.chat') ||
+// 			origin.includes('localhost')
+// 		) {
+// 			callback(null, true);
+// 		} else {
+// 			callback(new Error('not allowed by CORS'));
+// 		}
+// 	},
+// 	credentials: true,
+// }
+// app.use(cors(corsoption));
 
 //app.options('*', cors());
 
