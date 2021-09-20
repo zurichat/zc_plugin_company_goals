@@ -51,7 +51,6 @@ exports.createGoal = async (req, res, next) => {
 
   const data = {
     room_id: roomId,
-    organization_id: orgId,
     isComplete: false,
     isExpired: false,
     ...goal,
