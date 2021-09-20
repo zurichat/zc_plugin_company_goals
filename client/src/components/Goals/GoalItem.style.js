@@ -6,8 +6,9 @@ export const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
     display: 'flex',
-    border: '1px solid #F6F6F6',
-    borderBottom: '1px solid #EBEBEB',
+    position: 'relative',
+    border: '1px solid #EBEBEB;',
+    borderLeft: '6px solid #00B87C',
     padding: '30px 20px',
     height: '114px',
     fontFamily: 'Lato',
@@ -44,7 +45,7 @@ export const GoalTitle = styled.span`
 `;
 
 export const GoalTagsContainer = styled.div`
-//Potential styles will come here
+  //Potential styles will come here
 `;
 
 export const GoalTags = styled.span`
@@ -62,9 +63,6 @@ export const ProgressBar = withStyles(() => ({
     height: 8,
     borderRadius: 16,
     marginTop: '0.7rem',
-    '@media (max-width: 768px)': {
-      width: '60%',
-    },
   },
   colorPrimary: {
     backgroundColor: '#F1EDED', // the color of the unfulfilled part.
@@ -79,9 +77,6 @@ export const ProgressDetailsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 0.8rem;
-  @media (max-width:768px) {
-    width: max-content;
-  }
 `;
 
 export const ProgressRate = styled.span`
@@ -128,16 +123,39 @@ export const Likes = styled.span`
 `;
 
 export const MoreOptions = styled.div`
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
   cursor: pointer;
-  height: 1.14rem;
-  margin-left: 2rem;
   &:hover {
-    color: #999999;
+    color: #00b87c;
   }
-  @media (max-width: 768px) {
-    position: absolute;
-    right: 12rem;
-    top: 2.5rem;
+`;
+
+export const GoalDropDown = styled.ul`
+  position: absolute;
+  top: 4rem;
+  right: 1rem;
+  background-color: #ffffff;
+  height: 140px;
+  width: 100px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 45px;
+  border-radius: 3px;
+  padding: 14px;
+  font-size: 13px;
+  list-style: none;
+  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
+  z-index: 100;
+  color: #616061;
+
+  button {
+    border: none;
+    background-color: transparent;
+    &:hover {
+      color: #f44336;
+    }
+  }
+
+  li {
+    margin-bottom: 1rem;
   }
 `;
