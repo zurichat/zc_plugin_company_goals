@@ -39,49 +39,15 @@ const EditMission = () => {
   const [text, setText] = useStickyState('Click on pen icon to set mission', 'mission');
 
 
-<<<<<<< HEAD
-  useEffect(() => {
-    setText(missionText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showMission]);
-=======
   // useEffect(() => {
   //   setText('Training A Million Youths Yearly');
   //   //  setText(missionText);
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [showMission]);
->>>>>>> 3e77c6345e2acf969a52194283821ecd4ed975db
 
   const saveMission = () => {
     dispatch(showEditMissionModal());
     // eslint-disable-next-line no-unused-expressions
-<<<<<<< HEAD
-    text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
-  };
-
-  return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      className={classes.modal}
-      open={showMission}
-      onClose={() => dispatch(showEditMissionModal())}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-    >
-      <Fade in={showMission}>
-        <form className={classes.paper} onSubmit={(e) => e.preventDefault()}>
-          <Header id="transition-modal-title">Edit Mission</Header>
-          <TextBox required value={text} onChange={(e) => setText(e.target.value)} placeholder="Click to edit..." />
-          <SaveBtn onClick={saveMission}>Save</SaveBtn>
-          <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn>
-        </form>
-      </Fade>
-    </Modal>
-=======
     text ? text : dispatch(editMissionText('No Mission'))
     //text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
   }
@@ -118,7 +84,6 @@ const EditMission = () => {
       </ModalBody>
     // </MissionContext.Provider>
 
->>>>>>> 3e77c6345e2acf969a52194283821ecd4ed975db
   );
 };
 
