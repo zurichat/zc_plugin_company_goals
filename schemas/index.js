@@ -44,10 +44,7 @@ exports.goalSchema = Joi.object({
     .messages({
       'any.required': 'goal type must be added'
     }),
-  category: Joi.string().required(),
-  isComplete: Joi.boolean().required(),
-  isExpired: Joi.boolean().required()
-
+  category: Joi.string().required()
 });
 
 // mission schema
