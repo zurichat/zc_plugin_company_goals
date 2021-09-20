@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getVisionSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-
 export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatus', async (visionText) => {
   console.log(visionText);
   /**

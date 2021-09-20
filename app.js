@@ -1,4 +1,5 @@
 /* eslint-disable import/order */
+import { getVision } from './serve-client/vision-api'
 const path = require('path');
 
 const compression = require('compression');
@@ -147,14 +148,25 @@ app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
-app.use('/api/v1/realTimeupdates/:orgId', realTimeupdateRouter);
+app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1/auth', authRouter);
+
+
+// To serve frontend static files in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
 
 // Send all 404 requests not handled by the server to the Client app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'serve-client/dist', 'index.html'));
 });
+
 
 // To catch all unhandled routes
 app.all('*', (req, res, next) => {
