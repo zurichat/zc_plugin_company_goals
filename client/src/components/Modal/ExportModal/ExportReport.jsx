@@ -30,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 5, 4),
     [theme.breakpoints.down('sm')]: {
       width: '100%',
-    },
-    [theme.breakpoints.down('sm')]: {
       height: '100%',
     },
     // overflowY: 'scroll',
@@ -56,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     flexDirection: 'column',
+    padding: '2rem',
   },
 }));
 
@@ -84,7 +83,6 @@ export default function SimpleModal() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          height: '100%',
           width: '100%',
           flexDirection: 'column',
         }}
