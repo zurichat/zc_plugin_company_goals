@@ -57,7 +57,7 @@ export const Paper = styled.div`
   padding: 35px;
   font-family: Lato;
   width: 720px;
-  height: 406px;
+  height: 430px;
   max-width: 100%;
   margin: 1rem;
   box-sizing: border-box;
