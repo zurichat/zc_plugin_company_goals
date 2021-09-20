@@ -16,7 +16,7 @@ export const getVision = createAsyncThunk('showVision/getVision', async () => {
 export const getVisionSlice = createSlice({
     name: 'getVision',
     initialState: {
-        list: [getVision],
+        vision: getVision,
         status: null,
         errorMessage: null
     },
