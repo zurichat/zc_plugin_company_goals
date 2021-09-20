@@ -10,7 +10,9 @@ import MobilePrivate from '../../components/Dropdown/MobilePrivate';
 import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
+
 //import ExportReport from 'components/Modal/ExportModal/ExportReport';
+
 import { getGoals } from '../../redux/showGoalSlice';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
@@ -52,10 +54,10 @@ function Mainside() {
           {
             /* //PS => The repition of the Goal Item is only temporary */
             status === 'success' &&
-            hasGoal &&
-            goals.data.map((goal) => {
-              return <GoalItem {...goals} />;
-            })
+              hasGoal &&
+              goals.data.map((goal) => {
+                return <GoalItem {...goals} />;
+              })
           }
           {status === 'failed' && (
             <p>

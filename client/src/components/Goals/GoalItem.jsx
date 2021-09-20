@@ -73,7 +73,7 @@ const GoalItem = ({ _id, milestone1, milestone2, milestone3, goal_start, goal_en
   return (
     <Container className={classes.root} key={_id}>
       <Grid item xs={12} sm={3} className={classes.rightSpacing}>
-        <GoalTitle>{goal_name ? goal_name : 'No name'}</GoalTitle>
+        <GoalTitle>{goal.goal_name ? goal.goal_name : 'No name'}</GoalTitle>
         <GoalTagsContainer>
           <GoalTags>{category ? category : 'No category'}</GoalTags>
         </GoalTagsContainer>
