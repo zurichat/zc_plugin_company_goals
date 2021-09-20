@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Goal = styled.div`
   font-family: Lato;
   padding: 0.5rem 1rem 1rem 1rem;
-  width: 90%;
+  width: 90% !important;
   background-color: #fff;
   margin: 0 auto;
 `;
@@ -23,7 +23,7 @@ export const Container = styled.div`
 
 export const MainTitle = styled.h3`
   margin-bottom: 0;
-  margin-top: 0;
+  margin-top: 0 !important;
   font-weight: Bold;
   font-size: 28px;
   color: #1d1c1d;
@@ -32,19 +32,19 @@ export const Wrap = styled.div`
   display: flex;
   align-items: center;
 `;
-export const Title = styled.h5`
-  margin-bottom: 0;
-  margin-top: 0;
+export const GoalTitle = styled.h5`
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
   margin-right: 0.2rem;
   font-weight: Bold;
   font-size: 15px;
   color: #1d1c1d;
 `;
 
-export const Info = styled.p`
+export const GoalInfo = styled.p`
   font-family: Lato;
   margin-top: 0.2rem;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
   font-style: normal;
   font-weight: normal;
   font-size: ${(props) => props.fontSize};
@@ -53,7 +53,7 @@ export const Info = styled.p`
     font-size: 13px !important;
   }
 `;
-export const Input = styled.input`
+export const GoalInput = styled.input`
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
@@ -65,7 +65,7 @@ export const Input = styled.input`
   outline: none;
   border: 1px solid #a1a1a1;
   background-color: #ffffff;
-  width: 100%;
+  width: 100% !important;
 `;
 export const SelectDiv = styled.div`
   width: 45% !important;
