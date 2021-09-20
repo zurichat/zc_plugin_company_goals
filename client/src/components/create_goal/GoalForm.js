@@ -26,11 +26,13 @@ import {
 import { goalCreateEditDataApi } from './create-edit-goal.utils';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import { activateSnackbar } from '../../redux/snackbar.slice';
+import { useSWRConfig } from 'swr';
 
 const GoalForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
   const dispatch = useDispatch();
+  const { mutate } = useSWRConfig();
   const createAndEditGoalData = useSelector((state) => state.organizationCreateAndEditGoalData);
 
   return (
@@ -49,6 +51,7 @@ const GoalForm = forwardRef((props) => {
             try {
               const createdGoal = await goalCreateEditDataApi.create(values);
               dispatch(toggleCreateGoalModalAction());
+              await mutate('getAllGoals');
               dispatch(activateSnackbar({ content: 'Goal successfully created 🥳', severity: 'success' }));
               console.log('goal-create-success', createdGoal);
             } catch (err) {
