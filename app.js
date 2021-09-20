@@ -1,5 +1,4 @@
 /* eslint-disable import/order */
-import { getVision } from './serve-client/vision-api'
 const path = require('path');
 
 const compression = require('compression');
