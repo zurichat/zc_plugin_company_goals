@@ -44,7 +44,9 @@ exports.goalSchema = Joi.object({
     .messages({
       'any.required': 'goal type must be added'
     }),
-  category: Joi.string().required()
+  category: Joi.string().required(),
+  isComplete: Joi.boolean().required(),
+  isExpired: Joi.boolean().required()
 
 });
 
@@ -87,9 +89,11 @@ exports.getGoalLikesSchema = Joi.object({
 exports.notificationSchema = Joi.object({
   user_id: Joi.string().required(),
   org_id: Joi.string().required(),
+  goal_id: Joi.string().required(),
   header: Joi.string().required(),
   goalName: Joi.string().required(),
-  status: Joi.string().required(),
+  isRead: Joi.boolean().required(),
+  colour: Joi.string().required(),
   description: Joi.string().required(),
   createdAt: Joi.date().timestamp()
 })
