@@ -114,7 +114,7 @@ app.use('/info', rateLimiter(), pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
-app.use('/api/v1/realTimeupdates/:orgId', realTimeupdateRouter);
+app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1/auth', authRouter);
 
