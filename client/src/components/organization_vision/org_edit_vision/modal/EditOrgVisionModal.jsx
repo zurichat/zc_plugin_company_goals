@@ -43,9 +43,9 @@ const OrganizationVisionEditModal = () => {
           <Header id="transition-modal-title">Edit Vision</Header>
           <TextBox placeholder="Click to edit..." value={editText} onChange={(e) => setEditText(e.target.value)} />
           <ActionButtonsContainer>
-            <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
+            {/* <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
               Cancel
-            </ActionCancelEditVisionButton>
+            </ActionCancelEditVisionButton> */}
             <ActionButton
               disabled={loading}
               onClick={() => {
