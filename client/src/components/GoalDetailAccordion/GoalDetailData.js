@@ -4,17 +4,11 @@ import data from './GoalData';
 
 import { Div, Text } from './GoalDetail.styled';
 
-const GoalDetailData = () => {
+const GoalDetailData = ({ goalData }) => {
   return (
     <Div>
-      <Text primary> {data.Goals.Goal_Name} </Text>
-      <Text> abdullah </Text>
-      <Text primary> {data.Goals.Goal_Name} </Text>
-      <Text> abdullah </Text>
-      <Text primary> {data.Goals.Goal_Name} </Text>
-      <Text> abdullah </Text>
-      <Text primary> {data.Goals.Goal_Name} </Text>
-      <Text> abdullah </Text>
+      <Text primary> {goalData.goal_name} </Text>
+      <Text> org goals </Text>
     </Div>
   );
 };
