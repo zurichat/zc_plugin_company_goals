@@ -3,10 +3,7 @@ const axios = require('axios');
 const AppError = require('../utils/appError');
 const { URL, payload } = require('../utils/config').DATABASE;
 const logger = require('../utils/logger');
-const {
-  URL,
-  payload
-} = require('../utils/config').DATABASE;
+
 
 exports.insertOne = async (collectionName, data, organization_id) => {
 
