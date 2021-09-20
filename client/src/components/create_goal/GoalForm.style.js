@@ -3,13 +3,9 @@ import styled from 'styled-components';
 export const Goal = styled.div`
   font-family: Lato;
   padding: 0.5rem 1rem 1rem 1rem;
-  width: 100%;
+  width: 90%;
   background-color: #fff;
-
-  @media only screen and (max-width: 600px) {
-    width: 100% !important;
-    padding: 0.8rem !important;
-  }
+  margin: 0 auto;
 `;
 export const Form = styled.form`
   width: 100%;
@@ -22,11 +18,12 @@ export const Form = styled.form`
 export const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 0.4rem;
 `;
 
 export const MainTitle = styled.h3`
   margin-bottom: 0;
+  margin-top: 0;
   font-weight: Bold;
   font-size: 28px;
   color: #1d1c1d;
@@ -37,6 +34,7 @@ export const Wrap = styled.div`
 `;
 export const Title = styled.h5`
   margin-bottom: 0;
+  margin-top: 0;
   margin-right: 0.2rem;
   font-weight: Bold;
   font-size: 15px;
@@ -45,11 +43,15 @@ export const Title = styled.h5`
 
 export const Info = styled.p`
   font-family: Lato;
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0;
   font-style: normal;
   font-weight: normal;
   font-size: ${(props) => props.fontSize};
   color: #999999;
+  @media only screen and (max-width: 450px) {
+    font-size: 13px !important;
+  }
 `;
 export const Input = styled.input`
   font-family: Lato;
