@@ -32,20 +32,27 @@ const rateLimiter = require('./utils/rateLimiter');
 
 const app = express();
 
-// Implement cors
-const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
-const corsOptions = {
-  origin(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-app.use(cors(corsOptions));
+if(process.env.NODE_ENV==='production')
+{
+  app.use(cors({ origin: ['*'] }));
+}
+else
+{
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
+  const corsOptions = {
+    origin(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+  app.use(cors(corsOptions));
+}
 
-// app.use(cors({ origin: ['*'] }));
+
+
 
 // const corsoption = {
 //   origin: function (origin, callback) {
