@@ -38,13 +38,14 @@ exports.goalSchema = Joi.object({
     'any.required': 'Due date is required'
   }),
   goal_type: Joi.string()
-    .valid(`none`, `annual`, `quarterly`)
+    .valid(`none`, `annual`, `quarterly`, `daily`, `monthly`)
     .default(`none`)
     .required()
     .messages({
       'any.required': 'goal type must be added'
     }),
-  category: Joi.string().required()
+  category: Joi.string().required(),
+
 });
 
 // mission schema
