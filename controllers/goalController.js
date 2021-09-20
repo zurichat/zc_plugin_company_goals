@@ -56,6 +56,8 @@ exports.createGoal = async ( req, res, next) => {
   const data = {
     room_id: roomId,
     organization_id: orgId,
+    isComplete: false,
+    isExpired: false,
     ...goal,
   };
   console.log('ddd', orgId);
@@ -157,6 +159,7 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
   next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
 });
 
+
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId from req.params
   logger.info(`Starting operation to update a goal by its id.`);
@@ -170,7 +173,6 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
     time: Date.now(),
     id: '',
   };
-
 
   const messageId = await insertOne('goalEvents', message, orgId)
   message.id = messageId.data.object_id;
@@ -186,11 +188,32 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
     (id = goalId)
   );
 
+  // const roomuser = await find('roomusers', { room_id: goalId }, org);
+
+  // const roomUsers = roomuser.data.data;
+
+  // if (req.body.isExpired === true) {
+  //   const myFunc = async(user) =>{
+  //     await createNotification(user.user_id, orgId, goalId, updatedGoal.data.data[0].goal_name, 'expiredGoal')
+  //   }
+  //   if (roomUsers !== null) {
+  //     roomUsers.forEach(myFunc);
+  //   }
+  // } else if (req.body.isComplete === true) {
+  //   const myFunc = async(user) =>{
+  //     await createNotification(user.user_id, orgId, goalId, updatedGoal.data.data[0].goal_name, 'achievedGoal')
+  //   }
+  //   if (roomUsers !== null) {
+  //     roomUsers.forEach(myFunc);
+  //   }
+  // }
+
 
   // send the updated goal to client.
   logger.info(`Successfully updated the goal and got the response: ${updatedGoal.data.data}`);
   return res.status(200).json(updatedGoal.data);
 });
+
 
 exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   // Gets archived goals
@@ -255,6 +278,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
 });
 
+
 exports.assignGoal = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
 
@@ -296,7 +320,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       const roomuser = await insertOne('roomusers', data, org);
 
       // Send a notification to the user.
-      await createNotification(user_id, org, data.title, 'assignGoal')
+      await createNotification(user_id, org, room_id, data.title, 'assignGoal')
       // Please don't delete the above line of code. It doesn't affect this controller.
 
       const message = {
@@ -308,9 +332,6 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       message.id = messageId.data.object_id;
       await publish('notifications', message);
 
-      // Send a notification to all assigned users
-      await createNotification(user_id, orgId, data.title, 'assignGoal')
-
       res.status(201).json({
         status: 'success',
         data: roomuser.data,
@@ -318,6 +339,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
     }
   }
 });
+
 
 exports.removeAssigned = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
@@ -328,12 +350,7 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   if (room.data.data === null) {
     return res.status(404).send({ error: `This room does not exist on the goals collection` });
   }
-
   const roomuser = await find('roomusers', { room_id, user_id }, org);
-
-  const {
-    _id: assignedObjectId
-  } = roomuser.data.data[0];
 
   if (roomuser.data.data === null) {
     return res.status(404).send({
@@ -341,12 +358,16 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     });
   }
 
+  const {
+    _id: assignedObjectId
+  } = roomuser.data.data[0];
+
   const deleteRoomUser = await deleteOne(data = 'roomusers', data = org, _id = assignedObjectId);
 
   // Send notification to user.
   const goalRoom = room.data.data
-  await createNotification(user_id, org, goalRoom[0].goal_name, 'unassignGoal')
-  // Please don't delete the above line of code. It doesn't affect this controller.
+  await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal')
+  // Please don't delete the above line of code. in Jesus name. It doesn't affect this controller.
 
   const message = {
     message: `The goal "${room.data.data._id}" has removed an assignee `,
@@ -363,6 +384,7 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     data: deleteRoomUser.data,
   });
 });
+
 
 exports.likeGoal = catchAsync(async (req, res, next) => {
   const {
