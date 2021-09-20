@@ -22,13 +22,13 @@ const Button = styled.button`
 const ExportButton = () => {
   const submitExportHandler = async () => {
     try {
-      const data = await fetch('http://localhost:4000/api/v1/goals/?org_id=6145d099285e4a184020742e');
+      const data = await fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e');
       const response = await data.json();
       // console.log(response.data);
       generatePDF(response.data);
       // generateEXCEL(response.data);
     } catch (err) {
-      console.log('err.message');
+      // console.log('err.message');
     }
   };
 
