@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 // const response = axios.get('https://goals.zuri.chat/api/v1/vision/org_id=61433d7ad0284bc6a92233bb');
 // console.log(response.data);
@@ -7,16 +7,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getVision = createAsyncThunk('showVision/getVision', async () => {
-    return fetch('https://goals.zuri.chat/api/v1/vision/61433d7ad0284bc6a92233bb').then(
-        (res) => res.json()
+    const response = await axios.get('https://goals.zuri.chat/api/v1/vision/61433d7ad0284bc6a92233bb')
+    return response.data;
         // console.log(res.json(), "response")
-    );
 })
 
 export const getVisionSlice = createSlice({
     name: 'getVision',
     initialState: {
-        list: [getVision],
+        vision: getVision,
         status: null,
         errorMessage: null
     },
@@ -24,8 +23,8 @@ export const getVisionSlice = createSlice({
         [getVision.pending]: (state, action) => {
             state.status = 'loading';
         },
-        [getVision.fulfilled]: (state, { payload }) => {
-            state.list = payload;
+        getVision: (state, { payload }) => {
+            state.vision = payload;
             state.status = 'success';
         },
         [getVision.rejected]: (state, { error }) => {
