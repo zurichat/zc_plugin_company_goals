@@ -1,4 +1,5 @@
 /* eslint-disable import/order */
+import { getVision } from './serve-client/vision-api'
 const path = require('path');
 
 const compression = require('compression');
@@ -99,6 +100,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
+console.log(getVision());
 
 // To catch all unhandled routes
 app.all('*', (req, res, next) => {
