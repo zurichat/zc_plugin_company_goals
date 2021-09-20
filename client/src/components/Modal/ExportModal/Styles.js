@@ -11,6 +11,13 @@ export const GoalRadios = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 430px) {
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr; */
+  }
 `;
 export const Para = styled.p`
   font-family: Lato;
@@ -21,17 +28,6 @@ export const Para = styled.p`
   margin-bottom: 20px;
   color: #999999;
 `;
-// export const Input = styled.input`
-//   :hover {
-//     color: #00b87c;
-//     cursor: pointer;
-//     border: 1px solid #00b87c;
-//   }
-//   :focus {
-//     color: #00b87c;
-//     border: 1px solid #00b87c;
-//   }
-// `;
 export const CssRadio = withStyles({
   root: {
     // color: '#393939',
@@ -61,6 +57,18 @@ export const GoalRadio = styled.label`
   align-items: center;
   flex-direction: column;
   padding: 0.5rem;
+  &.selected {
+    border: 1px solid #00b87c;
+  }
+  @media (max-width: 750px) {
+    margin-right: 6rem;
+  }
+  @media (max-width: 500px) {
+    margin-right: 2rem;
+  }
+  @media (max-width: 430px) {
+    margin-bottom: 0.5rem;
+  }
 `;
 export const SelectPTag = styled.p`
   :hover {
