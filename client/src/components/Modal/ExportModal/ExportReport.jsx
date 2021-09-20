@@ -3,9 +3,9 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
-import GoalFolder from './GoalFolder/GoalFolder';
-import ReportFormat from './ReportFormat/ReportFormat';
-import ReportType from './ReportType/ReportType';
+import GoalFolder from './GoalFolder';
+import ReportFormat from './ReportFormat';
+// import ReportType from './ReportType';
 import ExportButton from './ExportButton';
 
 function getModalStyle() {
@@ -30,11 +30,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 5, 4),
     [theme.breakpoints.down('sm')]: {
       width: '100%',
-    },
-    [theme.breakpoints.down('sm')]: {
       height: '100%',
     },
-    overflowY: 'scroll',
+    // overflowY: 'scroll',
+    outline: 'none',
   },
   exportHeader: {
     display: 'flex',
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontFamily: 'Lato',
     fontWeight: '400',
-    fontSize: '24px',
+    fontSize: '1.5em',
     lineHeight: '28.8px',
     marginBottom: '14px',
   },
@@ -55,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     flexDirection: 'column',
+    padding: '2rem',
   },
 }));
 
@@ -81,9 +81,9 @@ export default function SimpleModal() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
           alignItems: 'flex-start',
-          height: '100%',
+          width: '100%',
           flexDirection: 'column',
         }}
       >
@@ -101,7 +101,7 @@ export default function SimpleModal() {
         <div className={classes.exportBody}>
           <GoalFolder />
           <ReportFormat />
-          <ReportType />
+          {/* <ReportType /> */}
           <ExportButton />
         </div>
       </div>
@@ -110,8 +110,8 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
+      <button type="button" onClick={handleOpen} style={{ padding: '0.5rem', cursor: 'pointer' }}>
+        Export Report
       </button>
       <Modal
         open={open}
