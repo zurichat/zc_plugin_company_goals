@@ -49,11 +49,7 @@ const GoalForm = forwardRef((props) => {
             console.log('editdone', values);
           } else {
             try {
-              const createdGoal = await goalCreateEditDataApi.create({
-                ...values,
-                isExpired: false,
-                isComplete: false,
-              });
+              const createdGoal = await goalCreateEditDataApi.create(values);
               dispatch(toggleCreateGoalModalAction());
               await mutate('getAllGoals');
               dispatch(activateSnackbar({ content: 'Goal successfully created 🥳', severity: 'success' }));
