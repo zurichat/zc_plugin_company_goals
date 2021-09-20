@@ -5,7 +5,9 @@ import editImg from './visionAsset/editImg.png';
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
-  const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
+  const vision = useSelector((state) => state.getVision);
+  // const jsonVisionText = window.localStorage.getItem('vision');
+  // const text = JSON.parse(jsonMissionText);
 
   return (
     <>
@@ -13,7 +15,7 @@ const DisplayOrganizationVision = () => {
         Vision
       </Title>
       <Box className="box">
-        <VisionField className="visionInput">{visionText || 'Click to add a vision'}</VisionField>
+        <VisionField className="visionInput">{vision || 'Click to add a vision'}</VisionField>
         <Editbutton className="editbutton" right="7%" rsRight="16%" onClick={() => dispatch(showEditVisionModal())}>
           <img src={editImg} alt="edit" />
         </Editbutton>
