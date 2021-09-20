@@ -34,7 +34,23 @@ const rateLimiter = require('./utils/rateLimiter');
 const app = express();
 
 // Implement cors
-app.use(cors({origin:["*"]}));
+app.use(cors({ origin: ['*'] }));
+// const corsoption = {
+//   origin: function (origin, callback) {
+// 		if (
+// 			!origin ||
+// 			origin === 'null' ||
+// 			origin.includes('zuri.chat') ||
+// 			origin.includes('localhost')
+// 		) {
+// 			callback(null, true);
+// 		} else {
+// 			callback(new Error('not allowed by CORS'));
+// 		}
+// 	},
+// 	credentials: true,
+// }
+// app.use(cors(corsoption));
 
 //app.options('*', cors());
 
@@ -47,9 +63,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //  Reading data from the body into req.body. The limit option manages how large the data can be
-app.use(express.json({
-  limit: '10kb'
-}));
+app.use(
+  express.json({
+    limit: '10kb',
+  })
+);
 
 // Parse cookies
 app.use(cookieParser());
