@@ -11,7 +11,10 @@ const {
   likeGoal,
   getGoalLikes,
   checkUserLike,
-  removeAssigned
+  removeAssigned,
+  disLikeGoal,
+  getGoalDisLikes,
+  checkUserDisLikes
 } = require('../controllers/goalController');
 
 const router = Router();
@@ -27,6 +30,9 @@ router.get('/goallikes', getGoalLikes);
 router.get('/userlike', checkUserLike);
 router.get('/single', getSingleGoal);
 router.delete('/assigned', removeAssigned);
+router.get('/dislike', disLikeGoal);
+router.get('/goaldislikes', getGoalDisLikes);
+router.get('/userdislike', checkUserDisLikes);
 
 router.route('/delete').delete(deleteGoalById);
 
