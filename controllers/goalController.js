@@ -163,6 +163,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
 
   const goals = await findById('goals', goalId, orgId);
+  console.log('fd', goals);
 
   const message = {
     header: 'Your goal has been updated',
@@ -182,9 +183,9 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);
   const updatedGoal = await updateOne(
     (collectionName = 'goals'),
-    (organization_id = orgId),
     (data = req.body),
     (filter = {}),
+    (organization_id = orgId),
     (id = goalId)
   );
 
