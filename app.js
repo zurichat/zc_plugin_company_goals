@@ -17,6 +17,7 @@ const globalErrorHandler = require('./controllers/errorController');
 // Require Routes
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
+const searchRouter = require('./routes/searchRoute')
 const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
@@ -33,13 +34,15 @@ const rateLimiter = require('./utils/rateLimiter');
 const app = express();
 
 
-if(process.env.NODE_ENV==='production')
+
+if(process.env.NODE_ENV === 'production')
 {
-  app.use(cors({ origin: ['*'] }));
+  app.use(cors({ origin: ['*'] }))
+  // app.use(cors({ origin: 'https://zuri.chat' }));
 }
 else
 {
-  const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
   const corsOptions = {
     origin(origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -141,6 +144,7 @@ app.get('/zuri-plugin-company-goals.js', (req, res) => {
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
 app.use('/api/v1/users', rateLimiter(), userRouter);
+app.use('/api/v1/search',rateLimiter(), searchRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);

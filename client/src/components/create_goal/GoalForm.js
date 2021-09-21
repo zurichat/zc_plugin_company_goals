@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveGoal } from '../../redux/newGoalSlice';
-import createGoalSchema from './create-edit-goal.schema';
+//import createGoalSchema from './create-edit-goal.schema';
 import {
   Goal,
   Form,
@@ -41,7 +41,7 @@ const GoalForm = forwardRef((props) => {
         x{' '}
       </CloseButton>{' '}
       <Formik
-        validationSchema={createGoalSchema}
+        //validationSchema={createGoalSchema}
         initialValues={createAndEditGoalData}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
@@ -49,11 +49,7 @@ const GoalForm = forwardRef((props) => {
             console.log('editdone', values);
           } else {
             try {
-              const createdGoal = await goalCreateEditDataApi.create({
-                ...values,
-                isExpired: false,
-                isComplete: false,
-              });
+              const createdGoal = await goalCreateEditDataApi.create(values);
               dispatch(toggleCreateGoalModalAction());
               await mutate('getAllGoals');
               dispatch(activateSnackbar({ content: 'Goal successfully created 🥳', severity: 'success' }));

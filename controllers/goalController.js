@@ -51,7 +51,6 @@ exports.createGoal = async (req, res, next) => {
 
   const data = {
     room_id: roomId,
-    organization_id: orgId,
     isComplete: false,
     isExpired: false,
     ...goal,
@@ -311,9 +310,9 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       // Send a notification to the user.
       await createNotification(user_id, org, room_id, data.title, 'assignGoal');
       // Please don't delete the above line of code. It doesn't affect this controller.
-
+// Add specificity later
       const message = {
-        message: `The goal "${getRoom[0].title}" has been assigned `,
+        message: `The goal has been assigned `,
         time: Date.now(),
         id: '',
       };
@@ -356,7 +355,7 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   // Please don't delete the above line of code. in Jesus name. It doesn't affect this controller.
 
   const message = {
-    message: `The goal "${room.data.data._id}" has removed an assignee `,
+    message: `The goal "${goalRoom[0].goal_name}" has removed an assignee `,
     time: Date.now(),
     id: '',
   };

@@ -5,34 +5,33 @@
 
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const getVision = createAsyncThunk('showVision/getVision', async () => {
-    return fetch('https://goals.zuri.chat/api/v1/vision/61433d7ad0284bc6a92233bb').then(
-        (res) => res.json()
-        // console.log(res.json(), "response")
-    );
-})
+export const fetchVision = createAsyncThunk('showVision/getVision', async () => {
+  const response = await axios.get('https://goals.zuri.chat/api/v1/vision/6145d099285e4a184020742e');
+  return response.data;
+});
 
 export const getVisionSlice = createSlice({
-    name: 'getVision',
-    initialState: {
-        list: [getVision],
-        status: null,
-        errorMessage: null
-    },
-    extraReducers: {
-        [getVision.pending]: (state, action) => {
-            state.status = 'loading';
-        },
-        [getVision.fulfilled]: (state, { payload }) => {
-            state.list = payload;
-            state.status = 'success';
-        },
-        [getVision.rejected]: (state, { error }) => {
-            state.errorMessage = error.message;
-            state.status = 'failed';
-        },
-    },
+  name: 'getVision',
+  initialState: {
+    visionText: '',
+    status: null,
+    errorMessage: null,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchVision.pending, (state) => {
+      state.status = 'loading';
+    });
+    builder.addCase(fetchVision.fulfilled, (state, { payload }) => {
+      state.status = 'success';
+      state.visionText = payload.payload.vision;
+    });
+    builder.addCase(fetchVision.rejected, (state) => {
+      state.errorMessage = 'Failed to fetch vision';
+      state.status = 'failed';
+    });
+  },
 });
 
 export default getVisionSlice.reducer;

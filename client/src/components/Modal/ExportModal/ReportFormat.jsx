@@ -12,15 +12,17 @@ const ReportFormat = () => {
       <img style={{ width: '50px', height: '50px' }} src={badge} alt="" />
 
       <GoalDetails>
-        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px' }}>Report Format</h3>
+        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px', marginTop: '0px' }}>
+          Report Format
+        </h3>
         <Para>Select the format to export report</Para>
         <GoalRadios>
-          <GoalRadio style={{ border: valueState === 'pdf' ? '1px solid #00b87c' : null }}>
+          <GoalRadio className={valueState === 'pdf' && 'selected'}>
             <CssRadio name="format" size="small" checked={valueState === 'pdf'} onChange={radioChange} value="pdf" />
             <SelectPTag>PDF</SelectPTag>
           </GoalRadio>
 
-          <GoalRadio style={{ border: valueState === 'excel' ? '1px solid #00b87c' : null }}>
+          <GoalRadio className={valueState === 'excel' && 'selected'}>
             <CssRadio
               name="format"
               size="small"
