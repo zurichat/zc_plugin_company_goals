@@ -89,13 +89,17 @@ const updateVision = async (req, res, next) => {
     }
 
     const message = {
+      header: 'Your vision has been updated',
+      goalName: vision,
       message: `The vision has been updated to ${vision} `,
-      time: Date.now(),
-      id: '',
+      createdAt: Date.now(),
+      color: 'green',
+      isRead: false,
+      _id: '',
     };
 
     const messageId = await insertOne('goalEvents', message, organization_id);
-    message.id = messageId.data.object_id;
+    message._id = messageId.data.object_id;
 
     await publish('notifications', message);
 
