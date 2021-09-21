@@ -8,14 +8,20 @@ const DeleteSuccess = () => {
   const dispatch = useDispatch();
   const showDeleteSuccesslModal = useSelector(({ deleteGoal }) => deleteGoal.showDeleteSuccessModal);
 
-  const updateGoal=()=>{
+  const outClose = (e) => {
+    if (e.target.classList.contains('faded')) {
+      dispatch(deleteSuccessAction());
+    }
+  }
+
+  const updateGoal = () => {
     dispatch(getGoals());
     dispatch(deleteSuccessAction());
   }
 
 
   return (
-    <FadedBg className="faded" show={showDeleteSuccesslModal}>
+    <FadedBg className="faded" show={showDeleteSuccesslModal} onClick={(e) => outClose(e)}>
       <DeleteModal>
         <XBtn onClick={() => dispatch(deleteSuccessAction())}>X</XBtn>
         <Images>
@@ -27,8 +33,8 @@ const DeleteSuccess = () => {
           <DelButton type="submit" onClick={updateGoal}>Ok</DelButton>
         </DeleteContent>
       </DeleteModal>
-    </FadedBg>
-  );
+    </FadedBg >
+  )
 };
 
 export default DeleteSuccess;
