@@ -69,10 +69,10 @@ exports.updateMission = catchAsync(async (req, res, next) => {
 
     const message = {
       header: 'Your mission has been updated',
-      goalName: mission.title,
-      description: `The mission ${prevMission.title} has been updated to ${mission.title} `,
+      goalName: mission,
+      description: `The mission has been updated to ${mission} `,
       createdAt: Date.now(),
-      color: 'green',
+      colour: 'green',
       isRead: false,
       id: '',
     };
