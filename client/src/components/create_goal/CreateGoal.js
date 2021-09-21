@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import GoalForm from './GoalForm';
+import { resetGoalFormData } from '../../redux/organizationGoal.slice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,6 +22,7 @@ export default function SimpleDialog() {
   const showCreateGoalModal = useSelector(({ toggleCreateGoalModal }) => toggleCreateGoalModal.showCreateGoalModal);
 
   const handleClose = () => {
+    dispatch(resetGoalFormData());
     dispatch(toggleCreateGoalModalAction());
   };
 

@@ -162,6 +162,7 @@ export const GoalDropDown = styled.ul`
   button {
     border: none;
     background-color: transparent;
+    cursor: pointer;
     &:hover {
       color: #f44336;
     }

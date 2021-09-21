@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useSWRConfig } from 'swr';
 import { deleteConfirmationAction, deleteSuccessAction, deleteErrorAction } from '../../redux/deleteGoal.slice';
 import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
 
 const Deletemodal = () => {
   const dispatch = useDispatch();
+  const { mutate } = useSWRConfig();
   const { showDeleteConfirmationModal, goalID } = useSelector(({ deleteGoal }) => deleteGoal);
 
   const outClose = (e) => {
@@ -27,6 +29,7 @@ const Deletemodal = () => {
       .then(() => {
         dispatch(deleteConfirmationAction());
         dispatch(deleteSuccessAction());
+        mutate('getAllGoals');
       })
       .catch(() => {
         dispatch(deleteConfirmationAction());

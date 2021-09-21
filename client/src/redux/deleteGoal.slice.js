@@ -5,7 +5,7 @@ import { createSlice} from '@reduxjs/toolkit';
 export const deleteGoalSlice = createSlice({
   name: 'deleteGoalModal',
   initialState: {
-    showDeleteConfirmationModal: true,
+    showDeleteConfirmationModal: false,
     showDeleteSuccessModal: false,
     showDeleteErrorModal: false,
     goalID: undefined,
