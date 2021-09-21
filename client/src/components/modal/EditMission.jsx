@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
@@ -9,29 +10,6 @@ import { Header, TextBox, SaveBtn, Paper , ModalBody } from '../Modal/styledEdit
 import {useStickyState} from '../../hooks/useSticky';
 import  MissionContext  from '../../context/mission'
 
-
-// const useStyles = makeStyles((theme) => ({
-//   modal: {
-//     display: 'flex',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     fontFamily: 'Lato',
-//   },
-//   paper: {
-//     // backgroundColor: theme.palette.background.paper,
-//     backgroundColor: '#F6F6F6',
-//     border: '0px solid #000',
-//     boxShadow: theme.shadows[5],
-//     // padding: theme.spacing(2, 4, 3),
-//     padding: '35px',
-//     fontFamily: 'Lato',
-//     width: '720px',
-//     height: '406px',
-//     maxWidth: '100%',
-//     margin: '1rem',
-//     boxSizing: 'border-box',
-//   },
-// }));
 
 const EditMission = () => {
   const dispatch = useDispatch();
@@ -45,8 +23,30 @@ const EditMission = () => {
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [showMission]);
 
+  useEffect(() => {
+
+    axios
+    .get('https://goals.zuri.chat/api/v1/mission/6145d099285e4a184020742e')
+    .then(response => setText(response.data.data.mission))
+    .catch(error => console.log(error));
+
+    
+  } , [setText])
+
   const saveMission = () => {
+    const mission = {
+      'mission' : `${text}`
+    }
+
+    const header = {
+      'Content-Type' : 'application/json'
+    }
+    
     dispatch(showEditMissionModal());
+    axios
+    .put('https://goals.zuri.chat/api/v1/mission/update/6145d099285e4a184020742e' , mission , { header })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
     // eslint-disable-next-line no-unused-expressions
     text ? text : dispatch(editMissionText('No Mission'))
     //text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));

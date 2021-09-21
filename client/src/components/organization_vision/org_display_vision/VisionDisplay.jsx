@@ -19,7 +19,9 @@ const DisplayOrganizationVision = () => {
         Vision
       </Title>
       <Box className="box">
-        <VisionField className="visionInput">{visionText || 'Click to add a vision'}</VisionField>
+        <VisionField className="visionInput" onClick={() => dispatch(showEditVisionModal())}>
+          {visionText || 'Click to add a vision'}
+        </VisionField>
         <Editbutton className="editbutton" right="7%" rsRight="16%" onClick={() => dispatch(showEditVisionModal())}>
           <img src={editImg} alt="edit" />
         </Editbutton>

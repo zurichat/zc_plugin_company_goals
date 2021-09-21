@@ -3,6 +3,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchVision } from '../../../../redux/getVisionSlice';
 import { showEditVisionModal, updateOrgVision } from '../../../../redux/organizationVision.slice';
 import {
   EditVisionModal,
@@ -24,6 +25,7 @@ const OrganizationVisionEditModal = () => {
   const dispatchAction = () => {
     if (editText) {
       dispatch(updateOrgVision(editText));
+      dispatch(fetchVision()); // Not sure if this works // criss-cross
     }
   };
 
@@ -43,9 +45,9 @@ const OrganizationVisionEditModal = () => {
           <Header id="transition-modal-title">Edit Vision</Header>
           <TextBox placeholder="Click to edit..." value={editText} onChange={(e) => setEditText(e.target.value)} />
           <ActionButtonsContainer>
-            <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
+            {/* <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
               Cancel
-            </ActionCancelEditVisionButton>
+            </ActionCancelEditVisionButton> */}
             <ActionButton
               disabled={loading}
               onClick={() => {
