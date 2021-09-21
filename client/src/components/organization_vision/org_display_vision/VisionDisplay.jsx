@@ -7,7 +7,7 @@ import editImg from './visionAsset/editImg.png';
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
-  const { visionText } = useSelector(({ organizationVision }) => organizationVision.vision);
+  const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
 
   useEffect(() => {
     dispatch(fetchVision());
