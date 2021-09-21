@@ -8,7 +8,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchVision = createAsyncThunk('showVision/getVision', async () => {
-  const response = await axios.get('http://localhost:4000/api/v1/vision/61433d7ad0284bc6a92233bb');
+  const response = await axios.get('https://goals.zuri.chat/api/v1/vision/61433d7ad0284bc6a92233bb');
   return response.data;
 });
 
