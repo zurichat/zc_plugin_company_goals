@@ -6,7 +6,7 @@ const { getVision, updateVision } = require('../controllers/visionController');
 const router = Router();
 
 router.get('/:organization_id', getVision);
-router.patch('/:organization_id', updateVision);
+router.post('/:organization_id', updateVision);
 
 // DO NOT TOUCH (TESTING)
 router.post('/', async (req, res) => {
