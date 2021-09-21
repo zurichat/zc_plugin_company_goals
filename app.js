@@ -17,6 +17,7 @@ const globalErrorHandler = require('./controllers/errorController');
 // Require Routes
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
+const searchRouter = require('./routes/searchRoute')
 const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
@@ -141,6 +142,7 @@ app.get('/zuri-plugin-company-goals.js', (req, res) => {
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
 app.use('/api/v1/users', rateLimiter(), userRouter);
+app.use('/api/v1/search',rateLimiter(), searchRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
