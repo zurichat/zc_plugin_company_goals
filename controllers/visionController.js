@@ -95,13 +95,13 @@ const updateVision = async (req, res, next) => {
       createdAt: Date.now(),
       color: 'green',
       isRead: false,
-      _id: '',
+      id: '',
     };
 
     const messageId = await insertOne('goalEvents', message, organization_id);
-    message._id = messageId.data.object_id;
+    message.id = messageId.data.object_id;
 
-    await publish('notifications', message);
+    await publish('notifications', { ...message, _id: message.id });
 
     return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
