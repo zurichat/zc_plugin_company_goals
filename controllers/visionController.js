@@ -93,7 +93,7 @@ const updateVision = async (req, res, next) => {
       goalName: vision,
       message: `The vision has been updated to ${vision} `,
       createdAt: Date.now(),
-      color: 'green',
+      colour: 'green',
       isRead: false,
       id: '',
     };
