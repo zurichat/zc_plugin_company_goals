@@ -13,7 +13,7 @@ import InnerNav from '../goal_interface_inner_header/InnerNav';
 import ExportReport from '../Modal/ExportReport';
 import { getGoals } from '../../redux/showGoalSlice';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
-// import GoalItem from '../Goals/GoalItem';
+import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
@@ -51,11 +51,12 @@ function Mainside() {
           {
             /* //PS => The repition of the Goal Item is only temporary */
             status === 'success' &&
-            hasGoal &&
-            goals.data.map((goal) => {
-              return <GoalItem {...goals} />;
-            })
+              hasGoal &&
+              goals.data.map((goal, i) => {
+                return <GoalItem {...goals} />;
+              })
           }
+          <GoalItem {...goals} />
           {status === 'failed' && (
             <p>
               {/* A button might be here to retry and this errorMessage will be in the error UI*/}

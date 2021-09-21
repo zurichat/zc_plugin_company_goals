@@ -9,7 +9,7 @@ const Deletemodal = () => {
 
   const showSuccess = (e) => {
     e.preventDefault();
-    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=200&goal_id${goalID}`, { method: 'delete' })
+    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=6145d099285e4a184020742e&goal_id${goalID}`, { method: 'delete' })
       .then((res) => {
         if (!res.ok) {
           throw Error('Error deleting');
