@@ -11,16 +11,13 @@ const {
   likeGoal,
   getGoalLikes,
   checkUserLike,
-  removeAssigned
+  removeAssigned,
 } = require('../controllers/goalController');
 
 const router = Router();
 
-
-
-
-router.post('/', createGoal)
-router.post('/assign', assignGoal)
+router.post('/', createGoal);
+router.post('/assign', assignGoal);
 router.get('/', getAllGoals);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
@@ -29,7 +26,6 @@ router.get('/single', getSingleGoal);
 router.delete('/assigned', removeAssigned);
 
 router.route('/delete').delete(deleteGoalById);
-
 
 router.put('/update/:id', updateSingleGoalById);
 
