@@ -97,12 +97,12 @@ exports.createGoal = async (req, res, next) => {
     createdAt: Date.now(),
     color: 'blue',
     isRead: false,
-    _id: '',
+    id: '',
   };
 
   const messageId = await insertOne('goalEvents', message, orgId);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
+  message.id = messageId.data.object_id;
+  await publish('notifications', { ...message, _id: message.id });
   res.status(200).json({ message: 'success', ...goals.data, data });
 };
 
@@ -171,12 +171,12 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
     createdAt: Date.now(),
     color: 'green',
     isRead: false,
-    _id: '',
+    id: '',
   };
 
   const messageId = await insertOne('goalEvents', message, orgId);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
+  message.id = messageId.data.object_id;
+  await publish('notifications', { ...message, _id: message.id });
 
   // Then, send update to zuri core
   logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);
@@ -266,12 +266,12 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     createdAt: Date.now(),
     color: 'red',
     isRead: false,
-    _id: '',
+    id: '',
   };
 
   const messageId = await insertOne('goalEvents', message, org);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
+  message.id = messageId.data.object_id;
+  await publish('notifications', { ...message, _id: message.id });
 
   logger.info(`Successfully deleted the goal with id: ${id}`);
   res.status(200).json({ status: 200, message: 'Goal deleted successfully.', rsponse: response.data.data });
@@ -330,11 +330,11 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
         createdAt: Date.now(),
         color: 'blue',
         isRead: false,
-        _id: '',
+        id: '',
       };
       const messageId = await insertOne('goalEvents', message, org);
-      message._id = messageId.data.object_id;
-      await publish('notifications', message);
+      message.id = messageId.data.object_id;
+      await publish('notifications', { ...message, _id: message.id });
 
       res.status(201).json({
         status: 'success',
@@ -377,12 +377,12 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     createdAt: Date.now(),
     color: 'red',
     isRead: false,
-    _id: '',
+    id: '',
   };
 
   const messageId = await insertOne('goalEvents', message, org);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
+  message.id = messageId.data.object_id;
+  await publish('notifications', { ...message, _id: message.id });
 
   res.status(201).json({
     status: 'success',
