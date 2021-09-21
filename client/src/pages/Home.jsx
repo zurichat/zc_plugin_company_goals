@@ -9,10 +9,10 @@ import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-import ExportReport from '../components/Modal/ExportReport';
-import EditMission from '../components/Modal/EditMission';
-import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
+import EditMission from '../components/modal/EditMission';
+import ExportReport from '../components/Modal/ExportModal/ExportReport';
 
+import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
       <Deletemodal />
       <BasicModal />
       <DeleteSuccessModal />
-      <DeleteErrorModal/>
+      <DeleteErrorModal />
       <OrganizationVisionEditModal />
       <SnackBar />
       <PluginSide>

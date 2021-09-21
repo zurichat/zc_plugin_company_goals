@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { showEditMissionModal, editMissionText } from '../../redux/editMission.slice';
-import { Header, TextBox, SaveBtn, Paper , ModalBody } from './styledEditMission';
+import { Header, TextBox, SaveBtn, Paper , ModalBody } from '../Modal/styledEditMission';
 import {useStickyState} from '../../hooks/useSticky';
 import  MissionContext  from '../../context/mission'
 
@@ -85,6 +85,6 @@ const EditMission = () => {
     // </MissionContext.Provider>
 
   );
-}
+};
 
 export default EditMission;

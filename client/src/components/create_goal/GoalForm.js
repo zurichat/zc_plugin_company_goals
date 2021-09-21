@@ -3,17 +3,18 @@ import { forwardRef, useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveGoal } from '../../redux/newGoalSlice';
-import createGoalSchema from './create-edit-goal.schema';
+//import createGoalSchema from './create-edit-goal.schema';
 import {
   Goal,
   Form,
-  Input,
+  GoalInput,
   Button,
-  Title,
-  Info,
+  GoalTitle,
+  GoalInfo,
   Container,
   CloseButton,
   CreateButton,
+  LabelBody,
   TargetInput,
   TargetContainerA,
   TargetContainerB,
@@ -22,15 +23,16 @@ import {
   MainTitle,
   Wrap,
 } from './GoalForm.style';
-import { LabelBody } from './RadioInput.style';
 import { goalCreateEditDataApi } from './create-edit-goal.utils';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import { activateSnackbar } from '../../redux/snackbar.slice';
+import { useSWRConfig } from 'swr';
 
 const GoalForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
   const dispatch = useDispatch();
+  const { mutate } = useSWRConfig();
   const createAndEditGoalData = useSelector((state) => state.organizationCreateAndEditGoalData);
 
   return (
@@ -39,7 +41,7 @@ const GoalForm = forwardRef((props) => {
         x{' '}
       </CloseButton>{' '}
       <Formik
-        validationSchema={createGoalSchema}
+        //validationSchema={createGoalSchema}
         initialValues={createAndEditGoalData}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
@@ -49,6 +51,7 @@ const GoalForm = forwardRef((props) => {
             try {
               const createdGoal = await goalCreateEditDataApi.create(values);
               dispatch(toggleCreateGoalModalAction());
+              await mutate('getAllGoals');
               dispatch(activateSnackbar({ content: 'Goal successfully created 🥳', severity: 'success' }));
               console.log('goal-create-success', createdGoal);
             } catch (err) {
@@ -68,9 +71,9 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-name">
                   <MainTitle> Create Goal </MainTitle>
-                  <Info fontSize="13px">
+                  <GoalInfo fontSize="13px">
                     Goal setting helps in creating a pathway for achieving your long and short terms mission
-                  </Info>
+                  </GoalInfo>
                 </label>{' '}
               </div>{' '}
             </Container>{' '}
@@ -80,9 +83,15 @@ const GoalForm = forwardRef((props) => {
                 {' '}
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-name">
-                  <Title> Goal Name </Title>
+                  <GoalTitle> Goal Name </GoalTitle>
 
-                  <Input type="text" id="goal-name" name="goal_name" value={values.goal_name} onChange={handleChange} />
+                  <GoalInput
+                    type="text"
+                    id="goal-name"
+                    name="goal_name"
+                    value={values.goal_name}
+                    onChange={handleChange}
+                  />
                 </label>{' '}
               </div>{' '}
             </Container>{' '}
@@ -92,9 +101,9 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-description">
                   <Wrap>
-                    <Title> Goal Description </Title> <Info fontSize="15px"> (Optional) </Info>{' '}
+                    <GoalTitle> Goal Description </GoalTitle> <GoalInfo fontSize="15px"> (Optional) </GoalInfo>{' '}
                   </Wrap>{' '}
-                  <Input type="text" id="goal-description" name="description" onChange={handleChange} />
+                  <GoalInput type="text" id="goal-description" name="description" onChange={handleChange} />
                 </label>
               </div>{' '}
             </Container>{' '}
@@ -104,7 +113,8 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="owner">
                   <Wrap>
-                    <Title> Goal Sort </Title> <Info fontSize="15px"> (Set goal Type and Category and Priority) </Info>{' '}
+                    <GoalTitle> Goal Sort </GoalTitle>{' '}
+                    <GoalInfo fontSize="15px"> (Set goal Type and Category and Priority) </GoalInfo>{' '}
                   </Wrap>{' '}
                   <TargetContainerA>
                     <SelectDiv>
@@ -135,7 +145,7 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="date">
                   <div>
-                    <Title> Goal Timeline </Title>{' '}
+                    <GoalTitle> Goal Timeline </GoalTitle>{' '}
                   </div>{' '}
                   <TargetContainerB>
                     <div style={{ width: '45%', marginRight: '0.5rem' }}>
@@ -177,7 +187,7 @@ const GoalForm = forwardRef((props) => {
               </div>{' '}
             </Container>{' '}
             <CreateButton>
-              <Button type="submit" buttonPadding="1rem 4rem" borderRadius="6px" disabled={isSubmitting}>
+              <Button type="submit" buttonPadding="1rem 3rem" borderRadius="6px" disabled={isSubmitting}>
                 Create Goal{' '}
               </Button>{' '}
             </CreateButton>{' '}

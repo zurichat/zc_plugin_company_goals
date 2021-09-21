@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import generatePDF from '../Modal/generatePDF';
-import generateEXCEL from '../Modal/generateEXCEL';
+import generatePDF from './generatePDF';
+import generateEXCEL from './generateEXCEL';
 
 const Button = styled.button`
   appearance: none;
@@ -15,20 +15,20 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3rem auto;
+  margin: auto;
   cursor: pointer;
 `;
 
 const ExportButton = () => {
   const submitExportHandler = async () => {
     try {
-      const data = await fetch('http://localhost:4000/api/v1/goals/?org_id=6145d099285e4a184020742e');
+      const data = await fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e');
       const response = await data.json();
       // console.log(response.data);
       generatePDF(response.data);
       // generateEXCEL(response.data);
     } catch (err) {
-      console.log('err.message');
+      // console.log('err.message');
     }
   };
 

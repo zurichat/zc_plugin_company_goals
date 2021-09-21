@@ -2,15 +2,19 @@ import styled from 'styled-components';
 
 export const Goal = styled.div`
   font-family: Lato;
-  padding: 0.5rem 1rem 1rem 1rem;
-  width: 90% !important;
+  padding: 0 1rem 1rem 2rem;
+
+  width: 100%;
   background-color: #fff;
-  margin: 0 auto;
+
+  /* @media only screen and (max-width: 600px) {
+    width: 100% !important;
+    padding: 0.8rem !important;
+  } */
 `;
 export const Form = styled.form`
   width: 100%;
   margin: 0 0 1.5rem 0;
-
   div {
     width: 100%;
   }
@@ -18,12 +22,12 @@ export const Form = styled.form`
 export const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1rem;
 `;
 
 export const MainTitle = styled.h3`
+  margin-top: 0;
   margin-bottom: 0;
-  margin-top: 0 !important;
   font-weight: Bold;
   font-size: 28px;
   color: #1d1c1d;
@@ -32,28 +36,23 @@ export const Wrap = styled.div`
   display: flex;
   align-items: center;
 `;
-export const GoalTitle = styled.h5`
-  margin-bottom: 0 !important;
-  margin-top: 0 !important;
+export const Title = styled.h5`
+  margin-bottom: 0;
   margin-right: 0.2rem;
   font-weight: Bold;
   font-size: 15px;
   color: #1d1c1d;
 `;
 
-export const GoalInfo = styled.p`
+export const Info = styled.p`
   font-family: Lato;
-  margin-top: 0.2rem;
-  margin-bottom: 0 !important;
+  margin-top: 0.3rem;
   font-style: normal;
   font-weight: normal;
   font-size: ${(props) => props.fontSize};
   color: #999999;
-  @media only screen and (max-width: 450px) {
-    font-size: 13px !important;
-  }
 `;
-export const GoalInput = styled.input`
+export const Input = styled.input`
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
@@ -65,7 +64,7 @@ export const GoalInput = styled.input`
   outline: none;
   border: 1px solid #a1a1a1;
   background-color: #ffffff;
-  width: 100% !important;
+  width: 100%;
 `;
 export const SelectDiv = styled.div`
   width: 45% !important;
@@ -83,7 +82,6 @@ export const Select = styled.select`
   option {
     color: #b0afb0;
     font-size: 13px;
-    height: 2rem;
     margin: 5rem 0 1rem 0.5rem;
     background-color: #fff;
   }
@@ -112,22 +110,26 @@ export const Button = styled.button`
   outline: none;
   padding: ${(props) => props.buttonPadding};
   font-size: 12px;
-  cursor: pointer;
 `;
 
 export const CreateButton = styled.div`
   text-align: center;
   margin-top: 2rem;
 `;
-export const LabelBody = styled.p`
-  color: #393939;
-  font-size: 10px;
-  width: 70%;
-  margin: 0;
+export const Box = styled.div`
+  margin-top: 2rem;
+  width: 25% !important;
+  display: flex;
+  float: right;
+  align-items: center;
+  justify-content: space-between;
+  @media only screen and (max-width: 400px) {
+    width: 50% !important;
+  }
 `;
 export const TargetContainerA = styled.div`
-  width: 100% !important;
-
+  width: 85% !important;
+  float: right;
   display: flex;
   justify-content: space-between;
   /* @media only screen and (max-width: 500px) {
@@ -171,7 +173,7 @@ export const CloseButton = styled.button`
   float: right;
   background: none;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 1.5rem;
   color: #333333;
   cursor: pointer;
 `;

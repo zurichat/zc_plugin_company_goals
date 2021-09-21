@@ -15,10 +15,10 @@ const DeleteError = () => {
         </Images>
         <DeleteContent>
           <DeleteHead className="delete-head">Error </DeleteHead>
-          <DeleteInfo>
-            Action could’t be completed. Click ‘Ok’ to go back
-          </DeleteInfo>
-          <DelButton type="submit">Ok</DelButton>
+          <DeleteInfo>Action could’t be completed. Click ‘Ok’ to go back</DeleteInfo>
+          <DelButton type="submit" onClick={() => dispatch(deleteErrorAction())}>
+            Ok
+          </DelButton>
         </DeleteContent>
       </DeleteModal>
     </FadedBg>

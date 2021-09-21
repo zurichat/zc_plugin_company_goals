@@ -10,13 +10,16 @@ import MobilePrivate from '../Dropdown/MobilePrivate';
 import InnerNav from '../goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
-import ExportReport from '../Modal/ExportReport';
+
+//import ExportReport from 'components/Modal/ExportModal/ExportReport';
+
 import { getGoals } from '../../redux/showGoalSlice';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 function Mainside() {
@@ -53,10 +56,9 @@ function Mainside() {
             status === 'success' &&
               hasGoal &&
               goals.data.map((goal, i) => {
-                return <GoalItem {...goals} />;
+                return <GoalItem goalData={goals} key={goals.room_id}/>;
               })
           }
-          <GoalItem {...goals} />
           {status === 'failed' && (
             <p>
               {/* A button might be here to retry and this errorMessage will be in the error UI*/}
