@@ -95,7 +95,7 @@ exports.createGoal = async (req, res, next) => {
     goalName: title,
     description: 'Your team and you have within the stipulated time to achieve this goal.',
     createdAt: Date.now(),
-    color: 'blue',
+    colour: 'blue',
     isRead: false,
     id: '',
   };
@@ -169,7 +169,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
     goalName: goals.data.data.title,
     description: `The goal "${goals.data.data.title}" has been updated `,
     createdAt: Date.now(),
-    color: 'green',
+    colour: 'green',
     isRead: false,
     id: '',
   };
@@ -264,7 +264,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     goalName: goal.data.data.title,
     description: `The goal "${goal.data.data.title}" has been deleted `,
     createdAt: Date.now(),
-    color: 'red',
+    colour: 'red',
     isRead: false,
     id: '',
   };
@@ -328,7 +328,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
         goalName: data.title,
         description: 'The goal has been assigned',
         createdAt: Date.now(),
-        color: 'blue',
+        colour: 'blue',
         isRead: false,
         id: '',
       };
@@ -375,7 +375,7 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     goalName: goalRoom[0].goal_name,
     description: `The goal "${goalRoom[0].goal_name}" has removed an assignee `,
     createdAt: Date.now(),
-    color: 'red',
+    colour: 'red',
     isRead: false,
     id: '',
   };
