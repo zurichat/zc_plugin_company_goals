@@ -42,7 +42,7 @@ if(process.env.NODE_ENV === 'production')
 }
 else
 {
-  const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
   const corsOptions = {
     origin(origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
