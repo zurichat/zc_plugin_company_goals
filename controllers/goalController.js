@@ -32,10 +32,19 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
   logger.info(`Started getting all goals for the organization: ${orgId}`);
   // Search for all Goals
-  const goals = await findAll('goals', orgId);
 
-  if (goals.data.status === 200) {
-    res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+  try {
+    const goals = await findAll('goals', orgId);
+
+    if (goals.data.data === null || goals.data.data.length < 1) {
+      return res.status(200).json({ message: 'success', data: [] });
+    }
+
+    if (goals.data.status === 200) {
+      return res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+    }
+  } catch (error) {
+    if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
   }
 });
 
