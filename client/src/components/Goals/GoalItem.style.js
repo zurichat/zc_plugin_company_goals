@@ -44,7 +44,7 @@ export const GoalTitle = styled.span`
 `;
 
 export const GoalTagsContainer = styled.div`
-//Potential styles will come here
+  //Potential styles will come here
 `;
 
 export const GoalTags = styled.span`
@@ -79,7 +79,7 @@ export const ProgressDetailsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 0.8rem;
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     width: max-content;
   }
 `;
@@ -128,7 +128,7 @@ export const Likes = styled.span`
 `;
 
 export const MoreOptions = styled.div`
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
   cursor: pointer;
   height: 1.14rem;
   margin-left: 2rem;
@@ -139,5 +139,35 @@ export const MoreOptions = styled.div`
     position: absolute;
     right: 12rem;
     top: 2.5rem;
+  }
+`;
+
+export const GoalDropDown = styled.ul`
+  position: absolute;
+  top: 4rem;
+  right: 1rem;
+  background-color: #ffffff;
+  height: 140px;
+  width: 100px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 45px;
+  border-radius: 3px;
+  padding: 14px;
+  font-size: 13px;
+  list-style: none;
+  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
+  z-index: 100;
+  color: #616061;
+
+  button {
+    border: none;
+    background-color: transparent;
+    &:hover {
+      color: #f44336;
+    }
+  }
+
+  li {
+    margin-bottom: 1rem;
   }
 `;

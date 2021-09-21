@@ -29,23 +29,8 @@ const Header = () => {
     <>
       <MVContain>
         <Missions />
-        <CollapseButton
-          bgColor="#00b87c"
-          top="50%"
-          right="5.8%"
-          rstop="24%"
-          rsright="3%"
-          display="none"
-          rsdisplay="block"
-          onClick={collapseInput}
-        >
-          <img src={arrDown} alt="Arrow-down" />
-        </CollapseButton>
         <Div>
           <DisplayOrganizationVision />
-          <CollapseButton bgColor="#00b87c" top="50%" right="5.8%" rstop="68%" rsright="3%" onClick={collapseInput}>
-            <img src={arrDown} alt="Arrow-down" />
-          </CollapseButton>
         </Div>
       </MVContain>
     </>
@@ -60,31 +45,12 @@ const MVContain = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2.7rem 0.3rem 0.5rem 0.2rem;
+  top: 3rem;
+  margin-bottom: 4.64rem;
 
   @media only screen and (max-width: 420px) {
     flex-direction: column;
     padding-top: 1rem;
-  }
-`;
-const CollapseButton = styled.button`
-  position: absolute;
-  display: ${(props) => props.display};
-  width: 60px;
-  height: 61px;
-  color: #fff;
-  border: none;
-  top: ${(props) => props.top};
-  right: ${(props) => props.right};
-  background: ${(props) => props.bgColor};
-  border-radius: 0px 6px 0px 0px;
-  cursor: pointer;
-
-  @media only screen and (max-width: 420px) {
-    display: ${(props) => props.rsdisplay};
-    width: 40px;
-    height: 45px;
-    top: ${(props) => props.rstop};
-    right: ${(props) => props.rsright};
   }
 `;
 const Div = styled.div`
