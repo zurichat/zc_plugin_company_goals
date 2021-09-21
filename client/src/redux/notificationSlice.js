@@ -73,6 +73,12 @@ export const notificationSlice = createSlice({
   initialState: {
     notifications: [],
   },
+  reducers: {
+    addNotificationFromRTC: (state, { payload }) => {
+      state.notifications.unshift(payload);
+      return state;
+    },
+  },
   extraReducers: {
     [getNotifications.fulfilled]: (state, { payload }) => {
       const notifications = payload.notifications.data == null ? [] : payload.notifications.data;
@@ -96,6 +102,8 @@ export const notificationSlice = createSlice({
     },
   },
 });
+
+export const { addNotificationFromRTC } = notificationSlice.actions;
 
 export const selectNotifications = (state) => state.notifications.notifications;
 

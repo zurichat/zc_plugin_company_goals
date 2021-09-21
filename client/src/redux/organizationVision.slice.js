@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getVisionSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+
+export const fetchOrgVision = createAsyncThunk('showVision/getVision', async () => {
+  const response = await axios.get('http://localhost:4000/api/v1/vision/6145d099285e4a184020742e');
+  return response.data;
+});
+
 export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatus', async (visionText) => {
   console.log(visionText);
   /**
@@ -14,12 +19,11 @@ export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatu
 
   const response = await axios({
     method: 'patch',
-    url: `/api/v1/vision/${organizationId}/`,
+    url: `http://localhost:4000/api/v1/vision/${organizationId}/`,
     data: { vision: visionText },
     headers: {
       Authorization: `Bearer ${token} ${organizationId}`,
     },
-    withCredentials: true,
   });
 
   return response.data;
@@ -29,8 +33,9 @@ export const editVisionSlice = createSlice({
   name: 'editVision',
   initialState: {
     showVisionModal: false,
-    vision: null,
-    loading: false,
+    visionText: '',
+    status: null,
+    errorMessage: '',
   },
   reducers: {
     showEditVisionModal: (state) => {
@@ -42,23 +47,34 @@ export const editVisionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchOrgVision.pending, (state) => {
+      state.status = 'loading';
+    });
+    builder.addCase(fetchOrgVision.fulfilled, (state, { payload }) => {
+      state.status = 'success';
+      state.visionText = payload.payload.vision;
+    });
+    builder.addCase(fetchOrgVision.rejected, (state) => {
+      state.errorMessage = 'Failed to fetch vision';
+      state.status = 'failure';
+    });
     builder.addCase(updateOrgVision.fulfilled, (state, { payload }) => {
       console.log('success-edit-vison', payload);
 
-      state.vision = payload.update;
+      state.visionText = payload.payload;
       state.showVisionModal = !state.showVisionModal;
-      state.loading = false;
+      state.status = 'success';
       return state;
     });
     builder.addCase(updateOrgVision.rejected, (state, action) => {
       console.log('Error!!!', action);
       alert(action.error.message);
-      state.loading = false;
+      state.status = 'failure';
       return state;
     });
     builder.addCase(updateOrgVision.pending, (state, action) => {
       console.log('loading...', action);
-      state.loading = true;
+      state.status = 'loading';
       return state;
     });
   },

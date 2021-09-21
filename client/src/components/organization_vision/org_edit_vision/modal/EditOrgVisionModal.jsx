@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-import { showEditVisionModal, updateOrgVision } from '../../../../redux/organizationVision.slice';
+import { updateOrgVision } from '../../../../redux/organizationVision.slice';
 import {
   EditVisionModal,
   EditVisionContainer,
@@ -16,10 +15,12 @@ import {
 
 const OrganizationVisionEditModal = () => {
   const dispatch = useDispatch();
-  const showVisionModal = useSelector(({ organizationVision }) => organizationVision.showVisionModal);
-  const vision = useSelector(({ organizationVision }) => organizationVision.vision);
-  const loading = useSelector(({ organizationVision }) => organizationVision.loading);
+  const { visionText, status, showVisionModal } = useSelector((state) => state.organizationVision);
   const [editText, setEditText] = useState('');
+
+  useEffect(() => {
+    setEditText(visionText);
+  }, [visionText]);
 
   const dispatchAction = () => {
     if (editText) {
@@ -43,16 +44,16 @@ const OrganizationVisionEditModal = () => {
           <Header id="transition-modal-title">Edit Vision</Header>
           <TextBox placeholder="Click to edit..." value={editText} onChange={(e) => setEditText(e.target.value)} />
           <ActionButtonsContainer>
-            <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
+            {/* <ActionCancelEditVisionButton disabled={loading} onClick={() => dispatch(showEditVisionModal())}>
               Cancel
-            </ActionCancelEditVisionButton>
+            </ActionCancelEditVisionButton> */}
             <ActionButton
-              disabled={loading}
+              disabled={status === 'loading'}
               onClick={() => {
                 dispatchAction();
               }}
             >
-              {loading ? 'please wait' : 'save'}
+              {status === 'loading' ? 'please wait' : 'save'}
             </ActionButton>
           </ActionButtonsContainer>
         </EditVisionContainer>
