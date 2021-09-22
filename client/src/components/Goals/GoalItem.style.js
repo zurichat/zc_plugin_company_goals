@@ -11,6 +11,7 @@ export const useStyles = makeStyles(() => ({
     padding: '30px 20px',
     height: '114px',
     fontFamily: 'Lato',
+    position: 'relative',
     '@media (max-width: 768px)': {
       flexDirection: 'column',
       height: '17%',
@@ -144,7 +145,7 @@ export const MoreOptions = styled.div`
 
 export const GoalDropDown = styled.ul`
   position: absolute;
-  top: 4rem;
+  top: 3.5rem;
   right: 1rem;
   background-color: #ffffff;
   height: 140px;

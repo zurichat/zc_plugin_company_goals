@@ -31,6 +31,7 @@ export const Para = styled.p`
 export const CssRadio = withStyles({
   root: {
     // color: '#393939',
+    paddingTop: '18px',
     '&$checked': {
       color: '#00b87c',
     },

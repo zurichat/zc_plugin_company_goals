@@ -4,6 +4,8 @@ import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, G
 
 const GoalFolder = () => {
   const [valueState, setValueState] = useState('all');
+  localStorage.setItem('goalFolder', valueState);
+
   const radioChange = (event) => {
     setValueState(event.target.value);
   };
