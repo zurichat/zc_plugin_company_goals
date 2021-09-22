@@ -30,9 +30,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 5, 4),
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: '100%',
-      overflow: 'none',
+      width: '100vw',
+      height: '100vh',
     },
     overflowX: 'hidden',
     overflowY: 'auto',
