@@ -32,9 +32,6 @@ components:
         _id:
           type: string
           example: '613ddbd3e4010959c8dc0c5e'
-        access:
-          type: string
-          example: 'zuris workspace'
         category:
           type: string
           example: '#backend'
@@ -44,39 +41,27 @@ components:
         description:
           type: string
           example: 'test goal'
-        goal_start:
+        start_date:
           type: date
           example: '2020-10-02'
-        goal_end:
+        due_date:
           type: date
           example: '2020-10-02'
-        goal_folder:
+        goal_type:
           type: string
           example: 'annual'
         goal_name:
           type: string
           example: 'public room'
-        milestone1:
-          type: number
-          example: 1
-        milestone2:
-          type: number
-          example: 6
-        milestone3:
-          type: number
-          example: 9
-        organization_id:
-          type: string
-          example: '613dce9ae4010959c8dc0c58'
+        isComplete:
+          type: boolean
+          example: true
+        isExpired:
+          type: boolean
+          example: true
         room_id:
           type: string
           example: 'b66e5fe5-2c66-413c-b2fc-a38d6ab76330'
-        start:
-          type: number
-          example: 1
-        target:
-          type: number
-          example: 3
   responses:
     BadRequest:
       description: 'Bad request'
@@ -153,14 +138,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                goal_name: 
-                  type: string
-                  example: 'Test goals'
-                category:
-                  type: string
-                  example: 'new'
+              $ref: '#/components/schemas/SingleGoal'
       responses:
         '200':
           $ref: '#/components/responses/200GoalSuccess'
