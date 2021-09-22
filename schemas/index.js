@@ -17,57 +17,49 @@ exports.roomSchema = Joi.object({
 
 // user schema
 exports.userSchema = Joi.object({
-    room_id: Joi.string().required().messages({
-      'any.required': 'room id is required',
-    }),
-    user_id: Joi.string().required().messages({
-      'any.required': 'user id is required',
-    }),
+  room_id: Joi.string().required().messages({
+    'any.required': 'room id is required',
+  }),
+  user_id: Joi.string().required().messages({
+    'any.required': 'user id is required',
+  }),
 });
 
 // goals schema
-exports.goalsSchema = Joi.object({
-  goal_name: Joi.string().required().messages({ 'any.required': 'goal name is required' }),
-  createdBy: Joi.string().required().messages({ 'any.required': 'owner name is required' }),
-  access: Joi.string()
-    .valid(`zuri's workspace`, 'private')
-    .required()
-    .messages({ 'any.required': 'goal access must be defined' }),
-  goal_folder: Joi.string()
-    .valid(`none`, `annual`, `quarterly`)
+exports.goalSchema = Joi.object({
+  goal_name: Joi.string().required().messages({
+    'any.required': 'goal name is required'
+  }),
+  description: Joi.string().optional(),
+  start_date: Joi.date().required().messages({
+    'any.required': 'Start date is required'
+  }),
+  due_date: Joi.date().required().messages({
+    'any.required': 'Due date is required'
+  }),
+  goal_type: Joi.string()
+    .valid(`none`, `annual`, `quarterly`, `daily`, `monthly`)
     .default(`none`)
     .required()
-    .messages({ 'any.required': 'goal folder must be added' }),
-  goal_start: Joi.date().required().messages({ 'any.required': 'start date is required' }),
-  goal_end: Joi.date().required().messages({ 'any.required': 'end date is required' }),
-  category: Joi.string().optional(),
-  description: Joi.string().optional(),
-  target_type: Joi.string().valid(`number`, `currency`).optional(),
-  currency_unit: Joi.string().optional(),
-  start: Joi.alternatives().try(Joi.string(), Joi.number()).optional(),
-  target: Joi.alternatives().try(Joi.string(), Joi.number()).optional(),
-  milestone1: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
-  milestone2: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
-  milestone3: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
-  milestone4: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
-  goal_priority: Joi.string()
-    .valid(`Low`, `Medium`, `High`, `Intermediate`)
-    .required()
-    .messages({ 'any.required': 'goal priority must be inputed' })
+    .messages({
+      'any.required': 'goal type must be added'
+    }),
+  category: Joi.string().required(),
+
 });
 
 // mission schema
 exports.missionSchema = Joi.object({
-    title: Joi.string().optional(),
-    description: Joi.string().required(),
+  title: Joi.string().optional(),
+  description: Joi.string().required(),
 });
-  
+
 // vision schema
 exports.visionSchema = Joi.object({
-    title: Joi.string().optional(),
-    description: Joi.string().required(),
+  title: Joi.string().optional(),
+  description: Joi.string().required(),
 });
-  
+
 // likeGoal schema
 exports.likeGoalSchema = Joi.object({
   goalId: Joi.string().required().messages({
@@ -93,10 +85,13 @@ exports.getGoalLikesSchema = Joi.object({
 
 // notifications schema
 exports.notificationSchema = Joi.object({
-  userId: Joi.string().required(),
-  orgId: Joi.string().required(),
+  user_id: Joi.string().required(),
+  org_id: Joi.string().required(),
+  goal_id: Joi.string().required(),
   header: Joi.string().required(),
   goalName: Joi.string().required(),
+  isRead: Joi.boolean().required(),
+  colour: Joi.string().required(),
   description: Joi.string().required(),
-  createdAt: Joi.date().timestamp('unix')
+  createdAt: Joi.date().timestamp()
 })

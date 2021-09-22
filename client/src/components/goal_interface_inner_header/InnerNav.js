@@ -14,20 +14,14 @@ const useStyles = makeStyles({
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: '12px',
-    lineHeight: '61px',
+    lineHeight: '20px',
     fontFamily: 'Lato',
-    letterSpacing: '0.02em',
-  },
-  contain: {
-    // background: '#FFFFFF',
-    boxShadow: '-2px -2px 3px rgba(149, 149, 149, 0.25), 2px 2px 3px rgba(149, 149, 149, 0.25)',
-    borderRadius: '5px',
-    width: '170px',
-    padding: '12px 16px 27px 16px',
+    textAlign: 'center',
+    padding: '1rem 4rem 1.5rem 1.5rem',
   },
 });
 
-const options = ['Most Recent', 'Due Date', 'Progress', 'Category', 'Visibility', 'Timeline'];
+const options = ['Most Recent', 'Due Date', 'Progress', 'Category', 'Timeline'];
 const InnerNav = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,13 +55,15 @@ const InnerNav = () => {
           >
             <ListItemText
               style={{
-                color: '#999999',
-                fontSize: '12px',
+                color: '#B0AFB0',
+                fontSize: '13px !important',
                 fontWeight: 'normal',
                 lineHeight: '28px',
                 fontStyle: 'normal',
+                marginRight: '20px',
+                marginLeft: '0',
               }}
-              secondary={options[selectedIndex]}
+              primary={options[selectedIndex]}
             />
           </ListItem>
         </List>

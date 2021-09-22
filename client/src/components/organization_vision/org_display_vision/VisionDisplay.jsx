@@ -1,52 +1,29 @@
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
-
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useStyles } from '../../../hooks/screenSize';
-import { showEditVisionModal } from '../../../redux/organizationVision.slice';
+import { fetchOrgVision, showEditVisionModal } from '../../../redux/organizationVision.slice';
+import { Editbutton, Title, Box, VisionField } from './vision.style';
+import editImg from './visionAsset/editImg.png';
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
-  const visionText = useSelector(({ organizationVision }) => organizationVision.vision);
-  const classes = useStyles();
+  const { visionText } = useSelector((state) => state.organizationVision);
+
+  useEffect(() => {
+    dispatch(fetchOrgVision());
+  }, []);
+
   return (
-    <Box>
-      <Box
-        container
-        className={classes.root.work}
-        display="flex"
-        style={{
-          fontWeight: 'bold',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '3px solid #00B87C',
-        }}
-      >
-        <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-        <div>
-          {true && (
-            <Button
-              startIcon={<AddIcon />}
-              style={{ fontWeight: 'bold' }}
-              onClick={() => dispatch(showEditVisionModal())}
-            >
-              Edit Vision
-            </Button>
-          )}
-          {/* <span>
-                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
-                  <ExpandLessIcon />
-                </Button>
-              </span> */}
-        </div>
+    <>
+      <Title top="15%" right="45%" rsTop="50%" rsRight="78%" color="#000000">
+        Vision
+      </Title>
+      <Box className="box">
+        <VisionField className="visionInput">{visionText || 'Click to add a vision'}</VisionField>
+        <Editbutton className="editbutton" right="7%" rsRight="16%" onClick={() => dispatch(showEditVisionModal())}>
+          <img src={editImg} alt="edit" />
+        </Editbutton>
       </Box>
-      <Typography className={classes.root} style={{ padding: 12, backgroundColor: 'white' }}>
-        {visionText || 'Tech Hub Builder'}
-      </Typography>
-    </Box>
+    </>
   );
 };
 
