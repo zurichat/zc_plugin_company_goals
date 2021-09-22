@@ -29,7 +29,7 @@ export const SaveBtn = styled.button`
   border: none;
   background-color: rgba(0, 184, 124, 1);
   color: white;
-  padding: 15px 30px;
+  padding: 8px 45.5px;
   border-radius: 6px;
   cursor: pointer;
   float: right;
@@ -53,11 +53,10 @@ export const ModalBody = styled.div`
 export const Paper = styled.div`
   background-color: #f6f6f6;
   border: none;
-  border-radius: 5px;
+  border-radius: 0px;
   padding: 35px;
   font-family: Lato;
   width: 720px;
-  height: 430px;
   max-width: 100%;
   margin: 1rem;
   box-sizing: border-box;
