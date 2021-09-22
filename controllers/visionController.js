@@ -5,7 +5,7 @@ const { request, response } = require('express');
 const { insertOne, find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-// const { publish } = require('./centrifugoController');
+ const { publish } = require('./centrifugoController');
 
 /**
  * Get an organization's vision,
@@ -87,7 +87,7 @@ const updateVision = async (req, res, next) => {
     if (match.matched_documents === 0) {
       return next(new AppError('No matching documents were found', 404));
     }
-
+    await publish('visionUpdate',vision)
     /*
     Just leave it like this please
 
