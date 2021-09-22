@@ -5,7 +5,7 @@ const { request, response } = require('express');
 const { insertOne, find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const { publish } = require('./centrifugoController');
+// const { publish } = require('./centrifugoController');
 
 /**
  * Get an organization's vision,
@@ -88,20 +88,24 @@ const updateVision = async (req, res, next) => {
       return next(new AppError('No matching documents were found', 404));
     }
 
+    /*
+    Just leave it like this please
+
     const message = {
       header: 'Your vision has been updated',
       goalName: vision,
       message: `The vision has been updated to ${vision} `,
       createdAt: Date.now(),
-      color: 'green',
+      colour: 'green',
       isRead: false,
-      _id: '',
+      id: '',
     };
 
     const messageId = await insertOne('goalEvents', message, organization_id);
-    message._id = messageId.data.object_id;
+    message.id = messageId.data.object_id;
 
-    await publish('notifications', message);
+    await publish('notifications', { ...message, _id: message.id });
+    */
 
     return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
