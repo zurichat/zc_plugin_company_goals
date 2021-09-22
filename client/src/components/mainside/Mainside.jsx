@@ -3,19 +3,16 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
-<<<<<<< HEAD
-import Timeline from 'components/Sortoptions/Timeline';
-import Category from 'components/Sortoptions/Category';
-import Date from 'components/Sortoptions/Date';
-import Progress from 'components/Sortoptions/Progress';
+import Timeline from '../Sortoptions/Timeline';
+import Category from '../Sortoptions/Category';
+import Date from '../Sortoptions/Date';
+import Progress from '../Sortoptions/Progress';
 import MenuOption from '../Sortoptions/MenuOption';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
-=======
-import Design from '../Dropdown/Design';
-import MenuOption from '../Dropdown/MenuOption';
-import Mobile from '../Dropdown/Mobile';
-import MobilePrivate from '../Dropdown/MobilePrivate';
->>>>>>> 5fe3f9a0aceb716ca3d23f728911e9ff42ba334c
+// import Design from '../Dropdown/Design';
+// import MenuOption from '../Dropdown/MenuOption';
+// import Mobile from '../Dropdown/Mobile';
+// import MobilePrivate from '../Dropdown/MobilePrivate';
 import InnerNav from '../goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
@@ -65,7 +62,7 @@ function Mainside() {
             status === 'success' &&
               hasGoal &&
               goals.data.map((goal, i) => {
-                return <GoalItem goalData={goals} key={goals.room_id}/>;
+                return <GoalItem goalData={goals} key={goals.room_id} />;
               })
           }
           {status === 'failed' && (
@@ -87,13 +84,12 @@ function Mainside() {
       </Main>
       {/* <ExportReport /> */}
       {/* the dropdown for the main menu and others */}
-    
+
       <MenuOption />
       <Category />
       <Date />
       <Progress />
       <Timeline />
-      
     </>
   );
 }
