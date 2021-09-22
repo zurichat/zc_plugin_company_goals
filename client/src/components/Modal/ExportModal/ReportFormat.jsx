@@ -4,6 +4,8 @@ import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, G
 
 const ReportFormat = () => {
   const [valueState, setValueState] = useState('pdf');
+  localStorage.setItem('reportFolder', valueState);
+
   const radioChange = (event) => {
     setValueState(event.target.value);
   };

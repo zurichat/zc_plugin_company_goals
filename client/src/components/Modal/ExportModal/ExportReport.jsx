@@ -30,9 +30,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 5, 4),
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: '100%',
-      overflow: 'none',
+      width: '100vw',
+      height: '100vh',
     },
     overflowX: 'hidden',
     overflowY: 'auto',
@@ -62,6 +61,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleModal() {
+  const getGoalFolder = localStorage.getItem('goalFolder');
+  const getReportFolder = localStorage.getItem('reportFolder');
+  const getReportType = localStorage.getItem('reportType');
+
+  const exportData = {
+    getGoalFolder,
+    getReportFolder,
+    getReportType,
+  };
+
+  const exportDataJSON = JSON.stringify(exportData);
+
+  localStorage.setItem('exportData', exportDataJSON);
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
