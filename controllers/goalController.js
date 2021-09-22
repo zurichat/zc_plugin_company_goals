@@ -164,7 +164,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   const goalId = req.params.id;
   const { org_id: orgId } = req.query;
 
-  const goals = await find('goals', { _id: goalId }, orgId);
+  const goals = await findById('goals', { _id: goalId }, orgId);
  
   // Then, send update to zuri core
   logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);

@@ -11,14 +11,19 @@ const {
   likeGoal,
   getGoalLikes,
   checkUserLike,
-  removeAssigned
+  removeAssigned,
 } = require('../controllers/goalController');
 
 const router = Router();
 
+<<<<<<< HEAD
 
 router.post('/', createGoal)
 router.post('/assign', assignGoal)
+=======
+router.post('/', createGoal);
+router.post('/assign', assignGoal);
+>>>>>>> c3ee483396871a855240f3f2d6d60585554935ed
 router.get('/', getAllGoals);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
