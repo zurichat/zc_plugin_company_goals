@@ -8,6 +8,7 @@ const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
 const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 const { publish } = require('./centrifugoController');
+const { createNotification } = require('./notificationController');
 
 // Global Variables
 const collectionName = 'mission';
@@ -67,6 +68,7 @@ exports.updateMission = catchAsync(async (req, res, next) => {
     [prevMission] = prevMission.data.data;
     const updatedMission = await updateOne(collectionName, mission, {}, organization_id, prevMission._id);
 
+    // await createNotification(user_id, organization_id, '', '', 'assignGoal');
     const message = {
       header: 'Your mission has been updated',
       goalName: mission,

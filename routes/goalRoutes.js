@@ -16,8 +16,9 @@ const {
 
 const router = Router();
 
-router.post('/', createGoal);
-router.post('/assign', assignGoal);
+
+router.post('/', createGoal)
+router.post('/assign', assignGoal)
 router.get('/', getAllGoals);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);

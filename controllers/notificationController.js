@@ -13,6 +13,7 @@ const {
 const {
     notificationSchema
 } = require('../schemas');
+const { publish } = require('./centrifugoController');
 
 
 const notificationStructure = {
@@ -58,8 +59,10 @@ exports.createNotification = async (userId, orgId, goalId, goalName, funcName) =
             description: notificationStructure[funcName][1],
             createdAt: Date.now()
         };
+
         await notificationSchema.validateAsync(notification);
-        await insertOne('notifications', notification, orgId);
+        const Notification = await insertOne('notifications', notification, orgId);
+        await publish('notifications', { ...notification, _id: Notification.data.data.object_id })
     } catch (error) {
         return res.status(400).json(error)
     }
@@ -91,8 +94,8 @@ exports.getUserNotifications = async (req, res) => {
             user_id: userId
         }, orgId);
 
-        if (notifications.data.data == null) {
-            res.status(200).json({
+        if (notifications.data.data == null || notifications.data.data.length < 1) {
+            return res.status(200).json({
                 status: 200,
                 // eslint-disable-next-line quotes
                 message: "You don't have any notifications."
@@ -100,7 +103,7 @@ exports.getUserNotifications = async (req, res) => {
         }
 
         // Returning Response
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'success',
             data: notifications.data.data
@@ -155,21 +158,19 @@ exports.updateNotification = async (req, res) => {
         isRead: !status
     }
     try {
-        await updateOne('notifications', update, {
-            _id: notificationId
-        }, orgId, notificationId)
+        await updateOne('notifications', update, {}, orgId, notificationId)
 
         const Notification = await find('notifications', {
             _id: notificationId
         }, orgId)
 
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'success',
             data: Notification.data.data
         })
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             // eslint-disable-next-line quotes
             message: "Unable to update this notification"
@@ -209,14 +210,14 @@ exports.updateNotifications = async (req, res) => {
 
         const Notifications = await find('notifications', filter, orgId)
         
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'success',
             data: Notifications.data.data
         })
 
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Unable to mark all notifications read.'
         })
@@ -253,12 +254,12 @@ exports.deleteNotification = async (req, res) => {
     try {
         await deleteOne('notifications', orgId, notificationId)
 
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'Notification successfully deleted.'
         })
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Unable to delete this notification.'
         })
@@ -274,13 +275,13 @@ exports.getAllNotifications = async (req, res) => {
         const notifications = await findAll('notifications', orgId);
 
         // Returning Response
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'success',
             data: notifications.data.data
         })
     } catch (error) {
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: "You don't have any notifications."
         })
