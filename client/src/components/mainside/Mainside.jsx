@@ -90,7 +90,7 @@ function Mainside() {
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
-          <HistoryList />
+          {/* <HistoryList /> */}
           {/* <Goal primary>
           <Report />
           <Notification />
