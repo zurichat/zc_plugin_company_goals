@@ -4,11 +4,21 @@
 /* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
-const { findAll, insertOne, updateOne } = require('../db/databaseHelper');
-const { missionSchema } = require('../schemas');
+const {
+  findAll,
+  insertOne,
+  updateOne
+} = require('../db/databaseHelper');
+const {
+  missionSchema
+} = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const { publish } = require('./centrifugoController');
-const { createNotification } = require('./notificationController');
+const {
+  publish
+} = require('./centrifugoController');
+const {
+  createNotification
+} = require('./notificationController');
 
 // Global Variables
 const collectionName = 'mission';
@@ -34,7 +44,9 @@ const collectionName = 'mission';
 
 // get mission for an organization
 exports.getMission = catchAsync(async (req, res, next) => {
-  const { organization_id } = req.params;
+  const {
+    organization_id
+  } = req.params;
 
   // check if the organization has a mission statement
   let mission;
@@ -58,7 +70,9 @@ exports.getMission = catchAsync(async (req, res, next) => {
 
 exports.updateMission = catchAsync(async (req, res, next) => {
   const mission = req.body;
-  const { organization_id } = req.params;
+  const {
+    organization_id
+  } = req.params;
 
   // if (role !=='admin') {
   //   res.status(401).json({message: 'You are not authorized to perform this action'})
@@ -69,20 +83,22 @@ exports.updateMission = catchAsync(async (req, res, next) => {
     const updatedMission = await updateOne(collectionName, mission, {}, organization_id, prevMission._id);
 
     // await createNotification(user_id, organization_id, '', '', 'assignGoal');
-    const message = {
-      header: 'Your mission has been updated',
-      goalName: mission,
-      description: `The mission has been updated to ${mission} `,
-      createdAt: Date.now(),
-      colour: 'green',
-      isRead: false,
-      id: '',
-    };
 
-    const messageId = await insertOne('goalEvents', message, organization_id);
-    message.id = messageId.data.object_id;
 
-    await publish('notifications', { ...message, _id: message.id });
+    // const message = {
+    //   header: 'Your mission has been updated',
+    //   goalName: mission,
+    //   description: `The mission has been updated to ${mission} `,
+    //   createdAt: Date.now(),
+    //   colour: 'green',
+    //   isRead: false,
+    //   id: '',
+    // };
+
+    // const messageId = await insertOne('goalEvents', message, organization_id);
+    // message.id = messageId.data.object_id;
+
+    // await publish('notifications', { ...message, _id: message.id });
 
     return res.status(200).json({
       message: 'Update Sucessful',

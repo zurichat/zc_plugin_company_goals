@@ -6,6 +6,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+const axios = require('axios')
 const { v4: uuidv4 } = require('uuid');
 const {
   find,
@@ -268,6 +269,18 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 exports.assignGoal = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
 
+  // try {
+  //   let organization = await axios({
+  //     method: 'get',
+  //     url: `https://api.zuri.chat/organizations/${org}/members`,
+  //   });
+  
+  //   organization = organization.data.data;
+  //   console.log(organization)
+  // } catch (error) {
+  //   console.log(error)
+  // }
+
   // check that the room_id is valid
   const room = await find('goals', { room_id }, org);
 
@@ -357,20 +370,6 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   const goalRoom = room.data.data;
   await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal');
   // Please don't delete the above line of code. in Jesus name. It doesn't affect this controller.
-
-  const message = {
-    header: 'Goal has removed an assignee',
-    goalName: goalRoom[0].goal_name,
-    description: `The goal "${goalRoom[0].goal_name}" has removed an assignee `,
-    createdAt: Date.now(),
-    colour: 'red',
-    isRead: false,
-    id: '',
-  };
-
-  const messageId = await insertOne('goalEvents', message, org);
-  message.id = messageId.data.object_id;
-  await publish('notifications', { ...message, _id: message.id });
 
   res.status(201).json({
     status: 'success',
