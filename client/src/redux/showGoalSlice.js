@@ -1,9 +1,11 @@
+/* eslint-disable no-param-reassign */
 import { createSlice ,createAsyncThunk} from '@reduxjs/toolkit';
 
      export const getGoals = createAsyncThunk('showGoal/getGoals',async () => {
-       return fetch('https://goals.zuri.chat/api/v1/goals?org_id=200').then(res => 
-         res.json()
-       )
+       return fetch('https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e').then(
+         (res) => res.json()
+         // console.log(res.json(), "response")
+       );
      })
 
 export const showGoalSlice = createSlice({
