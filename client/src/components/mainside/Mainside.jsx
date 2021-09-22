@@ -9,6 +9,7 @@ import Date from '../Sortoptions/Date';
 import Progress from '../Sortoptions/Progress';
 import MenuOption from '../Sortoptions/MenuOption';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import Error from '../error/Error';
 // import Design from '../Dropdown/Design';
 // import MenuOption from '../Dropdown/MenuOption';
 // import Mobile from '../Dropdown/Mobile';
@@ -52,6 +53,7 @@ function Mainside() {
             <InnerNav />
             {status === 'loading' && <Loader />}
             {status === 'success' && !hasGoal && <EmptyGoal />}
+            {status === 'failed' && <Error errorMessage={errorMessage} />}
             {
               /* //PS => The repition of the Goal Item is only temporary */
               status === 'success' &&
@@ -80,7 +82,7 @@ function Mainside() {
             //   })
           }
           {/* {status === 'failed' && (
-            <p> */}
+            <Error/> */}
           {/* A button might be here to retry and this errorMessage will be in the error UI*/}
           {/* {errorMessage}
             </p>
