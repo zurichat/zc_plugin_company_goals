@@ -4,6 +4,8 @@ import badge from '../../../Images/png/Frame 756.png';
 
 const ReportType = () => {
   const [valueState, setValueState] = useState('instantly');
+  localStorage.setItem('reportType', valueState);
+
   const radioChange = (event) => {
     setValueState(event.target.value);
   };
