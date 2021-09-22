@@ -73,7 +73,7 @@ app.use(
 app.use(cookieParser());
 
 // Data Sanitization against XSS
-// app.use(xss());
+app.use(xss());
 
 // Compress text sent to client
 app.use(compression());
