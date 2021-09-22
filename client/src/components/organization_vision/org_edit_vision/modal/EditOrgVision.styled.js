@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const EditVisionModal = styled(Dialog)`
   & .MuiDialog-paper {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 0px;
     margin: 0;
     background-color: #f6f6f6;
   }
@@ -25,12 +25,13 @@ export const EditVisionModal = styled(Dialog)`
   }
   @media (min-width: 40.75rem) {
     & .MuiDialog-paper {
-      width: 42rem;
+      width: 720px;
     }
   }
 `;
 export const EditVisionContainer = styled.form`
-  padding: 2.53rem 2.42rem;
+  ${'' /* padding: 2.53rem 2.42rem; */}
+  padding: 35px;
 `;
 export const Header = styled.h2`
   text-align: center;
@@ -62,7 +63,9 @@ export const ActionButton = styled(Button)`
   background-color: rgba(0, 184, 124, 1);
   color: white;
   text-transform: capitalize;
-  padding: 0.33rem 2rem;
+  border-radius: 6px;
+  padding: 4px 45px;
+  font-weight: normal;
   &:hover {
     background-color: rgba(0, 184, 124, 1);
   }
