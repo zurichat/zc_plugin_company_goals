@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveGoal } from '../../redux/newGoalSlice';
-//import createGoalSchema from './create-edit-goal.schema';
+import createGoalSchema from './create-edit-goal.schema';
 import {
   Goal,
   Form,
@@ -27,13 +27,14 @@ import { goalCreateEditDataApi } from './create-edit-goal.utils';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import { activateSnackbar } from '../../redux/snackbar.slice';
 import { useSWRConfig } from 'swr';
+import { resetGoalFormData } from '../../redux/organizationGoal.slice';
 
 const GoalForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
   const dispatch = useDispatch();
   const { mutate } = useSWRConfig();
-  const createAndEditGoalData = useSelector((state) => state.organizationCreateAndEditGoalData);
+  const { isEditing, goalFormData } = useSelector((state) => state.organizationCreateAndEditGoalData);
 
   return (
     <Goal>
@@ -41,12 +42,23 @@ const GoalForm = forwardRef((props) => {
         x{' '}
       </CloseButton>{' '}
       <Formik
-        //validationSchema={createGoalSchema}
-        initialValues={createAndEditGoalData}
+        validationSchema={createGoalSchema}
+        initialValues={goalFormData}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
-          if (false) {
-            console.log('editdone', values);
+          if (isEditing.status) {
+            try {
+              const editedGoal = await goalCreateEditDataApi.edit(isEditing.goalId, values);
+              dispatch(resetGoalFormData());
+              dispatch(toggleCreateGoalModalAction());
+              await mutate('getAllGoals');
+              dispatch(activateSnackbar({ content: 'Goal successfully edited 🎊', severity: 'success' }));
+              console.log('goal-edit-success', editedGoal);
+            } catch (err) {
+              setSubmitting(false);
+              dispatch(activateSnackbar({ content: 'Failed to edit your goal 😢', severity: 'error' }));
+              console.log('goal-edit-failure', err);
+            }
           } else {
             try {
               const createdGoal = await goalCreateEditDataApi.create(values);
@@ -70,7 +82,7 @@ const GoalForm = forwardRef((props) => {
                 {' '}
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-name">
-                  <MainTitle> Create Goal </MainTitle>
+                  <MainTitle> {isEditing.status ? 'Edit Goal' : 'Create Goal'}</MainTitle>
                   <GoalInfo fontSize="13px">
                     Goal setting helps in creating a pathway for achieving your long and short terms mission
                   </GoalInfo>
@@ -93,6 +105,7 @@ const GoalForm = forwardRef((props) => {
                     onChange={handleChange}
                   />
                 </label>{' '}
+                <span>{touched.goal_name && errors.goal_name}</span>
               </div>{' '}
             </Container>{' '}
             <Container>
@@ -101,10 +114,17 @@ const GoalForm = forwardRef((props) => {
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
                 <label htmlFor="goal-description">
                   <Wrap>
-                    <GoalTitle> Goal Description </GoalTitle> <GoalInfo fontSize="15px"> (Optional) </GoalInfo>{' '}
+                    <GoalTitle> Goal Description </GoalTitle>
                   </Wrap>{' '}
-                  <GoalInput type="text" id="goal-description" name="description" onChange={handleChange} />
+                  <GoalInput
+                    type="text"
+                    id="goal-description"
+                    name="description"
+                    value={values.description}
+                    onChange={handleChange}
+                  />
                 </label>
+                <span>{touched.description && errors.description}</span>
               </div>{' '}
             </Container>{' '}
             <Container>
@@ -125,6 +145,7 @@ const GoalForm = forwardRef((props) => {
                           <option value="quarterly"> Quaterly Goal</option>
                         </Select>
                       </label>
+                      <span>{touched.goal_type && errors.goal_type}</span>
                     </SelectDiv>
                     <SelectDiv>
                       <label htmlFor="goal-category">
@@ -134,6 +155,7 @@ const GoalForm = forwardRef((props) => {
                           <option value="marketing"> Marketing</option>
                         </Select>
                       </label>
+                      <span>{touched.category && errors.category}</span>
                     </SelectDiv>
                   </TargetContainerA>
                 </label>
@@ -186,9 +208,9 @@ const GoalForm = forwardRef((props) => {
                 </label>
               </div>{' '}
             </Container>{' '}
-            <CreateButton>
+            <CreateButton title={isSubmitting ? 'saving...' : ''}>
               <Button type="submit" buttonPadding="1rem 3rem" borderRadius="6px" disabled={isSubmitting}>
-                Create Goal{' '}
+                {isEditing.status ? 'Edit Goal' : 'Create Goal'}
               </Button>{' '}
             </CreateButton>{' '}
           </Form>

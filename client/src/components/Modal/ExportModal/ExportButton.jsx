@@ -20,13 +20,23 @@ const Button = styled.button`
 `;
 
 const ExportButton = () => {
+  const getLocalData = localStorage.getItem('exportData');
+  const exportData = JSON.parse(getLocalData);
+  console.log(exportData);
+
   const submitExportHandler = async () => {
     try {
       const data = await fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e');
       const response = await data.json();
       // console.log(response.data);
-      generatePDF(response.data);
-      // generateEXCEL(response.data);
+
+      if (exportData.getReportFolder === 'excel') {
+        generateEXCEL(response.data);
+      } else if (exportData.getReportFolder === 'pdf') {
+        generatePDF(response.data);
+      } else {
+        return null;
+      }
     } catch (err) {
       // console.log('err.message');
     }

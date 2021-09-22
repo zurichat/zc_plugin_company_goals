@@ -113,6 +113,13 @@ export const Button = styled.button`
   padding: ${(props) => props.buttonPadding};
   font-size: 12px;
   cursor: pointer;
+
+  :disabled,
+  [disabled] {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
 `;
 
 export const CreateButton = styled.div`
