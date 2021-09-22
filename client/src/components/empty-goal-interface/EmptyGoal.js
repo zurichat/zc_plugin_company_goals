@@ -1,15 +1,16 @@
 import React from 'react';
-import { EmptyGoalContainer, EmptyImgContainer, EmptyGoalText, EmptyGoalButton } from './EmptyGoal.styled';
-import CreateIcon from './icon.svg';
+import { useDispatch } from 'react-redux';
+import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
+import { EmptyGoalContainer, EmptyGoalText, EmptyGoalButton } from './EmptyGoal.styled';
 
 const EmptyGoal = () => {
+  const dispatch = useDispatch();
   return (
     <EmptyGoalContainer>
-      <EmptyImgContainer>
-        <img src={CreateIcon} alt="create icon" />
-      </EmptyImgContainer>
       <EmptyGoalText>This space is empty. Create a goal to get started</EmptyGoalText>
-      <EmptyGoalButton type="button">Create Goal</EmptyGoalButton>
+      <EmptyGoalButton type="button" onClick={() => dispatch(toggleCreateGoalModalAction())}>
+        Create Goal
+      </EmptyGoalButton>
     </EmptyGoalContainer>
   );
 };

@@ -74,7 +74,6 @@ export const Upper = styled.div`
 
 export const Lower = styled.div`
   width: 120px;
-  background: red;
   height: 120px;
   background: #fff;
   display: flex;
