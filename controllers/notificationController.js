@@ -92,7 +92,7 @@ exports.getUserNotifications = async (req, res) => {
         }, orgId);
 
         if (notifications.data.data == null) {
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 // eslint-disable-next-line quotes
                 message: "You don't have any notifications."
@@ -100,7 +100,7 @@ exports.getUserNotifications = async (req, res) => {
         }
 
         // Returning Response
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'success',
             data: notifications.data.data
