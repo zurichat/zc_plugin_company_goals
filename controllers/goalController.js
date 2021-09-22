@@ -36,6 +36,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
   logger.info(`Started getting all goals for the organization: ${orgId}`);
   // Search for all Goals
+
   try {
     const goals = await findAll('goals', orgId);
 
