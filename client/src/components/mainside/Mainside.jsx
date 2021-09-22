@@ -25,6 +25,7 @@ import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import Loader from '../loader/loader';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
@@ -49,8 +50,16 @@ function Mainside() {
           <GoalsNavLayout />
           <Goal>
             <InnerNav />
-            {status === 'loading' && <p>Loading...</p>}
+            {status === 'loading' && <Loader />}
             {status === 'success' && !hasGoal && <EmptyGoal />}
+            {
+              /* //PS => The repition of the Goal Item is only temporary */
+              status === 'success' &&
+                hasGoal &&
+                goals.data.map((goal, id) => {
+                  return <GoalItem goalData={goal} key={id} />;
+                })
+            }
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
@@ -64,13 +73,18 @@ function Mainside() {
               goals.data.map((goal, i) => {
                 return <GoalItem goalData={goals} key={goals.room_id} />;
               })
+            // status === 'success' &&
+            //   hasGoal &&
+            //   goals.data.map((goal, i) => {
+            //     return <GoalItem goalData={goals} key={goals.room_id}/>;
+            //   })
           }
-          {status === 'failed' && (
-            <p>
-              {/* A button might be here to retry and this errorMessage will be in the error UI*/}
-              {errorMessage}
+          {/* {status === 'failed' && (
+            <p> */}
+          {/* A button might be here to retry and this errorMessage will be in the error UI*/}
+          {/* {errorMessage}
             </p>
-          )}
+          )} */}
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
