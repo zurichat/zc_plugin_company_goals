@@ -5,7 +5,9 @@ import styled from 'styled-components';
 
 export const StyledContainer = styled.div``;
 
-export const StyledCard = styled(Card)``;
+export const StyledCard = styled(Card)`
+  background-color: red;
+`;
 
 export const StyledTypography = styled(Typography)`
   font-size: 20px;
