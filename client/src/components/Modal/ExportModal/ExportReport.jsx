@@ -61,6 +61,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleModal() {
+  const getGoalFolder = localStorage.getItem('goalFolder');
+  const getReportFolder = localStorage.getItem('reportFolder');
+  const getReportType = localStorage.getItem('reportType');
+
+  const exportData = {
+    getGoalFolder,
+    getReportFolder,
+    getReportType,
+  };
+
+  const exportDataJSON = JSON.stringify(exportData);
+
+  localStorage.setItem('exportData', exportDataJSON);
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
