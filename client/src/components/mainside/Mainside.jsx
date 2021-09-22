@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
-import Design from '../../components/Dropdown/Design';
-import MenuOption from '../../components/Dropdown/MenuOption';
-import Mobile from '../../components/Dropdown/Mobile';
-import MobilePrivate from '../../components/Dropdown/MobilePrivate';
-import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
+import Design from '../Dropdown/Design';
+import MenuOption from '../Dropdown/MenuOption';
+import Mobile from '../Dropdown/Mobile';
+import MobilePrivate from '../Dropdown/MobilePrivate';
+import InnerNav from '../goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
 
@@ -48,7 +48,23 @@ function Mainside() {
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
-          <GoalDetailAccordion />
+          {/* <Goal> //Goal container isnt needed for the GoalItem again.
+          <Menuoption /> //whoever is setting up can enable this and see how it looks.
+        </Goal> */}
+          {
+            /* //PS => The repition of the Goal Item is only temporary */
+            status === 'success' &&
+              hasGoal &&
+              goals.data.map((goal, i) => {
+                return <GoalItem goalData={goals} key={goals.room_id}/>;
+              })
+          }
+          {status === 'failed' && (
+            <p>
+              {/* A button might be here to retry and this errorMessage will be in the error UI*/}
+              {errorMessage}
+            </p>
+          )}
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />

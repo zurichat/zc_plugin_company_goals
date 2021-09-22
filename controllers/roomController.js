@@ -82,9 +82,7 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
     organization_id
   } = req.query;
 
-  const rooms = await find('rooms', {
-    organization_id
-  }, organization_id);
+  const rooms = await findAll('rooms', organization_id);
 
 
   if (rooms.data.data.length === 0) {
