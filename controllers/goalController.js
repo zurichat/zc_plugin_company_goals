@@ -7,7 +7,7 @@
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
 const { find, findAll, findById, insertOne, insertMany, deleteOne, updateOne } = require('../db/databaseHelper');
-const { goalsSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const { goalsSchema, likeGoalSchema, getGoalLikesSchema, userSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { createNotification } = require('./notificationController')
@@ -107,14 +107,16 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
       goal: goal.data.data,
       users: result
     }
-    res.status(200).json({ status: 200, message: 'success', data });
+    // Your have to return from this, so as to not to cause error: which will resolve in trying to send another request.
+    return res.status(200).json({ status: 200, message: 'success', data });
   } catch (err) {
     users = 'No user has been assigned to this goal';
     const data = {
       goal: goal.data.data,
       users,
     };
-    res.status(200).json({ status: 200, message: 'success', data});
+    // Your have to return from this, so as to not to cause error: which will resolve in trying to send another request.
+    return res.status(200).json({ status: 200, message: 'success', data});
 }
   next(new AppError({ message: 'invalid request' }, {statusCode: 400}));
 });
