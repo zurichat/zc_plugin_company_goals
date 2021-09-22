@@ -9,13 +9,10 @@ import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
 import Mainside from '../components/mainside/Mainside';
-<<<<<<< HEAD
-import EditMission from '../components/Modal/EditMission';
-=======
+
 import EditMission from '../components/modal/EditMission';
 import ExportReport from '../components/Modal/ExportModal/ExportReport';
 
->>>>>>> 49b698c52da37b087d4ebc9fc2eb78b386de7c0b
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 
 function App() {

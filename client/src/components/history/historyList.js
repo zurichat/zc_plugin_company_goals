@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-=======
 
 import {Button, History, HeaderH3, Histories } from './history.styled.js';
 import HistoryItem from './historyItem';
->>>>>>> 49b698c52da37b087d4ebc9fc2eb78b386de7c0b
 import Grid from '@material-ui/core/Grid';
-import { Button, History, HeaderH3, Histories } from './history.styled.js';
-import HistoryItem from './historyItem';
 
 
 const history = [
