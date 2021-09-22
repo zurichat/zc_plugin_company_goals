@@ -80,6 +80,7 @@ exports.updateMission = catchAsync(async (req, res, next) => {
     };
 
     const messageId = await insertOne('goalEvents', message, organization_id);
+    await publish('missionUpdate',mission)
     message.id = messageId.data.object_id;
 
     await publish('notifications', { ...message, _id: message.id });
