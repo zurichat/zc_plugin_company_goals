@@ -17,7 +17,7 @@ const Deletemodal = () => {
 
   const showSuccess = (e) => {
     e.preventDefault();
-    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=6145d099285e4a184020742e&goal_id${goalID}`, {
+    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=6145d099285e4a184020742e&goal_id=${goalID}`, {
       method: 'delete',
     })
       .then((res) => {
