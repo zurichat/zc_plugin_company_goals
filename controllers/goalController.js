@@ -40,17 +40,17 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   try {
     const goals = await findAll('goals', orgId);
 
-    logger.info(`If the response we get is null or the goals length is less than 1, we are 
-    returning an empty array`);
+   
     if (goals.data.data === null || goals.data.data.length < 1) {
       return res.status(200).json({ message: 'success', data: [] });
     }
-
-    logger.info(`If the response has a status code of 200 and the goals exist in the array, we return the goals array`);
-    if (goals.data.status === 200 && goals.data.data.length > 1) {
+  
+    if (goals.data.status === 200 && goals.data.data.length > 0) {
       return res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
     }
+    
   } catch (error) {
+    console.log(error)
     if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
   }
 });
