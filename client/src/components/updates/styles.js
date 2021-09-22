@@ -5,7 +5,7 @@ export const ReportContainer = styled.div`
   margin-top: 2px;
   /* width: 360px; */
   padding: 20px 0;
-  width: 85%;
+  width: 100%;
   background: #fff;
   height: 500px;
   height: 100%;
@@ -26,7 +26,7 @@ export const ReportContainer = styled.div`
   }
 
   .folder {
-    width: 145px;
+    /* width: 145px; */
     height: 100%;
     display: flex;
     align-items: center;
@@ -72,34 +72,38 @@ export const ReportContainer = styled.div`
 
   .piechart {
     position: relative;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    height: 400px;
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
+    height: 300px;
 
     .percentage {
       position: absolute;
-      top: 50%;
+      top: 53%;
       left: 50%;
       transform: translate(-50%, -50%);
+      height: 110px;
+      text-align: center;
 
       .count {
         color: #1d1c1d;
         font-size: 40px;
         font-weight: bold;
+        margin: 0 auto;
       }
 
       .status {
         color: #f44336;
         font-size: 20px;
-        margin-left: 8px;
+        /* margin-left: 8px; */
         font-weight: normal;
+        margin: 0 auto;
       }
     }
   }
 
   .labels_container {
     width: 100%;
-    padding: 10px;
+    padding: 4px;
     margin: 10px auto;
 
     .labels {
@@ -110,7 +114,7 @@ export const ReportContainer = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 25px 0;
+        margin: 8px 0;
 
         .each {
           display: flex;
@@ -128,7 +132,7 @@ export const ReportContainer = styled.div`
 
   .averge {
     width: 290px;
-    margin: 25px auto;
+    margin: 15px auto;
     color: #393939;
     text-align: center;
     font-weight: 700;
