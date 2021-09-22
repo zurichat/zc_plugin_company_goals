@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
@@ -16,11 +17,14 @@ const {
   updateOne,
   deleteMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const { 
+  goalSchema, 
+  likeGoalSchema, 
+  getGoalLikesSchema 
+} = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
-const { publish } = require('./centrifugoController');
 const { createNotification } = require('./notificationController');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
@@ -32,10 +36,22 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
   logger.info(`Started getting all goals for the organization: ${orgId}`);
   // Search for all Goals
-  const goals = await findAll('goals', orgId);
 
-  if (goals.data.status === 200) {
-    res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+  try {
+    const goals = await findAll('goals', orgId);
+
+    logger.info(`If the response we get is null or the goals length is less than 1, we are 
+    returning an empty array`);
+    if (goals.data.data === null || goals.data.data.length < 1) {
+      return res.status(200).json({ message: 'success', data: [] });
+    }
+
+    logger.info(`If the response has a status code of 200 and the goals exist in the array, we return the goals array`);
+    if (goals.data.status === 200 && goals.data.data.length > 1) {
+      return res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+    }
+  } catch (error) {
+    if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
   }
 });
 
@@ -90,19 +106,6 @@ exports.createGoal = async (req, res, next) => {
     logger.info(`Successfully created a new goal: ${goals.data.data}`);
   }
 
-  const message = {
-    header: 'You have been assigned a new goal',
-    goalName: title,
-    description: 'Your team and you have within the stipulated time to achieve this goal.',
-    createdAt: Date.now(),
-    color: 'blue',
-    isRead: false,
-    _id: '',
-  };
-
-  const messageId = await insertOne('goalEvents', message, orgId);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
   res.status(200).json({ message: 'success', ...goals.data, data });
 };
 
@@ -162,55 +165,42 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   const goalId = req.params.id;
   const { org_id: orgId } = req.query;
 
-  const goals = await findById('goals', goalId, orgId);
-
-  const message = {
-    header: 'Your goal has been updated',
-    goalName: goals.data.data.title,
-    description: `The goal "${goals.data.data.title}" has been updated `,
-    createdAt: Date.now(),
-    color: 'green',
-    isRead: false,
-    _id: '',
-  };
-
-  const messageId = await insertOne('goalEvents', message, orgId);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
-
+  const goals = await findById('goals', { _id: goalId }, orgId);
+ 
   // Then, send update to zuri core
   logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);
-  const updatedGoal = await updateOne(
-    (collectionName = 'goals'),
-    (organization_id = orgId),
-    (data = req.body),
-    (filter = {}),
-    (id = goalId)
-  );
+  await updateOne('goals', req.body, {}, orgId, goalId );
+  const updatedGoal = await find('goals', { _id: goalId }, orgId );
 
-  // const roomuser = await find('roomusers', { room_id: goalId }, org);
+  // Send notifications to all assigned users.
+  const { goal_name, room_id } = updatedGoal.data.data
+  const roomuser = await find('roomusers', { room_id }, orgId);
 
-  // const roomUsers = roomuser.data.data;
+  const roomUsers = roomuser.data.data;
 
-  // if (req.body.isExpired === true) {
-  //   const myFunc = async(user) =>{
-  //     await createNotification(user.user_id, orgId, goalId, updatedGoal.data.data[0].goal_name, 'expiredGoal')
-  //   }
-  //   if (roomUsers !== null) {
-  //     roomUsers.forEach(myFunc);
-  //   }
-  // } else if (req.body.isComplete === true) {
-  //   const myFunc = async(user) =>{
-  //     await createNotification(user.user_id, orgId, goalId, updatedGoal.data.data[0].goal_name, 'achievedGoal')
-  //   }
-  //   if (roomUsers !== null) {
-  //     roomUsers.forEach(myFunc);
-  //   }
-  // }
+  if (req.body.isExpired === true) {
+    const myFunc = async(user) =>{
+      await createNotification(user.user_id, orgId, room_id, goal_name, 'expiredGoal')
+    }
+    if (roomUsers !== null) {
+      roomUsers.forEach(myFunc);
+    }
+  } else if (req.body.isComplete === true) {
+    const myFunc = async(user) =>{
+      await createNotification(user.user_id, orgId, room_id, goal_name, 'achievedGoal')
+    }
+    if (roomUsers !== null) {
+      roomUsers.forEach(myFunc);
+    }
+  }
 
   // send the updated goal to client.
   logger.info(`Successfully updated the goal and got the response: ${updatedGoal.data.data}`);
-  return res.status(200).json(updatedGoal.data);
+  return res.status(200).json({
+    status: 200,
+    message: 'success',
+    data: updatedGoal.data.data
+})
 });
 
 exports.getArchivedGoals = catchAsync(async (req, res, next) => {
@@ -245,36 +235,34 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   // find the goal first to ensure the goal was created by the organization
   logger.info(`Checking to make sure the organization that deleted is the one deleting.`);
   const goal = await find('goals', { _id: id }, org);
-
+  
   if (!goal.data.data) {
     logger.info('Wrong organization id provided.');
     res.status(404).send({ error: 'There is no goal of this id attached to this organization id that was found.' });
   }
+  const { room_id: roomId, goal_name } = goal.data.data;
 
-  const { room_id: roomId } = goal.data.data;
-
+  // Get all the assigners users of the goal.
+  const room_users = await find('roomusers', { room_id: roomId }, org);
+  const roomUsers = room_users.data.data;
+  const myFunc = async(user) =>{
+      await createNotification(user.user_id, org, roomId, goal_name, 'deleteGoal')
+  }
   // delete assigned records
   await deleteMany('roomusers', { room_id: roomId }, org);
 
   // Then, delete the goal.
-  const response = await deleteOne((collectionName = 'goals'), (data = org), (_id = id));
+  const response = await deleteOne('goals', org, id);
+  console.log('five')
 
-  const message = {
-    header: 'You have been unassigned from this goal',
-    goalName: goal.data.data.title,
-    description: `The goal "${goal.data.data.title}" has been deleted `,
-    createdAt: Date.now(),
-    color: 'red',
-    isRead: false,
-    _id: '',
-  };
 
-  const messageId = await insertOne('goalEvents', message, org);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
+  // Send a notification to each assigned user.
+  if (roomUsers !== null) {
+    roomUsers.forEach(myFunc);
+  }
 
   logger.info(`Successfully deleted the goal with id: ${id}`);
-  res.status(200).json({ status: 200, message: 'Goal deleted successfully.', rsponse: response.data.data });
+  res.status(200).json({ status: 200, message: 'Goal deleted successfully.', response: response.data.data });
 });
 
 exports.assignGoal = catchAsync(async (req, res, next) => {
@@ -323,18 +311,18 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       await createNotification(user_id, org, room_id, data.title, 'assignGoal');
       // Please don't delete the above line of code. It doesn't affect this controller.
       // Add specificity later
-      const message = {
-        header: 'Goal assigned',
-        goalName: data.title,
-        description: 'The goal has been assigned',
-        createdAt: Date.now(),
-        color: 'blue',
-        isRead: false,
-        _id: '',
-      };
-      const messageId = await insertOne('goalEvents', message, org);
-      message._id = messageId.data.object_id;
-      await publish('notifications', message);
+      // const message = {
+      //   header: 'Goal assigned',
+      //   goalName: data.title,
+      //   description: 'The goal has been assigned',
+      //   createdAt: Date.now(),
+      //   colour: 'blue',
+      //   isRead: false,
+      //   id: '',
+      // };
+      // const messageId = await insertOne('goalEvents', message, org);
+      // message.id = messageId.data.object_id;
+      // await publish('notifications', { ...message, _id: message.id })
 
       res.status(201).json({
         status: 'success',
@@ -375,14 +363,14 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
     goalName: goalRoom[0].goal_name,
     description: `The goal "${goalRoom[0].goal_name}" has removed an assignee `,
     createdAt: Date.now(),
-    color: 'red',
+    colour: 'red',
     isRead: false,
-    _id: '',
+    id: '',
   };
 
   const messageId = await insertOne('goalEvents', message, org);
-  message._id = messageId.data.object_id;
-  await publish('notifications', message);
+  message.id = messageId.data.object_id;
+  await publish('notifications', { ...message, _id: message.id });
 
   res.status(201).json({
     status: 'success',
@@ -532,6 +520,100 @@ exports.checkUserLike = catchAsync(async (req, res, next) => {
     orgId
   );
   if (!like.data.data) {
+    return res.status(200).json({
+      status: 'success',
+      data: false,
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: true,
+  });
+});
+
+exports.disLikeGoal = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { goalId: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already disliked goal
+  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
+
+  // add dislike if it doesnt exist
+  if (!disLike.data.data) {
+    addedDisLike = await insertOne('goalldislikes', { goal_id: goalId, user_id: userId }, orgId);
+
+    return res.status(201).json({
+      status: 'success',
+      message: 'Goal dislike added',
+      data: {},
+    });
+  }
+
+  removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
+  // delete dislike from db
+  res.status(201).json({
+    status: 'success',
+    message: 'Goal dislike removed',
+    data: {},
+  });
+});
+
+exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await getGoalLikesSchema.validateAsync({ goalId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already disliked goal
+  const disLike = await find('goaldislikes', { goal_id: goalId }, orgId);
+  if (!disLike.data.data) {
+    return res.status(200).json({
+      status: 'success',
+      data: { count: 0, disLikes: [] },
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count: disLike.data.data.length,
+      disLikes: disLike.data.data,
+    },
+  });
+});
+
+exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find('goals', { _id: goalId }, orgId);
+
+  if (!goal.data.data) {
+    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  }
+
+  // check if user already disliked goal
+  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
+  if (!disLike.data.data) {
     return res.status(200).json({
       status: 'success',
       data: false,

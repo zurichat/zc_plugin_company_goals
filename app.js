@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
 const path = require('path');
 
@@ -9,6 +10,9 @@ const express = require('express');
 // const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+const swaggerUi= require('swagger-ui-express');
+const yaml = require('yamljs');
+const documentation = yaml.load('./docs/documentation.yaml');
 
 dotenv.config();
 
@@ -76,24 +80,23 @@ app.use(xss());
 
 // Compress text sent to client
 app.use(compression());
-
 // swagger setup
-const swaggerUi = require('swagger-ui-express');
-const swaggerJSDocument = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerJSDocument = require('swagger-jsdoc');
 
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Company Goals Plugin API',
-      version: '1.0.0',
-      description: 'Company Goals plugin api for zuri chat application documentation',
-      servers: ['https://goals.zuri.chat/api'],
-    },
-  },
-  apis: ['./routes/*.js'],
-};
-const swaggerDocs = swaggerJSDocument(swaggerOptions);
+// const swaggerOptions = {
+  //   definition: {
+    //     openapi: '3.0.0',
+//     info: {
+//       title: 'Company Goals Plugin API',
+//       version: '1.0.0',
+//       description: 'Company Goals plugin api for zuri chat application documentation',
+//       servers: ['https://goals.zuri.chat/api'],
+//     },
+//   },
+//   apis: ['./routes/*.js'],
+// };
+// const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
 // To serve frontend build files in production
 if (process.env.NODE_ENV === 'production') {
@@ -116,7 +119,8 @@ app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
-app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 app.use('/api/v1/auth', authRouter);
 
 // Send all 404 requests not handled by the server to the Client app
