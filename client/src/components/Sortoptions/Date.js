@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Mobile() {
+export default function Date() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -28,22 +28,26 @@ export default function Mobile() {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Mobile Dropdown
+        Date
       </Button>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
 
         <MenuItem className={classes.root} onClick={handleClose}>
           {' '}
-          <Typography variant="body2">All Goals</Typography>
+          <Typography variant="body2">All Goal</Typography>
         </MenuItem>
 
         <MenuItem className={classes.root} onClick={handleClose}>
           {' '}
-          <Typography variant="body2">Annual Goals</Typography>
+          <Typography variant="body2">Completed</Typography>
         </MenuItem>
 
         <MenuItem className={classes.root} onClick={handleClose}>
-          <Typography variant="body2">Quarterly Goals</Typography>
+          <Typography variant="body2">In-progress</Typography>
+        </MenuItem>
+
+        <MenuItem className={classes.root} onClick={handleClose}>
+          <Typography variant="body2">Failed</Typography>
         </MenuItem>
 
       </Menu>
