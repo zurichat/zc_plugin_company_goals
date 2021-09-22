@@ -17,8 +17,6 @@ const {
 const router = Router();
 
 
-
-
 router.post('/', createGoal)
 router.post('/assign', assignGoal)
 router.get('/', getAllGoals);
@@ -29,7 +27,6 @@ router.get('/single', getSingleGoal);
 router.delete('/assigned', removeAssigned);
 
 router.route('/delete').delete(deleteGoalById);
-
 
 router.put('/update/:id', updateSingleGoalById);
 
