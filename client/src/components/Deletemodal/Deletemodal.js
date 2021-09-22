@@ -9,9 +9,15 @@ const Deletemodal = () => {
   const { mutate } = useSWRConfig();
   const { showDeleteConfirmationModal, goalID } = useSelector(({ deleteGoal }) => deleteGoal);
 
+  const outClose = (e) => {
+    if (e.target.classList.contains('faded')) {
+      dispatch(deleteConfirmationAction());
+    }
+  };
+
   const showSuccess = (e) => {
     e.preventDefault();
-    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=6145d099285e4a184020742e&goal_id=${goalID}`, {
+    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=6145d099285e4a184020742e&goal_id${goalID}`, {
       method: 'delete',
     })
       .then((res) => {
@@ -30,8 +36,9 @@ const Deletemodal = () => {
         dispatch(deleteErrorAction());
       });
   };
+
   return (
-    <FadedBg className="faded" show={showDeleteConfirmationModal}>
+    <FadedBg className="faded" onClick={(e) => outClose(e)} show={showDeleteConfirmationModal}>
       <DeleteModal>
         <XBtn onClick={() => dispatch(deleteConfirmationAction())}>X</XBtn>
         <Images>
