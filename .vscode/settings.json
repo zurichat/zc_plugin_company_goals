@@ -1,5 +1,10 @@
 {
   "cSpell.words": ["Deletemodal", "eqeqeq", "Parens", "printf", "Zuri", "zurichat"],
   "deno.enable": false,
-  "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#0A304B",
+    "titleBar.activeBackground": "#0D436A",
+    "titleBar.activeForeground": "#F6FAFE"
+  }
 }

@@ -362,7 +362,8 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
 
   return res.status(201).json({
     status: 'success',
-    message: `This goal has been unassigned from user: ${user_id}`
+    message: `This goal has been unassigned from user: ${user_id}`,
+    ...deleteRoomUser.data
   });
 });
 
