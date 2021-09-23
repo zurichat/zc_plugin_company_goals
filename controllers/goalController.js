@@ -28,29 +28,47 @@ const logger = require('../utils/logger');
 const { createNotification } = require('./notificationController');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const { org_id: orgId } = req.query;
+  const { org_id: orgId, page, limit } = req.query;
 
   if (!orgId) {
     logger.info(`Can't get goals for null organisation id... Exiting...`);
     return res.status(400).send({ error: 'org_id is required' });
   }
-  logger.info(`Started getting all goals for the organization: ${orgId}`);
+  
   // Search for all Goals
-
   try {
-    const goals = await findAll('goals', orgId);
+    logger.info(`Started getting all goals for the organization: ${orgId}`);
+    const goals = await findAll('goals', orgId); 
+    
+    // No matching data, return an empty array
+    if (goals.data.data === null || goals.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
 
-    logger.info(`If the response we get is null or the goals length is less than 1, we are 
-    returning an empty array`);
-    if (goals.data.data === null || goals.data.data.length < 1) {
-      return res.status(200).json({ message: 'success', data: [] });
-    }
+    // 200, response
+    if (goals.data.status === 200 && goals.data.data.length > 0) {
+      const {data} = goals.data;
+      const newPage = page * 1 || 1;
+      const perPage = limit * 1 || 5;
 
-    logger.info(`If the response has a status code of 200 and the goals exist in the array, we return the goals array`);
-    if (goals.data.status === 200 && goals.data.data.length > 1) {
-      return res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+      // Calculate the start and end index
+      const start = (newPage - 1) * perPage;
+      const end = newPage * perPage;
+
+      // Paginated goals
+      const newGoals = data.slice(start, end);
+
+      // Sending response
+      return res.status(200).json({
+        status: 200,
+        message: 'success',
+        currentPage: newPage,
+        totalDocuments: data.length,
+        documentPerPage: newGoals.length,
+        data: newGoals,
+      });
     }
+    
   } catch (error) {
+    console.log(error)
     if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
   }
 });
@@ -358,23 +376,11 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal');
   // Please don't delete the above line of code. in Jesus name. It doesn't affect this controller.
 
-  const message = {
-    header: 'Goal has removed an assignee',
-    goalName: goalRoom[0].goal_name,
-    description: `The goal "${goalRoom[0].goal_name}" has removed an assignee `,
-    createdAt: Date.now(),
-    colour: 'red',
-    isRead: false,
-    id: '',
-  };
+ 
 
-  const messageId = await insertOne('goalEvents', message, org);
-  message.id = messageId.data.object_id;
-  await publish('notifications', { ...message, _id: message.id });
-
-  res.status(201).json({
+  return res.status(201).json({
     status: 'success',
-    data: deleteRoomUser.data,
+    message: `This goal has been unassigned from user: ${user_id}`
   });
 });
 

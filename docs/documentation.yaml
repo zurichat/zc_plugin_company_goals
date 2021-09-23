@@ -131,14 +131,33 @@ paths:
           schema:
             type: string
           description: Provide an org_id to create a new goal.
-          example: 200
+          example: '6145d099285e4a184020742e'
       requestBody:
         description: Provide all the required fields to create a new goal.
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SingleGoal'
+              type: object
+              properties:
+                category:
+                  type: string
+                  example: '#backend'
+                description:
+                  type: string
+                  example: 'test goal'
+                start_date:
+                  type: date
+                  example: '2020-10-02'
+                due_date:
+                  type: date
+                  example: '2020-10-02'
+                goal_type:
+                  type: string
+                  example: 'annual'
+                goal_name:
+                  type: string
+                  example: 'public room'
       responses:
         '200':
           $ref: '#/components/responses/200GoalSuccess'
@@ -160,6 +179,7 @@ paths:
           in: query
           schema:
             type: string
+            example: '6145d099285e4a184020742e'
           description: Provide an org_id to fetch for all your goals.
       responses:
         '200':
