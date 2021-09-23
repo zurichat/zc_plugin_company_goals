@@ -19,19 +19,16 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const ExportButton = ({ getReportFolder }) => {
-  const getLocalData = localStorage.getItem('exportData');
-  const exportData = JSON.parse(getLocalData);
-
+const ExportButton = ({ valueState }) => {
   const submitExportHandler = async () => {
     try {
       const data = await fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e');
       const response = await data.json();
       // console.log('fetched', response.data);
 
-      if (getReportFolder === 'excel') {
+      if (valueState === 'excel') {
         generateEXCEL(response.data);
-      } else if (getReportFolder === 'pdf') {
+      } else if (valueState === 'pdf') {
         generatePDF(response.data);
       } else {
         return null;
