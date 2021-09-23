@@ -28,25 +28,43 @@ const logger = require('../utils/logger');
 const { createNotification } = require('./notificationController');
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const { org_id: orgId } = req.query;
+  const { org_id: orgId, page, limit } = req.query;
 
   if (!orgId) {
     logger.info(`Can't get goals for null organisation id... Exiting...`);
     return res.status(400).send({ error: 'org_id is required' });
   }
-  logger.info(`Started getting all goals for the organization: ${orgId}`);
-  // Search for all Goals
-
-  try {
-    const goals = await findAll('goals', orgId);
-
-   
-    if (goals.data.data === null || goals.data.data.length < 1) {
-      return res.status(200).json({ message: 'success', data: [] });
-    }
   
+  // Search for all Goals
+  try {
+    logger.info(`Started getting all goals for the organization: ${orgId}`);
+    const goals = await findAll('goals', orgId); 
+    
+    // No matching data, return an empty array
+    if (goals.data.data === null || goals.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
+
+    // 200, response
     if (goals.data.status === 200 && goals.data.data.length > 0) {
-      return res.status(200).json({ status: 200, message: 'success', data: goals.data.data });
+      const {data} = goals.data;
+      const newPage = page * 1 || 1;
+      const perPage = limit * 1 || 5;
+
+      // Calculate the start and end index
+      const start = (newPage - 1) * perPage;
+      const end = newPage * perPage;
+
+      // Paginated goals
+      const newGoals = data.slice(start, end);
+
+      // Sending response
+      return res.status(200).json({
+        status: 200,
+        message: 'success',
+        currentPage: newPage,
+        totalDocuments: data.length,
+        documentPerPage: newGoals.length,
+        data: newGoals,
+      });
     }
     
   } catch (error) {
