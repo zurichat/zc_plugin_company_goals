@@ -3,14 +3,9 @@ import styled from 'styled-components';
 export const Goal = styled.div`
   font-family: Lato;
   padding: 0.5rem 1rem 1rem 1rem;
-
-  width: 100%;
+  width: 90% !important;
   background-color: #fff;
-
-  @media only screen and (max-width: 600px) {
-    width: 100% !important;
-    padding: 0.8rem !important;
-  }
+  margin: 0 auto;
 `;
 export const Form = styled.form`
   width: 100%;
@@ -23,11 +18,12 @@ export const Form = styled.form`
 export const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 0.4rem;
 `;
 
 export const MainTitle = styled.h3`
   margin-bottom: 0;
+  margin-top: 0 !important;
   font-weight: Bold;
   font-size: 28px;
   color: #1d1c1d;
@@ -36,23 +32,28 @@ export const Wrap = styled.div`
   display: flex;
   align-items: center;
 `;
-export const Title = styled.h5`
-  margin-bottom: 0;
+export const GoalTitle = styled.h5`
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
   margin-right: 0.2rem;
   font-weight: Bold;
   font-size: 15px;
   color: #1d1c1d;
 `;
 
-export const Info = styled.p`
+export const GoalInfo = styled.p`
   font-family: Lato;
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0 !important;
   font-style: normal;
   font-weight: normal;
   font-size: ${(props) => props.fontSize};
   color: #999999;
+  @media only screen and (max-width: 450px) {
+    font-size: 13px !important;
+  }
 `;
-export const Input = styled.input`
+export const GoalInput = styled.input`
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
@@ -64,7 +65,7 @@ export const Input = styled.input`
   outline: none;
   border: 1px solid #a1a1a1;
   background-color: #ffffff;
-  width: 100%;
+  width: 100% !important;
 `;
 export const SelectDiv = styled.div`
   width: 45% !important;
@@ -82,6 +83,7 @@ export const Select = styled.select`
   option {
     color: #b0afb0;
     font-size: 13px;
+    height: 2rem;
     margin: 5rem 0 1rem 0.5rem;
     background-color: #fff;
   }
@@ -111,22 +113,24 @@ export const Button = styled.button`
   padding: ${(props) => props.buttonPadding};
   font-size: 12px;
   cursor: pointer;
+
+  :disabled,
+  [disabled] {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
 `;
 
 export const CreateButton = styled.div`
   text-align: center;
   margin-top: 2rem;
 `;
-export const Box = styled.div`
-  margin-top: 2rem;
-  width: 25% !important;
-  display: flex;
-  float: right;
-  align-items: center;
-  justify-content: space-between;
-  @media only screen and (max-width: 400px) {
-    width: 50% !important;
-  }
+export const LabelBody = styled.p`
+  color: #393939;
+  font-size: 10px;
+  width: 70%;
+  margin: 0;
 `;
 export const TargetContainerA = styled.div`
   width: 100% !important;
@@ -174,7 +178,7 @@ export const CloseButton = styled.button`
   float: right;
   background: none;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 15px;
   color: #333333;
   cursor: pointer;
 `;

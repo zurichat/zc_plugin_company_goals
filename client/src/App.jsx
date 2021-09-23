@@ -11,6 +11,9 @@ import CentrifugeClient from 'centrifuge';
 import { useDispatch } from 'react-redux';
 import { saveVision } from './redux/organizationVision.slice';
 import { activateSnackbar } from './redux/snackbar.slice';
+import { setNewMission, getMission } from './services/missionAPI';
+import AppHeader from './components/app_header/AppHeader';
+import { addNotificationFromRTC } from './redux/notificationSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,15 +36,16 @@ function App() {
     centrifugeConnect.subscribe('goalstest', function (ctx) {
       console.log('goalstest', ctx);
     });
-    centrifugeConnect.subscribe('edit_vision', function (ctx) {
-      console.log('edit_vision', ctx);
-      dispatch(saveVision(ctx.data));
+    centrifugeConnect.subscribe('notifications', function (ctx) {
+      console.log('notifications', ctx);
+      dispatch(addNotificationFromRTC(ctx.data));
     });
 
     centrifugeConnect.connect();
   }, []);
   return (
     <>
+      <AppHeader />
       <Router basename="/goals">
         <Suspense fallback={<CircularProgress />}>
           <Switch>

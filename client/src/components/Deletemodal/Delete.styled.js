@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 export const FadedBg = styled.div`
-  position: absolute;
+  position: fixed;
   display: ${(props) => (props.show ? 'block' : 'none')};
-  justify-content: center;
   width: 100%;
-  height: 200vh;
+  height: 600vh;
   left: 0;
   top: 0px;
   background: rgba(0, 0, 0, 0.5);
