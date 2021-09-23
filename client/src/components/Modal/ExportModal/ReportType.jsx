@@ -56,7 +56,7 @@ const ReportType = ({ valueState }) => {
           </GoalRadios>
         </GoalDetails>
       </GoalFolderSection>
-      <ExportButton valueState={valueState} />
+      <ExportButton valueState={valueState} valueStateInstant={valueStateInstant} />
     </>
   );
 };
