@@ -19,7 +19,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const ExportButton = () => {
+const ExportButton = ({ getReportFolder }) => {
   const getLocalData = localStorage.getItem('exportData');
   const exportData = JSON.parse(getLocalData);
 
@@ -29,9 +29,9 @@ const ExportButton = () => {
       const response = await data.json();
       // console.log('fetched', response.data);
 
-      if (exportData.getReportFolder === 'excel') {
+      if (getReportFolder === 'excel') {
         generateEXCEL(response.data);
-      } else if (exportData.getReportFolder === 'pdf') {
+      } else if (getReportFolder === 'pdf') {
         generatePDF(response.data);
       } else {
         return null;

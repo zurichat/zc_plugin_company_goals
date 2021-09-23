@@ -117,7 +117,7 @@ export default function SimpleModal() {
           <GoalFolder />
           <ReportFormat />
           <ReportType />
-          <ExportButton />
+          <ExportButton getGoalFolder={getGoalFolder} getReportFolder={getReportFolder} getReportType={getReportType} />
         </div>
       </div>
     </div>
