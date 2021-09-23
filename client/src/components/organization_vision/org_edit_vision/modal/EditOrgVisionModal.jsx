@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateOrgVision } from '../../../../redux/organizationVision.slice';
+import { updateOrgVision, showEditVisionModal } from '../../../../redux/organizationVision.slice';
 import {
   EditVisionModal,
   EditVisionContainer,
@@ -33,6 +33,7 @@ const OrganizationVisionEditModal = () => {
       aria-labelledby="organization-vision-modal"
       aria-describedby="edit-organization-vision-modal"
       open={showVisionModal}
+      onClose={() => dispatch(showEditVisionModal())}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{

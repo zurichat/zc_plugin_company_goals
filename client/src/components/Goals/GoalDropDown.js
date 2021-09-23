@@ -20,6 +20,7 @@ export default function GoalDrop({ show: { showDropDown, setDropDown }, goalData
     },
   };
   const dispatch = useDispatch();
+
   return (
     <GoalDropDown show={showDropDown}>
       <li>
