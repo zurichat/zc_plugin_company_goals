@@ -358,12 +358,10 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
   await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal');
   // Please don't delete the above line of code. in Jesus name. It doesn't affect this controller.
 
- 
 
   return res.status(201).json({
     status: 'success',
-    message: `This goal has been unassigned from user: ${user_id}`,
-    ...deleteRoomUser.data
+    message: `This goal has been unassigned from user: ${user_id}`
   });
 });
 
