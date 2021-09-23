@@ -37,8 +37,8 @@ jobs:
             cd zc_plugin_company_goals/
             git stash
             git fetch --all
-            git reset --hard origin/prod
-            git pull origin/prod
+            git reset --hard origin/main
+            git pull origin/main
             cd client/
             yarn install
             cd ../serve-client
