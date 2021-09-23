@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import TimeAgo from 'timeago-react';
 import NoNotification from './NoNotification';
 
 import {
@@ -19,48 +19,37 @@ import {
   FlexRows,
   FlexRow,
 } from './styledNotification';
-
-let notifyAlerts = [
-  {
-    id: 1,
-    message: 'Your goal as been achieved',
-    link: 'Create wireframe',
-    info: 'Congratulations you you have achieved this goal! All set targets have been met.',
-    time: '2 mins ago',
-    status: 'finished',
-  },
-  {
-    id: 2,
-    message: 'Some goals updated, Please check',
-    link: 'Create wireframe',
-    time: '2 weeks ago',
-    info: 'Goal Updated, Do needful.',
-    status: 'updated',
-  },
-  {
-    id: 3,
-    message: 'You failed to reach this goal',
-    link: 'Create wireframe',
-    info: 'Oops, you failed this goal.',
-    time: '1 min ago',
-    status: 'failed',
-  },
-];
+import { useDispatch } from 'react-redux';
+import {
+  deleteNotificationAsync,
+  markAllNotificationsAsReadAsync,
+  markNotificationAsReadAsync,
+  selectNotifications,
+} from '../../redux/notificationSlice';
+import { useSelector } from 'react-redux';
 
 function Notification() {
-  const [show, setShow] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [index, setIndex] = useState(0);
+  const notifications = useSelector(selectNotifications);
+  const dispatch = useDispatch();
 
-  const handleClick = () => {
-    notifyAlerts = [];
-    setShow(false);
+  const handleMarkAllAsRead = () => {
+    dispatch(markAllNotificationsAsReadAsync());
   };
 
-  const handleAccordion = (e, id) => {
+  const handleMarkAsRead = (_id) => {
+    dispatch(markNotificationAsReadAsync({ id: _id }));
+  };
+
+  const handleDelete = (_id) => {
+    dispatch(deleteNotificationAsync({ id: _id }));
+  };
+
+  const handleAccordion = (e, _id) => {
     if (e.target.name !== 'create-wireframe') {
       setIsActive(!isActive);
-      setIndex(id);
+      setIndex(_id);
     }
   };
 
@@ -69,10 +58,10 @@ function Notification() {
       <NotificationWrapper>
         {/* Header */}
         <NotificationHeader>
-          <NotificationCount style={{ marginLeft: '30px' }}>{show ? notifyAlerts.length : 0}</NotificationCount>
+          <NotificationCount style={{ marginLeft: '30px' }}>{notifications.length}</NotificationCount>
           <Button style={{ marginRight: '30px', color: '#999999', textDecoration: 'none' }}>
-            {show ? (
-              <span style={{ cursor: 'pointer' }} onClick={handleClick}>
+            {notifications.length > 0 ? (
+              <span style={{ cursor: 'pointer' }} onClick={() => handleMarkAllAsRead()}>
                 Mark all as read
               </span>
             ) : (
@@ -81,40 +70,39 @@ function Notification() {
           </Button>
         </NotificationHeader>
         <FlexColumn backgroundWhite>
-          {show ? (
+          {notifications.length > 0 ? (
             <>
-              {notifyAlerts.map(({ id, status, message, info, time, link }) => {
+              {notifications.map(({ _id, description, header, goalName, colour, isRead, createdAt }) => {
                 return (
-                  <Grid key={id} gridActive={id === index} borderBottom>
+                  <Grid key={_id} gridActive={_id === index} borderBottom>
                     <MailOutlineIcon style={{ margin: '0 auto', color: '#999999' }} />
                     <FlexColumn>
-                      <FlexRows onClick={(e) => handleAccordion(e, id)} Rows goalachievedTimeline>
+                      <FlexRows onClick={(e) => handleAccordion(e, _id)} Rows goalachievedTimeline>
                         <FlexColumn flexBasicsColumn>
                           <Paragraph style={{ marginBottom: '10px' }} goalParagraphHeader>
-                            {message}
+                            {header}
                           </Paragraph>
-                          <Button
-                            status
-                            name="create-wireframe"
-                            failed={status === 'failed'}
-                            finished={status === 'finished'}
-                            updated={status === 'updated'}
-                            goalButtonHeaderWireframe
-                          >
-                            {link}
+                          <Button status colour={colour} name="create-wireframe" goalButtonHeaderWireframe>
+                            {goalName}
                           </Button>
                         </FlexColumn>
                         <FlexColumn arrowContainer>
-                          {index === id && isActive ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                          <Paragraph flexbasicsParagraph>{time}</Paragraph>
+                          {index === _id && isActive ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                          <Paragraph flexbasicsParagraph>
+                            <TimeAgo datetime={createdAt} />
+                          </Paragraph>
                         </FlexColumn>
                       </FlexRows>
-                      {index === id && isActive && (
+                      {index === _id && isActive && (
                         <FlexColumn moreNotificationInfo>
-                          <Paragraph moreInfo>{info}</Paragraph>
+                          <Paragraph moreInfo>{description}</Paragraph>
                           <FlexRows>
-                            <Button btnFunction>View goal</Button>
-                            <Button btnFunction>Mark as Unread</Button>
+                            <Button btnFunction onClick={() => handleDelete(_id)}>
+                              Delete
+                            </Button>
+                            <Button btnFunction onClick={() => handleMarkAsRead(_id)}>
+                              {isRead ? 'Mark as Unread' : 'Mark as Read'}
+                            </Button>
                           </FlexRows>
                         </FlexColumn>
                       )}

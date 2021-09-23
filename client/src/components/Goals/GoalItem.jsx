@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-
+/* eslint-disable no-underscore-dangle */
+import React, { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
-
 import dislikes from '../../Images/png/dislikes.png';
 import ellipsis from '../../Images/png/ellipsis.png';
 import likes from '../../Images/png/likes.png';
 import views from '../../Images/png/views.png';
+import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
   GoalTitle,
@@ -19,12 +19,13 @@ import {
   MoreOptions,
   ProgressDetailsContainer,
 } from './GoalItem.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGoals } from '../../redux/showGoalSlice';
-import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import { useSelector, useDispatch } from 'react-redux';
+import { addDisLike, addLike } from '../../redux/likeGoalSlice';
+import Menuoption from '../../components/Menuoption/Menuoption';
 
-const GoalItem = () => {
+const GoalItem = ({ goalData }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const month = {
     month_names: [
       'January',
@@ -43,90 +44,76 @@ const GoalItem = () => {
     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   };
 
-  const dispatch = useDispatch();
-  const goals = useSelector((state) => state.goals.list);
-  const status = useSelector((state) => state.goals.status);
+  const [showDropDown, setDropDown] = useState(false);
+  const goalLikes = useSelector((state) => state.likeGoals.likes);
+  const goalDislikes = useSelector((state) => state.likeGoals.dislikes);
   const errorMessage = useSelector((state) => state.goals.errorMessage);
 
-  useEffect(() => {
-    dispatch(getGoals()).catch((obj) => {
-      console.log('Shite!');
-    });
-  }, [dispatch]);
+  const likeGoal = (e) => {
+    e.stopPropagation();
+    dispatch(addLike(1));
+  };
+  const disLikeGoal = (e) => {
+    e.stopPropagation();
+    dispatch(addDisLike(1));
+  };
 
-  const hasGoal = goals.data ? 1 : 0;
-  if (status === 'success' && !hasGoal) return <EmptyGoal />;
-  if (status === 'success' && hasGoal) {
-    return (
-      <>
-        {goals.data.map((goal, idx) => {
-          const Progress = ((goal.milestone1 + goal.milestone2 + goal.milestone3) / 30) * 100;
-          const goalStart = new Date(goal.goal_start);
-          const goalEnd = new Date(goal.goal_end);
 
-          return (
-            // Add a key of {goal._id} to the container id to avoid unnecessary errors
+  
 
-            <Container className={classes.root} maxWidth="lg" key={goal._id}>
-              <Grid item xs={12} sm={3}>
-                {/* This GoalTitle here should be replaced with {goal.goal_name} */}
+  const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
+  const goalStart = new Date(goalData.start_date);
+  const goalEnd = new Date(goalData.due_date);
+  const startMonth = month.month_names_short[goalStart.getMonth()];
+  const startDate = goalStart.getDate();
+  const endMonth = month.month_names_short[goalEnd.getMonth()];
+  const endDate = goalEnd.getDate();
 
-                <GoalTitle>{goal.goal_name}</GoalTitle>
-                <GoalTagsContainer>
-                  {/* This GoalTags here should be replaced with {goal.category} */}
 
-                  <GoalTags>{goal.category}</GoalTags>
-                  {/* <GoalTags># mobile</GoalTags> */}
-                </GoalTagsContainer>
-              </Grid>
+  return (
+    <Container className={classes.root} key={goalData.room_id}>
+      <Grid item xs={12} sm={3} className={classes.rightSpacing}>
+        <GoalTitle>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
+        <GoalTagsContainer>
+          <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
+        </GoalTagsContainer>
+      </Grid>
 
-              <Grid item xs={12} sm={6}>
-                {/* This ProgressBar value here should be replaced with {Progress} */}
+      <Grid item xs={12} sm={6}>
+        <ProgressBar variant="determinate" value={Progress ? Progress : 0} />
+        <ProgressDetailsContainer>
+          <ProgressRate>Progress Rate: {Progress ? Progress : 0}%</ProgressRate>
+          <ProgressDate>
+            {goalData.start_date && goalData.due_date
+              ? `${startMonth} ${startDate} - ${endMonth} ${endDate}`
+              : 'No date set'}
+          </ProgressDate>
+        </ProgressDetailsContainer>
+      </Grid>
 
-                <ProgressBar variant="determinate" value={73} />
-                <ProgressDetailsContainer>
-                  {/* This ProgressRate here should be replaced with {Progress}% */}
+      <Grid item xs={12} sm={3} className={classes.icons}>
+        <IconItemContainer onClick={(ev) => likeGoal(ev)}>
+          <img src={likes} alt="likes-icon" className={classes.iconImages} />
+          <IconItemCount>{goalLikes}</IconItemCount>
+        </IconItemContainer>
+        <IconItemContainer onClick={(ev) => disLikeGoal(ev)}>
+          <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
+          <IconItemCount>{goalDislikes}</IconItemCount>
+        </IconItemContainer>
+      </Grid>
 
-                  <ProgressRate>Progress Rate: 73%</ProgressRate>
-
-                  {/* This ProgressDate here should be replaced with 
-                  {month.month_names_short[goalStart.getMonth()]} {goalStart.getDate()} - {month.month_names_short[goalEnd.getMonth()]} {goalEnd.getDate()}*/}
-
-                  <ProgressDate>Sep 1 - Sep 30</ProgressDate>
-                </ProgressDetailsContainer>
-              </Grid>
-
-              <Grid item xs={12} sm={3} className={classes.icons}>
-                <IconItemContainer>
-                  <img src={views} alt="views-icon" className={classes.iconImages} />
-                  <IconItemCount>66</IconItemCount>
-                </IconItemContainer>
-                <IconItemContainer>
-                  <img src={likes} alt="likes-icon" className={classes.iconImages} />
-                  <IconItemCount>8</IconItemCount>
-                </IconItemContainer>
-                <IconItemContainer>
-                  <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
-                  <IconItemCount>8</IconItemCount>
-                </IconItemContainer>
-              </Grid>
-
-              <MoreOptions>
-                <img src={ellipsis} alt="more-options-icon" />
-              </MoreOptions>
-            </Container>
-          );
-        })}
-      </>
-    );
-  }
-  if (status === 'loading') return <p>Loading...</p>;
-  return status === 'failed' ? (
-    <p>
-      {/* A button might be here to retry and this errorMessage will be in the error UI*/}
-      {errorMessage}
-    </p>
-  ) : null;
+      <MoreOptions
+        onClick={(evt) => {
+          evt.stopPropagation();
+          setDropDown(!showDropDown);
+        }}
+      >
+        <img src={ellipsis} alt="more-options-icon" />
+      </MoreOptions>
+      {/* <Menuoption show={showDropDown} toggleShowDropDown={() => setDropDown(!showDropDown)} /> */}
+      <GoalDropDown show={{ showDropDown, setDropDown }} goalData={goalData} />
+    </Container>
+  );
 };
 
 export default GoalItem;
