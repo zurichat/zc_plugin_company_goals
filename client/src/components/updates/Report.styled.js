@@ -5,7 +5,9 @@ import styled from 'styled-components';
 
 export const StyledContainer = styled.div``;
 
-export const StyledCard = styled(Card)``;
+export const StyledCard = styled(Card)`
+  background-color: red;
+`;
 
 export const StyledTypography = styled(Typography)`
   font-size: 20px;
@@ -72,7 +74,6 @@ export const Upper = styled.div`
 
 export const Lower = styled.div`
   width: 120px;
-  background: red;
   height: 120px;
   background: #fff;
   display: flex;

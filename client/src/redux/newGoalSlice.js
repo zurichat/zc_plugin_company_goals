@@ -9,13 +9,18 @@ export const newGoalSlice = createSlice({
   },
   reducers: {
     saveGoal: (state, action) => {
-      if ((typeof action.payload === 'object')) {
+      if (typeof action.payload === 'object') {
+        // eslint-disable-next-line no-param-reassign
         state.selectedGoal = action.payload;
+        // eslint-disable-next-line no-param-reassign
         state.success = 'Goals successfully created';
+        // eslint-disable-next-line no-param-reassign
         state.error = '';
       } else {
+        // eslint-disable-next-line no-param-reassign
         state.error = action.payload;
-        state.success= ''
+        // eslint-disable-next-line no-param-reassign
+        state.success = '';
       }
     },
   },
