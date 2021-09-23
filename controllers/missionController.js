@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
 /* eslint-disable object-shorthand */
@@ -7,21 +9,21 @@ const axios = require('axios');
 const {
   findAll,
   insertOne,
-  updateOne
+  updateOne,
+  find
 } = require('../db/databaseHelper');
 const {
   missionSchema
 } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const {
-  publish
-} = require('./centrifugoController');
-const {
-  createNotification
-} = require('./notificationController');
+const { publish } = require('./centrifugoController');
+const { createNotification } = require('./notificationController');
 
 // Global Variables
 const collectionName = 'mission';
+let notificationList
+
+const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429']
 
 // exports.createMission = catchAsync(async (req, res, next) => {
 //   // Validating each property against their data type
@@ -99,6 +101,14 @@ exports.updateMission = catchAsync(async (req, res, next) => {
     // message.id = messageId.data.object_id;
 
     // await publish('notifications', { ...message, _id: message.id });
+    notificationList = []
+    for (const user_id of user_ids) {
+      const notification = await createNotification(user_id, organization_id, '', 'Mission', 'deleteGoal')
+      notificationList.push(notification)
+    }
+    // console.log(notificationList)
+    await publish('notifications', notificationList[0])
+    // const notification = await findAll('notifications', organization_id)
 
     return res.status(200).json({
       message: 'Update Sucessful',

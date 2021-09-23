@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
@@ -6,7 +7,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-const axios = require('axios')
 const { v4: uuidv4 } = require('uuid');
 const {
   find,
@@ -247,6 +247,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   const room_users = await find('roomusers', { room_id: roomId }, org);
   const roomUsers = room_users.data.data;
   const myFunc = async(user) =>{
+    // var notificationList = []
       await createNotification(user.user_id, org, roomId, goal_name, 'deleteGoal')
   }
   // delete assigned records
@@ -268,11 +269,15 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
 exports.assignGoal = catchAsync(async (req, res, next) => {
   const { room_id, user_id, org_id: org } = req.query;
+  // const tokenHeader = req.headers.authorization
 
   // try {
   //   let organization = await axios({
   //     method: 'get',
   //     url: `https://api.zuri.chat/organizations/${org}/members`,
+  //     headers: {
+  //       Authorization: tokenHeader,
+  //     },
   //   });
   
   //   organization = organization.data.data;
@@ -537,7 +542,7 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
   await likeGoalSchema.validateAsync({ goalId, userId, orgId });
 
   // check that the goal_id is valid
-  const goal = await find('goals', { goalId: goalId }, orgId);
+  const goal = await find('goals', { goalId }, orgId);
 
   if (!goal.data.data) {
     return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));

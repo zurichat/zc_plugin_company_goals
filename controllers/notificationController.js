@@ -15,7 +15,6 @@ const {
 } = require('../schemas');
 const { publish } = require('./centrifugoController');
 
-
 const notificationStructure = {
     assignGoal: [
         'You have been assigned a new goal.',
@@ -60,11 +59,14 @@ exports.createNotification = async (userId, orgId, goalId, goalName, funcName) =
             createdAt: Date.now()
         };
 
-        await notificationSchema.validateAsync(notification);
+        // await notificationSchema.validateAsync(notification);
         const Notification = await insertOne('notifications', notification, orgId);
-        await publish('notifications', { ...notification, _id: Notification.data.data.object_id })
+        notification._id = Notification.data.data.object_id
+        return notification
+
+        
     } catch (error) {
-        return res.status(400).json(error)
+        console.log(error)
     }
 
 };

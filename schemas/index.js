@@ -84,14 +84,14 @@ exports.getGoalLikesSchema = Joi.object({
 });
 
 // notifications schema
-exports.notificationSchema = Joi.object({
-  user_id: Joi.string().required(),
-  org_id: Joi.string().required(),
-  goal_id: Joi.string().required(),
-  header: Joi.string().required(),
-  goalName: Joi.string().required(),
-  isRead: Joi.boolean().required(),
-  colour: Joi.string().required(),
-  description: Joi.string().required(),
-  createdAt: Joi.date().timestamp()
-})
+// exports.notificationSchema = Joi.object({
+//   user_id: Joi.string().required(),
+//   org_id: Joi.string().required(),
+//   goal_id: Joi.string().optional(),
+//   header: Joi.string().required(),
+//   goalName: Joi.string().required(),
+//   isRead: Joi.boolean().required(),
+//   colour: Joi.string().required(),
+//   description: Joi.string().required(),
+//   createdAt: Joi.date().timestamp()
+// })
