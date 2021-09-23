@@ -9,11 +9,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-    padding: '1rem 4rem 1.5rem 1.5rem'
+    padding: '1rem 3rem 1rem 3rem'
   },
 });
 
-export default function Timeline() {
+export default function Menuoption() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -28,22 +28,28 @@ export default function Timeline() {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Timeline
+        Goal Menu
       </Button>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
 
         <MenuItem className={classes.root} onClick={handleClose}>
           {' '}
-          <Typography variant="body2">All Goals</Typography>
+          <Typography variant="body2">View</Typography>
         </MenuItem>
 
         <MenuItem className={classes.root} onClick={handleClose}>
           {' '}
-          <Typography variant="body2">Annual Goals</Typography>
+          <Typography variant="body2">Edit</Typography>
         </MenuItem>
 
         <MenuItem className={classes.root} onClick={handleClose}>
-          <Typography variant="body2">Quarterly Goals</Typography>
+          <Typography variant="body2">Update</Typography>
+        </MenuItem>
+       
+        <MenuItem className={classes.root} onClick={handleClose}>
+          <Typography variant="body2" style={{ color: '#f44336' }}>
+            Delete
+          </Typography>
         </MenuItem>
 
       </Menu>

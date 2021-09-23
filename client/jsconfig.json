@@ -2,5 +2,5 @@
   "compilerOptions": {
     "baseUrl": "src"
   },
-  "include": ["src", "src/components/Sortoptions/.js"]
+  "include": ["src"]
 }
