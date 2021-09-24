@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -29,7 +29,6 @@ import { useSelector } from 'react-redux';
 
 const getWindowDimension = () => {
   const { innerWidth: width } = window;
-  console.log(width);
   return width;
 };
 
@@ -100,7 +99,7 @@ function Notification() {
                           </Button>
                         </FlexColumn>
                         <FlexColumn arrowContainer>
-                          {index === _id && isActive ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                          {index === _id ? <ExpandMoreIcon /> : <ExpandLessIcon />}
 
                           {/* windows width is greater than 1300  */}
                           {getWidth > 1300 && (
@@ -110,7 +109,7 @@ function Notification() {
                           )}
                         </FlexColumn>
                       </FlexRows>
-                      {index === _id && isActive && (
+                      {index === _id && (
                         <FlexColumn moreNotificationInfo>
                           <Paragraph moreInfo>{description}</Paragraph>
                           <FlexRows AlignRight>
