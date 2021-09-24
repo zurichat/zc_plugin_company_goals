@@ -6,6 +6,7 @@ export const EmptyGoalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: auto;
 `;
 
 export const EmptyGoalText = styled.p`
@@ -35,4 +36,7 @@ export const EmptyGoalButton = styled.div`
   font-size: 15px;
   font-family: 'Lato';
   font-style: normal;
+    &:hover {
+  opacity: 0.8;
+  }
 `;
