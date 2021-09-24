@@ -3,11 +3,18 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
-import Design from '../../components/Dropdown/Design';
-import MenuOption from '../../components/Dropdown/MenuOption';
-import Mobile from '../../components/Dropdown/Mobile';
-import MobilePrivate from '../../components/Dropdown/MobilePrivate';
-import InnerNav from '../../components/goal_interface_inner_header/InnerNav';
+import Timeline from '../Sortoptions/Timeline';
+import Category from '../Sortoptions/Category';
+import Date from '../Sortoptions/Date';
+import Progress from '../Sortoptions/Progress';
+import MenuOption from '../Sortoptions/MenuOption';
+import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import Error from '../error/Error';
+// import Design from '../Dropdown/Design';
+// import MenuOption from '../Dropdown/MenuOption';
+// import Mobile from '../Dropdown/Mobile';
+// import MobilePrivate from '../Dropdown/MobilePrivate';
+import InnerNav from '../goal_interface_inner_header/InnerNav';
 // import GetGoals from '../getGoals/getGoals';
 // eslint-disable-next-line import/no-unresolved
 
@@ -19,6 +26,7 @@ import GoalItem from '../Goals/GoalItem';
 import HistoryList from '../history/historyList';
 // import Menuoption from '../Menuoption/Menuoption';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
+import Loader from '../loader/loader';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
@@ -43,16 +51,46 @@ function Mainside() {
           <GoalsNavLayout />
           <Goal>
             <InnerNav />
-            {status === 'loading' && <p>Loading...</p>}
+            {status === 'loading' && <Loader />}
             {status === 'success' && !hasGoal && <EmptyGoal />}
+            {status === 'failed' && <Error errorMessage={errorMessage} />}
+            {
+              /* //PS => The repition of the Goal Item is only temporary */
+              status === 'success' &&
+                hasGoal &&
+                goals.data.map((goal, id) => {
+                  return <GoalItem goalData={goal} key={id} />;
+                })
+            }
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
-          <GoalDetailAccordion />
+          {/* <Goal> //Goal container isnt needed for the GoalItem again.
+          <Menuoption /> //whoever is setting up can enable this and see how it looks.
+        </Goal> */}
+          {
+            /* //PS => The repition of the Goal Item is only temporary */
+            status === 'success' &&
+              hasGoal &&
+              goals.data.map((goal, i) => {
+                return <GoalItem goalData={goals} key={goals.room_id} />;
+              })
+            // status === 'success' &&
+            //   hasGoal &&
+            //   goals.data.map((goal, i) => {
+            //     return <GoalItem goalData={goals} key={goals.room_id}/>;
+            //   })
+          }
+          {/* {status === 'failed' && (
+            <Error/> */}
+          {/* A button might be here to retry and this errorMessage will be in the error UI*/}
+          {/* {errorMessage}
+            </p>
+          )} */}
         </GoalsDisplayContainer>
         <GoalsReportAndNotificationContainer>
           <ReportsAndNotificationContainer />
-          <HistoryList />
+          {/* <HistoryList /> */}
           {/* <Goal primary>
           <Report />
           <Notification />
@@ -62,10 +100,12 @@ function Mainside() {
       </Main>
       {/* <ExportReport /> */}
       {/* the dropdown for the main menu and others */}
-      <Design />
+
       <MenuOption />
-      <Mobile />
-      <MobilePrivate />
+      <Category />
+      <Date />
+      <Progress />
+      <Timeline />
     </>
   );
 }

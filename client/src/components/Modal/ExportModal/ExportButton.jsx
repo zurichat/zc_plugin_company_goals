@@ -19,14 +19,21 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const ExportButton = () => {
+const ExportButton = ({ valueState, valueStateInstant }) => {
+  console.log(valueStateInstant);
   const submitExportHandler = async () => {
     try {
       const data = await fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e');
       const response = await data.json();
-      // console.log(response.data);
-      generatePDF(response.data);
-      // generateEXCEL(response.data);
+      console.log(response.data);
+
+      if (valueState === 'excel') {
+        generateEXCEL(response.data);
+      } else if (valueState === 'pdf') {
+        generatePDF(response.data);
+      } else {
+        return null;
+      }
     } catch (err) {
       // console.log('err.message');
     }

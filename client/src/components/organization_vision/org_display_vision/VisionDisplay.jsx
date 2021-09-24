@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchVision } from '../../../redux/getVisionSlice';
 import { showEditVisionModal } from '../../../redux/organizationVision.slice';
 import { Editbutton, Title, Box, VisionField, VisionContainer } from './vision.style';
+import { fetchOrgVision, showEditVisionModal } from '../../../redux/organizationVision.slice';
+import { Editbutton, Title, Box, VisionField } from './vision.style';
 import editImg from './visionAsset/editImg.png';
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
-  const { visionText } = useSelector((state) => state.getVision);
+  const { visionText } = useSelector((state) => state.organizationVision);
 
   useEffect(() => {
-    dispatch(fetchVision());
+    dispatch(fetchOrgVision());
   }, []);
 
   return (

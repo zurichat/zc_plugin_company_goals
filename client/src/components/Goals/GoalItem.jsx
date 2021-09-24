@@ -57,13 +57,19 @@ const GoalItem = ({ goalData }) => {
     e.stopPropagation();
     dispatch(addDisLike(1));
   };
+
+
+  
+
   const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
-  const goalStart = new Date(goalData.goal_start);
-  const goalEnd = new Date(goalData.goal_end);
+  const goalStart = new Date(goalData.start_date);
+  const goalEnd = new Date(goalData.due_date);
   const startMonth = month.month_names_short[goalStart.getMonth()];
   const startDate = goalStart.getDate();
   const endMonth = month.month_names_short[goalEnd.getMonth()];
   const endDate = goalEnd.getDate();
+
+
   return (
     <Container className={classes.root} key={goalData.room_id}>
       <Grid item xs={12} sm={3} className={classes.rightSpacing}>
@@ -78,10 +84,9 @@ const GoalItem = ({ goalData }) => {
         <ProgressDetailsContainer>
           <ProgressRate>Progress Rate: {Progress ? Progress : 0}%</ProgressRate>
           <ProgressDate>
-            {goalData.goal_start && goalData.goal_end
+            {goalData.start_date && goalData.due_date
               ? `${startMonth} ${startDate} - ${endMonth} ${endDate}`
               : 'No date set'}
-            {/* {startMonth} {startDate} - {endMonth} {endDate} */}
           </ProgressDate>
         </ProgressDetailsContainer>
       </Grid>
@@ -106,7 +111,7 @@ const GoalItem = ({ goalData }) => {
         <img src={ellipsis} alt="more-options-icon" />
       </MoreOptions>
       {/* <Menuoption show={showDropDown} toggleShowDropDown={() => setDropDown(!showDropDown)} /> */}
-      <GoalDropDown show={{ showDropDown, setDropDown }} goal_id={goalData.room_id} />
+      <GoalDropDown show={{ showDropDown, setDropDown }} goalData={goalData} />
     </Container>
   );
 };

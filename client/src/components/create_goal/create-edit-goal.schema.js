@@ -12,7 +12,7 @@ const createGoalSchema = Yup.object().shape({
     .max(30, 'Characters greater than 30')
     .trim()
     .required('Goal description is required'),
-  goal_type: Yup.string().oneOf(['annual', 'quarterly']),
+  goal_type: Yup.string().oneOf(['annual', 'quarterly']).required(),
   category: Yup.string().min(3).required(),
   start_date: Yup.date().transform(parseDateString).min(new Date()).required(),
   due_date: Yup.date().transform(parseDateString).min(new Date()).required(),
