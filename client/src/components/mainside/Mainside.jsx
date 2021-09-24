@@ -53,7 +53,7 @@ function Mainside() {
             <InnerNav />
             {status === 'loading' && <Loader />}
             {status === 'success' && !hasGoal && <EmptyGoal />}
-            {status === 'failed' && <Error errorMessage={errorMessage} />}
+            {status === 'failed' && <Error errorMessage={errorMessage} /> }
             {
               /* //PS => The repition of the Goal Item is only temporary */
               status === 'success' &&
