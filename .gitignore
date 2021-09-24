@@ -3,3 +3,7 @@ node_modules/
 config.env
 .DS_Store
 logs/
+.env
+yarn-error.log*
+.vscode
+settings.json

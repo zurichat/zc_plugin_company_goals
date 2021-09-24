@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-import React from 'react';
-
 import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
@@ -8,7 +5,7 @@ import NavName from './NavName';
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2.5fr;
+  grid-template-columns: 1fr 1fr 1fr 3fr;
   padding: 1rem;
   place-items: center;
 `;
@@ -79,8 +76,8 @@ const NavLayout = () => {
     <GridLayout>
       <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
       <NavName> quaterly goals </NavName>
-      <Sort type="button" onClick={showDrpDw}>
-        <div> Sort by </div> <img src={img} alt="sort icon" />
+      <Sort type="button">
+        <div> Sort by </div> onClick={showDrpDw} <img src={img} alt="sort icon" />
         <SortDrpDw id="sort_drop_down" className="drop">
           <ul>
             <li>More Recent</li>
@@ -92,6 +89,7 @@ const NavLayout = () => {
           </ul>
         </SortDrpDw>
       </Sort>
+      ;
     </GridLayout>
   );
 };

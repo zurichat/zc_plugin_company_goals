@@ -1,34 +1,66 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/order */
 const path = require('path');
 
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const express = require('express');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+const swaggerUi= require('swagger-ui-express');
+
+const yaml = require('yamljs');
+
+const documentation = yaml.load('./docs/documentation.yaml');
+
+dotenv.config();
 
 const globalErrorHandler = require('./controllers/errorController');
 
 // Require Routes
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
+const searchRouter = require('./routes/searchRoute');
 const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
+const roomRouter = require('./routes/roomRoute');
+const userRouter = require('./routes/userRoute');
+const notificationRouter = require('./routes/notificationRoute');
+const authRouter = require('./routes/auth');
 
+const visionRouter = require('./routes/visionRoutes');
+const realTimeupdateRouter = require('./routes/realTimeupdates');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
 const app = express();
 
 // Implement cors
-app.use(cors());
 
-app.options('*', cors());
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors({ origin: ['*'] }));
+} else {
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
+  const corsOptions = {
+    origin(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+  app.use(cors(corsOptions));
+}
+
+// app.options('*', cors());
 
 // Add secure headers
-app.use(helmet());
+// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -36,7 +68,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //  Reading data from the body into req.body. The limit option manages how large the data can be
-app.use(express.json({ limit: '10kb' }));
+app.use(
+  express.json({
+    limit: '10kb',
+  })
+);
 
 // Parse cookies
 app.use(cookieParser());
@@ -46,22 +82,53 @@ app.use(xss());
 
 // Compress text sent to client
 app.use(compression());
+// swagger setup
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerJSDocument = require('swagger-jsdoc');
 
-// Api routes
-app.use('/api/v1/goals', rateLimiter(), goalRouter);
-app.use('/ping', rateLimiter(), pingRouter);
-app.use('/sidebar', rateLimiter(), sidebarRouter);
-app.use('/info', rateLimiter(), pluginInfoRouter);
-app.use('/get-mission', missionRouter);
+// const swaggerOptions = {
+  //   definition: {
+    //     openapi: '3.0.0',
+//     info: {
+//       title: 'Company Goals Plugin API',
+//       version: '1.0.0',
+//       description: 'Company Goals plugin api for zuri chat application documentation',
+//       servers: ['https://goals.zuri.chat/api'],
+//     },
+//   },
+//   apis: ['./routes/*.js'],
+// };
+// const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
-// To serve frontend static files in production
+// To serve frontend build files in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
+  app.use(express.static(path.join(__dirname, 'client/dist')));
+  app.use(express.static(path.join(__dirname, 'serve-client/dist')));
 }
+
+app.get('/zuri-plugin-company-goals.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/zuri-plugin-company-goals.js'));
+});
+// Api routes
+app.use('/api/v1/goals', goalRouter);
+app.use('/api/v1/rooms', rateLimiter(), roomRouter);
+app.use('/api/v1/users', rateLimiter(), userRouter);
+app.use('/api/v1/search', rateLimiter(), searchRouter);
+app.use('/ping', rateLimiter(), pingRouter);
+app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
+app.use('/info', rateLimiter(), pluginInfoRouter);
+app.use('/api/v1/vision', visionRouter);
+app.use('/api/v1/mission', missionRouter);
+app.use('/api/v1/notifications', notificationRouter);
+app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
+// app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
+app.use('/api/v1/auth', authRouter);
+
+// Send all 404 requests not handled by the server to the Client app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'serve-client/dist', 'index.html'));
+});
 
 // To catch all unhandled routes
 app.all('*', (req, res, next) => {

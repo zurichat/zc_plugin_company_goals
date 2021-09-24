@@ -1,0 +1,420 @@
+openapi: 3.0.0
+info:
+  title: Goal Plugin API
+  description: This list all the api's for goal plugin.
+  version: 0.0.1
+servers:
+  - url: https://goals.zuri.chat/api/v1
+    description: This point to Goals Plugin (Production server)
+  - url: http://localhost:4000/api/v1
+    description: This point to Goals Plugin (Development server)
+
+components:
+  schemas:
+    # Goasl schema
+    Goals:
+      type: object
+      properties:
+        status: 
+          type: string
+          example: 200
+        message:
+          type: string
+          example: 'success'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGoal'
+    # Single goal schema
+    SingleGoal:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '613ddbd3e4010959c8dc0c5e'
+        category:
+          type: string
+          example: '#backend'
+        createdBy:
+          type: string
+          example: 'Depeju'
+        description:
+          type: string
+          example: 'test goal'
+        start_date:
+          type: date
+          example: '2020-10-02'
+        due_date:
+          type: date
+          example: '2020-10-02'
+        goal_type:
+          type: string
+          example: 'annual'
+        goal_name:
+          type: string
+          example: 'public room'
+        isComplete:
+          type: boolean
+          example: true
+        isExpired:
+          type: boolean
+          example: true
+        room_id:
+          type: string
+          example: 'b66e5fe5-2c66-413c-b2fc-a38d6ab76330'
+  responses:
+    BadRequest:
+      description: 'Bad request'
+    NotFound:
+      description: 'Not found'
+    Unauthorized:
+      description: 'Unauthorized'
+    Success:
+      description: 'success'
+    ServerError:
+      description: 'Internal server error'
+    201GoalSuccess:
+      description: Successfully created.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleGoal'
+    200GoalSuccess:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Goals'
+paths:
+  # Sidebar Definition start from here
+  /sidebar:
+    get:
+      tags:
+        - Sidebar
+      summary: Get user sidebar.
+      description: This endpoint get all the user sidebar for a particular organization.
+      parameters:
+        - name: org
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to get all user sidebar.
+          example: 200
+        - name: user
+          in: query
+          schema:
+            type: string
+          description: Provide a user id to get all user sidebar.
+          example: '613fa4a56173056af01b4b26'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  # Goals resources definition start from here
+  /goals:
+    post:
+      tags:
+        - Goals
+      summary: Create a brand new goals.
+      description: This endpoint a new goals for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to create a new goal.
+          example: '6145d099285e4a184020742e'
+      requestBody:
+        description: Provide all the required fields to create a new goal.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                  example: '#backend'
+                description:
+                  type: string
+                  example: 'test goal'
+                start_date:
+                  type: date
+                  example: '2020-10-02'
+                due_date:
+                  type: date
+                  example: '2020-10-02'
+                goal_type:
+                  type: string
+                  example: 'annual'
+                goal_name:
+                  type: string
+                  example: 'public room'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    get:
+      tags:
+        - Goals
+      summary: Returns a list of all goals.
+      description: This endpoint list all the goals for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+            example: '6145d099285e4a184020742e'
+          description: Provide an org_id to fetch for all your goals.
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/single:
+    get:
+      tags:
+        - Goals
+      summary: Returns a single goals.
+      description: This endpoint return a single goal for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to fetch a single goal.
+          example: 200
+        - name: room_id
+          in: query
+          schema:
+            type: string
+          description: Provide a room_id to fetch a single goal.
+          example: '42174f6c-bac3-4526-b71d-daba1cd2a056'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/update:
+    put:
+      tags:
+        - Goals
+      summary: Update a single goals.
+      description: This endpoint updates a single goal for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to fetch a single goal.
+        - name: room_id
+          in: query
+          schema:
+            type: string
+          description: Provide a room_id to fetch a single goal.
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/delete:
+    delete:
+      tags:
+        - Goals
+      summary: Delete a single goals.
+      description: This endpoint delete a single goal for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to delete a single goal.
+          example: 200
+        - name: goal_id
+          in: query
+          schema:
+            type: string
+          description: Provide a goal_id to delete a single goal.
+          example: '613fa4a56173056af01b4b26'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/assign:
+    post:
+      tags:
+        - Goals
+      summary: Assign a single goals.
+      description: This endpoint assign a single goal to a user from a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to assign a single goal.
+          example: 200
+        - name: room_id
+          in: query
+          schema:
+            type: string
+          description: Provide a room_id to assign a single goal.
+          example: '613fa4a56173056af01b4b26'
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: Provide a user_id to assign a single goal.
+          example: '613fa4a56173056af01b4b26'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/like:
+    get:
+      tags:
+        - Goals
+      summary: Like a single goals.
+      description: This endpoint assign a single goal to a user from a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to like a single goal.
+          example: 200
+        - name: goal_id
+          in: query
+          schema:
+            type: string
+          description: Provide a goal_id to like a single goal.
+          example: '613fa4a56173056af01b4b26'
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: Provide a user_id to like a single goal.
+          example: '613fa4a56173056af01b4b26'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/goallikes:
+    get:
+      tags:
+        - Goals
+      summary: Get all goals likes.
+      description: This endpoint get all the like goals for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to get all like goals.
+          example: 200
+        - name: goal_id
+          in: query
+          schema:
+            type: string
+          description: Provide a goal_id to get all like goals.
+          example: '613fa4a56173056af01b4b26'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /goals/userlike:
+    get:
+      tags:
+        - Goals
+      summary: Get all user like goals.
+      description: This endpoint get all the goals a user has liked for a particular organization.
+      parameters:
+        - name: org_id
+          in: query
+          schema:
+            type: string
+          description: Provide an org_id to get all user like goals.
+          example: 200
+        - name: goal_id
+          in: query
+          schema:
+            type: string
+          description: Provide a goal_id to get all user like goals.
+          example: '613fa4a56173056af01b4b26'
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: Provide a user_id to get all user like goals.
+          example: '613fa4a56173056af01b4b26'
+      responses:
+        '200':
+          $ref: '#/components/responses/200GoalSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
