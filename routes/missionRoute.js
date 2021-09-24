@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { Router } = require('express');
 const mission = require('../controllers/missionController');
 const { verifyToken, checkIsValidUser, requireRoles } = require('../middlewares/validate');
