@@ -104,17 +104,20 @@ const Main = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   margin-top: 3.22rem;
+  height: 80%;
   /* border: 1px solid yellow; */
 `;
 
 const GoalsDisplayContainer = styled.div`
   width: 69% !important;
+  height: 100% !important;
   /* border: 1px solid green; */
 `;
 
 const GoalsReportAndNotificationContainer = styled.div`
   /* border: 1px solid blue; */
   width: 30% !important;
+  height: 100% !important;
 `;
 const Goal = styled.div`
   flex: 1;

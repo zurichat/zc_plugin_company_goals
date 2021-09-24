@@ -9,7 +9,6 @@ import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
   GoalTitle,
-  GoalTagsContainer,
   GoalTags,
   ProgressBar,
   ProgressRate,
@@ -21,9 +20,8 @@ import {
 } from './GoalItem.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { addDisLike, addLike } from '../../redux/likeGoalSlice';
-import Menuoption from '../../components/Menuoption/Menuoption';
 
-const GoalItem = ({ goalData }) => {
+const GoalItem = ({ goalData }) => { 
   const classes = useStyles();
   const dispatch = useDispatch();
   const month = {
@@ -70,9 +68,7 @@ const GoalItem = ({ goalData }) => {
     <Container className={classes.root} key={goalData.room_id}>
       <Grid item xs={12} sm={3} className={classes.rightSpacing}>
         <GoalTitle>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
-        <GoalTagsContainer>
-          <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
-        </GoalTagsContainer>
+        <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
       </Grid>
 
       <Grid item xs={12} sm={6}>
