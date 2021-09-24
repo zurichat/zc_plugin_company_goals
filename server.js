@@ -1,10 +1,10 @@
-/* eslint-disable import/order */
-/* eslint-disable import/first */
-require('dotenv').config({ path: './config.env' });
-
-const logger = require('./utils/logger');
+/* eslint-disable no-console */
+require('dotenv').config({
+  path: './config.env'
+});
 
 const app = require('./app');
+const logger = require('./utils/logger');
 
 const PORT = process.env.PORT || 4000;
 

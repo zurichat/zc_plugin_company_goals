@@ -1,85 +1,59 @@
+/* eslint-disable import/order */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
+// import AddIcon from '@material-ui/icons/Add';
 
-import { Container, Button, Box, TextField } from '@material-ui/core';
-
-import AddIcon from '@material-ui/icons/Add';
-
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { useDispatch } from 'react-redux';
-
-import { showEditMissionModal } from '../../redux/showEditMissionModal';
-import { showEditVisionModal } from '../../redux/showEditVisionModal';
-
+// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+// import { useDispatch } from 'react-redux';
+// import { useStyles } from '../../hooks/screenSize';
+// import { showEditMissionModal } from '../../redux/showEditMissionModal';
+import DisplayOrganizationVision from '../organization_vision/org_display_vision/VisionDisplay';
+import styled from 'styled-components';
+import Missions from '../organization_mission/Missions';
+import arrDown from '../organization_vision/org_display_vision/visionAsset/arr-down.png';
 const Header = () => {
-  const dispatch = useDispatch();
-
+  // const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
+  // const [isAdmin] = useState(true);
+  // const classes = useStyles();
+  // const {missionText} = useSelector(state => state.editMission);
+  const collapseInput = () => {
+    document.querySelector('.missionInput').style.display = 'none';
+    document.querySelector('.visionInput').style.display = 'none';
+    document.querySelector('.editbutton').style.display = 'none';
+    document.querySelector('.editMissionbutton').style.display = 'none';
+  };
   return (
-    <Container>
-      <Box container display="flex" justifyContent="space-between" style={{ marginTop: 50 }}>
-        <Box>
-          <Box
-            container
-            display="flex"
-            style={{
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '3px solid #00B87C',
-            }}
-          >
-            <Button style={{ fontWeight: 'bold' }}>Mission</Button>
-            <Button
-              startIcon={<AddIcon />}
-              style={{ fontWeight: 'bold' }}
-              onClick={() => dispatch(showEditMissionModal())}
-            >
-              Edit Mission
-            </Button>
-          </Box>
-          <TextField
-            placeholder="Training A Million Youths Yearly"
-            variant="outlined"
-            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
-          />
-        </Box>
-        <Box>
-          <Box
-            container
-            display="flex"
-            style={{
-              fontWeight: 'bold',
-              width: 500,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '3px solid #00B87C',
-            }}
-          >
-            <Button style={{ fontWeight: 'bold' }}>Vision</Button>
-            <div>
-              <Button
-                startIcon={<AddIcon />}
-                style={{ fontWeight: 'bold' }}
-                onClick={() => dispatch(showEditVisionModal())}
-              >
-                Edit Vision
-              </Button>
-              <span>
-                <Button style={{ backgroundColor: '#00B87C', color: 'white' }}>
-                  <ExpandLessIcon />
-                </Button>
-              </span>
-            </div>
-          </Box>
-          <TextField
-            placeholder="Tech Hub Builder"
-            variant="outlined"
-            style={{ width: 500, border: 'none', backgroundColor: 'white', outline: 'none' }}
-          />
-        </Box>
-      </Box>
-    </Container>
+    <>
+      <MVContain>
+        <Missions />
+        <Div>
+          <DisplayOrganizationVision />
+        </Div>
+      </MVContain>
+    </>
   );
 };
 export default Header;
+
+const MVContain = styled.div`
+  position: relative;
+  max-width: 1120;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.7rem 0.3rem 0.5rem 0.2rem;
+  top: 3rem;
+  margin-bottom: 4.64rem;
+
+  @media only screen and (max-width: 420px) {
+    flex-direction: column;
+    padding-top: 1rem;
+  }
+`;
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+`;
