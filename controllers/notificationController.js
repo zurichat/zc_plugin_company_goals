@@ -15,16 +15,13 @@ const {
     findAll,
     deleteMany
 } = require('../db/databaseHelper');
-const {
-    notificationSchema
-} = require('../schemas');
 const logger = require('../utils/logger');
 const { publish } = require('./centrifugoController');
 
 const notificationStructure = {
     achievedGoal: [
         'Our goal has been achieved.',
-        'Congratulations, you have achieved this goal. All set targets have been met.',
+        'Congratulations, we have achieved this goal. All set targets have been met.',
         'green'
     ],
     createGoal: [
@@ -33,13 +30,13 @@ const notificationStructure = {
         'purple'
     ],
     deleteGoal: [
-        "A goal you're assigned to has been deleted.",
+        "One of our goals has been deleted.",
         'We will no longer be working towards this goal.',
         'red'
     ],
     expiredGoal: [
         'We failed to reach this goal.',
-        'Unfortunately, you have been unable to achieve this goal within the set timeframe.',
+        'Unfortunately, we have been unable to achieve this goal within the set time frame.',
         'red'
     ],
     updateGoal: [
@@ -54,7 +51,7 @@ const notificationStructure = {
     ],
     updateVision: [
         'Our vision has been updated.',
-        'la la la',
+        '',
         'blue'
     ],
 };
@@ -103,7 +100,6 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
             notifications.push(notification)
         };
 
-        // await notificationSchema.validateAsync(notification);
         const Notification = await insertMany('goalNotifications', notifications, orgId);
         const goalNotification = notifications[0]
         goalNotification._id = Notification.data.data.object_ids[0]
