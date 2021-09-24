@@ -189,7 +189,7 @@ exports.getSidebar = catchAsync(async(req,res,next)=>{
         members: 100,
         icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
         action: 'open',
-        url: `${req.protocol}://${req.hostname}/rooms/${organization_id}`
+        url: `${req.protocol}://${req.hostname}/goals/rooms/${organization_id}`
       }
     ],
     public_rooms:[]
