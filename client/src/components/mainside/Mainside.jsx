@@ -68,14 +68,7 @@ function Mainside() {
           {/* <Goal> //Goal container isnt needed for the GoalItem again.
           <Menuoption /> //whoever is setting up can enable this and see how it looks.
         </Goal> */}
-          {
-            /* //PS => The repition of the Goal Item is only temporary */
-            status === 'success' &&
-              hasGoal &&
-              goals.data.map((goal, i) => {
-                return <GoalItem goalData={goals} key={goals.room_id} />;
-              })
-          }
+
           {/* {status === 'failed' && (
             <Error/> */}
           {/* A button might be here to retry and this errorMessage will be in the error UI*/}
