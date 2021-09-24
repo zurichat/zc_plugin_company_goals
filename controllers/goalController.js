@@ -58,15 +58,21 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
         // Paginated goals
         newGoals = data.slice(start, end);
+
+        return res.status(200).json({
+          status: 200,
+          message: 'success',
+          currentPage: newPage,
+          totalDocuments: data.length,
+          documentPerPage: newGoals.length,
+          data: newGoals,
+        });
       }
       
       // Sending response
       return res.status(200).json({
         status: 200,
         message: 'success',
-        currentPage: newPage,
-        totalDocuments: data.length,
-        documentPerPage: newGoals.length,
         data: newGoals,
       });
     }
