@@ -1,19 +1,12 @@
-/* eslint-disable react/destructuring-assignment */
-import styled from 'styled-components';
-import React from 'react';
-import HistoryItems from './Item';
+import { HistoryItems, HistoryItemsHeader } from './history.styled';
 
-const HistoryItem = (props) => {
-  // eslint-disable-next-line react/destructuring-assignment
-  // eslint-disable-next-line react/prop-types
-  const historyContainer = props.history.map((element) => {
-    return (
-      <HistoryItems>
-        <span>{element.timeVisited}</span>
-        <h3>{element.locationLastVisited}</h3>
-      </HistoryItems>
-    );
-  });
+const HistoryItem = ({ history }) => {
+  return history.map((item) => (
+    <HistoryItems>
+      <span>{item.timeVisited}</span>
+      <HistoryItemsHeader>{item.locationLastVisited}</HistoryItemsHeader>
+    </HistoryItems>
+  ));
 };
 
 export default HistoryItem;

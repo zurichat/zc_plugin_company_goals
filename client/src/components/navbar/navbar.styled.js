@@ -50,6 +50,10 @@ export const SearchContainer = styled.div`
   border-radius: 15px;
   position: relative;
   cursor: text;
+
+  &:active {
+    border: 2px solid red;
+  }
 `;
 export const AddIconStyled = styled(AddIcon)`
   font-size: 1.2rem;
@@ -60,7 +64,7 @@ export const SearchInput = styled.input`
   outline: none;
   border: none;
   background: transparent;
-  color: #f0f0f0;
+  color: black;
   width: 80%;
   margin-left: 35px;
   font-size: 13px;
