@@ -16,8 +16,8 @@ export const useStyles = makeStyles(() => ({
       flexDirection: 'column',
       height: '17%',
       position: 'relative',
-      maxWidth: '83%', 
-      marginLeft: 'inherit'
+      maxWidth: '83%',
+      marginLeft: 'inherit',
     },
   },
   icons: {
@@ -43,9 +43,9 @@ export const GoalTitle = styled.span`
   width: 100%;
   word-wrap: break-word;
   text-align: left;
-  '@media (max-width: 576px)': { 
-      font-size: 0.5rem;
-    },
+  @media screen and (max-width: 576px) {
+    font-size: 0.5rem;
+  }
 `;
 
 export const GoalTags = styled.span`
@@ -56,9 +56,10 @@ export const GoalTags = styled.span`
   text-transform: capitalize;
   margin-right: 2rem;
   font-weight: 400;
-  '@media (max-width: 576px)': {
-      font-size: 0.4rem;
-    },
+
+  @media screen and (max-width: 576px) {
+    font-size: 0.4rem;
+  }
 `;
 
 export const ProgressBar = withStyles(() => ({
@@ -67,7 +68,7 @@ export const ProgressBar = withStyles(() => ({
     borderRadius: 16,
     marginTop: '0.7rem',
     '@media (max-width: 576px)': {
-      marginTop: '1.6rem'
+      marginTop: '1.6rem',
     },
   },
   colorPrimary: {
@@ -91,10 +92,10 @@ export const ProgressRate = styled.span`
   line-height: 1rem;
   width: 7.375rem;
   height: 0.25rem;
-  font-weight: 400; 
-  '@media (max-width: 576px)': {
-      font-size: 0.4rem;
-    },
+  font-weight: 400;
+  @media screen and (max-width: 576px) {
+    font-size: 0.4rem;
+  }
 `;
 
 export const ProgressDate = styled.span`
@@ -103,9 +104,9 @@ export const ProgressDate = styled.span`
   font-size: 0.813rem;
   color: #616061;
   font-weight: 400;
-  '@media (max-width: 576px)': {
-      font-size: 0.4rem;
-    },
+  @media screen and (max-width: 576px) {
+    font-size: 0.4rem;
+  }
 `;
 
 export const IconItemContainer = styled.div`
