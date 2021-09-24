@@ -1,4 +1,4 @@
- import styled from 'styled-components';
+import styled from 'styled-components';
 
 export const Tabs = styled.section`
   width: 100%;
@@ -25,14 +25,14 @@ export const Span = styled.span`
   cursor: pointer;
   background: #f44336;
   color: white;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
+  width: 15px;
+  height: 15px;
+  font-size: 8px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 4%;
   margin-left: -2%;
   z-index: 99;
 `;
@@ -55,7 +55,7 @@ export const TabButton = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #999999;
   line-height: 28px;
