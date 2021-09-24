@@ -1,33 +1,37 @@
 import styled from 'styled-components';
 
+export const VisionContainer = styled.div `
+  position: relative;
+  max-width: 100%;
+  margin: auto;
+`
 export const Box = styled.div`
   position: relative;
-  margin-top: 1.5rem;
-  padding: 10px;
   display: flex;
-  flex-direction: column;
+  padding: 10px;
   justify-content: center;
   align-items: center;
 `;
-export const Input = styled.input`
-  background-color: ${(props) => props.bgColor};
-  padding: ${(props) => props.padding};
-  margin: ${(props) => props.margin};
-  width: 518px;
-  height: 61px;
-  border: none;
+// export const Input = styled.input`
+//   background-color: ${(props) => props.bgColor};
+//   padding: ${(props) => props.padding};
+//   margin: ${(props) => props.margin};
+//   width: 100%;
+//   height: 15%;
+//   border: none;
 
-  @media only screen and (max-width: 420px) {
-    width: 340px;
-    height: 45px;
-  }
-  &::placeholder {
-    font-size: 18px;
-    font-family: 'Lato';
-    padding-left: 10px;
-    color: #999999;
-  }
-`;
+//   @media only screen and (max-width: 420px) {
+//     width: 340px;
+//     height: 45px;
+    
+//   }
+//   &::placeholder {
+//     font-size: 18px;
+//     font-family: 'Lato';
+//     padding-left: 10px;
+//     color: #999999;
+//   }
+// `;
 export const Editbutton = styled.button`
   border: none;
   position: absolute;
@@ -46,7 +50,7 @@ export const Title = styled.h3`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 28px;
+  line-height: 20px;
   top: ${(props) => props.top};
   right: ${(props) => props.right};
   color: ${(props) => props.color};
@@ -65,8 +69,8 @@ export const VisionField = styled.p`
     border-style: none;
   }
   @media only screen and (max-width: 720px) {
-    width: 70vw;
-    height: 45px;
-    padding: 21px 15px;
+    width: 85vw;
+    height: 35px;
+    padding: 10px 15px;
   }
 `;
