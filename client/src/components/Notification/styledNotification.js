@@ -43,7 +43,7 @@ export const Paragraph = styled.p`
     props.goalParagraphHeader &&
     `
     font-size:15px;
-    line-height:18px;
+    line-height:20px;
     color:#393939;
   `};
 
@@ -57,7 +57,7 @@ export const Paragraph = styled.p`
 
   ${(props) => props.dark && `color: #999999;`};
 
-  ${(props) => props.moreInfo && `line-height:20px; margin-bottom:28px;`};
+  ${(props) => props.moreInfo && `line-height:20px; margin-bottom:1rem;`};
 
   ${(props) =>
     props.flexbasicsParagraph &&
@@ -110,6 +110,7 @@ export const FlexRows = styled.section`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  ${(props) => props.AlignRight && `justify-content:flex-start; `}
 
   ${(props) =>
     props.goalachievedTimeline &&
@@ -144,10 +145,14 @@ export const Button = styled.button`
     font-size:15px;
     line-height:18px;
     cursor:pointer;
+    padding:0;
   `};
 
   ${(props) => {
-    return props.btnFunction && `font-size: 15px;color: #8DB6FC; cursor:pointer;`;
+    return (
+      props.btnFunction &&
+      `font-size: 14px; padding:0px 10px; color: #8DB6FC; cursor:pointer;box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);`
+    );
   }};
 `;
 
