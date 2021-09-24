@@ -46,16 +46,20 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     // 200, response
     if (goals.data.status === 200 && goals.data.data.length > 0) {
       const {data} = goals.data;
-      const newPage = page * 1 || 1;
-      const perPage = limit * 1 || 5;
+      let newGoals = data
+      if(page && limit)
+      {
+        const newPage = page * 1 || 1;
+        const perPage = limit * 1 || 5;
+  
+        // Calculate the start and end index
+        const start = (newPage - 1) * perPage;
+        const end = newPage * perPage;
 
-      // Calculate the start and end index
-      const start = (newPage - 1) * perPage;
-      const end = newPage * perPage;
-
-      // Paginated goals
-      const newGoals = data.slice(start, end);
-
+        // Paginated goals
+        newGoals = data.slice(start, end);
+      }
+      
       // Sending response
       return res.status(200).json({
         status: 200,
