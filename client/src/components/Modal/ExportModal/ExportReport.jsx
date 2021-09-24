@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import GoalFolder from './GoalFolder';
@@ -61,19 +61,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleModal() {
-  const getGoalFolder = localStorage.getItem('goalFolder');
-  const getReportFolder = localStorage.getItem('reportFolder');
-  const getReportType = localStorage.getItem('reportType');
+  const [reportType, setReportType] = useState('');
 
-  const exportData = {
-    getGoalFolder,
-    getReportFolder,
-    getReportType,
-  };
+  useEffect(() => {
+    const getGoalFolder = localStorage.getItem('goalFolder');
+    setReportType(JSON.stringify(localStorage.getItem('reportFolder')));
+    const getReportType = localStorage.getItem('reportType');
 
-  const exportDataJSON = JSON.stringify(exportData);
+    const exportData = {
+      getGoalFolder,
+      getReportType,
+    };
 
-  localStorage.setItem('exportData', exportDataJSON);
+    const exportDataJSON = JSON.stringify(exportData);
+
+    localStorage.setItem('exportData', exportDataJSON);
+  }, [localStorage, reportType]);
+
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -116,8 +120,6 @@ export default function SimpleModal() {
         <div className={classes.exportBody}>
           <GoalFolder />
           <ReportFormat />
-          <ReportType />
-          <ExportButton />
         </div>
       </div>
     </div>

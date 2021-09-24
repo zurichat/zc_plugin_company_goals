@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const {readSidebar} = require('../controllers/sidebarController.js');
+const {getSidebar} = require('../controllers/sidebarController.js');
 
 const router = Router();
 
-router.get('/', readSidebar);
+router.get('/', getSidebar);
 
 module.exports = router;
