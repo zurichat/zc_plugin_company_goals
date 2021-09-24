@@ -75,11 +75,6 @@ function Mainside() {
               goals.data.map((goal, i) => {
                 return <GoalItem goalData={goals} key={goals.room_id} />;
               })
-            // status === 'success' &&
-            //   hasGoal &&
-            //   goals.data.map((goal, i) => {
-            //     return <GoalItem goalData={goals} key={goals.room_id}/>;
-            //   })
           }
           {/* {status === 'failed' && (
             <Error/> */}

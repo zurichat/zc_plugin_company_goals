@@ -35,7 +35,7 @@ const getWindowDimension = () => {
 getWindowDimension();
 
 function Notification() {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState({ id: '', status: 'active' });
   const [index, setIndex] = useState(0);
   const notifications = useSelector(selectNotifications);
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ function Notification() {
   };
 
   const handleAccordion = (_id) => {
-    setIsActive(!isActive);
+    setIsActive({ id: isActive.id === _id ? '' : _id, active: isActive.id === _id ? '' : 'active' });
     setIndex(_id);
   };
 
@@ -99,7 +99,7 @@ function Notification() {
                           </Button>
                         </FlexColumn>
                         <FlexColumn arrowContainer>
-                          {index === _id ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                          {isActive.id === _id ? <ExpandMoreIcon /> : <ExpandLessIcon />}
 
                           {/* windows width is greater than 1300  */}
                           {getWidth > 1300 && (
@@ -109,7 +109,7 @@ function Notification() {
                           )}
                         </FlexColumn>
                       </FlexRows>
-                      {index === _id && (
+                      {isActive.id === _id && (
                         <FlexColumn moreNotificationInfo>
                           <Paragraph moreInfo>{description}</Paragraph>
                           <FlexRows AlignRight>
@@ -120,14 +120,13 @@ function Notification() {
                               {isRead ? 'Mark as Unread' : 'Mark as Read'}
                             </Button>
                           </FlexRows>
-
-                          {/* windows width is less than 1300  */}
-                          {getWidth <= 1300 && (
-                            <Paragraph style={{ marginTop: '1rem' }} flexbasicsParagraph>
-                              <TimeAgo datetime={createdAt} />
-                            </Paragraph>
-                          )}
                         </FlexColumn>
+                      )}
+                      {/* windows width is less than 1300  */}
+                      {getWidth <= 1300 && (
+                        <Paragraph style={{ marginTop: '1rem', marginLeft: '1rem' }} flexbasicsParagraph>
+                          <TimeAgo datetime={createdAt} />
+                        </Paragraph>
                       )}
                     </FlexColumn>
                   </Grid>
