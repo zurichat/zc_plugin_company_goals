@@ -8,7 +8,6 @@
 /* eslint-disable no-unused-vars */
 const {
     find,
-    insertOne,
     insertMany,
     deleteOne,
     updateOne,
@@ -60,22 +59,27 @@ const notificationStructure = {
     ],
 };
 
-// const tokenHeader = req.headers.authorization
+    
+exports.getUserIds = async (tokenHeader, orgId) => {
+    // const tokenHeader = req.headers.authorization
+    try {
+        const userIds = []
+        let organization = await axios({
+            method: 'get',
+            url: `https://api.zuri.chat/organizations/${orgId}/members`,
+            headers: { Authorization: tokenHeader }
+        });
+    
+        organization = organization.data.data;
+        for (user of organization) {
+            userIds.push(user._id)
+        }
+        return userIds
+    } catch (error) {
+        logger.info(`The get operation failed with the following error messages: ${error}`);
+    }
+}
 
-  // try {
-  //   let organization = await axios({
-  //     method: 'get',
-  //     url: `https://api.zuri.chat/organizations/${org}/members`,
-  //     headers: {
-  //       Authorization: tokenHeader,
-  //     },
-  //   });
-  
-  //   organization = organization.data.data;
-  //   console.log(organization)
-  // } catch (error) {
-  //   console.log(error)
-  // }
 
 exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) => {
     if (typeof userIds === 'string') {
@@ -100,10 +104,10 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
         };
 
         // await notificationSchema.validateAsync(notification);
-        const Notification = await insertMany('notifications', notifications, orgId);
+        const Notification = await insertMany('goalNotifications', notifications, orgId);
         const goalNotification = notifications[0]
         goalNotification._id = Notification.data.data.object_ids[0]
-        await publish('notifications',goalNotification)
+        await publish('goalNotifications', goalNotification)
         return goalNotification
     } catch (error) {
         logger.info(`The write operation failed with the following error messages: ${error}`);
@@ -130,7 +134,7 @@ exports.getUserNotifications = async (req, res) => {
     }
     try {
         // Search for all Goals
-        const notifications = await find('notifications', {
+        const notifications = await find('goalNotifications', {
             org_id: orgId,
             user_id: userId
         }, orgId);
@@ -142,7 +146,13 @@ exports.getUserNotifications = async (req, res) => {
                 message: "You don't have any notifications."
             })
         }
-
+        if (notifications.data.data.length > 10) {
+            return res.status(200).json({
+                status: 200,
+                message: 'success',
+                data: notifications.data.data.slice(-10)
+            })
+        }
         // Returning Response
         return res.status(200).json({
             status: 200,
@@ -150,10 +160,10 @@ exports.getUserNotifications = async (req, res) => {
             data: notifications.data.data
         })
     } catch (error) {
-        res.status(200).json({
-            status: 200,
+        res.status(400).json({
+            status: 400,
             // eslint-disable-next-line quotes
-            message: "You don't have any notifications."
+            message: error.message
         })
     }
 
@@ -184,7 +194,7 @@ exports.updateNotification = async (req, res) => {
         })
     }
 
-    const notification = await find('notifications', {
+    const notification = await find('goalNotifications', {
         _id: notificationId
     }, orgId)
 
@@ -199,9 +209,9 @@ exports.updateNotification = async (req, res) => {
         isRead: !status
     }
     try {
-        await updateOne('notifications', update, {}, orgId, notificationId)
+        await updateOne('goalNotifications', update, {}, orgId, notificationId)
 
-        const Notification = await find('notifications', {
+        const Notification = await find('goalNotifications', {
             _id: notificationId
         }, orgId)
 
@@ -247,14 +257,22 @@ exports.updateNotifications = async (req, res) => {
         isRead: true
     }
     try {
-        await updateMany('notifications', update, filter, orgId)
+        await updateMany('goalNotifications', update, filter, orgId)
 
-        const Notifications = await find('notifications', filter, orgId)
+        const notifications = await find('goalNotifications', filter, orgId)
         
+        if (notifications.data.data.length > 10) {
+            return res.status(200).json({
+                status: 200,
+                message: 'success',
+                data: notifications.data.data.slice(-10)
+            })
+        }
+
         return res.status(200).json({
             status: 200,
             message: 'success',
-            data: Notifications.data.data
+            data: notifications.data.data
         })
 
     } catch (error) {
@@ -265,7 +283,7 @@ exports.updateNotifications = async (req, res) => {
     }
 };
 
-
+// This is not for frontend consumption
 exports.deleteNotification = async (req, res) => {
     const {
         org_id: orgId,
@@ -293,7 +311,7 @@ exports.deleteNotification = async (req, res) => {
     }
 
     try {
-        await deleteOne('notifications', orgId, notificationId)
+        await deleteOne('goalNotifications', orgId, notificationId)
 
         return res.status(200).json({
             status: 200,
@@ -307,13 +325,13 @@ exports.deleteNotification = async (req, res) => {
     }
 }
 
-
+// This is not for frontend consumption
 exports.getAllNotifications = async (req, res) => {
     const orgId = '6145d099285e4a184020742e'
 
     try {
         // Search for all Goals
-        const notifications = await findAll('notifications', orgId);
+        const notifications = await findAll('goalNotifications', orgId);
 
         // Returning Response
         return res.status(200).json({
@@ -350,7 +368,7 @@ exports.deleteNotifications = async (req, res) => {
     }
 
     try {
-        await deleteMany('notifications', {
+        await deleteMany('goalNotifications', {
             org_id: orgId,
             user_id: userId
         }, orgId)
