@@ -8,7 +8,7 @@ const Error = ({ errorMessage }) => {
   return (
     <ErrorDiv>
       <ImgContainer>
-        <img src={Ellipse} alt="" />
+        <img src={Ellipse} alt="error" />
       </ImgContainer>
       <ErrorText>{errorMessage}</ErrorText>
       <ErrorButton onClick={() => dispatch(getGoals())}>Retry</ErrorButton>
