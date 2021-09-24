@@ -98,8 +98,8 @@ exports.createGoal = async (req, res, next) => {
 
   const data = {
     room_id: roomId,
-    isComplete: false,
-    isExpired: false,
+    is_completed: false,
+    is_expired: false,
     ...goal,
   };
 
@@ -207,9 +207,9 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   const updatedGoal = await find('goals', { _id: goalId }, orgId );
   const { goal_name, room_id } = updatedGoal.data.data
 
-  if (req.body.isExpired === true) {
+  if (req.body.is_expired === true) {
     await createNotification(user_ids, orgId, room_id, goal_name, 'expiredGoal')
-  } else if (req.body.isComplete === true) {
+  } else if (req.body.is_completed === true) {
       await createNotification(user_ids, orgId, room_id, goal_name, 'achievedGoal')
   } else {
     await createNotification(user_ids, orgId, room_id, goal_name, 'updatedGoal')
