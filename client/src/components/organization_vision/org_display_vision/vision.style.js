@@ -69,7 +69,7 @@ export const VisionField = styled.p`
     border-style: none;
   }
   @media only screen and (max-width: 720px) {
-    width: 85vw;
+    width: 80vw;
     height: 35px;
     padding: 10px 15px;
   }
