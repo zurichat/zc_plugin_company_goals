@@ -13,28 +13,28 @@ export const Box = styled.div`
    justify-content: center;
    align-items: center;
 `
-// export const Input = styled.input `
-//    background-color: ${(props) => props.bgColor};
-//    padding: ${(props) => props.padding};
-//    margin: ${(props) => props.margin};
-//    width: 40vw;
-//    height: 61px;
-//    border: none;
+ export const Input = styled.input `
+    background-color: ${(props) => props.bgColor};
+    padding: ${(props) => props.padding};
+    margin: ${(props) => props.margin};
+    width: 40vw;
+    height: 61px;
+    border: none;
 
-//    &::placeholder {
-//       font-size: 18px;
-//       font-family: 'Lato';
-//       padding-left: 10px;
-//       color: #999999;
-//    }
-//    &:-ms-keyboard-active {
-//       border-style: none;
-//    }
-//    @media only screen and (max-width: 720px){
-//       width: 70vw;
-//       height: 45px;
-//    }
-// `
+    &::placeholder {
+       font-size: 18px;
+       font-family: 'Lato';
+       padding-left: 10px;
+       color: #999999;
+    }
+    &:-ms-keyboard-active {
+       border-style: none;
+    }
+    @media only screen and (max-width: 720px){
+       width: 70vw;
+       height: 45px;
+    }
+ `
 export const Editbutton = styled.button `
    border: none;
    position: absolute;
@@ -65,13 +65,6 @@ export const Title = styled.h3 `
    top: ${(props) => props.top};
    left: ${(props) => props.left};
    color: ${(props) => props.color};
-  position: relative;
-  margin-top: 1.5rem;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
 export const Input = styled.input`
   background-color: ${(props) => props.bgColor};
