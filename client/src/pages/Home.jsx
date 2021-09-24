@@ -40,6 +40,6 @@ export default App;
 const PluginSide = styled.div`
   width: 100%;
   background-color: #f6f6f6;
-  border: 1px solid red;
+
   padding-bottom: 20px;
 `;

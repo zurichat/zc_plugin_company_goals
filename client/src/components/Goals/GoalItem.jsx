@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import dislikes from '../../Images/png/dislikes.png';
 import ellipsis from '../../Images/png/ellipsis.png';
@@ -58,9 +58,6 @@ const GoalItem = ({ goalData }) => {
     dispatch(addDisLike(1));
   };
 
-
-  
-
   const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
   const goalStart = new Date(goalData.start_date);
   const goalEnd = new Date(goalData.due_date);
@@ -68,7 +65,6 @@ const GoalItem = ({ goalData }) => {
   const startDate = goalStart.getDate();
   const endMonth = month.month_names_short[goalEnd.getMonth()];
   const endDate = goalEnd.getDate();
-
 
   return (
     <Container className={classes.root} key={goalData.room_id}>

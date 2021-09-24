@@ -28,9 +28,10 @@ import HistoryList from '../history/historyList';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 import Loader from '../loader/loader';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
+import { MainSection } from './Mainside.styled';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
-function Mainside() {
+export default function Mainside({ className }) {
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.goals.list);
   const status = useSelector((state) => state.goals.status);
@@ -45,7 +46,7 @@ function Mainside() {
   const hasGoal = goals.data ? 1 : 0;
 
   return (
-    <>
+    <MainSection className={className}>
       <Main>
         <GoalsDisplayContainer>
           <GoalsNavLayout />
@@ -83,7 +84,7 @@ function Mainside() {
           <Report />
           <Notification />
         </Goal> */}
-          <Link to="/faqs">Faqs</Link>
+          {/* <Link to="/faqs">Faqs</Link> */}
         </GoalsReportAndNotificationContainer>
       </Main>
       {/* <ExportReport /> */}
@@ -94,11 +95,9 @@ function Mainside() {
       <Date />
       <Progress />
       <Timeline />
-    </>
+    </MainSection>
   );
 }
-
-export default Mainside;
 
 const Main = styled.div`
   display: flex;
@@ -109,13 +108,13 @@ const Main = styled.div`
 `;
 
 const GoalsDisplayContainer = styled.div`
-  flex-basis: 65%;
+  width: 69% !important;
   /* border: 1px solid green; */
 `;
 
 const GoalsReportAndNotificationContainer = styled.div`
   /* border: 1px solid blue; */
-  flex-basis: 34%;
+  width: 30% !important;
 `;
 const Goal = styled.div`
   flex: 1;

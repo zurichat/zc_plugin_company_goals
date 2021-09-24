@@ -6,10 +6,9 @@ import img from './images/Group 2686.png';
 import { NavName, CreateGoalButton } from './NavName';
 
 const GridLayout = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2.5fr;
-  padding: 0.43rem 1rem 0.03rem;
-  place-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Sort = styled.button`
@@ -68,6 +67,11 @@ const SortDrpDw = styled.div`
     transition: all 0.2s linear;
   }
 `;
+const NavDiv = styled.div`
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+`;
 const GoalsNavLayout = () => {
   const dispatch = useDispatch();
   function showDrpDw() {
@@ -77,9 +81,11 @@ const GoalsNavLayout = () => {
 
   return (
     <GridLayout>
-      <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
-      <NavName> quaterly goals </NavName>
-      <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; create goal</CreateGoalButton>
+      <div>
+        <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
+        <NavName> quaterly goals </NavName>
+      </div>
+      <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; new goal</CreateGoalButton>
       {/* <Sort type="button" onClick={() => showDrpDw()}>
         <div> Sort by </div> <img src={img} alt="sort icon" />
 
