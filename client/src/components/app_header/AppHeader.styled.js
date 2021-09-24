@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 const HeaderAppBar = styled(AppBar)`
   background-color: #00b87c;
+  height: 7vh;
 `;
 
 const HeaderToolBar = styled(ToolBar)`
