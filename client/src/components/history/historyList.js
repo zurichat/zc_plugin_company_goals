@@ -26,13 +26,13 @@ const HistoryList = () => {
   // Note: button will be changed to link after importing it from 'react-router-dom'
   return (
     <History>
-        <Grid container direction="row" justifyContent="space-between" alignItems="flex-end">
-          <HeaderH3>History</HeaderH3>
-          <Button>View all</Button>
-        </Grid>
-        <Histories>
-          <HistoryItem history={history} />          
-        </Histories>
+      <Grid container direction="row" justifyContent="space-between" alignItems="flex-end">
+        <HeaderH3>History</HeaderH3>
+        <Button>View all</Button>
+      </Grid>
+      <Histories>
+        <HistoryItem history={history} />
+      </Histories>
     </History>
   );
 };

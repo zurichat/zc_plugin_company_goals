@@ -28,24 +28,21 @@ exports.userSchema = Joi.object({
 // goals schema
 exports.goalSchema = Joi.object({
   goal_name: Joi.string().required().messages({
-    'any.required': 'goal name is required'
+    'any.required': 'goal name is required',
   }),
   description: Joi.string().optional(),
   start_date: Joi.date().required().messages({
-    'any.required': 'Start date is required'
+    'any.required': 'Start date is required',
   }),
   due_date: Joi.date().required().messages({
-    'any.required': 'Due date is required'
+    'any.required': 'Due date is required',
   }),
-  goal_type: Joi.string()
-    .valid(`none`, `annual`, `quarterly`, `daily`, `monthly`)
-    .default(`none`)
-    .required()
-    .messages({
-      'any.required': 'goal type must be added'
-    }),
-  category: Joi.string().required(),
-
+  goal_type: Joi.string().valid(`none`, `annual`, `quarterly`, `daily`, `monthly`).default(`none`).required().messages({
+    'any.required': 'goal type must be added',
+  }),
+  category: Joi.string().required().messages({
+    'any.required': 'Category is required',
+  }),
 });
 
 // mission schema

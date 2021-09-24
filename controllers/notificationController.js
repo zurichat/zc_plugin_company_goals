@@ -1,9 +1,15 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable quotes */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const {
     find,
     insertOne,
+    insertMany,
     deleteOne,
     updateOne,
     updateMany,
@@ -13,62 +19,95 @@ const {
 const {
     notificationSchema
 } = require('../schemas');
+const logger = require('../utils/logger');
 const { publish } = require('./centrifugoController');
 
 const notificationStructure = {
-    assignGoal: [
-        'You have been assigned a new goal.',
-        'Your team and you have within the stipulated time to achieve this goal.',
-        'blue'
-    ],
     achievedGoal: [
         'Our goal has been achieved.',
         'Congratulations, you have achieved this goal. All set targets have been met.',
         'green'
     ],
-    expiredGoal: [
-        'We failed to reach this goal.',
-        'Unfortunately, you have been unable to achieve this goal within the set timeframe.',
-        'red'
+    createGoal: [
+        'A new goal has been created.',
+        'We have within the stipulated time to achieve this goal.',
+        'purple'
     ],
     deleteGoal: [
         "A goal you're assigned to has been deleted.",
         'We will no longer be working towards this goal.',
         'red'
     ],
-    unassignGoal: [
-        'You have been unassigned from this goal',
-        'You will no longer get updates for this goal.',
+    expiredGoal: [
+        'We failed to reach this goal.',
+        'Unfortunately, you have been unable to achieve this goal within the set timeframe.',
         'red'
-    ]
+    ],
+    updateGoal: [
+        'This goal has been updated.',
+        "Please check the goal info for details.",
+        'blue'
+    ],
+    updateMission: [
+        'Our mission has been updated.',
+        '',
+        'blue'
+    ],
+    updateVision: [
+        'Our vision has been updated.',
+        'la la la',
+        'blue'
+    ],
 };
 
+// const tokenHeader = req.headers.authorization
 
-exports.createNotification = async (userId, orgId, goalId, goalName, funcName) => {
+  // try {
+  //   let organization = await axios({
+  //     method: 'get',
+  //     url: `https://api.zuri.chat/organizations/${org}/members`,
+  //     headers: {
+  //       Authorization: tokenHeader,
+  //     },
+  //   });
+  
+  //   organization = organization.data.data;
+  //   console.log(organization)
+  // } catch (error) {
+  //   console.log(error)
+  // }
+
+exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) => {
+    if (typeof userIds === 'string') {
+        userIds = [userIds]
+    }
 
     try {
-        const notification = {
-            user_id: userId,
-            org_id: orgId,
-            goal_id: goalId,
-            header: notificationStructure[funcName][0],
-            goalName,
-            isRead: false,
-            colour: notificationStructure[funcName][2],
-            description: notificationStructure[funcName][1],
-            createdAt: Date.now()
+        const notifications = []
+        for (id of userIds){
+            const notification = {
+                user_id: id,
+                org_id: orgId,
+                goal_id: goalId,
+                header: notificationStructure[funcName][0],
+                goalName,
+                isRead: false,
+                colour: notificationStructure[funcName][2],
+                description: notificationStructure[funcName][1],
+                createdAt: Date.now()
+            }     
+            notifications.push(notification)
         };
 
         // await notificationSchema.validateAsync(notification);
-        const Notification = await insertOne('notifications', notification, orgId);
-        notification._id = Notification.data.data.object_id
-        return notification
-
-        
+        const Notification = await insertMany('notifications', notifications, orgId);
+        const goalNotification = notifications[0]
+        goalNotification._id = Notification.data.data.object_ids[0]
+        await publish('notifications',goalNotification)
+        return goalNotification
     } catch (error) {
-        console.log(error)
+        logger.info(`The write operation failed with the following error messages: ${error}`);
     }
-
 };
 
 
