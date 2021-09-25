@@ -161,11 +161,10 @@ const logger = require('../utils/logger')
 
 exports.getSidebar = catchAsync(async(req,res,next)=>{
   const { user: user_id, org: organization_id } = req.query;
-  console.log(user_id, organization_id)
 
-  if(!user_id || !organization_id)
+  if(!organization_id)
   {
-    return next(new AppError('organization and user id are required', 400))
+    return next(new AppError('organization id is required', 400))
   }
 
   // get number of users in the organization

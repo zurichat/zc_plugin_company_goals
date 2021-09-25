@@ -9,11 +9,12 @@ import Home from './pages/Home';
 import { useEffect } from 'react';
 import CentrifugeClient from 'centrifuge';
 import { useDispatch } from 'react-redux';
-import { saveVision } from './redux/organizationVision.slice';
+import { updateOrgVisionFromRTC } from './redux/organizationVision.slice';
 import { activateSnackbar } from './redux/snackbar.slice';
 import { setNewMission, getMission } from './services/missionAPI';
 import AppHeader from './components/app_header/AppHeader';
 import { addNotificationFromRTC } from './redux/notificationSlice';
+import { updateOrgMissionFromRTC } from './redux/organizationMission.slice';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,12 +34,19 @@ function App() {
       dispatch(activateSnackbar({ content: 'Failed to connect to Centifugo 😭', severity: 'error' }));
     });
 
-    centrifugeConnect.subscribe('goalstest', function (ctx) {
-      console.log('goalstest', ctx);
-    });
-    centrifugeConnect.subscribe('notifications', function (ctx) {
-      console.log('notifications', ctx);
+    centrifugeConnect.subscribe('goalNotifications', function (ctx) {
+      console.log('goalNotifications', ctx);
       dispatch(addNotificationFromRTC(ctx.data));
+    });
+
+    centrifugeConnect.subscribe('publish-mission-update', function (ctx) {
+      console.log('publish-mission-update', ctx);
+      dispatch(updateOrgMissionFromRTC(ctx.data));
+    });
+
+    centrifugeConnect.subscribe('publish-vision-update', function (ctx) {
+      console.log('publish-vision-update', ctx);
+      dispatch(updateOrgVisionFromRTC(ctx.data));
     });
 
     centrifugeConnect.connect();
