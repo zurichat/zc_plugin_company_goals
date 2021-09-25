@@ -89,12 +89,11 @@ const updateVision = async (req, res, next) => {
     } = await updateOne('vision', { vision }, { organization_id }, organization_id, payload._id);
 
     // Handle if no matches were found
-    if (match.data.data.modified_documents === 0) {
+    if (match.modified_documents === 0) {
       return next(new AppError('No matching documents were found', 404));
     }
-
     // Send notification to all users.
-    if (match.data.data.modified_documents === 1) {
+    if (match.modified_documents === 1) {
       await publish('publish-vision-update', vision);
       await createNotification(user_ids, organization_id, '', '', 'updateVision');
     }
