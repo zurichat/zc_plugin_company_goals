@@ -71,7 +71,7 @@ const GoalItem = ({ goalData }) => {
         <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
       </Grid>
 
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={12}>
         <ProgressBar variant="determinate" value={Progress ? Progress : 0} />
         <ProgressDetailsContainer>
           <ProgressRate>Progress Rate: {Progress ? Progress : 0}%</ProgressRate>
