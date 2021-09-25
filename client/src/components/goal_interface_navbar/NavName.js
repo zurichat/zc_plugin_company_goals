@@ -17,6 +17,12 @@ const NavName = styled.div`
     font-weight: 700;
     border-bottom: 1.5px solid #00b87c;
   }
+  @media screen and(max-width: 600px) {
+    font-size: 0.7rem !important;
+    margin-right: unset !important;
+    padding: unset !important;
+    font-size: 0.6rem !important;
+  }
 `;
 
 const CreateGoalButton = styled(Button)`
@@ -27,6 +33,12 @@ const CreateGoalButton = styled(Button)`
   margin-bottom: 0.4rem;
   &:hover {
     background-color: #00b87c;
+  }
+  @media screen and(max-width: 600px) {
+    padding: 0.5rem 1rem !important;
+    span {
+      font-size: 0.6rem !important;
+    }
   }
 `;
 

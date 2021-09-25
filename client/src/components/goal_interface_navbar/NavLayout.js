@@ -68,9 +68,34 @@ const SortDrpDw = styled.div`
   }
 `;
 const NavDiv = styled.div`
-  width: 70%;
+  width: 50%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 600px) {
+    width: 60% !important;
+    div {
+      width: 30% !important;
+      margin-right: 0 !important;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    width: 65% !important;
+    div {
+      width: 30% !important;
+      margin-right: 0 !important;
+      font-size: 0.7rem;
+      padding: 0 0 1rem 0;
+      text-align: center !important;
+    }
+    button {
+      margin-bottom: 1rem !important;
+      padding: 0 !important;
+      span {
+        font-size: 0.7rem !important;
+      }
+    }
+  }
 `;
 const GoalsNavLayout = () => {
   const dispatch = useDispatch();
@@ -81,10 +106,10 @@ const GoalsNavLayout = () => {
 
   return (
     <GridLayout>
-      <div>
+      <NavDiv>
         <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
         <NavName> quaterly goals </NavName>
-      </div>
+      </NavDiv>
       <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; new goal</CreateGoalButton>
       {/* <Sort type="button" onClick={() => showDrpDw()}>
         <div> Sort by </div> <img src={img} alt="sort icon" />
