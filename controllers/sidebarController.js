@@ -180,18 +180,14 @@ exports.getSidebar = catchAsync(async(req,res,next)=>{
     user_id,
     group_name: 'Goals',
     show_group: false,
+    public_rooms:[],
     joined_rooms :[
       {
-        title:'All Goals',
-        id:organization_id,
-        unread: 0,
-        members: 100,
-        icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-        action: 'open',
-        url: `${req.protocol}://${req.hostname}/goals/rooms/${organization_id}`
+        room_name:'All Goals',
+        room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+        room_url: `${req.protocol}://${req.hostname}/goals/rooms/${organization_id}`
       }
-    ],
-    public_rooms:[]
+    ]
   }
   return res.status(200).json(sidebarJson)
 });
