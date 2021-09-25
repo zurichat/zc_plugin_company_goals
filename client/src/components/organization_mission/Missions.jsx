@@ -6,19 +6,14 @@ import editImg from '../organization_vision/org_display_vision/visionAsset/editI
 
 import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
-
 const Missions = () => {
   const dispatch = useDispatch();
   const { missionText } = useSelector((state) => state.organizationMission);
 
   const handleClick = () => dispatch(showEditMissionModal());
 
-
-  const [text, setText] = useState('Loading...');
-
   useEffect(() => {
-    const jsonMissionText = window.localStorage.getItem('mission');
-    setText(JSON.parse(jsonMissionText));
+    dispatch(fetchOrgMission());
   }, []);
 
   return (
@@ -31,9 +26,7 @@ const Missions = () => {
           <img src={editImg} alt="edit" />
         </Editbutton>
       </Box>
-
     </ParentBox>
-
   );
 };
 export default Missions;
