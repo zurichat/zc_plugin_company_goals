@@ -158,24 +158,26 @@ export const Likes = styled.span `
   top: 0.063rem;
 `;
 
-export const MoreOptions = styled.div `
+export const MoreOptions = styled.div`
   margin-top: 0.5rem;
   cursor: pointer;
   height: 1.14rem;
   margin-left: 2rem;
 
-  img:hover {
-    color: #999999;
-  }
-  @media (max-width: 576px) {
-    position: absolute;
-    right: 1rem;
-    top: 1.8rem;
-  }
-  @media (max-width: 768px) {
-    position: absolute;
-    right: 1rem;
-    top: 1.8rem;
+  img {
+    &:hover {
+      color: #999999;
+    }
+    @media (max-width: 576px) {
+      position: absolute;
+      right: 1rem;
+      top: 1.8rem;
+    }
+    @media (max-width: 768px) {
+      position: absolute;
+      right: 1rem;
+      top: 1.8rem;
+    }
   }
 `;
 
