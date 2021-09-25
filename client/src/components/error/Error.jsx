@@ -4,7 +4,7 @@ import { getGoals } from '../../redux/showGoalSlice';
 import Ellipse from './alert-octagon/active.svg';
 import { ErrorDiv, ImgContainer, ErrorText, ErrorButton } from './Error.styled.js';
 
-const Error = ({ errorMessage }) => {
+const Error = () => {
   const dispatch = useDispatch();
   return (
     <ErrorDiv>
