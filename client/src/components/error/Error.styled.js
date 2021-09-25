@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-
- export const ErrorDiv = styled.div`
+export const ErrorDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +16,7 @@ import styled from 'styled-components';
 
 export const ImgContainer = styled.div`
   background: red;
-  height: 100px ;
+  height: 100px;
   width: 100px;
   border-radius: 50%;
   display: flex;
@@ -34,7 +33,7 @@ export const ErrorText = styled.p`
   color: #616061;
 `;
 
-export const ErrorButton = styled.div`
+export const ErrorButton = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -42,6 +41,7 @@ export const ErrorButton = styled.div`
   padding: 12px 18px;
   color: white;
   width: 160px;
+  border: none;
   height: 38px;
   background: #00b87c;
   border-radius: 3px;
