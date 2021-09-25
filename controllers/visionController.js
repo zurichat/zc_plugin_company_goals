@@ -7,9 +7,10 @@ const { request, response } = require('express');
 const { insertOne, find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { publish } = require('./centrifugoController');
 const { createNotification } = require('./notificationController');
 
-const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429']
+const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
 /**
  * Get an organization's vision,
@@ -91,12 +92,13 @@ const updateVision = async (req, res, next) => {
     if (match.matched_documents === 0) {
       return next(new AppError('No matching documents were found', 404));
     }
-    
+
     // Send notification to all users.
     if (match.modified_documents === 1) {
-      await createNotification(user_ids, organization_id, '', '', 'updateVision')
+      await publish('publish-vision-update', vision);
+      await createNotification(user_ids, organization_id, '', '', 'updateVision');
     }
- 
+
     return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
     return next(new AppError('No vision exists for this organization.', 404));

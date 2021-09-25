@@ -33,11 +33,8 @@ function App() {
       dispatch(activateSnackbar({ content: 'Failed to connect to Centifugo 😭', severity: 'error' }));
     });
 
-    centrifugeConnect.subscribe('goalstest', function (ctx) {
-      console.log('goalstest', ctx);
-    });
-    centrifugeConnect.subscribe('notifications', function (ctx) {
-      console.log('notifications', ctx);
+    centrifugeConnect.subscribe('goalNotifications', function (ctx) {
+      console.log('goalNotifications', ctx);
       dispatch(addNotificationFromRTC(ctx.data));
     });
 
