@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 export const ModalBg = styled.div `
    position: fixed;
-  display: ${(props) => (props.show ? 'block' : 'none')};
-  /* display: block; */
+  /* display: ${(props) => (props.show ? 'block' : 'none')}; */
+  display: block;
   width: 100%;
   height: 600vh;
   justify-content: center;
@@ -27,6 +27,7 @@ export const Modal = styled.div`
   @media screen and (max-width: 450px) {
     width: 87.2%;
     height: 23rem;
+    padding-top: 0.3rem;
  }
 `
 export const Imgdiv = styled.div `
@@ -35,7 +36,10 @@ export const Imgdiv = styled.div `
    height: 30%;
    border-radius: 50%;
    margin: auto;
-   
+   @media screen and (max-width: 450px) {
+    width: 25%;
+   height: 25%;
+   }
 `
 export const Image = styled.img`
 display: flex;
@@ -45,8 +49,10 @@ align-items: center;
   padding: 1.7rem 1rem;
  width: 100px;
   @media screen and (max-width: 450px) {
+    padding: 1rem;
+    width: 80px;
     img {
-      width: 70px;
+      width: 50px;
     }
   }
 `;
@@ -54,7 +60,7 @@ export const SuccessContent = styled.div`
   text-align: center;
   padding-top: 3rem;
   @media screen and (max-width: 450px) {
-    padding-top: 2rem;
+    padding-top: 1rem;
   }
 `;
 export const SuccessHead = styled.h2 `
@@ -100,6 +106,6 @@ export const XBtn = styled.button`
   font-size: 1.1rem;
 
   @media screen and (max-width: 450px) {
-    padding: 1.1rem;
+    padding: 0.7rem;
   }
 `;
