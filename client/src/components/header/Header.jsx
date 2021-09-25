@@ -3,8 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
-// import AddIcon from '@material-ui/icons/Add';
-
+//import AddIcon from '@material-ui/icons/Add';
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // import { useDispatch } from 'react-redux';
 // import { useStyles } from '../../hooks/screenSize';
@@ -43,10 +42,11 @@ const MVContain = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0.2rem 0.5rem 0rem;
-  top: 1rem;
+  padding: 2.7rem 0.3rem 0.5rem 0.2rem;
+  top: 20%;
+  margin-bottom: 1rem;
 
-  @media only screen and (max-width: 420px) {
+  @media only screen and (max-width: 600px) {
     flex-direction: column;
     padding-top: 1rem;
   }
