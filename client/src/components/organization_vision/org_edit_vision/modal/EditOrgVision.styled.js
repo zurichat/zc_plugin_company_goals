@@ -15,7 +15,7 @@ export const EditVisionModal = styled(Dialog)`
   @media (min-width: 18.75rem) {
     & .MuiDialog-paper {
       max-width: 100%;
-      width: 94%;
+      width: 80vw;
     }
   }
   @media (min-width: 26.75rem) {
