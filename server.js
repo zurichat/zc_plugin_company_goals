@@ -18,10 +18,10 @@ const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`
 //   });
 // });
 
-process.on('SIGTERM', () => {
-  logger.info('SIGTERM Received, Shutting down gracefully');
+// process.on('SIGTERM', () => {
+//   logger.info('SIGTERM Received, Shutting down gracefully');
 
-  server.close(() => {
-    logger.info('Process Terminated because of SIGTERM');
-  });
-});
+//   server.close(() => {
+//     logger.info('Process Terminated because of SIGTERM');
+//   });
+// });
