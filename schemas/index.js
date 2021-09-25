@@ -41,7 +41,9 @@ exports.goalSchema = Joi.object({
     'any.required': 'goal type must be added',
   }),
   goal_targets: Joi.array().items(
-    Joi.object().keys({ milestone: Joi.string(), achieved: Joi.boolean()}).required()),
+    Joi.object().keys({ milestone: Joi.string(), achieved: Joi.boolean()}).required().messages({
+      'any.required': 'goal_targets must be added',
+    })),
   category: Joi.string().required().messages({
     'any.required': 'Category is required',
   }),
