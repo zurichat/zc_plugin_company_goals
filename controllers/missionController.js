@@ -55,7 +55,7 @@ exports.updateMission = catchAsync(async (req, res, next) => {
 
     // Send notifications to all users.
     if (updatedMission.data.data.modified_documents === 1) {
-      await publish('publish-mission-update', mission);
+      await publish('publish-mission-update', mission.mission);
       await createNotification(user_ids, organization_id, '', '', 'updateMission');
     }
 
