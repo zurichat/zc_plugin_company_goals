@@ -25,33 +25,25 @@ const Header = () => {
     document.querySelector('.editMissionbutton').style.display = 'none';
   };
   return (
-    <>
-      <MVContain>
-        <Missions />
-        <DisplayOrganizationVision />
-      </MVContain>
-    </>
+
+    <MVContain>
+      <Missions />
+      <DisplayOrganizationVision />
+    </MVContain>
+
   );
 };
 export default Header;
 
 const MVContain = styled.div`
-  position: relative;
-  max-width: 88vw;
-  margin: 0.3rem auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2.7rem 0.3rem 0.5rem 0.2rem;
-  top: 20%;
-  margin-bottom: 1rem;
 
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
-    padding-top: 1rem;
-  }
-`;
-const Div = styled.div`
   display: flex;
-  justify-content: center;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px 0;
+
+  @media only screen and (max-width: 760px) {
+    flex-direction: column;
+  }
 `;

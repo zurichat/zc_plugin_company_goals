@@ -37,16 +37,24 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   // Search for all Goals
   try {
     logger.info(`Started getting all goals for the organization: ${orgId}`);
-    const goals = await findAll('goals', orgId);
-
+     const findGoals = await findAll('goals', orgId);
+     const { data: goals } = findGoals.data;
+  
+    
     // No matching data, return an empty array
-    if (goals.data.data === null || goals.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
+    if (goals === null || goals.length < 1) res.status(200).json({ message: 'success', data: [] });
 
     // 200, response
-    if (goals.data.status === 200 && goals.data.data.length > 0) {
-      const { data } = goals.data;
-      let newGoals = data;
-      if (page && limit) {
+    if (findGoals.data.status === 200 && goals.length > 0) {
+      const sorted = goals.sort((a, b) => {
+        const c = new Date(a.created_at);
+        const d = new Date(b.created_at);
+       return c-d
+      }).reverse();
+
+      let newGoals = sorted;
+      if(page && limit)
+      {
         const newPage = page * 1 || 1;
         const perPage = limit * 1 || 5;
 
@@ -89,12 +97,17 @@ exports.createGoal = async (req, res, next) => {
   const goal = req.body;
   let goals;
 
-  const data = {
-    room_id: roomId,
-    is_completed: false,
-    is_expired: false,
-    ...goal,
-  };
+  const today = new Date();
+  const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+
+   const data = {
+     room_id: roomId,
+     isComplete: false,
+     isExpired: false,
+     created_at: date,
+     ...goal,
+   };
+
 
   if (!orgId) {
     logger.info(`Unable to create a goal as organization id isn't provided.`);
