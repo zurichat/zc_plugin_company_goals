@@ -19,12 +19,13 @@ export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatu
 
   const response = await axios({
     method: 'patch',
-    url: `http://localhost:4000/api/v1/vision/${organizationId}/`,
+    url: `https://goals.zuri.chat/api/v1/vision/${organizationId}/`,
     data: { vision: visionText },
     headers: {
       Authorization: `Bearer ${token} ${organizationId}`,
     },
   });
+
   return response.data;
 });
 
