@@ -185,7 +185,7 @@ exports.getSidebar = catchAsync(async(req,res,next)=>{
       {
         room_name:'All Goals',
         room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-        room_url: `goals/rooms/${organization_id}`
+        room_url: `/goals/rooms/${organization_id}`
       }
     ]
   }
