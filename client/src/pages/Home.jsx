@@ -16,6 +16,7 @@ import OrganizationVisionEditModal from '../components/organization_vision/org_e
 import SuccessModal from '../components/goalSucces/SuccessModal';
 
 function App() {
+  
   return (
     <>
       <SuccessModal />
