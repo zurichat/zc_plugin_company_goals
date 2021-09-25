@@ -55,8 +55,14 @@ const Report = () => {
       <div className="piechart">
         <Doughnut options={options} data={data} />
         <div className="percentage">
-          <h2 className="count">10%</h2>
+          <h1 className="count">10%</h1>
           <p className="status">Expired</p>
+          <div className="dot_pagination">
+            <div className="dots yellow"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+          </div>
         </div>
       </div>
       <div className="labels_container">

@@ -639,3 +639,17 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
     data: true,
   });
 });
+
+exports.sortGoalByType = catchAsync(async (req, res, next) => {
+  const { org_id: orgId, type: goalType} = req.query;
+
+  //find goals by type
+  const goalsSorted = await find('goals',{ goal_type: goalType }, orgId );
+  
+  // No matching data, return an empty array
+  if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
+  res.status(200).json({
+    status: 'success',
+    data: goalsSorted.data.data,
+  });
+});
