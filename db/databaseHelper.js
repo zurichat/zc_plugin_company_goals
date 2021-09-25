@@ -4,21 +4,26 @@ const AppError = require('../utils/appError');
 const { URL, payload } = require('../utils/config').DATABASE;
 const logger = require('../utils/logger');
 
-
 exports.insertOne = async (collectionName, data, organization_id) => {
-
-  logger.info(`Insert one operation to ${collectionName} of ${organization_id} started. Writing the following ${JSON.stringify(data)}`);
+  logger.info(
+    `Insert one operation to ${collectionName} of ${organization_id} started. Writing the following ${JSON.stringify(
+      data
+    )}`
+  );
 
   try {
     const newPayload = {
-      ...payload
+      ...payload,
     };
     newPayload.collection_name = collectionName;
     newPayload.payload = data;
     newPayload.organization_id = organization_id;
+    newPayload.bulk_write = false
 
     const response = await axios.post(`${URL}/write`, newPayload);
-    logger.info(`The write operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
+    logger.info(
+      `The write operation was successful with the following response: ${JSON.stringify(response.data.data)}`
+    );
     return response;
   } catch (error) {
     logger.info(`The write operation failed with the following error messages: ${error}`);
@@ -27,8 +32,11 @@ exports.insertOne = async (collectionName, data, organization_id) => {
 };
 
 exports.insertMany = async (collectionName, data, organization_id) => {
-
-  logger.info(`Insert many operation to ${collectionName} of ${organization_id} started. Writing the following ${JSON.stringify(data)}`);
+  logger.info(
+    `Insert many operation to ${collectionName} of ${organization_id} started. Writing the following ${JSON.stringify(
+      data
+    )}`
+  );
 
   try {
     payload.collection_name = collectionName;
@@ -37,7 +45,9 @@ exports.insertMany = async (collectionName, data, organization_id) => {
     payload.organization_id = organization_id;
 
     const response = await axios.post(`${URL}/write`, payload);
-    logger.info(`The write operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
+    logger.info(
+      `The write operation was successful with the following response: ${JSON.stringify(response.data.data)}`
+    );
     return response;
   } catch (error) {
     logger.info(`The write operation failed with the following error messages: ${error}`);
@@ -46,13 +56,10 @@ exports.insertMany = async (collectionName, data, organization_id) => {
 };
 
 exports.findAll = async (collectionName, organization_id) => {
-
   logger.info(`Find all operation for ${collectionName} of ${organization_id} started.`);
 
   try {
-    const {
-      plugin_id
-    } = payload;
+    const { plugin_id } = payload;
 
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}`);
     logger.info(`The read operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
@@ -64,13 +71,10 @@ exports.findAll = async (collectionName, organization_id) => {
 };
 
 exports.findById = async (collectionName, id, organization_id) => {
-
   logger.info(`Find by id operation for ${collectionName} of ${organization_id} started. The id is ${id}.`);
 
   try {
-    const {
-      plugin_id
-    } = payload;
+    const { plugin_id } = payload;
 
     const response = await axios.get(`${URL}/read/${plugin_id}/${collectionName}/${organization_id}?_id=${id}`);
     logger.info(`The read operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
@@ -82,13 +86,14 @@ exports.findById = async (collectionName, id, organization_id) => {
 };
 
 exports.find = async (collectionName, filter, organization_id) => {
-
-  logger.info(`Find operation for ${collectionName} of ${organization_id} started. The specified filter is ${JSON.stringify(filter)}.`);
+  logger.info(
+    `Find operation for ${collectionName} of ${organization_id} started. The specified filter is ${JSON.stringify(
+      filter
+    )}.`
+  );
 
   try {
-    const {
-      plugin_id
-    } = payload;
+    const { plugin_id } = payload;
 
     let url = `${URL}/read/${plugin_id}/${collectionName}/${organization_id}?`;
 
@@ -109,19 +114,22 @@ exports.find = async (collectionName, filter, organization_id) => {
 };
 
 exports.updateOne = async (collectionName, data, filter, organization_id, id = null) => {
-
   logger.info(`Update one operation in ${collectionName} of ${organization_id} started. The specified filter is 
   ${JSON.stringify(filter)} & would update all successful matches with the following data: ${JSON.stringify(data)}.`);
-
   try {
-    payload.collection_name = collectionName;
-    payload.payload = data;
-    payload.filter = filter;
-    payload.object_id = id;
-    payload.organization_id = organization_id;
-
-    const response = await axios.put(`${URL}/write`, payload);
-    logger.info(`The update operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
+    const updateOnePayload = {
+      ...payload,
+      collection_name: collectionName,
+      payload: data,
+      filter,
+      object_id: id,
+      organization_id,
+      bulk_write:false
+    };
+    const response = await axios.put(`${URL}/write`, updateOnePayload);
+    logger.info(
+      `The update operation was successful with the following response: ${JSON.stringify(response.data.data)}`
+    );
     return response;
   } catch (error) {
     logger.info(`The update operation failed with the following error messages: ${error}`);
@@ -130,7 +138,6 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
 };
 
 exports.updateMany = async (collectionName, data, filter, organization_id) => {
-
   logger.info(`Update many operation in ${collectionName} of ${organization_id} started. The specified filter is 
   ${JSON.stringify(filter)} & would update all successful matches with the following data: ${JSON.stringify(data)}.`);
 
@@ -142,7 +149,11 @@ exports.updateMany = async (collectionName, data, filter, organization_id) => {
     payload.organization_id = organization_id;
 
     const response = await axios.put(`${URL}/write`, payload);
-    logger.info(`The update operation was successful with the following response: ${JSON.stringify(JSON.stringify(response.data.data))}`);
+    logger.info(
+      `The update operation was successful with the following response: ${JSON.stringify(
+        JSON.stringify(response.data.data)
+      )}`
+    );
     return response;
   } catch (error) {
     logger.info(`The update operation failed with the following error messages: ${error}`);
@@ -151,7 +162,6 @@ exports.updateMany = async (collectionName, data, filter, organization_id) => {
 };
 
 exports.deleteOne = async (collectionName, organization_id, _id) => {
-
   logger.info(`Delete one operation in ${collectionName} of ${organization_id} started. The operation would delete the 
   document with id: ${_id}`);
 
@@ -166,7 +176,9 @@ exports.deleteOne = async (collectionName, organization_id, _id) => {
       data: payload,
     });
 
-    logger.info(`The delete operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
+    logger.info(
+      `The delete operation was successful with the following response: ${JSON.stringify(response.data.data)}`
+    );
     return response;
   } catch (error) {
     logger.info(`The delete operation failed with the following error messages: ${error}`);
@@ -178,7 +190,6 @@ exports.deleteMany = async (collectionName, filter, organization_id) => {
   logger.info(`Delete many operation in ${collectionName} of ${organization_id} started. The operation would delete all 
   documents that match the filter: ${JSON.stringify(filter)}`);
   try {
-
     payload.collection_name = collectionName;
     payload.filter = filter;
     payload.bulk_delete = true;
@@ -190,7 +201,9 @@ exports.deleteMany = async (collectionName, filter, organization_id) => {
       data: payload,
     });
 
-    logger.info(`The delete operation was successful with the following response: ${JSON.stringify(response.data.data)}`);
+    logger.info(
+      `The delete operation was successful with the following response: ${JSON.stringify(response.data.data)}`
+    );
     return response;
   } catch (error) {
     logger.info(`The delete operation failed with the following error messages: ${error}`);

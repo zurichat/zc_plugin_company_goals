@@ -161,11 +161,10 @@ const logger = require('../utils/logger')
 
 exports.getSidebar = catchAsync(async(req,res,next)=>{
   const { user: user_id, org: organization_id } = req.query;
-  console.log(user_id, organization_id)
 
-  if(!user_id || !organization_id)
+  if(!organization_id)
   {
-    return next(new AppError('organization and user id are required', 400))
+    return next(new AppError('organization id is required', 400))
   }
 
   // get number of users in the organization
@@ -181,18 +180,14 @@ exports.getSidebar = catchAsync(async(req,res,next)=>{
     user_id,
     group_name: 'Goals',
     show_group: false,
+    public_rooms:[],
     joined_rooms :[
       {
-        title:'All Goals',
-        id:organization_id,
-        unread: 0,
-        members: 100,
-        icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-        action: 'open',
-        url: `${req.protocol}://${req.hostname}/goals/rooms/${organization_id}`
+        room_name:'All Goals',
+        room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+        room_url: `goals/rooms/${organization_id}`
       }
-    ],
-    public_rooms:[]
+    ]
   }
   return res.status(200).json(sidebarJson)
 });

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import deleteGoalReducer from './deleteGoal.slice';
-import editMissionReducer from './editMission.slice';
+import missionReducer from './organizationMission.slice';
 import newGoalReducer from './newGoalSlice';
 import notificationReducer from './notificationSlice';
 import createAndEditGoalReducer from './organizationGoal.slice';
@@ -13,7 +13,7 @@ import likeGoalReducer from './likeGoalSlice';
 
 const store = configureStore({
   reducer: {
-    editMission: editMissionReducer,
+    organizationMission: missionReducer,
     organizationVision: visionReducer,
     toggleCreateGoalModal: createGoalModalReducer,
     toggleEditGoalModal: editGoalModalReducer,

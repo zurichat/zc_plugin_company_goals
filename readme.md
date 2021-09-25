@@ -35,21 +35,25 @@ Server will be running @ [http://127.0.0.1:4000](http://127.0.0.1:4000)
 
 ## Getting Started With the Frontend/Client (React)
 
-cd into the client folder and install the client's dependencies
+Install dependencies in the root folder,
+
+cd into the server-client folder,  and install the dependencies,
+
+cd into the client folder,  and install the client's dependencies
 
 ```bash
 yarn install
 ```
 
-Run the frontend development server using either of the following commands:
+Run the frontend development server using either of the following commands from the root folder:
 
 ```bash
-npm start
+npm run client:dev
 # or
-yarn start
+yarn run client:dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:9000](http://localhost:9000) with your browser to see the result.
 
 ## Concurrently Run Both (React & Node)
 

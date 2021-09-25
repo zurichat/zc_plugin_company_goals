@@ -8,14 +8,14 @@ import Deletemodal from '../components/Deletemodal/Deletemodal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/header/Header';
-import Mainside from '../components/mainside/Mainside';
+import MainApp from '../components/main_app/MainApp';
 
 import EditMission from '../components/modal/EditMission';
-import ExportReport from '../components/Modal/ExportModal/ExportReport';
 
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 
 function App() {
+  
   return (
     <>
       <SimpleModal />
@@ -24,12 +24,11 @@ function App() {
       <DeleteSuccessModal />
       <DeleteErrorModal />
       <OrganizationVisionEditModal />
+      <EditMission />
       <SnackBar />
       <PluginSide>
         <MissionVisionContainer />
-        <Mainside />
-        <EditMission />
-        <ExportReport />
+        <MainApp />
       </PluginSide>
     </>
   );
@@ -40,6 +39,5 @@ export default App;
 const PluginSide = styled.div`
   width: 100%;
   background-color: #f6f6f6;
-  border: 1px solid red;
   padding-bottom: 20px;
 `;

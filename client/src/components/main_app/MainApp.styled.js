@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+export const MainSection = styled.section`
+  width: 100% !important;
+`;
 export const GoalContainer = styled.div`
   width: 70%;
   margin-top: 2rem;
