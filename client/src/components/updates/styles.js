@@ -2,12 +2,11 @@ import Caret from '@material-ui/icons/ExpandMore';
 import styled from 'styled-components';
 
 export const ReportContainer = styled.div`
-  margin-top: 2px;
+  margin-top: 0.3rem;
   /* width: 360px; */
-  padding: 20px 0;
   width: 100%;
   background: #fff;
-  height: 500px;
+
   height: 100%;
 
   color: #999999;
