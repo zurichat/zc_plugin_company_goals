@@ -566,13 +566,13 @@ curl -X 'DELETE' \
 
 | Method | Endpoint| Body | Parameter | Query | Content Type | Description |
 |-|-|-|-|-|-|-|
-| `GET` | `/missions` | null | null | organization_id | `application/json` | **organization_id** field is required |
+| `GET` | `/mission` | null | organization_id | null | `application/json` | **organization_id** field is required |
 
 > ### Code Sample
 
 ```bash
 curl -X 'GET' \
-  'https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e' \
+  'https://goals.zuri.chat/api/v1/mission/6145d099285e4a184020742e' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
 ```
@@ -586,7 +586,9 @@ curl -X 'GET' \
   message: "success",
   status: 200,
   data: {
-    mission: 'bla bla bla'
+    _id: "6145d316285e4a184020744b",
+    mission: "Boss I am sleeping",
+    vision: "To be the best goal tabbers."
   }
 }
 
@@ -639,13 +641,13 @@ curl -X 'GET' \
 
 | Method | Endpoint| Body | Parameter | Query | Content Type | Description |
 |-|-|-|-|-|-|-|
-| `PUT` | `/missions` | mission | null | organization_id | `application/json` | **organization_id** field is required |
+| `PUT` | `/mission/update` | mission | organization_id | null | `application/json` | **organization_id** field is required |
 
 > ### Code Sample
 
 ```bash
 curl -X 'PUT' \
-  'https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e' \
+  'https://goals.zuri.chat/api/v1/mission/update/6145d099285e4a184020742e' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
    -d '{
@@ -662,7 +664,9 @@ curl -X 'PUT' \
   message: "success",
   status: 200,
   data: {
-    mission: 'bla bla bla'
+    _id: "6145d316285e4a184020744b",
+    mission: "Boss I am sleeping",
+    vision: "To be the best goal tabbers."
   }
 }
 
@@ -720,13 +724,13 @@ curl -X 'PUT' \
 
 | Method | Endpoint| Body | Parameter | Query | Content Type | Description |
 |-|-|-|-|-|-|-|
-| `GET` | `/missions` | null | null | organization_id | `application/json` | **organization_id** field is required |
+| `GET` | `/vision` | null | organization_id | null | `application/json` | **organization_id** field is required |
 
 > ### Code Sample
 
 ```bash
 curl -X 'GET' \
-  'https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e' \
+  'https://goals.zuri.chat/api/v1/vision/6145d099285e4a184020742e' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
 ```
@@ -740,7 +744,9 @@ curl -X 'GET' \
   message: "success",
   status: 200,
   data: {
-    vision: 'bla bla bla'
+    _id: "6145d346285e4a184020744e",
+    organization_id: "6145d099285e4a184020742e",
+    vision: "Click to add vision"
   }
 }
 
@@ -793,13 +799,13 @@ curl -X 'GET' \
 
 | Method | Endpoint| Body | Parameter | Query | Content Type | Description |
 |-|-|-|-|-|-|-|
-| `PUT` | `/missions` | vision | null | organization_id | `application/json` | **organization_id** field is required |
+| `PATCH` | `/vision` | vision | organization_id | null | `application/json` | **organization_id** field is required |
 
 > ### Code Sample
 
 ```bash
-curl -X 'PUT' \
-  'https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e' \
+curl -X 'PATCH' \
+  'https://goals.zuri.chat/api/v1/vision?org_id=6145d099285e4a184020742e' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
    -d '{
@@ -816,7 +822,9 @@ curl -X 'PUT' \
   message: "success",
   status: 200,
   data: {
-    vision: 'bla bla bla'
+    _id: "6145d346285e4a184020744e",
+    organization_id: "6145d099285e4a184020742e",
+    vision: "Click to add vision"
   }
 }
 
@@ -828,6 +836,371 @@ curl -X 'PUT' \
 {
   status: 'fail',
   message: 'No vision found for the organization_id provided'
+}
+```
+
+&nbsp;&nbsp; **Code: 401**
+
+```bash
+{
+  status: 'fail',
+  message: 'Unauthorized'
+}
+```
+
+&nbsp;&nbsp; **Code: 404**
+
+```bash
+{
+  status: 'fail',
+  message: 'Can not find the requested url on this server'
+}
+```
+
+&nbsp;&nbsp; **Code: 500**
+
+```bash
+{
+  status: 'error',
+  message: 'Internal server error'
+}
+```
+
+<!-- Notification Endpoint start from here -->
+
+## Notification Endpoint
+
+---
+
+<!-- Get a notification endpoint -->
+
+> ### Get a Notification
+> ### Description
+
+&nbsp; This endpoint get all notifications for a specific user.
+
+> ### Parameters
+
+| Method | Endpoint| Body | Parameter | Query | Content Type | Description |
+|-|-|-|-|-|-|-|
+| `GET` | `/notifications` | null | null | org_id <br> user_id <br> | `application/json` | **org_id** and **user_id** fields are required |
+
+> ### Code Sample
+
+```bash
+curl -X 'GET' \
+  'https://goals.zuri.chat/api/v1/notifications?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+```
+
+> ### Sample Response
+
+&nbsp;&nbsp; **Code: 200**
+
+```bash
+{
+  message: "success",
+  status: 200,
+  data: [
+    {
+      _id: "614ec2dcf31a74e068e4db28",
+      colour: "blue",
+      createdAt: 1632551644191,
+      description: "",
+      goalName: "",
+      goal_id: "",
+      header: "Our mission has been updated.",
+      isRead: false,
+      org_id: "6145d099285e4a184020742e",
+      user_id: "6145cf0c285e4a1840207426"
+    },
+    {
+      _id: "614ec798f31a74e068e4db7c",
+      colour: "blue",
+      createdAt: 1632552856081,
+      description: "",
+      goalName: "",
+      goal_id: "",
+      header: "Our vision has been updated.",
+      isRead: true,
+      org_id: "6145d099285e4a184020742e",
+      user_id: "6145cf0c285e4a1840207426"
+    }
+  ]
+}
+
+```
+
+&nbsp;&nbsp; **Code: 400**
+
+```bash
+{
+  status: 'fail',
+  message: 'org_id and user_id fields are required'
+}
+```
+
+&nbsp;&nbsp; **Code: 401**
+
+```bash
+{
+  status: 'fail',
+  message: 'Unauthorized'
+}
+```
+
+&nbsp;&nbsp; **Code: 404**
+
+```bash
+{
+  status: 'fail',
+  message: 'Can not find the requested url on this server'
+}
+```
+
+&nbsp;&nbsp; **Code: 500**
+
+```bash
+{
+  status: 'error',
+  message: 'Internal server error'
+}
+```
+
+<!-- Update a notification endpoint -->
+
+> ### Update a Notification
+> ### Description
+
+&nbsp; This endpoint update a notification.
+
+> ### Parameters
+
+| Method | Endpoint| Body | Parameter | Query | Content Type | Description |
+|-|-|-|-|-|-|-|
+| `PUT` | `/notifications` | isRead | null | org_id <br> user_id <br> notification_id | `application/json` | **org_id**, **user_id** and **notification_id** fields are required |
+
+> ### Code Sample
+
+```bash
+curl -X 'PUT' \
+  'https://goals.zuri.chat/api/v1/notifications?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&notification_id=614ec2dcf31a74e068e4db28' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+   -d '{
+      "isRead": true
+    }'
+```
+
+> ### Sample Response
+
+&nbsp;&nbsp; **Code: 200**
+
+```bash
+{
+  message: "success",
+  status: 200,
+  data: {
+    _id: "614ec798f31a74e068e4db7c",
+    colour: "blue",
+    createdAt: 1632552856081,
+    description: "",
+    goalName: "",
+    goal_id: "",
+    header: "Our vision has been updated.",
+    isRead: true,
+    org_id: "6145d099285e4a184020742e",
+    user_id: "6145cf0c285e4a1840207426"
+  }
+}
+
+```
+
+&nbsp;&nbsp; **Code: 400**
+
+```bash
+{
+  status: 'fail',
+  message: 'org_id, user_id and notification_id fields are required'
+}
+```
+
+&nbsp;&nbsp; **Code: 401**
+
+```bash
+{
+  status: 'fail',
+  message: 'Unauthorized'
+}
+```
+
+&nbsp;&nbsp; **Code: 404**
+
+```bash
+{
+  status: 'fail',
+  message: 'Can not find the requested url on this server'
+}
+```
+
+&nbsp;&nbsp; **Code: 500**
+
+```bash
+{
+  status: 'error',
+  message: 'Internal server error'
+}
+```
+
+<!-- Get all notification endpoint -->
+
+> ### Get all Notification
+> ### Description
+
+&nbsp; This endpoint get all notifications for an organization.
+
+> ### Parameters
+
+| Method | Endpoint| Body | Parameter | Query | Content Type | Description |
+|-|-|-|-|-|-|-|
+| `GET` | `/notifications/all` | null | null | org_id | `application/json` | **org_id** field is required |
+
+> ### Code Sample
+
+```bash
+curl -X 'GET' \
+  'https://goals.zuri.chat/api/v1/notifications/all?org_id=6145d099285e4a184020742e' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+```
+
+> ### Sample Response
+
+&nbsp;&nbsp; **Code: 200**
+
+```bash
+{
+  message: "success",
+  status: 200,
+  data: [
+    {
+      _id: "614ec2dcf31a74e068e4db28",
+      colour: "blue",
+      createdAt: 1632551644191,
+      description: "",
+      goalName: "",
+      goal_id: "",
+      header: "Our mission has been updated.",
+      isRead: false,
+      org_id: "6145d099285e4a184020742e",
+      user_id: "6145cf0c285e4a1840207426"
+    },
+    {
+      _id: "614ec798f31a74e068e4db7c",
+      colour: "blue",
+      createdAt: 1632552856081,
+      description: "",
+      goalName: "",
+      goal_id: "",
+      header: "Our vision has been updated.",
+      isRead: true,
+      org_id: "6145d099285e4a184020742e",
+      user_id: "6145cf0c285e4a1840207426"
+    }
+  ]
+}
+
+```
+
+&nbsp;&nbsp; **Code: 400**
+
+```bash
+{
+  status: 'fail',
+  message: 'org_id field is required'
+}
+```
+
+&nbsp;&nbsp; **Code: 401**
+
+```bash
+{
+  status: 'fail',
+  message: 'Unauthorized'
+}
+```
+
+&nbsp;&nbsp; **Code: 404**
+
+```bash
+{
+  status: 'fail',
+  message: 'Can not find the requested url on this server'
+}
+```
+
+&nbsp;&nbsp; **Code: 500**
+
+```bash
+{
+  status: 'error',
+  message: 'Internal server error'
+}
+```
+
+<!-- Delete notification endpoint -->
+
+> ### Delete a Notification
+> ### Description
+
+&nbsp; This endpoint delete a notification.
+
+> ### Parameters
+
+| Method | Endpoint| Body | Parameter | Query | Content Type | Description |
+|-|-|-|-|-|-|-|
+| `DELETE` | `/notifications` | null | null | org_id <br> user_id <br> notification_id | `application/json` | **org_id**, **user_id** and **notification_id** fields are required |
+
+> ### Code Sample
+
+```bash
+curl -X 'DELETE' \
+  'https://goals.zuri.chat/api/v1/notifications?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&notification_id=614ec2dcf31a74e068e4db28' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+```
+
+> ### Sample Response
+
+&nbsp;&nbsp; **Code: 200**
+
+```bash
+{
+  message: "success",
+  status: 200,
+  data: {
+    _id: "614ec798f31a74e068e4db7c",
+    colour: "blue",
+    createdAt: 1632552856081,
+    description: "",
+    goalName: "",
+    goal_id: "",
+    header: "Our vision has been updated.",
+    isRead: true,
+    org_id: "6145d099285e4a184020742e",
+    user_id: "6145cf0c285e4a1840207426"
+  }
+}
+
+```
+
+&nbsp;&nbsp; **Code: 400**
+
+```bash
+{
+  status: 'fail',
+  message: 'org_id, user_id and notification_id fields are required'
 }
 ```
 
