@@ -56,7 +56,7 @@ const TargetForm = forwardRef((props) => {
           <TargetInput />
           <AddContainer>
             <AiOutlinePlusCircle style={{ color: 'green' }} />
-            <a style={{ color: 'green' }}>Add More Milestones (you can set up to 4 milestones)</a>
+            <a style={{ background: '#00B87C' }}>Add More Milestones (you can set up to 4 milestones)</a>
           </AddContainer>
         </Container>{' '}
         <CreateButton>
