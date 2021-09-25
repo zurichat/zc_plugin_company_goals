@@ -127,7 +127,7 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen} style={{ padding: '0.5rem', cursor: 'pointer' }}>
+      <button type="button" onClick={handleOpen} style={{ padding: '0.5rem', cursor: 'pointer', backgroundColor: '#fff', border:'none',textDecoration:'underline', letterSpacing: '0.5px',}}>
         Export Report
       </button>
       <Modal
