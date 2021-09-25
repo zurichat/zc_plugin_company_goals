@@ -56,8 +56,8 @@ const InnerNav = () => {
             <ListItemText
               style={{
                 color: '#B0AFB0',
-                fontSize: '13px !important',
-                fontWeight: 'normal',
+                fontSize: '1rem !important',
+                fontWeight: '400',
                 lineHeight: '28px',
                 fontStyle: 'normal',
                 marginRight: '20px',

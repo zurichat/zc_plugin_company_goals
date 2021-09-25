@@ -20,7 +20,7 @@ export const SortText = styled.p`
   font-family: 'Lato';
   font-style: normal;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 1rem;
   line-height: 28px;
   color: #616061;
   /* margin-right: 6px; */
@@ -31,5 +31,5 @@ export const GoalText = styled.div`
   font-size: 13px;
   line-height: 28px;
   color: #999999;
-  margin: 9px 31px;
+  width: 20%;
 `;

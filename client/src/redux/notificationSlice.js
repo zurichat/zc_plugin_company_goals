@@ -82,7 +82,7 @@ export const notificationSlice = createSlice({
   extraReducers: {
     [getNotifications.fulfilled]: (state, { payload }) => {
       const notifications = payload.notifications.data == null ? [] : payload.notifications.data;
-      state.notifications = notifications;
+      state.notifications = notifications.reverse();
       return state;
     },
     [markNotificationAsReadAsync.fulfilled]: (state, { payload }) => {

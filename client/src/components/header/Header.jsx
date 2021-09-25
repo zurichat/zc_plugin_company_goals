@@ -3,8 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 
-// import AddIcon from '@material-ui/icons/Add';
-
+//import AddIcon from '@material-ui/icons/Add';
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // import { useDispatch } from 'react-redux';
 // import { useStyles } from '../../hooks/screenSize';
@@ -29,9 +28,7 @@ const Header = () => {
     <>
       <MVContain>
         <Missions />
-        <Div>
-          <DisplayOrganizationVision />
-        </Div>
+        <DisplayOrganizationVision />
       </MVContain>
     </>
   );
@@ -40,15 +37,16 @@ export default Header;
 
 const MVContain = styled.div`
   position: relative;
-  max-width: 1120;
+  max-width: 88vw;
+  margin: 0.3rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2.7rem 0.3rem 0.5rem 0.2rem;
-  top: 3rem;
-  margin-bottom: 4.64rem;
+  top: 20%;
+  margin-bottom: 1rem;
 
-  @media only screen and (max-width: 420px) {
+  @media only screen and (max-width: 600px) {
     flex-direction: column;
     padding-top: 1rem;
   }
