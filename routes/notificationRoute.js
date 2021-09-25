@@ -14,7 +14,7 @@ router.get('/', getUserNotifications)
 router.put('/', updateNotification)
 router.put('/all', updateNotifications)
 router.delete('/', deleteNotification)
-router.get('/all', getAllNotifications)
+//router.get('/all', getAllNotifications)
 router.delete('/all', deleteNotifications)
 
 
