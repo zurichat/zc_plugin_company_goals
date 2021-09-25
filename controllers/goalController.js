@@ -92,7 +92,7 @@ exports.createGoal = async (req, res, next) => {
 
   const roomId = uuidv4();
   const { org_id: orgId } = req.query;
-  const { goal_name: title, category } = req.body;
+  const { goal_name: title, category, start_date, due_date } = req.body;
 
   const goal = req.body;
   let goals;
@@ -100,13 +100,13 @@ exports.createGoal = async (req, res, next) => {
   const today = new Date();
   const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
-   const data = {
-     room_id: roomId,
-     isComplete: false,
-     isExpired: false,
-     created_at: date,
-     ...goal,
-   };
+  const data = {
+    room_id: roomId,
+    isComplete: false,
+    isExpired: false,
+    created_at: date,
+    ...goal,
+  };
 
 
   if (!orgId) {
@@ -118,6 +118,16 @@ exports.createGoal = async (req, res, next) => {
   try {
     await goalSchema.validateAsync(req.body);
     logger.info(`Successfully validated the request body.`);
+    const date_regex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    
+    if (!date_regex.test(start_date) || !date_regex.test(due_date)) {
+      return res.status(400).send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD` })
+    }
+
+    if (start_date < date || due_date < date) {
+      return res.status(400).send({ Validation_error: `Start and / or Due date(s) cannot be set before today`});
+    }
+    
   } catch (err) {
     logger.info(`There are errors with the request body: ${err.details}`);
     if (err) return res.status(400).json(err.details);
@@ -127,9 +137,9 @@ exports.createGoal = async (req, res, next) => {
     logger.info(
       `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
     );
-    goals = await find('goals', { goal_name: title }, orgId);
+   const findGoals = await find('goals', { goal_name: title }, orgId);
 
-    const { data: foundGoal } = goals.data;
+    const { data: foundGoal } = findGoals.data;
 
     if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
       logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
@@ -137,19 +147,21 @@ exports.createGoal = async (req, res, next) => {
         error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
       });
     }
+  
   } catch (error) {
     logger.info(`There are no goals with the title: ${title}`);
-    goals = await insertOne('goals', data, orgId);
-    await createNotification(user_ids, orgId, roomId, title, 'createGoal');
-    logger.info(`Successfully created a new goal: ${goals.data.data}`);
+    if (error) goals = error.message;
   }
+  goals = await insertOne('goals', data, orgId);
+  await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+  logger.info(`Successfully created a new goal: ${goals.data.data}`);
 
   res.status(200).json({ message: 'success', ...goals.data, data });
 };
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
-  // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
+  
   let users;
   const { room_id: id, org_id: org } = req.query;
 
@@ -610,5 +622,19 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: true,
+  });
+});
+
+exports.sortGoalByType = catchAsync(async (req, res, next) => {
+  const { org_id: orgId, type: goalType} = req.query;
+
+  //find goals by type
+  const goalsSorted = await find('goals',{ goal_type: goalType }, orgId );
+  
+  // No matching data, return an empty array
+  if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
+  res.status(200).json({
+    status: 'success',
+    data: goalsSorted.data.data,
   });
 });
