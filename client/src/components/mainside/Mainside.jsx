@@ -32,7 +32,6 @@ import { MainSection } from './Mainside.styled';
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 export default function Mainside({ className }) {
-  console.log(errorMessage);
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.goals.list);
   const status = useSelector((state) => state.goals.status);
