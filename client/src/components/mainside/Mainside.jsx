@@ -10,6 +10,7 @@ import Progress from '../Sortoptions/Progress';
 import MenuOption from '../Sortoptions/MenuOption';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import Error from '../error/Error';
+
 // import Design from '../Dropdown/Design';
 // import MenuOption from '../Dropdown/MenuOption';
 // import Mobile from '../Dropdown/Mobile';
@@ -29,6 +30,7 @@ import ReportsAndNotificationContainer from '../reports_and_notifications/Report
 import Loader from '../loader/loader';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 import { MainSection } from './Mainside.styled';
+
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';
 
 export default function Mainside({ className }) {
@@ -63,6 +65,7 @@ export default function Mainside({ className }) {
                   return <GoalItem goalData={goal} key={id} />;
                 })
             }
+
             {/* <Menuoption /> */}
             {/* <GetGoals /> */}
           </Goal>
