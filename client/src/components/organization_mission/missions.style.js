@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+
 export const ParentBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,9 +51,10 @@ export const Title = styled.h3`
 
   @media only screen and (max-width: 760px) {
   }
-`;
 
+`;
 export const MissionField = styled.p`
+
   border: none;
   background-color: white;
   border-radius: 3px 0 0 3px;
@@ -62,8 +64,10 @@ export const MissionField = styled.p`
   &:-ms-keyboard-active {
     border-style: none;
   }
+
   @media only screen and (max-width: 760px) {
   }
   @media only screen and (max-width: 425px) {
+
   }
 `;

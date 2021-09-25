@@ -25,15 +25,18 @@ const Header = () => {
     document.querySelector('.editMissionbutton').style.display = 'none';
   };
   return (
+
     <MVContain>
       <Missions />
       <DisplayOrganizationVision />
     </MVContain>
+
   );
 };
 export default Header;
 
 const MVContain = styled.div`
+
   display: flex;
   width: 100%;
   justify-content: space-evenly;

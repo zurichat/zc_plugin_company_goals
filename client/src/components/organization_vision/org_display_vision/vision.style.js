@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+
 export const ParentBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,6 +24,7 @@ export const Box = styled.div`
   width: 100%;
 `;
 
+
 export const Editbutton = styled.button`
   border: none;
   background-color: #ffffff;
@@ -39,8 +41,10 @@ export const Title = styled.h3`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
+
   color: #000000;
   margin: 0;
+
 
   @media only screen and (max-width: 420px) {
     top: ${(props) => props.rsTop};
@@ -57,9 +61,11 @@ export const VisionField = styled.p`
   &:-ms-keyboard-active {
     border-style: none;
   }
+
   @media only screen and (max-width: 760px) {
   }
   @media only screen and (max-width: 425px) {
+
   }
 `;
 

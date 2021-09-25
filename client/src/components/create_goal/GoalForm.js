@@ -153,15 +153,17 @@ const GoalForm = forwardRef((props) => {
                       <label htmlFor="goal-category">
                         <Datalist
                           type="text"
-                          list="goal-category"
-                          name="goal-category"
+                          list="goal-category-list"
+                          name="category"
                           placeholder="Category"
                           value={values.category}
                           onChange={handleChange}
                         />
-                        <datalist name="category" id="goal-category">
-                          <option value="Product Design"></option>
+                        <datalist id="goal-category-list">
+                          <option value="Product Design" defaultChecked></option>
                           <option value=" Marketing"></option>
+                          <option value=" Software Development"></option>
+                          <option value="Devops"></option>
                         </datalist>
                       </label>
                       <span>{touched.category && errors.category}</span>
