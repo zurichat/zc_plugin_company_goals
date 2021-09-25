@@ -82,7 +82,6 @@ const checkIsValidUser = async (req, res, next) => {
   if (!organization_id) {
     return next(new AppError('organization_id is required', 400));
   }
-
   let organization = await axios({
     method: 'get',
     url: `https://api.zuri.chat/organizations/${organization_id}`,

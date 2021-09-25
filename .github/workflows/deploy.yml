@@ -3,7 +3,7 @@ name: Zuri goals Deployment
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [prod]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,8 +37,8 @@ jobs:
             cd zc_plugin_company_goals/
             git stash
             git fetch --all
-            git reset --hard origin/prod
-            git pull origin/prod
+            git reset --hard origin/main
+            git pull origin/main
             cd client/
             yarn install
             cd ../serve-client
@@ -66,6 +66,7 @@ jobs:
           script: |
             pm2 list
             pm2 restart 0
+            pm2 reload 0
 
           
           
