@@ -100,13 +100,7 @@ exports.createGoal = async (req, res, next) => {
   const today = new Date();
   const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
-  const data = {
-    room_id: roomId,
-    isComplete: false,
-    isExpired: false,
-    created_at: date,
-    ...goal,
-  };
+
 
 
   if (!orgId) {
@@ -118,15 +112,23 @@ exports.createGoal = async (req, res, next) => {
   try {
     await goalSchema.validateAsync(req.body);
     logger.info(`Successfully validated the request body.`);
-    const date_regex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    const date_regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
+
+    const d1 = new Date(start_date)
+    const d2 = new Date(due_date)
+   
     
     if (!date_regex.test(start_date) || !date_regex.test(due_date)) {
-      return res.status(400).send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD` })
+      return res.status(400).send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD or YYYY-M-D` })
     }
 
-    if (start_date < date || due_date < date) {
-      return res.status(400).send({ Validation_error: `Start and / or Due date(s) cannot be set before today`});
+    if (d1.getMonth() < today.getMonth() || d1.getDate() < today.getDate()) {
+      return res.status(400).send({message: 'Start date or month must not be before today'})
     }
+    if (d2.getMonth() < today.getMonth() || d2.getDate() < today.getDate()) {
+      return res.status(400).send({message: 'Due date or month must not be before today'})
+    }
+
     
   } catch (err) {
     logger.info(`There are errors with the request body: ${err.details}`);
@@ -142,6 +144,7 @@ exports.createGoal = async (req, res, next) => {
     const { data: foundGoal } = findGoals.data;
 
     if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+  
       logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
       return res.status(400).send({
         error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
@@ -152,11 +155,30 @@ exports.createGoal = async (req, res, next) => {
     logger.info(`There are no goals with the title: ${title}`);
     if (error) goals = error.message;
   }
-  goals = await insertOne('goals', data, orgId);
-  await createNotification(user_ids, orgId, roomId, title, 'createGoal');
-  logger.info(`Successfully created a new goal: ${goals.data.data}`);
 
-  res.status(200).json({ message: 'success', ...goals.data, data });
+  try {
+      const data = {
+    room_id: roomId,
+    isComplete: false,
+    isExpired: false,
+    created_at: date,
+    ...goal,
+  };
+  
+    goals = await insertOne('goals', data, orgId);
+
+    
+    if (goals.data.status === 200) {
+      
+      await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+      logger.info(`Successfully created a new goal: ${goals.data.data}`);
+     res.status(200).json({ message: 'success', data });
+    }
+    
+  } catch (error) {
+   return res.status(400).send({message: 'Invalid request'})
+  }
+ 
 };
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
@@ -455,8 +477,10 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     },
     orgId
   );
+  
 
-  if (!goal.data.data) {
+
+  if (goal.data.data === null) {
     return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
   }
 
@@ -468,6 +492,8 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     },
     orgId
   );
+
+
   if (!like.data.data) {
     return res.status(200).json({
       status: 'success',
