@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Goal = styled.div`
   font-family: Lato;
-  padding: 0.5rem 1rem 1rem 1rem;
-  width: 90% !important;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  width: 95% !important;
   background-color: #fff;
   margin: 0 auto;
 `;
@@ -67,8 +67,12 @@ export const GoalInput = styled.input`
   background-color: #ffffff;
   width: 100% !important;
 `;
-export const SelectDiv = styled.div`
+export const SelectDivA = styled.div`
   width: 45% !important;
+  margin-top: 1rem;
+`;
+export const SelectDivB = styled.div`
+  width: 50% !important;
   margin-top: 1rem;
 `;
 export const Select = styled.select`
@@ -81,6 +85,27 @@ export const Select = styled.select`
   border: none;
   outline: none;
   option {
+    color: #b0afb0 !important;
+    font-size: 13px !important;
+
+    background-color: #fff !important;
+  }
+`;
+export const Option = styled.option`
+  min-height: 2rem !important;
+  padding: 5rem 0 1rem 0.5rem !important;
+`;
+export const Datalist = styled.input`
+  width: 100%;
+  height: 50px;
+  background-color: #00b87c;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 0 0.7rem;
+  border: none;
+  outline: none;
+  option {
+    width: 80% !important;
     color: #b0afb0;
     font-size: 13px;
     height: 2rem;
@@ -107,10 +132,10 @@ export const TextArea = styled.textarea`
 export const Button = styled.button`
   background-color: #00b87c;
   border: none;
-  border-radius: ${(props) => props.borderRadius};
+  border-radius: 3px;
   color: #fff;
   outline: none;
-  padding: ${(props) => props.buttonPadding};
+  padding: 1rem 2.5rem;
   font-size: 12px;
   cursor: pointer;
 
@@ -134,7 +159,6 @@ export const LabelBody = styled.p`
 `;
 export const TargetContainerA = styled.div`
   width: 100% !important;
-
   display: flex;
   justify-content: space-between;
   /* @media only screen and (max-width: 500px) {
@@ -175,6 +199,7 @@ export const PriorityContainer = styled.div`
 export const CloseButton = styled.button`
   outline: none;
   border: none;
+  padding: 0 !important;
   float: right;
   background: none;
   font-weight: bold;

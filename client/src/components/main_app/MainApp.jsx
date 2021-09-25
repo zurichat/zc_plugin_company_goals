@@ -28,18 +28,38 @@ const MainAppContainer = styled.main`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin-top: 3.22rem;
-  /* border: 1px solid yellow; */
+  height: 70%;
+  margin-top: 1rem;
+  @media screen and (max-width: 714px) {
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+  }
 `;
 
 const GoalsDisplayContainer = styled.div`
-  flex-basis: 65%;
+  width: 69%;
+  height: 100%;
   /* border: 1px solid green; */
+  @media only screen and (max-width: 960px) {
+    width: 59%;
+  }
+  @media only screen and (max-width: 714px) {
+    width: 100%;
+  }
 `;
 
 const GoalsReportAndNotificationContainer = styled.div`
   /* border: 1px solid blue; */
-  flex-basis: 34%;
+  width: 30%;
+  height: 100%;
+  @media only screen and (max-width: 960px) {
+    width: 40%;
+  }
+  @media only screen and (max-width: 714px) {
+    margin-top: 2rem;
+    width: 100%;
+  }
 `;
 const Goal = styled.div`
   flex: 1;
