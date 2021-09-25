@@ -1,5 +1,6 @@
 import { Doughnut } from 'react-chartjs-2';
 import { ReportContainer, Icons, Label } from './styles';
+import ExportReport from '../Modal/ExportModal/ExportReport';
 
 const data = {
   labels: ['green', 'Blue', 'red', 'gray'],
@@ -11,7 +12,7 @@ const data = {
       weight: 2,
       // offset: 40,
       borderAlign: 'inner',
-   
+
       backgroundColor: ['#00B87C', '#2F80ED', '#F44336', '#e0e0e0'],
       borderColor: ['#00B87C', '#2F80ED', '#F44336', '#e0e0e0'],
     },
@@ -20,14 +21,13 @@ const data = {
 
 const options = {
   cutout: '80%',
-  radius: "75%",
+  radius: '75%',
   responsive: true,
   maintainAspectRatio: false,
 
   plugins: {
     title: {
       display: false,
-     
     },
     legend: {
       display: false,
@@ -48,15 +48,21 @@ const Report = () => {
           </button>
         </div>
         <div className="export">
-          <h5 className="export_text">ExportReport</h5>
+          <ExportReport />
         </div>
       </div>
 
       <div className="piechart">
         <Doughnut options={options} data={data} />
         <div className="percentage">
-          <h2 className="count">10%</h2>
+          <h1 className="count">10%</h1>
           <p className="status">Expired</p>
+          <div className="dot_pagination">
+            <div className="dots yellow"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+            <div className="dots"></div>
+          </div>
         </div>
       </div>
       <div className="labels_container">
@@ -87,7 +93,7 @@ const Report = () => {
       <div className="averge">
         <h1 className="text">Average Progress Rate</h1>
         <div className="progrress">
-        <div className="bar"></div>
+          <div className="bar"></div>
         </div>
         <h3 className="prcent">Progress Rate 73%</h3>
       </div>

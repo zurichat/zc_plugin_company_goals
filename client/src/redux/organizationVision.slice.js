@@ -41,9 +41,8 @@ export const editVisionSlice = createSlice({
     showEditVisionModal: (state) => {
       state.showVisionModal = !state.showVisionModal;
     },
-    saveVision: (state, action) => {
-      state.vision = action.payload;
-      // state.showVisionModal = !state.showVisionModal;
+    updateOrgVisionFromRTC: (state, action) => {
+      state.visionText = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -80,6 +79,6 @@ export const editVisionSlice = createSlice({
   },
 });
 
-export const { showEditVisionModal, saveVision, extraReducers } = editVisionSlice.actions;
+export const { showEditVisionModal, updateOrgVisionFromRTC, extraReducers } = editVisionSlice.actions;
 
 export default editVisionSlice.reducer;
