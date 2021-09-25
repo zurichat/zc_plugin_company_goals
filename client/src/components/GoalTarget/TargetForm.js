@@ -13,6 +13,9 @@ import {
   MainTitle,
 } from './TargetForm.style';
 import TargetRadio from './TargetRadio';
+import TargetInput from './TargetInput';
+import { AddContainer } from './TargetInput.style'
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 const TargetForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
@@ -50,6 +53,11 @@ const TargetForm = forwardRef((props) => {
               </TargetContainerA>
             </label>{' '}
           </div>{' '}
+          <TargetInput />
+          <AddContainer>
+            <AiOutlinePlusCircle style={{ color: 'green' }} />
+            <a style={{ color: 'green' }}>Add More Milestones (you can set up to 4 milestones)</a>
+          </AddContainer>
         </Container>{' '}
         <CreateButton>
           <Button type="submit" buttonPadding="1rem 4rem" borderRadius="6px">
