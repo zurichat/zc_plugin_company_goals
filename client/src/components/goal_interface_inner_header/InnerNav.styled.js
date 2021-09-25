@@ -31,5 +31,5 @@ export const GoalText = styled.div`
   font-size: 13px;
   line-height: 28px;
   color: #999999;
-  margin: 9px 31px;
+  width: 20%;
 `;
