@@ -19,9 +19,11 @@ import {
   TargetContainerA,
   TargetContainerB,
   Select,
-  SelectDiv,
+  SelectDivA,
+  SelectDivB,
   MainTitle,
   Wrap,
+  Datalist,
 } from './GoalForm.style';
 import { goalCreateEditDataApi } from './create-edit-goal.utils';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
@@ -137,7 +139,7 @@ const GoalForm = forwardRef((props) => {
                     <GoalInfo fontSize="15px"> (Set goal Type and Category and Priority) </GoalInfo>{' '}
                   </Wrap>{' '}
                   <TargetContainerA>
-                    <SelectDiv>
+                    <SelectDivA style={{ width: '45% !important' }}>
                       <label htmlFor="goal-type">
                         <Select name="goal_type" id="goal-type" value={values.goal_type} onChange={handleChange}>
                           <option value="">Type</option>
@@ -146,17 +148,26 @@ const GoalForm = forwardRef((props) => {
                         </Select>
                       </label>
                       <span>{touched.goal_type && errors.goal_type}</span>
-                    </SelectDiv>
-                    <SelectDiv>
+                    </SelectDivA>
+                    <SelectDivB style={{ width: '50% !important' }}>
                       <label htmlFor="goal-category">
-                        <Select name="category" id="goal-category" value={values.category} onChange={handleChange}>
-                          <option value="">Category</option>
-                          <option value="product design">Product Design</option>
-                          <option value="marketing"> Marketing</option>
-                        </Select>
+                        <Datalist
+                          type="text"
+                          list="goal-category-list"
+                          name="category"
+                          placeholder="Category"
+                          value={values.category}
+                          onChange={handleChange}
+                        />
+                        <datalist id="goal-category-list">
+                          <option value="Product Design" defaultChecked></option>
+                          <option value=" Marketing"></option>
+                          <option value=" Software Development"></option>
+                          <option value="Devops"></option>
+                        </datalist>
                       </label>
                       <span>{touched.category && errors.category}</span>
-                    </SelectDiv>
+                    </SelectDivB>
                   </TargetContainerA>
                 </label>
               </div>{' '}

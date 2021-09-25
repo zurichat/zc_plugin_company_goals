@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import dislikes from '../../Images/png/dislikes.png';
 import ellipsis from '../../Images/png/ellipsis.png';
@@ -9,7 +9,6 @@ import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
   GoalTitle,
-  GoalTagsContainer,
   GoalTags,
   ProgressBar,
   ProgressRate,
@@ -21,9 +20,8 @@ import {
 } from './GoalItem.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { addDisLike, addLike } from '../../redux/likeGoalSlice';
-import Menuoption from '../../components/Menuoption/Menuoption';
 
-const GoalItem = ({ goalData }) => {
+const GoalItem = ({ goalData }) => { 
   const classes = useStyles();
   const dispatch = useDispatch();
   const month = {
@@ -58,9 +56,6 @@ const GoalItem = ({ goalData }) => {
     dispatch(addDisLike(1));
   };
 
-
-  
-
   const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
   const goalStart = new Date(goalData.start_date);
   const goalEnd = new Date(goalData.due_date);
@@ -69,14 +64,11 @@ const GoalItem = ({ goalData }) => {
   const endMonth = month.month_names_short[goalEnd.getMonth()];
   const endDate = goalEnd.getDate();
 
-
   return (
     <Container className={classes.root} key={goalData.room_id}>
       <Grid item xs={12} sm={3} className={classes.rightSpacing}>
         <GoalTitle>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
-        <GoalTagsContainer>
-          <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
-        </GoalTagsContainer>
+        <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
       </Grid>
 
       <Grid item xs={12} sm={6}>

@@ -11,6 +11,8 @@ import GoalItem from '../Goals/GoalItem';
 
 import GoalDetailData from './GoalDetailData';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
+import Loader from '../loader/loader';
+import Error from '../error/Error';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,9 +48,9 @@ export default function GoalDetailAccordion() {
   }/api/v1/goals/?org_id=6145d099285e4a184020742e`;
   const { data, error } = useSWR('getAllGoals', () => fetcher(requestURL));
 
-  if (!error && !data) return <h3>Loading.......</h3>;
+  if (!error && !data) return <Loader />;
 
-  if (error) return <h3>Error.....</h3>;
+  if (error) return <Error errorMessage={error} />;
 
   if (!data.data.length) return <EmptyGoal />;
 

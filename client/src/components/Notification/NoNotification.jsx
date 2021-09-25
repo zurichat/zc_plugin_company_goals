@@ -20,8 +20,7 @@ const Section = styled.section`
 const NoNotification = () => {
   return (
     <Section>
-      <img src={noImage} alt="" />
-      <p>You have no notification</p>
+      <p style={{ fontSize: '1rem', fontWeight: '700' }}>You have no new notification</p>
     </Section>
   );
 };
