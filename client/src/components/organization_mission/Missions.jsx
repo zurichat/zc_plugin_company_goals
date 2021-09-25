@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showEditMissionModal } from '../../redux/editMission.slice';
 // import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png';
-import { Editbutton, MissionField, Title, Box } from './missions.style';
-
+import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
 const Missions = () => {
   const dispatch = useDispatch();
@@ -14,18 +13,16 @@ const Missions = () => {
 
   const handleClick = () => dispatch(showEditMissionModal());
 
-  const [text, setText] = useState('Loading...')
+  const [text, setText] = useState('Loading...');
 
   useEffect(() => {
     const jsonMissionText = window.localStorage.getItem('mission');
     setText(JSON.parse(jsonMissionText));
-  } , [])
+  }, []);
 
   return (
-    <div>
-      <Title top="15%" left="10.5%" rsTop="5%" rsLeft="7%" color="#000000">
-        Mission
-      </Title>
+    <ParentBox>
+      <Title>Mission</Title>
       <Box className="box">
         {/* <MissionField>{missionText}</MissionField> */}
         <MissionField>{text ? text : 'Click Icon to Add Mission'}</MissionField>
@@ -33,7 +30,7 @@ const Missions = () => {
           <img src={editImg} alt="edit" />
         </Editbutton>
       </Box>
-    </div>
+    </ParentBox>
   );
 };
 export default Missions;
