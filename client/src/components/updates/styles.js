@@ -2,14 +2,13 @@ import Caret from '@material-ui/icons/ExpandMore';
 import styled from 'styled-components';
 
 export const ReportContainer = styled.div`
-  margin-top: 2px;
+  margin-top: 0.3rem;
   /* width: 360px; */
-  padding: 20px 0;
   width: 100%;
   background: #fff;
-  height: 500px;
-  height: 100%;
 
+  height: 100%;
+  padding-bottom: 20px;
   color: #999999;
   font-size: 12px;
   font-weight: 400;
@@ -74,29 +73,58 @@ export const ReportContainer = styled.div`
     position: relative;
     /* padding-top: 10px;
     padding-bottom: 10px; */
-    height: 300px;
+    height: 230px;
+    /* border: 1px solid blue; */
 
     .percentage {
       position: absolute;
       top: 53%;
       left: 50%;
       transform: translate(-50%, -50%);
-      height: 110px;
+      /* height: 100px; */
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
 
       .count {
-        color: #1d1c1d;
-        font-size: 40px;
+        color: #393939;
+        font-size: 55px;
         font-weight: bold;
-        margin: 0 auto;
+        /* margin: 0 auto;
+        margin-left: 10px; */
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+        line-height: 45px;
       }
 
       .status {
         color: #f44336;
-        font-size: 20px;
-        /* margin-left: 8px; */
-        font-weight: normal;
-        margin: 0 auto;
+        font-size: 16px;
+        margin-top: 8px;
+        font-weight: 700;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        text-transform: uppercase;
+      }
+
+      .dot_pagination {
+        display: flex;
+        width: 70px;
+        justify-content: space-between;
+        margin-top: 4px;
+
+        .dots {
+          width: 10px;
+          height: 10px;
+          background-color: #c4c4c4;
+          border-radius: 100%;
+
+          &.yellow {
+            background-color: #ffc107;
+          }
+        }
       }
     }
   }
@@ -104,11 +132,12 @@ export const ReportContainer = styled.div`
   .labels_container {
     width: 100%;
     padding: 4px;
-    margin: 10px auto;
+    margin: 0 auto;
 
     .labels {
-      width: 290px;
+      width: 70%;
       margin: 2px auto;
+      /* border: 1px solid red; */
 
       .indexs {
         display: flex;
@@ -123,7 +152,7 @@ export const ReportContainer = styled.div`
           p {
             color: #616061;
             margin-left: 1rem;
-            font-size: 16px;
+            font-size: 14px;
           }
         }
       }
@@ -131,18 +160,20 @@ export const ReportContainer = styled.div`
   }
 
   .averge {
+    font-size: 10px;
+
     width: 290px;
     margin: 15px auto;
     color: #393939;
-    text-align: center;
+    text-align: left;
     font-weight: 700;
-
+    /* margin-bottom: 30px; */
     .progrress {
       width: 220px;
       height: 8px;
       background: #2f80ed80;
       border-radius: 16px;
-      margin: 10px auto;
+      margin: 10px 0;
       .bar {
         width: 75%;
         height: 100%;
@@ -160,7 +191,7 @@ export const ReportContainer = styled.div`
 
 export const Icons = styled(Caret)`
   color: #999999;
-  font-size: 19px;
+  font-size: 16px;
 `;
 
 export const Label = styled.div`

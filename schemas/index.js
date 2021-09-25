@@ -40,6 +40,10 @@ exports.goalSchema = Joi.object({
   goal_type: Joi.string().valid(`none`, `annual`, `quarterly`, `daily`, `monthly`).default(`none`).required().messages({
     'any.required': 'goal type must be added',
   }),
+  goal_targets: Joi.array().items(
+    Joi.object().keys({ milestone: Joi.string(), achieved: Joi.boolean()}).required().messages({
+      'any.required': 'goal_targets must be added',
+    })),
   category: Joi.string().required().messages({
     'any.required': 'Category is required',
   }),
@@ -79,16 +83,3 @@ exports.getGoalLikesSchema = Joi.object({
     'any.required': 'organization id is required',
   }),
 });
-
-// notifications schema
-exports.notificationSchema = Joi.object({
-  user_id: Joi.string().required(),
-  org_id: Joi.string().required(),
-  goal_id: Joi.string().required(),
-  header: Joi.string().required(),
-  goalName: Joi.string().required(),
-  isRead: Joi.boolean().required(),
-  colour: Joi.string().required(),
-  description: Joi.string().required(),
-  createdAt: Joi.date().timestamp()
-})
