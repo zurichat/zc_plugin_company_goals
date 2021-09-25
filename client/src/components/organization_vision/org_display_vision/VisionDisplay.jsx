@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Editbutton, Title, Box, VisionField, VisionContainer } from './vision.style';
 import { fetchOrgVision, showEditVisionModal } from '../../../redux/organizationVision.slice';
 
-import { ParentBox, Editbutton, Title, Box, VisionField} from './vision.style';
+import { ParentBox} from './vision.style';
 
 import editImg from './visionAsset/editImg.png';
 
