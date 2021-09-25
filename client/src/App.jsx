@@ -14,7 +14,7 @@ import { activateSnackbar } from './redux/snackbar.slice';
 import { setNewMission, getMission } from './services/missionAPI';
 import AppHeader from './components/app_header/AppHeader';
 import { addNotificationFromRTC } from './redux/notificationSlice';
-import { updateOrgMissionFromRTC } from './redux/editMission.slice';
+import { updateOrgMissionFromRTC } from './redux/organizationMission.slice';
 
 function App() {
   const dispatch = useDispatch();
