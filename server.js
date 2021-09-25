@@ -10,13 +10,13 @@ const PORT = process.env.PORT || 4000;
 
 const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
-process.on('unhandledRejection', (reason, promise) => {
-  logger.error(`Unhandled rejection at ${promise}, reason: ${reason.message}`);
+// process.on('unhandledRejection', (reason, promise) => {
+//   logger.error(`Unhandled rejection at ${promise}, reason: ${reason.message}`);
 
-  server.close(() => {
-    process.exit(1);
-  });
-});
+//   server.close(() => {
+//     process.exit(1);
+//   });
+// });
 
 process.on('SIGTERM', () => {
   logger.info('SIGTERM Received, Shutting down gracefully');
