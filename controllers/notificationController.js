@@ -112,7 +112,6 @@ exports.getUserNotifications = async (req, res) => {
         message: "You don't have any notifications.",
       });
     }
-    
     // if (notifications.data.data.length > 10) {
     //   return res.status(200).json({
     //     status: 200,
@@ -120,7 +119,7 @@ exports.getUserNotifications = async (req, res) => {
     //     data: notifications.data.data.slice(-10),
     //   });
     // }
-
+    
     // Returning Response
     return res.status(200).json({
       status: 200,
@@ -137,7 +136,8 @@ exports.getUserNotifications = async (req, res) => {
 };
 
 exports.updateNotification = async (req, res) => {
-  const { org_id: orgId, user_id: userId, notification_id: notificationId } = req.query;
+  const { notification_id: notificationId } = req.params;
+  const { org_id: orgId, user_id: userId  } = req.query;
 
   // Check for org_id and user_id
   if (!orgId) {
@@ -249,7 +249,8 @@ exports.updateNotifications = async (req, res) => {
 };
 
 exports.deleteNotification = async (req, res) => {
-  const { org_id: orgId, user_id: userId, notification_id: notificationId } = req.query;
+  const { notification_id: notificationId } = req.params;
+  const { org_id: orgId, user_id: userId } = req.query;
 
   // Check for org_id, user_id and notification_id
   if (!orgId) {
