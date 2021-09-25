@@ -16,7 +16,12 @@ export const useStyles = makeStyles(() => ({
       flexDirection: 'column',
       height: '17%',
       position: 'relative',
-      maxWidth: '83%',
+      marginLeft: 'inherit',
+    },
+    '@media (max-width: 768px)': {
+      flexDirection: 'column',
+      height: '12%',
+      position: 'relative',
       marginLeft: 'inherit',
     },
   },
@@ -44,21 +49,28 @@ export const GoalTitle = styled.span`
   word-wrap: break-word;
   text-align: left;
   @media screen and (max-width: 576px) {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
+  }
+  @media screen and (max-width: 768px) {
+    white-space: nowrap;
   }
 `;
 
 export const GoalTags = styled.span`
-  display: flex;
+  display: table-caption;
   color: #616061;
-  font-size: 0.813rem;
+  font-size: 0.7rem;
   line-height: 1rem;
   text-transform: capitalize;
   margin-right: 2rem;
   font-weight: 400;
-
+  max-width: max-content;
+  width: max-content;
   @media screen and (max-width: 576px) {
-    font-size: 0.4rem;
+    font-size: 0.6rem;
+  }
+  @media screen and (max-width: 768px) {
+    white-space: nowrap;
   }
 `;
 
@@ -69,6 +81,9 @@ export const ProgressBar = withStyles(() => ({
     marginTop: '0.7rem',
     '@media (max-width: 576px)': {
       marginTop: '1.6rem',
+    },
+    '@media (max-width: 768px)': {
+      marginTop: '2.6rem',
     },
   },
   colorPrimary: {
@@ -90,11 +105,12 @@ export const ProgressRate = styled.span`
   color: #616061;
   font-size: 0.813rem;
   line-height: 1rem;
-  width: 7.375rem;
+  //width: 7.375rem;
   height: 0.25rem;
   font-weight: 400;
   @media screen and (max-width: 576px) {
-    font-size: 0.4rem;
+    font-size: 0.65rem;
+    //width;: 0rem;
   }
 `;
 
@@ -105,7 +121,7 @@ export const ProgressDate = styled.span`
   color: #616061;
   font-weight: 400;
   @media screen and (max-width: 576px) {
-    font-size: 0.4rem;
+    font-size: 0.65rem;
   }
 `;
 
@@ -116,6 +132,11 @@ export const IconItemContainer = styled.div`
   @media (max-width: 576px) {
     margin-top: 1.3rem;
     margin-left: 0.3rem;
+    margin-right: 2rem;
+  }
+  @media (max-width: 768px) {
+    margin-top: 1.3rem;
+    margin-left: 0.1rem;
     margin-right: 2rem;
   }
 `;
@@ -141,6 +162,11 @@ export const MoreOptions = styled.div`
     color: #999999;
   }
   @media (max-width: 576px) {
+    position: absolute;
+    right: 1rem;
+    top: 1.8rem;
+  }
+  @media (max-width: 768px) {
     position: absolute;
     right: 1rem;
     top: 1.8rem;

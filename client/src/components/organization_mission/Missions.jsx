@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrgMission, showEditMissionModal } from '../../redux/organizationMission.slice';
 // import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png';
-import { Editbutton, MissionField, MissionContainer, Title, Box } from './missions.style';
+
+import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
+
 
 const Missions = () => {
   const dispatch = useDispatch();
@@ -11,22 +13,27 @@ const Missions = () => {
 
   const handleClick = () => dispatch(showEditMissionModal());
 
+
+  const [text, setText] = useState('Loading...');
+
   useEffect(() => {
-    dispatch(fetchOrgMission());
+    const jsonMissionText = window.localStorage.getItem('mission');
+    setText(JSON.parse(jsonMissionText));
   }, []);
 
   return (
-    <MissionContainer>
-      <Title top="-25%" left="2%" rsTop="-30%" rsLeft="3%" color="#000000">
-        Mission
-      </Title>
+    <ParentBox>
+      <Title>Mission</Title>
+
       <Box className="box">
         <MissionField>{missionText || 'Click to add a mission'}</MissionField>
         <Editbutton onClick={handleClick} className="editMissionbutton" left="90%" rsLeft="85%">
           <img src={editImg} alt="edit" />
         </Editbutton>
       </Box>
-    </MissionContainer>
+
+    </ParentBox>
+
   );
 };
 export default Missions;
