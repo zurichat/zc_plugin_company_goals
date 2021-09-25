@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import dislikes from '../../Images/png/dislikes.png';
-import ellipsis from '../../Images/png/ellipsis.png';
 import likes from '../../Images/png/likes.png';
 import views from '../../Images/png/views.png';
 import GoalDropDown from './GoalDropDown';
@@ -15,7 +13,6 @@ import {
   ProgressDate,
   IconItemContainer,
   IconItemCount,
-  MoreOptions,
   ProgressDetailsContainer,
 } from './GoalItem.style';
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,7 +39,7 @@ const GoalItem = ({ goalData }) => {
     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   };
 
-  const [showDropDown, setDropDown] = useState(false);
+ 
   const goalLikes = useSelector((state) => state.likeGoals.likes);
   const goalDislikes = useSelector((state) => state.likeGoals.dislikes);
   const errorMessage = useSelector((state) => state.goals.errorMessage);
@@ -94,16 +91,10 @@ const GoalItem = ({ goalData }) => {
         </IconItemContainer>
       </Grid>
 
-      <MoreOptions
-        onClick={(evt) => {
-          evt.stopPropagation();
-          setDropDown(!showDropDown);
-        }}
-      >
-        <img src={ellipsis} alt="more-options-icon" />
-      </MoreOptions>
+      
+        <GoalDropDown goalData={goalData} />
+      
       {/* <Menuoption show={showDropDown} toggleShowDropDown={() => setDropDown(!showDropDown)} /> */}
-      <GoalDropDown show={{ showDropDown, setDropDown }} goalData={goalData} />
     </Container>
   );
 };
