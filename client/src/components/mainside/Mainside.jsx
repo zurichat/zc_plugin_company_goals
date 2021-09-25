@@ -105,7 +105,6 @@ const Main = styled.div`
   justify-content: space-between;
   margin-top: 3.22rem;
   height: 80%;
-  /* border: 1px solid yellow; */
 `;
 
 const GoalsDisplayContainer = styled.div`
@@ -120,7 +119,6 @@ const GoalsReportAndNotificationContainer = styled.div`
   height: 100% !important;
 `;
 const Goal = styled.div`
-  flex: 1;
   align-items: center;
   justify-content: center;
   text-align: center;

@@ -1,46 +1,36 @@
 import styled from 'styled-components';
 
-export const Box = styled.div`
-  position: relative;
-  margin-top: 1.5rem;
-  padding: 10px;
+
+export const ParentBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: left;
+  width: 49%;
+
+  @media only screen and (max-width: 760px) {
+    width: 98%;
+  }
+  @media only screen and (max-width: 425px) {
+  }
+`;
+
+export const Box = styled.div`
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
-export const Input = styled.input`
-  background-color: ${(props) => props.bgColor};
-  padding: ${(props) => props.padding};
-  margin: ${(props) => props.margin};
-  width: 40vw;
-  height: 61px;
-  border: none;
 
-  &::placeholder {
-    font-size: 18px;
-    font-family: 'Lato';
-    padding-left: 10px;
-    color: #999999;
-  }
-  &:-ms-keyboard-active {
-    border-style: none;
-  }
-  @media only screen and (max-width: 720px) {
-    width: 70vw;
-    height: 45px;
-  }
-`;
 export const Editbutton = styled.button`
   border: none;
-  position: absolute;
-  background-color: transparent;
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
+  background-color: #ffffff;
+  padding: 21px 22px 22px;
   cursor: pointer;
+  border-top: 2px solid #eee3e3;
 
-  @media only screen and (max-width: 720px) {
-    left: ${(props) => props.rsLeft};
+  @media only screen and (max-width: 760px) {
   }
 `;
 export const CollapseButton = styled.button`
@@ -52,32 +42,32 @@ export const CollapseButton = styled.button`
   cursor: pointer;
 `;
 export const Title = styled.h3`
-  position: absolute;
   font-family: 'Lato';
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 28px;
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
-  color: ${(props) => props.color};
+  color: #000000;
+  margin: 0;
 
-  @media only screen and (max-width: 720px) {
-    top: ${(props) => props.rsTop};
-    left: ${(props) => props.rsLeft};
+  @media only screen and (max-width: 760px) {
   }
-`;
 
+`;
 export const MissionField = styled.p`
-  width: 36vw;
+
   border: none;
   background-color: white;
+  border-radius: 3px 0 0 3px;
   padding: 21px 15px;
+  width: 100%;
+  border-top: 2px solid #eee3e3;
   &:-ms-keyboard-active {
     border-style: none;
   }
-  @media only screen and (max-width: 720px) {
-    width: 70vw;
-    height: 45px;
+
+  @media only screen and (max-width: 760px) {
+  }
+  @media only screen and (max-width: 425px) {
+
   }
 `;

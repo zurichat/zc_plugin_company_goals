@@ -6,28 +6,20 @@
 /* eslint-disable no-unused-vars */
 // this module is used to handle the mission
 const axios = require('axios');
-const {
-  findAll,
-  insertOne,
-  updateOne,
-  find
-} = require('../db/databaseHelper');
-const {
-  missionSchema
-} = require('../schemas');
+const { findAll, insertOne, updateOne, find } = require('../db/databaseHelper');
+const { missionSchema } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
+const { publish } = require('./centrifugoController');
 const { createNotification } = require('./notificationController');
 
 // Global Variables
 const collectionName = 'mission';
 
-const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429']
+const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
 // get mission for an organization
 exports.getMission = catchAsync(async (req, res, next) => {
-  const {
-    organization_id
-  } = req.params;
+  const { organization_id } = req.params;
 
   // check if the organization has a mission statement
   let mission;
@@ -50,10 +42,8 @@ exports.getMission = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMission = catchAsync(async (req, res, next) => {
-  const mission = req.body;
-  const {
-    organization_id
-  } = req.params;
+  const { mission } = req.body;
+  const { organization_id } = req.params;
 
   // if (role !=='admin') {
   //   res.status(401).json({message: 'You are not authorized to perform this action'})
@@ -61,17 +51,15 @@ exports.updateMission = catchAsync(async (req, res, next) => {
   try {
     let prevMission = await findAll(collectionName, organization_id);
     [prevMission] = prevMission.data.data;
-    const updatedMission = await updateOne(collectionName, mission, {}, organization_id, prevMission._id);
+    const updatedMission = await updateOne(collectionName, { mission }, {}, organization_id, prevMission._id);
 
     // Send notifications to all users.
     if (updatedMission.data.data.modified_documents === 1) {
-      await createNotification(user_ids, organization_id, '', '', 'updateMission')      
+      await publish('publish-mission-update', mission);
+      await createNotification(user_ids, organization_id, '', '', 'updateMission');
     }
 
-    return res.status(200).json({
-      message: 'Update Sucessful',
-      update: updatedMission.data,
-    });
+    return res.status(200).json({ status: 200, message: 'success', payload: mission });
   } catch (error) {
     next(error);
   }

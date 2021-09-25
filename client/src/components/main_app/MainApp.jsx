@@ -30,13 +30,10 @@ const MainAppContainer = styled.main`
   justify-content: space-between;
   height: 70%;
   margin-top: 1rem;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 714px) {
     flex-direction: column;
     width: 90%;
     margin: 0 auto;
-    div {
-      width: 100%;
-    }
   }
 `;
 
@@ -44,8 +41,11 @@ const GoalsDisplayContainer = styled.div`
   width: 69%;
   height: 100%;
   /* border: 1px solid green; */
-  @media only screen and (max-width: 840px) {
+  @media only screen and (max-width: 960px) {
     width: 59%;
+  }
+  @media only screen and (max-width: 714px) {
+    width: 100%;
   }
 `;
 
@@ -53,11 +53,12 @@ const GoalsReportAndNotificationContainer = styled.div`
   /* border: 1px solid blue; */
   width: 30%;
   height: 100%;
-  @media only screen and (max-width: 840px) {
+  @media only screen and (max-width: 960px) {
     width: 40%;
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 714px) {
     margin-top: 2rem;
+    width: 100%;
   }
 `;
 const Goal = styled.div`
