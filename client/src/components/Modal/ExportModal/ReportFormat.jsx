@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ReportType from './ReportType';
+// import ReportType from './ReportType';
 import badge from '../../../Images/png/Frame 756.png';
 import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, GoalDetails } from './Styles';
 
@@ -43,7 +43,7 @@ const ReportFormat = () => {
         </GoalDetails>
       </GoalFolderSection>
 
-      <ReportType valueState={valueState} />
+      {/* <ReportType valueState={valueState} /> */}
     </>
   );
 };

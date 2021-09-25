@@ -13,10 +13,13 @@ import MainApp from '../components/main_app/MainApp';
 import EditMission from '../components/modal/EditMission';
 
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
+import SuccessModal from '../components/goalSucces/SuccessModal';
 
 function App() {
+  
   return (
     <>
+      <SuccessModal />
       <SimpleModal />
       <Deletemodal />
       <BasicModal />

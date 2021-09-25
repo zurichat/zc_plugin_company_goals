@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import ExportButton from './ExportButton';
 import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, GoalDetails } from './Styles';
 import badge from '../../../Images/png/Frame 756.png';
 
@@ -56,7 +55,6 @@ const ReportType = ({ valueState }) => {
           </GoalRadios>
         </GoalDetails>
       </GoalFolderSection>
-      <ExportButton valueState={valueState} valueStateInstant={valueStateInstant} />
     </>
   );
 };

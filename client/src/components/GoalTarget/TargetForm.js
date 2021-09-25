@@ -5,6 +5,7 @@ import {
   Form,
   Button,
   Title,
+  Input,
   Info,
   Container,
   CloseButton,
@@ -12,7 +13,10 @@ import {
   TargetContainerA,
   MainTitle,
 } from './TargetForm.style';
+import { InputLabel } from './TargetInput.style'
 import TargetRadio from './TargetRadio';
+import { AddContainer } from './TargetInput.style'
+import {AiOutlinePlusCircle} from 'react-icons/ai';
 
 const TargetForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
@@ -43,17 +47,27 @@ const TargetForm = forwardRef((props) => {
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="goal-name">
-              <Title> Goal Name </Title>
-              <Info fontSize="13px">( For your goal milestone measurement)</Info>
+              <Title> Target Type </Title>
+              <Info fontSize="13px">(For your goal milestone measurement)</Info>
               <TargetContainerA>
                 <TargetRadio />
               </TargetContainerA>
             </label>{' '}
           </div>{' '}
         </Container>{' '}
+        <Container style={{ marginTop: '4rem' }}>
+          <InputLabel type="number" value="1" />
+          <Input type="text" name="target" value="I want to do this" />
+        </Container>
+        <Container style={{ marginTop: '6rem' }}>
+          <AddContainer>
+            <AiOutlinePlusCircle style={{ color: 'green', marginRight: '10px' }} />
+            <a style={{ color: '#00B87C' }}>Add More Milestones (you can set up to 4 milestones)</a>
+          </AddContainer>
+        </Container>
         <CreateButton>
           <Button type="submit" buttonPadding="1rem 4rem" borderRadius="6px">
-            Create Goal{' '}
+            Create Target{' '}
           </Button>{' '}
         </CreateButton>{' '}
       </Form>{' '}
