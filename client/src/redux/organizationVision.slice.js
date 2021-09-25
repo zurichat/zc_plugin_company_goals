@@ -42,7 +42,7 @@ export const editVisionSlice = createSlice({
       state.showVisionModal = !state.showVisionModal;
     },
     updateOrgVisionFromRTC: (state, action) => {
-      state.vision = action.payload;
+      state.visionText = action.payload;
     },
   },
   extraReducers: (builder) => {
