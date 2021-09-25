@@ -104,6 +104,12 @@ export const Datalist = styled.input`
   padding: 0 0.7rem;
   border: none;
   outline: none;
+
+  ::placeholder {
+    color: #fff;
+    font-size: 0.812rem;
+  }
+
   option {
     width: 80% !important;
     color: #b0afb0;
