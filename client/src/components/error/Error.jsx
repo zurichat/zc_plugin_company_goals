@@ -11,7 +11,7 @@ const Error = ({ errorMessage }) => {
       <ImgContainer>
         <img src={Ellipse} alt="error" />
       </ImgContainer>
-      {/* <ErrorText>{errorMessage}</ErrorText> */}
+      <ErrorText>{errorMessage}</ErrorText>
       <ErrorButton onClick={() => dispatch(getGoals())}>Retry</ErrorButton>
     </ErrorDiv>
   );
