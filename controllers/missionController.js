@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
 /* eslint-disable object-shorthand */
@@ -7,35 +9,19 @@ const axios = require('axios');
 const {
   findAll,
   insertOne,
-  updateOne
+  updateOne,
+  find
 } = require('../db/databaseHelper');
 const {
   missionSchema
 } = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
-const {publish} = require('./centrifugoController');
+const { createNotification } = require('./notificationController');
 
 // Global Variables
 const collectionName = 'mission';
 
-// exports.createMission = catchAsync(async (req, res, next) => {
-//   // Validating each property against their data type
-//   await missionSchema.validateAsync(req.body);
-
-//   // Fake API
-//   // https://api.zuri.chat/data/write
-
-//   const goals = await axios.post(`https://zccore.herokuapp.com/data/write`, {
-//     plugin_id: '61330fcfbfba0a42d7f38e59',
-//     organization_id: '1',
-//     collection_name: 'missions',
-//     bulk_write: false,
-//     payload: req.body,
-//   });
-
-//   // Sending Responses
-//   res.status(200).json(goals.data);
-// });
+const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429']
 
 // get mission for an organization
 exports.getMission = catchAsync(async (req, res, next) => {
@@ -51,7 +37,7 @@ exports.getMission = catchAsync(async (req, res, next) => {
   } catch (error) {
     // if there is an error then collection hasnt been created yet.
     mission = {
-      mission: ''
+      mission: '',
     };
     await insertOne('mission', mission, organization_id);
   }
@@ -59,7 +45,7 @@ exports.getMission = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 200,
     message: 'success',
-    data: mission
+    data: mission,
   });
 });
 
@@ -74,23 +60,17 @@ exports.updateMission = catchAsync(async (req, res, next) => {
   // }
   try {
     let prevMission = await findAll(collectionName, organization_id);
-    [prevMission] = prevMission.data.data
+    [prevMission] = prevMission.data.data;
     const updatedMission = await updateOne(collectionName, mission, {}, organization_id, prevMission._id);
-    
-    const message = {
-      message: `The mission ${prevMission} has been updated to ${mission} `,
-      time: Date.now(),
-      id: '',
-    };
-  
-    const messageId = await insertOne('goalEvents', message, organization_id)
-    message.id = messageId.data.object_id;
-    
-    await publish('notifications', message);
+
+    // Send notifications to all users.
+    if (updatedMission.data.data.modified_documents === 1) {
+      await createNotification(user_ids, organization_id, '', '', 'updateMission')      
+    }
 
     return res.status(200).json({
       message: 'Update Sucessful',
-      update: updatedMission.data
+      update: updatedMission.data,
     });
   } catch (error) {
     next(error);

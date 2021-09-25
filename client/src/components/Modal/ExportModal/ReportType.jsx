@@ -1,91 +1,63 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import ExportButton from './ExportButton';
+import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, GoalDetails } from './Styles';
 import badge from '../../../Images/png/Frame 756.png';
 
-const GoalFolderSection = styled.section`
-  display: flex;
-  margin-top: 3rem;
-`;
-const GoalRadios = styled.div`
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center;
-`;
+const ReportType = ({ valueState }) => {
+  const [valueStateInstant, setValueStateInstant] = useState('instantly');
+  localStorage.setItem('reportType', valueStateInstant);
 
-const GoalRadio = styled.div`
-:hover {
-  color: #00b87c; 
-  cursor:pointer; 
-  border: 1px solid #00b87c;
-}
-  min-width: 59px;
-  height: 68px;
-  border-radius: 4px;
-  display: flex;
-  margin-left:5em;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  //border: 1px solid #00b87c;
-`;
-
-const GoalDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 1rem;
-`;
-const SelectPTag = styled.p`
-  :hover{
-    color: #00b87c;
-  }
-  :active{
-    color: #00b87c;
-  }
-  color: #000,
-  fontFamily: Lato,
-  fontWeight: 500,
-  fontSize: 1em,
-  lineHeight: 19.2px,
-  marginTop: 16px,
-`
-
-const ReportType = () => {
+  const radioChange = (event) => {
+    setValueStateInstant(event.target.value);
+  };
   return (
-    <GoalFolderSection>
-      <img style={{ width: '50px', height: '50px' }} src={badge} alt="" />
+    <>
+      <GoalFolderSection>
+        <img style={{ width: '50px', height: '50px' }} src={badge} alt="" />
 
-      <GoalDetails>
-        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px' }}>Report Type</h3>
-        <p
-          style={{
-            fontFamily: 'Lato',
-            fontWeight: 400,
-            fontSize: '12px',
-            lineHeight: '14.4px',
-            marginTop: '17px',
-            color: '#999999',
-            marginBottom: '20px',
-          }}
-        >
-          Select report timeline to export
-        </p>
-        <GoalRadios>
-          <GoalRadio>
-            <input type="radio" />
+        <GoalDetails>
+          <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '21px', lineHeight: '25.2px', marginTop: '0px' }}>
+            Report Type
+          </h3>
+          <Para>Select report timeline to export</Para>
+          <GoalRadios>
+            <GoalRadio className={valueStateInstant === 'instantly' && 'selected'}>
+              <CssRadio
+                name="goal folder"
+                size="small"
+                checked={valueStateInstant === 'instantly'}
+                onChange={radioChange}
+                value="instantly"
+              />
               <SelectPTag>Instantly</SelectPTag>
-          </GoalRadio>
+            </GoalRadio>
 
-          <GoalRadio>
-            <input type="radio" />
+            <GoalRadio className={valueStateInstant === 'annual' && 'selected'}>
+              <CssRadio
+                name="goal folder"
+                size="small"
+                checked={valueStateInstant === 'annual'}
+                onChange={radioChange}
+                value="annual"
+              />
               <SelectPTag>Annual</SelectPTag>
-          </GoalRadio>
+            </GoalRadio>
 
-          <GoalRadio>
-            <input type="radio" />
+            <GoalRadio className={valueStateInstant === 'quarterly' && 'selected'}>
+              <CssRadio
+                name="goal folder"
+                size="small"
+                checked={valueStateInstant === 'quarterly'}
+                onChange={radioChange}
+                value="quarterly"
+              />
               <SelectPTag>Quarterly</SelectPTag>
-          </GoalRadio>
-        </GoalRadios>
-      </GoalDetails>
-    </GoalFolderSection>
+            </GoalRadio>
+          </GoalRadios>
+        </GoalDetails>
+      </GoalFolderSection>
+      <ExportButton valueState={valueState} valueStateInstant={valueStateInstant} />
+    </>
   );
 };
 

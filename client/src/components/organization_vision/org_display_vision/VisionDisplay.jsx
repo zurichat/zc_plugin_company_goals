@@ -1,13 +1,22 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { showEditVisionModal } from '../../../redux/organizationVision.slice';
+import { fetchOrgVision, showEditVisionModal } from '../../../redux/organizationVision.slice';
 import { Editbutton, Title, Box, VisionField } from './vision.style';
 import editImg from './visionAsset/editImg.png';
 
 const DisplayOrganizationVision = () => {
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const visionText = useSelector((state) => state.getVision);
   // const jsonVisionText = window.localStorage.getItem('vision');
   // const text = JSON.parse(jsonMissionText);
+=======
+  const { visionText } = useSelector((state) => state.organizationVision);
+
+  useEffect(() => {
+    dispatch(fetchOrgVision());
+  }, []);
+>>>>>>> dcfb4d8e7e8d493d1d3165438f50072f1fa33af2
 
   return (
     <>

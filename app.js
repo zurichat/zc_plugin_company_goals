@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
 const path = require('path');
 
@@ -9,6 +10,11 @@ const express = require('express');
 // const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
+const swaggerUi= require('swagger-ui-express');
+
+const yaml = require('yamljs');
+
+const documentation = yaml.load('./docs/documentation.yaml');
 
 dotenv.config();
 
@@ -17,6 +23,7 @@ const globalErrorHandler = require('./controllers/errorController');
 // Require Routes
 const goalRouter = require('./routes/goalRoutes');
 const pluginInfoRouter = require('./routes/infoRoute');
+const searchRouter = require('./routes/searchRoute');
 const missionRouter = require('./routes/missionRoute.js');
 const pingRouter = require('./routes/pingRoute');
 const sidebarRouter = require('./routes/sidebarRoute.js');
@@ -32,14 +39,12 @@ const rateLimiter = require('./utils/rateLimiter');
 
 const app = express();
 
+// Implement cors
 
-if(process.env.NODE_ENV==='production')
-{
+if (process.env.NODE_ENV === 'production') {
   app.use(cors({ origin: ['*'] }));
-}
-else
-{
-  const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
+} else {
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
   const corsOptions = {
     origin(origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -51,38 +56,6 @@ else
   };
   app.use(cors(corsOptions));
 }
-
-// Implement cors
-// const whitelist = ['http://localhost:9000', 'https://zuri.chat'];
-//const corsOptions = {
-//  origin(origin, callback) {
-//    if (whitelist.indexOf(origin) !== -1 || !origin) {
-//      callback(null, true);
-//    } else {
-//      callback(new Error('Not allowed by CORS'));
-//   }
-//  },
-//};
-//app.use(cors(corsOptions));
-
-// app.use(cors({ origin: whitelist }));
-
-// const corsoption = {
-//   origin: function (origin, callback) {
-// 		if (
-// 			!origin ||
-// 			origin === 'null' ||
-// 			origin.includes('zuri.chat') ||
-// 			origin.includes('localhost')
-// 		) {
-// 			callback(null, true);
-// 		} else {
-// 			callback(new Error('not allowed by CORS'));
-// 		}
-// 	},
-// 	credentials: true,
-// }
-// app.use(cors(corsoption));
 
 // app.options('*', cors());
 
@@ -109,24 +82,23 @@ app.use(xss());
 
 // Compress text sent to client
 app.use(compression());
-
 // swagger setup
-const swaggerUi = require('swagger-ui-express');
-const swaggerJSDocument = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerJSDocument = require('swagger-jsdoc');
 
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Company Goals Plugin API',
-      version: '1.0.0',
-      description: 'Company Goals plugin api for zuri chat application documentation',
-      servers: ['https://goals.zuri.chat/api'],
-    },
-  },
-  apis: ['./routes/*.js'],
-};
-const swaggerDocs = swaggerJSDocument(swaggerOptions);
+// const swaggerOptions = {
+  //   definition: {
+    //     openapi: '3.0.0',
+//     info: {
+//       title: 'Company Goals Plugin API',
+//       version: '1.0.0',
+//       description: 'Company Goals plugin api for zuri chat application documentation',
+//       servers: ['https://goals.zuri.chat/api'],
+//     },
+//   },
+//   apis: ['./routes/*.js'],
+// };
+// const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
 // To serve frontend build files in production
 if (process.env.NODE_ENV === 'production') {
@@ -141,6 +113,7 @@ app.get('/zuri-plugin-company-goals.js', (req, res) => {
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', rateLimiter(), roomRouter);
 app.use('/api/v1/users', rateLimiter(), userRouter);
+app.use('/api/v1/search', rateLimiter(), searchRouter);
 app.use('/ping', rateLimiter(), pingRouter);
 app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
 app.use('/info', rateLimiter(), pluginInfoRouter);
@@ -148,24 +121,14 @@ app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
-app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 app.use('/api/v1/auth', authRouter);
-
-
-// To serve frontend static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
-}
 
 // Send all 404 requests not handled by the server to the Client app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'serve-client/dist', 'index.html'));
 });
-
 
 // To catch all unhandled routes
 app.all('*', (req, res, next) => {

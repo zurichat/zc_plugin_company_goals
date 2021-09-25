@@ -4,6 +4,8 @@ import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, G
 
 const GoalFolder = () => {
   const [valueState, setValueState] = useState('all');
+  localStorage.setItem('goalFolder', valueState);
+
   const radioChange = (event) => {
     setValueState(event.target.value);
   };
@@ -12,11 +14,13 @@ const GoalFolder = () => {
       <img style={{ width: '50px', height: '50px' }} src={badge} alt="Goal icon" />
 
       <GoalDetails>
-        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '1.31em', lineHeight: '1.57em' }}>Goal Folder</h3>
+        <h3 style={{ fontFamily: 'Lato', fontWeight: 500, fontSize: '1.31em', lineHeight: '1.57em', marginTop: '0px' }}>
+          Goal Folder
+        </h3>
         <Para>Select the type of folder to export</Para>
 
         <GoalRadios>
-          <GoalRadio style={{ border: valueState === 'all' ? '1px solid #00b87c' : null }}>
+          <GoalRadio className={valueState === 'all' && 'selected'}>
             <CssRadio
               name="goal folder"
               size="small"
@@ -27,7 +31,7 @@ const GoalFolder = () => {
             <SelectPTag> All</SelectPTag>
           </GoalRadio>
 
-          <GoalRadio style={{ border: valueState === 'annual' ? '1px solid #00b87c' : null }}>
+          <GoalRadio className={valueState === 'annual' && 'selected'}>
             <CssRadio
               name="goal folder"
               size="small"
@@ -38,7 +42,7 @@ const GoalFolder = () => {
             <SelectPTag> Annual</SelectPTag>
           </GoalRadio>
 
-          <GoalRadio style={{ border: valueState === 'quarterly' ? '1px solid #00b87c' : null }}>
+          <GoalRadio className={valueState === 'quarterly' && 'selected'}>
             <CssRadio
               name="goal folder"
               size="small"
