@@ -28,9 +28,7 @@ const Header = () => {
     <>
       <MVContain>
         <Missions />
-        <Div>
-          <DisplayOrganizationVision />
-        </Div>
+        <DisplayOrganizationVision />
       </MVContain>
     </>
   );
@@ -39,7 +37,8 @@ export default Header;
 
 const MVContain = styled.div`
   position: relative;
-  max-width: 1120;
+  max-width: 88vw;
+  margin: 0.3rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
