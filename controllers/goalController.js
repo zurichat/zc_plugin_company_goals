@@ -46,7 +46,6 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
-
       const sorted = goals.sort((a, b) => {
         const c = new Date(a.created_at);
         const d = new Date(b.created_at);
