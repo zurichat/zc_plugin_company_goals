@@ -16,14 +16,24 @@ const notificationStructure = {
     'Congratulations, we have achieved this goal. All set targets have been met.',
     'green',
   ],
-  createGoal: ['A new goal has been created.', 'We have within the stipulated time to achieve this goal.', 'purple'],
-  deleteGoal: ['One of our goals has been deleted.', 'We will no longer be working towards this goal.', 'red'],
+  createGoal: [
+    'A new goal has been created.', 
+    'We have within the stipulated time to achieve this goal.', 
+    'purple'],
+  deleteGoal: [
+    'One of our goals has been deleted.', 
+    'We will no longer be working towards this goal.', 
+    'red'],
   expiredGoal: [
     'We failed to reach this goal.',
     'Unfortunately, we have been unable to achieve this goal within the set time frame.',
     'red',
   ],
-  updateGoal: ['This goal has been updated.', 'Please check the goal info for details.', 'blue'],
+  updateGoal: [
+    'This goal has been updated.', 
+    'Please check the goal info for details.', 
+    'blue'],
+
   updateMission: ['Our mission has been updated.', '', 'blue'],
   updateVision: ['Our vision has been updated.', '', 'blue'],
 };
@@ -177,18 +187,12 @@ exports.updateNotification = async (req, res) => {
   try {
     await updateOne('goalNotifications', update, {}, orgId, notificationId);
 
-    const Notification = await find(
-      'goalNotifications',
-      {
-        _id: notificationId,
-      },
-      orgId
-    );
+    notification.data.data.isRead = !status
 
     return res.status(200).json({
       status: 200,
       message: 'success',
-      data: Notification.data.data,
+      data: notification.data.data,
     });
   } catch (error) {
     return res.status(500).json({
