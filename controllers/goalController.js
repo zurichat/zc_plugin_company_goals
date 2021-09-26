@@ -41,7 +41,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     const { data: goals } = findGoals.data;
 
     // No matching data, return an empty array
-    if (goals === null || goals.length < 1) res.status(200).json({ message: 'success', data: [] });
+    if (goals === null || goals.length < 1) return res.status(200).json({ message: 'success', data: [] });
 
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
@@ -646,14 +646,21 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
-  //find goals by type
-  const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+  try{
+        //find goals by type
+      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
-  // No matching data, return an empty array
-  if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
-    res.status(200).json({ message: 'success', data: [] });
-  res.status(200).json({
-    status: 'success',
-    data: goalsSorted.data.data,
-  });
+      // No matching data, return an empty array
+      if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+            return res.status(200).json({ message: 'success', data: [] });
+      res.status(200).json({
+        message: 'success',
+        data: goalsSorted.data.data,
+      });
+  }
+  catch(error){
+    console.log(error.message)
+    res.status(500).json({message: 'failed, server error', data: null})
+  }
+ 
 });
