@@ -27,6 +27,8 @@ export const Label = styled.label`
 `;
 export const RadioLabel = styled.div`
   text-align: center;
+  margin-bottom: 3px;
+  margin-top: 5px;
 `;
 
 export const LabelTitle = styled.h6`
