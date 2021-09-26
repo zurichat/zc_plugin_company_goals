@@ -8,15 +8,15 @@ export const Label = styled.label`
   display: block;
   width: 100%;
   text-align: center;
-  padding-bottom: 1rem;
+  padding-bottom: .1rem;
 
   border-radius: 3px;
   &:before {
     content: ' ';
     display: inline-block;
     position: relative;
-    top: 0.3rem;
-    right: 1.4rem;
+    top: 0.4rem;
+    right: 1.39rem;
     margin: 0 8px 1px 0;
     width: 10px;
     height: 10px;
@@ -27,14 +27,13 @@ export const Label = styled.label`
 `;
 export const RadioLabel = styled.div`
   text-align: center;
-
-  padding-top: 1rem;
 `;
 
 export const LabelTitle = styled.h6`
   font-size: 13px;
   color: #b0afb0;
   width: 70%;
+  margin: 0;
 `;
 
 export const LabelBody = styled.p`
@@ -79,7 +78,7 @@ export const Input = styled.input`
 `;
 // #00b87c
 export const TargetDiv = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 50% !important;
   text-align: end;
   @media only screen and (max-width: 600px) {
