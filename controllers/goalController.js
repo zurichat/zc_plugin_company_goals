@@ -654,7 +654,7 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType} = req.query;
 
-  //find goals by type
+  // find goals by type
   const goalsSorted = await find('goals',{ goal_type: goalType }, orgId );
   
   // No matching data, return an empty array
