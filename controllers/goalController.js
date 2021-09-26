@@ -407,6 +407,7 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
   });
 
   // check that the goal_id is valid
+  try{
   const goal = await find(
     'goals',
     {
@@ -428,10 +429,10 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
     },
     orgId
   );
-
+  
   // add like if it doesnt exist
   if (!like.data.data) {
-    addedLike = await insertOne(
+   const addedLike = await insertOne(
       'goallikes',
       {
         goal_id: goalId,
@@ -440,20 +441,29 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
       orgId
     );
 
+
+
     return res.status(201).json({
       status: 'success',
       message: 'Goal like added',
-      data: {},
+      data: {count: addedLike.data.data.insert_count}
     });
   }
 
-  removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
+  const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
   // delete like from db
+
+
   res.status(201).json({
     status: 'success',
     message: 'Goal like removed',
-    data: {},
+    data: {count: removeLike.data.data.deleted_count}
   });
+}
+catch(error){
+  res.status(500).json({status: 'failed', message: 'server Error', data: null})
+}
+
 });
 
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
