@@ -99,11 +99,6 @@ const NavDiv = styled.div`
 `;
 const GoalsNavLayout = () => {
   const dispatch = useDispatch();
-  function showDrpDw() {
-    const sortDrpContainer = document.getElementById('sort_drop_down');
-    sortDrpContainer.classList.toggle('active');
-  }
-
   return (
     <GridLayout>
       <NavDiv>
@@ -111,20 +106,6 @@ const GoalsNavLayout = () => {
         <NavName> quaterly goals </NavName>
       </NavDiv>
       <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; new goal</CreateGoalButton>
-      {/* <Sort type="button" onClick={() => showDrpDw()}>
-        <div> Sort by </div> <img src={img} alt="sort icon" />
-
-        <SortDrpDw id="sort_drop_down" className="drop">
-          <ul>
-            <li>More Recent</li>
-            <li>Date</li>
-            <li>Progress </li>
-            <li>Category </li>
-            <li>Visibility </li>
-            <li>Timeline </li>
-          </ul>
-        </SortDrpDw>
-      </Sort> */}
     </GridLayout>
   );
 };
