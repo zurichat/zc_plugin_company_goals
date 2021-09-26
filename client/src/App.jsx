@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Suspense } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {useRouteMatch, Route, Switch, withRouter } from 'react-router-dom';
 import Faqs from './pages/Faq';
 import Home from './pages/Home';
 import { useEffect } from 'react';
@@ -15,8 +15,9 @@ import { setNewMission, getMission } from './services/missionAPI';
 import AppHeader from './components/app_header/AppHeader';
 import { addNotificationFromRTC } from './redux/notificationSlice';
 import { updateOrgMissionFromRTC } from './redux/organizationMission.slice';
+import Landing from './components/main_app/Landing';
 
-function App() {
+function App(props) {
   const dispatch = useDispatch();
   const centrifugeConnect = new CentrifugeClient('wss://realtime.zuri.chat/connection/websocket', { minRetry: 100000 });
   // const centrifugeConnect = new CentrifugeClient('ws://localhost:8000/connection/websocket');
@@ -51,19 +52,20 @@ function App() {
 
     centrifugeConnect.connect();
   }, []);
+    let {isExact} = useRouteMatch('/');
+    
   return (
     <>
-      <AppHeader />
-      <Router basename="/goals">
+     { !isExact && <AppHeader />}
         <Suspense fallback={<CircularProgress />}>
           <Switch>
-            <Route path="/" component={Home} exact />
-            <Route path="/faqs" component={Faqs} />
+            <Route path="/" component={Landing} exact />
+            <Route path="/goals" component={Home} exact />
+            <Route path="/goals/faqs" component={Faqs} />
           </Switch>
         </Suspense>
-      </Router>
     </>
   );
 }
 
-export default App;
+export default withRouter(App);
