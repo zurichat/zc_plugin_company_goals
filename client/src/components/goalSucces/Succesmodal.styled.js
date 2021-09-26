@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 export const ModalBg = styled.div `
    position: fixed;
-  /* display: ${(props) => (props.show ? 'block' : 'none')}; */
-  display: block;
+  display: ${(props) => (props.show ? 'block' : 'none')};
+  /* display: block; */
   width: 100%;
   height: 600vh;
   justify-content: center;
@@ -51,9 +51,6 @@ align-items: center;
   @media screen and (max-width: 450px) {
     padding: 1rem;
     width: 80px;
-    img {
-      width: 50px;
-    }
   }
 `;
 export const SuccessContent = styled.div`
