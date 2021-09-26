@@ -10,6 +10,7 @@ import snackbarReducer from './snackbar.slice';
 import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
 import likeGoalReducer from './likeGoalSlice';
+import storeOrganizationRoomReducer from './organizationRoom.slice';
 
 const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
     notifications: notificationReducer,
     organizationCreateAndEditGoalData: createAndEditGoalReducer,
     likeGoals: likeGoalReducer,
+    organizationRoom: storeOrganizationRoomReducer,
   },
 });
 

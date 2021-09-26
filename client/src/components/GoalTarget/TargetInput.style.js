@@ -5,13 +5,13 @@ export const InputContainer = styled.div`
     flex-direction: row;
 `;
 
-export const InputLabel = styled.div`
+export const InputLabel = styled.input`
     width: 20px;
-    height: 20px;
+    height: 3rem;
     padding: 10px;
-    color: green;
-    border-radius: 10px;
-    outline-color: 1px green;
+    color: #b0afb0;
+    border-radius: 3px;
+    outline-color: #b0afb0;
 `;
 
 export const InputTarget = styled.div`
@@ -26,4 +26,5 @@ export const InputTarget = styled.div`
 export const AddContainer = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
 `;

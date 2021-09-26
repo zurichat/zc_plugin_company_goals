@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { useSWRConfig } from 'swr';
 import { deleteConfirmationAction, deleteSuccessAction, deleteErrorAction } from '../../redux/deleteGoal.slice';
 import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
 
 const Deletemodal = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { mutate } = useSWRConfig();
   const { showDeleteConfirmationModal, goalID } = useSelector(({ deleteGoal }) => deleteGoal);
@@ -17,7 +19,7 @@ const Deletemodal = () => {
 
   const showSuccess = (e) => {
     e.preventDefault();
-    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=6145d099285e4a184020742e&goal_id=${goalID}`, {
+    fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=${orgId}&goal_id=${goalID}`, {
       method: 'delete',
     })
       .then((res) => {

@@ -38,7 +38,7 @@ jobs:
             git stash
             git fetch --all
             git reset --hard origin/main
-            git pull origin/main
+            git pull
             cd client/
             yarn install
             cd ../serve-client
