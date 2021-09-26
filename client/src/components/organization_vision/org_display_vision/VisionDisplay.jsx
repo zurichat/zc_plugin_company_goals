@@ -4,23 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Editbutton, Title, Box, VisionField, VisionContainer } from './vision.style';
 import { fetchOrgVision, showEditVisionModal } from '../../../redux/organizationVision.slice';
 
-import { ParentBox} from './vision.style';
+import { ParentBox } from './vision.style';
 
 import editImg from './visionAsset/editImg.png';
+import { useParams } from 'react-router';
 
 const DisplayOrganizationVision = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { visionText } = useSelector((state) => state.organizationVision);
 
   useEffect(() => {
-    dispatch(fetchOrgVision());
+    dispatch(fetchOrgVision(orgId));
   }, []);
 
   return (
-
     <ParentBox>
       <Title top="15%" right="45%" rsTop="50%" rsRight="78%" color="#000000">
-
         Vision
       </Title>
       <Box className="box">
@@ -31,7 +31,6 @@ const DisplayOrganizationVision = () => {
         </Editbutton>
       </Box>
     </ParentBox>
-
   );
 };
 
