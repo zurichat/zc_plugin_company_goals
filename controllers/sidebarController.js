@@ -184,7 +184,7 @@ exports.getSidebar = catchAsync(async(req,res,next)=>{
     joined_rooms :[
       {
         room_name:'All Goals',
-        room_icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+        room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
         room_url: `/goals/room/${organization_id}`
       }
     ]
