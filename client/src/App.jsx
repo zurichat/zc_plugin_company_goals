@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Suspense } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Faqs from './pages/Faq';
 import AppRoomForOrganization from './pages/Room';
@@ -25,4 +25,4 @@ function App() {
   );
 }
 
-export default withRouter(App);
+export default App;

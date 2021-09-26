@@ -13,9 +13,7 @@ const Root = () => {
       <StylesProvider injectFirst>
         <Provider store={reduxStore}>
           <React.StrictMode>
-            <Router>
               <App />
-            </Router>
           </React.StrictMode>
         </Provider>
       </StylesProvider>
