@@ -52,7 +52,7 @@ export const editMissionSlice = createSlice({
       state.showMissionModal = !state.showMissionModal;
     });
     builder.addCase(updateOrgMission.rejected, (state, action) => {
-      alert(action.error.message);
+      state.missionText = 'Failed to update mission';
     });
   },
 });
