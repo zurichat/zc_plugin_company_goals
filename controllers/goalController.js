@@ -83,12 +83,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
       });
     }
   } catch (error) {
-    if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
-    // return res.status(200).json({
-    //   status: 200,
-    //   message: 'success',
-    //   data: [],
-    // });
+    //if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    logger.info('no goals for this organization')
+    return res.status(200).json({
+      status: 200,
+      message: 'success',
+      data: [],
+    });
   }
 });
 
