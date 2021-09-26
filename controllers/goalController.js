@@ -83,8 +83,8 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
       });
     }
   } catch (error) {
-    //if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
-    logger.info('no goals for this organization')
+    // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    logger.info('no goals for this organization');
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -647,7 +647,7 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
-  //find goals by type
+  // find goals by type
   const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
   // No matching data, return an empty array

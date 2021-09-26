@@ -4,6 +4,7 @@ import { StylesProvider } from '@material-ui/styles';
 import App from './App';
 import { Provider } from 'react-redux';
 import reduxStore from './redux/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const Root = () => {
   return (
@@ -12,7 +13,7 @@ const Root = () => {
       <StylesProvider injectFirst>
         <Provider store={reduxStore}>
           <React.StrictMode>
-            <App />
+              <App />
           </React.StrictMode>
         </Provider>
       </StylesProvider>
