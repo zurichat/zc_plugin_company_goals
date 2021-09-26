@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-var */
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
