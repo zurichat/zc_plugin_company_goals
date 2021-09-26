@@ -51,7 +51,7 @@ export const editVisionSlice = createSlice({
       state.visionText = payload.payload.vision;
     });
     builder.addCase(fetchOrgVision.rejected, (state) => {
-      state.errorMessage = 'Failed to fetch vision';
+      state.visionText = 'Failed to fetch vision';
       state.status = 'failure';
     });
     builder.addCase(updateOrgVision.fulfilled, (state, { payload }) => {
@@ -63,8 +63,7 @@ export const editVisionSlice = createSlice({
       return state;
     });
     builder.addCase(updateOrgVision.rejected, (state, action) => {
-      console.log('Error!!!', action);
-      alert(action.error.message);
+      state.visionText = 'Failed to update vision';
       state.status = 'failure';
       return state;
     });
