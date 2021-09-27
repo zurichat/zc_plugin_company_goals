@@ -18,7 +18,7 @@ const {
   updateOne,
   deleteMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
@@ -124,9 +124,9 @@ exports.createGoal = async (req, res, next) => {
       return res.status(400).send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD` })
     }
 
-    if (start_date < date || due_date < date) {
-      return res.status(400).send({ Validation_error: `Start and / or Due date(s) cannot be set before today`});
-    }
+    // if (start_date < date || due_date < date) {
+    //   return res.status(400).send({ Validation_error: `Start and / or Due date(s) cannot be set before today`});
+    // }
     
   } catch (err) {
     logger.info(`There are errors with the request body: ${err.details}`);
@@ -158,6 +158,43 @@ exports.createGoal = async (req, res, next) => {
 
   res.status(200).json({ message: 'success', ...goals.data, data });
 };
+
+exports.createGoalTargets = catchAsync(async(req, res, next) => {
+  // get goal id from the url
+  const { org_id, goal_id } = req.params;
+
+  // if(!goal_id){
+  //     // console.log(goal_id)
+  //     logger.info(`goal_id not specified`);
+  //     return res.status(400).send({ error: 'goal_id is required'})
+  //   }
+
+  if (!org_id) {
+    logger.info(`Unable to add target to goal with id ${id} as organization id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  
+
+  const target = req.body;
+  const data = {
+      goal_id,
+      ...target
+    }
+
+  logger.info(`Started creating targets for goal with id -> ${id}`);
+
+  try{
+    await targetSchema.validateAsync(...req.body);
+    const newTarget = insertOne('targets', data, org);
+    logger.info(`Target created for goal with id ${id}`);
+  }
+  catch(err){
+    logger.info(`There are errors with the request body: ${err.details}`);
+    if (err) return res.status(400).json(err.details);
+  }
+})
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
