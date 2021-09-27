@@ -40,14 +40,20 @@ exports.goalSchema = Joi.object({
   goal_type: Joi.string().valid(`none`, `annual`, `quarterly`, `daily`, `monthly`).default(`none`).required().messages({
     'any.required': 'goal type must be added',
   }),
-  goal_targets: Joi.array().items(
-    Joi.object().keys({ milestone: Joi.string(), achieved: Joi.boolean()}).required().messages({
-      'any.required': 'goal_targets must be added',
-    })),
   category: Joi.string().required().messages({
     'any.required': 'Category is required',
   }),
 });
+
+exports.targetSchema = Joi.object({
+  goal_targets: Joi.array().items(
+    Joi.object().keys({ 
+        type: Joi.string().valid('number', 'logical'),
+        milestone: Joi.string().required(),
+        achieved: Joi.boolean()}).required().messages({
+      'any.required': 'goal_targets must be added',
+    })),
+})
 
 // mission schema
 exports.missionSchema = Joi.object({
