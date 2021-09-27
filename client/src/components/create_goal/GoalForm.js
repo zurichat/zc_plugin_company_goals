@@ -24,16 +24,19 @@ import {
   MainTitle,
   Wrap,
   Datalist,
+  FieldErrorText,
 } from './GoalForm.style';
 import { goalCreateEditDataApi } from './create-edit-goal.utils';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import { activateSnackbar } from '../../redux/snackbar.slice';
 import { useSWRConfig } from 'swr';
 import { resetGoalFormData } from '../../redux/organizationGoal.slice';
+import { useParams } from 'react-router';
 
 const GoalForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
+  let { orgId } = useParams();
   const dispatch = useDispatch();
   const { mutate } = useSWRConfig();
   const { isEditing, goalFormData } = useSelector((state) => state.organizationCreateAndEditGoalData);
@@ -50,7 +53,7 @@ const GoalForm = forwardRef((props) => {
           setSubmitting(true);
           if (isEditing.status) {
             try {
-              const editedGoal = await goalCreateEditDataApi.edit(isEditing.goalId, values);
+              const editedGoal = await goalCreateEditDataApi.edit(isEditing.goalId, values, orgId);
               dispatch(resetGoalFormData());
               dispatch(toggleCreateGoalModalAction());
               await mutate('getAllGoals');
@@ -63,7 +66,7 @@ const GoalForm = forwardRef((props) => {
             }
           } else {
             try {
-              const createdGoal = await goalCreateEditDataApi.create(values);
+              const createdGoal = await goalCreateEditDataApi.create(values, orgId);
               dispatch(toggleCreateGoalModalAction());
               await mutate('getAllGoals');
               dispatch(activateSnackbar({ content: 'Goal successfully created 🥳', severity: 'success' }));
@@ -107,7 +110,7 @@ const GoalForm = forwardRef((props) => {
                     onChange={handleChange}
                   />
                 </label>{' '}
-                <span>{touched.goal_name && errors.goal_name}</span>
+                <FieldErrorText>{touched.goal_name && errors.goal_name}</FieldErrorText>
               </div>{' '}
             </Container>{' '}
             <Container>
@@ -126,7 +129,7 @@ const GoalForm = forwardRef((props) => {
                     onChange={handleChange}
                   />
                 </label>
-                <span>{touched.description && errors.description}</span>
+                <FieldErrorText>{touched.description && errors.description}</FieldErrorText>
               </div>{' '}
             </Container>{' '}
             <Container>
@@ -147,7 +150,7 @@ const GoalForm = forwardRef((props) => {
                           <option value="quarterly"> Quaterly Goal</option>
                         </Select>
                       </label>
-                      <span>{touched.goal_type && errors.goal_type}</span>
+                      <FieldErrorText>{touched.goal_type && errors.goal_type}</FieldErrorText>
                     </SelectDivA>
                     <SelectDivB style={{ width: '50% !important' }}>
                       <label htmlFor="goal-category">
@@ -166,7 +169,7 @@ const GoalForm = forwardRef((props) => {
                           <option value="Devops"></option>
                         </datalist>
                       </label>
-                      <span>{touched.category && errors.category}</span>
+                      <FieldErrorText>{touched.category && errors.category}</FieldErrorText>
                     </SelectDivB>
                   </TargetContainerA>
                 </label>
@@ -196,7 +199,7 @@ const GoalForm = forwardRef((props) => {
                         placeholder="01/02/2021"
                         value={values.start_date}
                       />
-                      <span>{touched.start_date && errors.start_date}</span>
+                      <FieldErrorText>{touched.start_date && errors.start_date}</FieldErrorText>
                     </div>
                     <div style={{ width: '50%' }}>
                       <LabelBody style={{ marginBottom: '0.5rem' }}>Due Date</LabelBody>
@@ -213,7 +216,7 @@ const GoalForm = forwardRef((props) => {
                         placeholder="11/02/2021"
                         value={values.due_date}
                       />
-                      <span>{touched.due_date && errors.due_date}</span>
+                      <FieldErrorText>{touched.due_date && errors.due_date}</FieldErrorText>
                     </div>
                   </TargetContainerB>
                 </label>

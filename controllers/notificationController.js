@@ -16,37 +16,47 @@ const notificationStructure = {
     'Congratulations, we have achieved this goal. All set targets have been met.',
     'green',
   ],
-  createGoal: ['A new goal has been created.', 'We have within the stipulated time to achieve this goal.', 'purple'],
-  deleteGoal: ['One of our goals has been deleted.', 'We will no longer be working towards this goal.', 'red'],
+  createGoal: [
+    'A new goal has been created.', 
+    'We have within the stipulated time to achieve this goal.', 
+    'purple'],
+  deleteGoal: [
+    'One of our goals has been deleted.', 
+    'We will no longer be working towards this goal.', 
+    'red'],
   expiredGoal: [
     'We failed to reach this goal.',
     'Unfortunately, we have been unable to achieve this goal within the set time frame.',
     'red',
   ],
-  updateGoal: ['This goal has been updated.', 'Please check the goal info for details.', 'blue'],
+  updateGoal: [
+    'This goal has been updated.', 
+    'Please check the goal info for details.', 
+    'blue'],
+
   updateMission: ['Our mission has been updated.', '', 'blue'],
   updateVision: ['Our vision has been updated.', '', 'blue'],
 };
 
-exports.getUserIds = async (tokenHeader, orgId) => {
-  // const tokenHeader = req.headers.authorization
-  try {
-    const userIds = [];
-    let organization = await axios({
-      method: 'get',
-      url: `https://api.zuri.chat/organizations/${orgId}/members`,
-      headers: { Authorization: tokenHeader },
-    });
+// exports.getUserIds = async (tokenHeader, orgId) => {
+//   // const tokenHeader = req.headers.authorization
+//   try {
+//     const userIds = [];
+//     let organization = await axios({
+//       method: 'get',
+//       url: `https://api.zuri.chat/organizations/${orgId}/members`,
+//       headers: { Authorization: tokenHeader },
+//     });
 
-    organization = organization.data.data;
-    for (user of organization) {
-      userIds.push(user._id);
-    }
-    return userIds;
-  } catch (error) {
-    logger.info(`The get operation failed with the following error messages: ${error}`);
-  }
-};
+//     organization = organization.data.data;
+//     for (user of organization) {
+//       userIds.push(user._id);
+//     }
+//     return userIds;
+//   } catch (error) {
+//     logger.info(`The get operation failed with the following error messages: ${error}`);
+//   }
+// };
 
 exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) => {
   if (typeof userIds === 'string') {
@@ -112,13 +122,14 @@ exports.getUserNotifications = async (req, res) => {
         message: "You don't have any notifications.",
       });
     }
-    if (notifications.data.data.length > 10) {
-      return res.status(200).json({
-        status: 200,
-        message: 'success',
-        data: notifications.data.data.slice(-10),
-      });
-    }
+    // if (notifications.data.data.length > 10) {
+    //   return res.status(200).json({
+    //     status: 200,
+    //     message: 'success',
+    //     data: notifications.data.data.slice(-10),
+    //   });
+    // }
+    
     // Returning Response
     return res.status(200).json({
       status: 200,
@@ -135,7 +146,8 @@ exports.getUserNotifications = async (req, res) => {
 };
 
 exports.updateNotification = async (req, res) => {
-  const { org_id: orgId, user_id: userId, notification_id: notificationId } = req.query;
+  const { notification_id: notificationId } = req.params;
+  const { org_id: orgId, user_id: userId  } = req.query;
 
   // Check for org_id and user_id
   if (!orgId) {
@@ -175,18 +187,12 @@ exports.updateNotification = async (req, res) => {
   try {
     await updateOne('goalNotifications', update, {}, orgId, notificationId);
 
-    const Notification = await find(
-      'goalNotifications',
-      {
-        _id: notificationId,
-      },
-      orgId
-    );
+    notification.data.data.isRead = !status
 
     return res.status(200).json({
       status: 200,
       message: 'success',
-      data: Notification.data.data,
+      data: notification.data.data,
     });
   } catch (error) {
     return res.status(500).json({
@@ -246,9 +252,9 @@ exports.updateNotifications = async (req, res) => {
   }
 };
 
-// This is not for frontend consumption
 exports.deleteNotification = async (req, res) => {
-  const { org_id: orgId, user_id: userId, notification_id: notificationId } = req.query;
+  const { notification_id: notificationId } = req.params;
+  const { org_id: orgId, user_id: userId } = req.query;
 
   // Check for org_id, user_id and notification_id
   if (!orgId) {
@@ -270,11 +276,11 @@ exports.deleteNotification = async (req, res) => {
   }
 
   try {
-    await deleteOne('goalNotifications', orgId, notificationId);
+    const deletedNotification = await deleteOne('goalNotifications', orgId, notificationId);
 
     return res.status(200).json({
       status: 200,
-      message: 'Notification successfully deleted.',
+      message: deletedNotification.data.data,
     });
   } catch (error) {
     return res.status(500).json({
@@ -284,57 +290,58 @@ exports.deleteNotification = async (req, res) => {
   }
 };
 
-// This is not for frontend consumption
-exports.getAllNotifications = async (req, res) => {
-  const orgId = '6145d099285e4a184020742e';
+// // This is not for frontend consumption
+// exports.getAllNotifications = async (req, res) => {
+//   const orgId = '6145d099285e4a184020742e';
 
-  try {
-    // Search for all Goals
-    const notifications = await findAll('goalNotifications', orgId);
+//   try {
+//     // Search for all Goals
+//     const notifications = await findAll('goalNotifications', orgId);
 
-    // Returning Response
-    return res.status(200).json({
-      status: 200,
-      message: 'success',
-      data: notifications.data.data,
-    });
-  } catch (error) {
-    return res.status(200).json({
-      status: 200,
-      message: "You don't have any notifications.",
-    });
-  }
-};
+//     // Returning Response
+//     return res.status(200).json({
+//       status: 200,
+//       message: 'success',
+//       data: notifications.data.data,
+//     });
+//   } catch (error) {
+//     return res.status(200).json({
+//       status: 200,
+//       message: "You don't have any notifications.",
+//     });
+//   }
+// };
 
-exports.deleteNotifications = async (req, res) => {
-  const { org_id: orgId, user_id: userId } = req.query;
+// // This is not for frontend consumption
+// exports.deleteNotifications = async (req, res) => {
+//   const { org_id: orgId, user_id: userId } = req.query;
 
-  // Check for org_id and user_id
-  if (!orgId) {
-    return res.status(403).send({
-      error: 'org_id is required',
-    });
-  }
-  if (!userId) {
-    return res.status(403).send({
-      error: 'user_id is required',
-    });
-  }
+//   // Check for org_id and user_id
+//   if (!orgId) {
+//     return res.status(403).send({
+//       error: 'org_id is required',
+//     });
+//   }
+//   if (!userId) {
+//     return res.status(403).send({
+//       error: 'user_id is required',
+//     });
+//   }
 
-  try {
-    await deleteMany(
-      'goalNotifications',
-      {
-        org_id: orgId,
-        user_id: userId,
-      },
-      orgId
-    );
-    return res.status(200).json('All notifications deleted.');
-  } catch (error) {
-    res.status(500).json({
-      status: 500,
-      message: 'Unable to delete all notifications.',
-    });
-  }
-};
+//   try {
+//     await deleteMany(
+//       'goalNotifications',
+//       {
+//         org_id: orgId,
+//         user_id: userId,
+//       },
+//       orgId
+//     );
+//     return res.status(200).json('All notifications deleted.');
+//   } catch (error) {
+//     res.status(500).json({
+//       status: 500,
+//       message: 'Unable to delete all notifications.',
+//     });
+//   }
+// };

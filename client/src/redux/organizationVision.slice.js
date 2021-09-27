@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchOrgVision = createAsyncThunk('showVision/getVision', async () => {
-  const response = await axios.get('https://goals.zuri.chat/api/v1/vision/6145d099285e4a184020742e');
+export const fetchOrgVision = createAsyncThunk('showVision/getVision', async (orgId) => {
+  const response = await axios.get(`https://goals.zuri.chat/api/v1/vision/${orgId}`);
   return response.data;
 });
 
-export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatus', async (visionText) => {
+export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatus', async ({ visionText, orgId }) => {
   console.log(visionText);
   /**
    * TODO:
@@ -19,11 +19,8 @@ export const updateOrgVision = createAsyncThunk('editVision/updateOrgVisionStatu
 
   const response = await axios({
     method: 'patch',
-    url: `https://goals.zuri.chat/api/v1/vision/${organizationId}/`,
+    url: `https://goals.zuri.chat/api/v1/vision/${orgId}`,
     data: { vision: visionText },
-    headers: {
-      Authorization: `Bearer ${token} ${organizationId}`,
-    },
   });
 
   return response.data;
@@ -54,7 +51,7 @@ export const editVisionSlice = createSlice({
       state.visionText = payload.payload.vision;
     });
     builder.addCase(fetchOrgVision.rejected, (state) => {
-      state.errorMessage = 'Failed to fetch vision';
+      state.visionText = 'Failed to fetch vision';
       state.status = 'failure';
     });
     builder.addCase(updateOrgVision.fulfilled, (state, { payload }) => {
@@ -66,8 +63,7 @@ export const editVisionSlice = createSlice({
       return state;
     });
     builder.addCase(updateOrgVision.rejected, (state, action) => {
-      console.log('Error!!!', action);
-      alert(action.error.message);
+      state.visionText = 'Failed to update vision';
       state.status = 'failure';
       return state;
     });

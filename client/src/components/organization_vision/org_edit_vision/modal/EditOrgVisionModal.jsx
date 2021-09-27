@@ -12,8 +12,10 @@ import {
   ActionButton,
   ActionCancelEditVisionButton,
 } from './EditOrgVision.styled';
+import { useParams } from 'react-router';
 
 const OrganizationVisionEditModal = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { visionText, status, showVisionModal } = useSelector((state) => state.organizationVision);
   const [editText, setEditText] = useState('');
@@ -24,7 +26,7 @@ const OrganizationVisionEditModal = () => {
 
   const dispatchAction = () => {
     if (editText) {
-      dispatch(updateOrgVision(editText));
+      dispatch(updateOrgVision({ visionText: editText, orgId }));
     }
   };
 
