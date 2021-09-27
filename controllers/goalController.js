@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-var */
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
@@ -37,24 +38,24 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   // Search for all Goals
   try {
     logger.info(`Started getting all goals for the organization: ${orgId}`);
-     const findGoals = await findAll('goals', orgId);
-     const { data: goals } = findGoals.data;
-  
-    
+    const findGoals = await findAll('goals', orgId);
+    const { data: goals } = findGoals.data;
+
     // No matching data, return an empty array
-    if (goals === null || goals.length < 1) res.status(200).json({ message: 'success', data: [] });
+    if (goals === null || goals.length < 1) return res.status(200).json({ message: 'success', data: [] });
 
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
-      const sorted = goals.sort((a, b) => {
-        const c = new Date(a.created_at);
-        const d = new Date(b.created_at);
-       return c-d
-      }).reverse();
+      const sorted = goals
+        .sort((a, b) => {
+          const c = new Date(a.created_at);
+          const d = new Date(b.created_at);
+          return c - d;
+        })
+        .reverse();
 
       let newGoals = sorted;
-      if(page && limit)
-      {
+      if (page && limit) {
         const newPage = page * 1 || 1;
         const perPage = limit * 1 || 5;
 
@@ -83,7 +84,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
       });
     }
   } catch (error) {
-    if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    logger.info('no goals for this organization');
+    return res.status(200).json({
+      status: 200,
+      message: 'success',
+      data: [],
+    });
   }
 });
 
@@ -100,15 +107,6 @@ exports.createGoal = async (req, res, next) => {
   const today = new Date();
   const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
-  const data = {
-    room_id: roomId,
-    isComplete: false,
-    isExpired: false,
-    created_at: date,
-    ...goal,
-  };
-
-
   if (!orgId) {
     logger.info(`Unable to create a goal as organization id isn't provided.`);
     res.status(400).send({ error: 'Organization_id is required' });
@@ -118,16 +116,23 @@ exports.createGoal = async (req, res, next) => {
   try {
     await goalSchema.validateAsync(req.body);
     logger.info(`Successfully validated the request body.`);
-    const date_regex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-    
-    if (!date_regex.test(start_date) || !date_regex.test(due_date)) {
-      return res.status(400).send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD` })
-    }
+    // const date_regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
 
-    // if (start_date < date || due_date < date) {
-    //   return res.status(400).send({ Validation_error: `Start and / or Due date(s) cannot be set before today`});
+    // const d1 = new Date(start_date);
+    // const d2 = new Date(due_date);
+
+    // if (!date_regex.test(start_date) || !date_regex.test(due_date)) {
+    //   return res
+    //     .status(400)
+    //     .send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD or YYYY-M-D` });
     // }
-    
+
+    // if (d1.getMonth() < today.getMonth() || d1.getDate() < today.getDate()) {
+    //   return res.status(400).send({ message: 'Start date or month must not be before today' });
+    // }
+    // if (d2.getMonth() < today.getMonth() || d2.getDate() < today.getDate()) {
+    //   return res.status(400).send({ message: 'Due date or month must not be before today' });
+    // }
   } catch (err) {
     logger.info(`There are errors with the request body: ${err.details}`);
     if (err) return res.status(400).json(err.details);
@@ -137,7 +142,7 @@ exports.createGoal = async (req, res, next) => {
     logger.info(
       `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
     );
-   const findGoals = await find('goals', { goal_name: title }, orgId);
+    const findGoals = await find('goals', { goal_name: title }, orgId);
 
     const { data: foundGoal } = findGoals.data;
 
@@ -147,16 +152,30 @@ exports.createGoal = async (req, res, next) => {
         error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
       });
     }
-  
   } catch (error) {
     logger.info(`There are no goals with the title: ${title}`);
     if (error) goals = error.message;
   }
-  goals = await insertOne('goals', data, orgId);
-  await createNotification(user_ids, orgId, roomId, title, 'createGoal');
-  logger.info(`Successfully created a new goal: ${goals.data.data}`);
 
-  res.status(200).json({ message: 'success', ...goals.data, data });
+  try {
+    const data = {
+      room_id: roomId,
+      isComplete: false,
+      isExpired: false,
+      created_at: date,
+      ...goal,
+    };
+
+    goals = await insertOne('goals', data, orgId);
+
+    if (goals.data.status === 200) {
+      await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+      logger.info(`Successfully created a new goal: ${goals.data.data}`);
+      res.status(200).json({ message: 'success', data });
+    }
+  } catch (error) {
+    return res.status(400).send({ message: 'Invalid request' });
+  }
 };
 
 exports.createGoalTargets = catchAsync(async(req, res, next) => {
@@ -198,7 +217,7 @@ exports.createGoalTargets = catchAsync(async(req, res, next) => {
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
-  
+
   let users;
   const { room_id: id, org_id: org } = req.query;
 
@@ -426,6 +445,7 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
   });
 
   // check that the goal_id is valid
+  try{
   const goal = await find(
     'goals',
     {
@@ -447,10 +467,10 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
     },
     orgId
   );
-
+  
   // add like if it doesnt exist
   if (!like.data.data) {
-    addedLike = await insertOne(
+   const addedLike = await insertOne(
       'goallikes',
       {
         goal_id: goalId,
@@ -459,20 +479,29 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
       orgId
     );
 
+
+
     return res.status(201).json({
       status: 'success',
       message: 'Goal like added',
-      data: {},
+      data: {count: addedLike.data.data.insert_count}
     });
   }
 
-  removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
+  const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
   // delete like from db
+
+
   res.status(201).json({
     status: 'success',
     message: 'Goal like removed',
-    data: {},
+    data: {count: removeLike.data.data.deleted_count}
   });
+}
+catch(error){
+  res.status(500).json({status: 'failed', message: 'server Error', data: null})
+}
+
 });
 
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
@@ -493,7 +522,7 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (!goal.data.data) {
+  if (goal.data.data === null) {
     return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
   }
 
@@ -505,6 +534,7 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     },
     orgId
   );
+
   if (!like.data.data) {
     return res.status(200).json({
       status: 'success',
@@ -663,15 +693,24 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 });
 
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, type: goalType} = req.query;
+  const { org_id: orgId, type: goalType } = req.query;
 
-  //find goals by type
-  const goalsSorted = await find('goals',{ goal_type: goalType }, orgId );
-  
-  // No matching data, return an empty array
-  if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
-  res.status(200).json({
-    status: 'success',
-    data: goalsSorted.data.data,
-  });
+  try{
+        //find goals by type
+      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+
+
+      // No matching data, return an empty array
+      if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+            return res.status(200).json({ message: 'success', data: [] });
+      res.status(200).json({
+        message: 'success',
+        data: goalsSorted.data.data,
+      });
+  }
+  catch(error){
+    console.log(error.message)
+    res.status(500).json({message: 'failed, server error', data: null})
+  }
+ 
 });
