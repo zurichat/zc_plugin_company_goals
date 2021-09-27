@@ -161,13 +161,13 @@ exports.createGoal = async (req, res, next) => {
 
 exports.createGoalTargets = catchAsync(async(req, res, next) => {
   // get goal id from the url
-  const { org_id, goal_id } = req.params;
+  const { org_id, goal_id } = req.query;
 
-  // if(!goal_id){
-  //     // console.log(goal_id)
-  //     logger.info(`goal_id not specified`);
-  //     return res.status(400).send({ error: 'goal_id is required'})
-  //   }
+  if(!goal_id){
+      // console.log(goal_id)
+      logger.info(`goal_id not specified`);
+      return res.status(400).send({ error: 'goal_id is required'})
+    }
 
   if (!org_id) {
     logger.info(`Unable to add target to goal with id ${id} as organization id isn't provided.`);
