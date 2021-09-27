@@ -129,6 +129,7 @@ exports.createGoal = async (req, res, next) => {
       return res.status(400).send({message: 'Due date or month must not be before today'})
     }
 
+
     
   } catch (err) {
     logger.info(`There are errors with the request body: ${err.details}`);
@@ -158,7 +159,6 @@ exports.createGoal = async (req, res, next) => {
 
   try {
       const data = {
-    room_id: roomId,
     isComplete: false,
     isExpired: false,
     created_at: date,
