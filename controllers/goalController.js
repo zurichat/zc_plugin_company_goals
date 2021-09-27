@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-var */
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
@@ -83,8 +84,8 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
       });
     }
   } catch (error) {
-    //if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
-    logger.info('no goals for this organization')
+    // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    logger.info('no goals for this organization');
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -658,8 +659,8 @@ exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
   try{
-        //find goals by type
-      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+    //find goals by type
+  const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
       // No matching data, return an empty array
       if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)

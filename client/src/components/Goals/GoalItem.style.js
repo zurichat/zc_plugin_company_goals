@@ -1,5 +1,10 @@
-import { LinearProgress } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {
+  LinearProgress
+} from '@material-ui/core';
+import {
+  makeStyles,
+  withStyles
+} from '@material-ui/core/styles';
 import styled from 'styled-components';
 
 export const useStyles = makeStyles(() => ({
@@ -38,7 +43,7 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-export const GoalTitle = styled.span`
+export const GoalTitle = styled.span `
   display: block;
   font-weight: 700;
   line-height: 1.75rem;
@@ -56,7 +61,7 @@ export const GoalTitle = styled.span`
   }
 `;
 
-export const GoalTags = styled.span`
+export const GoalTags = styled.span `
   display: table-caption;
   color: #616061;
   font-size: 0.7rem;
@@ -95,13 +100,13 @@ export const ProgressBar = withStyles(() => ({
   },
 }))(LinearProgress);
 
-export const ProgressDetailsContainer = styled.div`
+export const ProgressDetailsContainer = styled.div `
   display: flex;
   justify-content: space-between;
   margin-top: 0.8rem;
 `;
 
-export const ProgressRate = styled.span`
+export const ProgressRate = styled.span `
   color: #616061;
   font-size: 0.813rem;
   line-height: 1rem;
@@ -114,7 +119,7 @@ export const ProgressRate = styled.span`
   }
 `;
 
-export const ProgressDate = styled.span`
+export const ProgressDate = styled.span `
   height: 0.875rem;
   line-height: 1rem;
   font-size: 0.813rem;
@@ -125,7 +130,7 @@ export const ProgressDate = styled.span`
   }
 `;
 
-export const IconItemContainer = styled.div`
+export const IconItemContainer = styled.div `
   margin-left: 2.5rem;
   cursor: pointer;
   position: relative;
@@ -141,24 +146,25 @@ export const IconItemContainer = styled.div`
   }
 `;
 
-export const IconItemCount = styled.span`
+export const IconItemCount = styled.span `
   color: #616061;
   font-size: 0.813rem;
   line-height: 1rem;
   position: absolute;
 `;
 
-export const Likes = styled.span`
+export const Likes = styled.span `
   position: absolute;
   top: 0.063rem;
 `;
 
-export const MoreOptions = styled.div`
+export const MoreOptions = styled.div `
   margin-top: 0.5rem;
   cursor: pointer;
   height: 1.14rem;
   margin-left: 2rem;
-  &:hover {
+
+  img:hover {
     color: #999999;
   }
   @media (max-width: 576px) {
@@ -173,9 +179,9 @@ export const MoreOptions = styled.div`
   }
 `;
 
-export const GoalDropDown = styled.ul`
+export const GoalMenu = styled.ul`
   position: absolute;
-  top: 3.5rem;
+  top: 0;
   right: 1rem;
   background-color: #ffffff;
   height: 140px;
@@ -183,23 +189,32 @@ export const GoalDropDown = styled.ul`
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
   border-bottom: 45px;
   border-radius: 3px;
-  padding: 14px;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 600;
   list-style: none;
-  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
   z-index: 100;
   color: #616061;
+  padding: 0;
 
   button {
     border: none;
     background-color: transparent;
     cursor: pointer;
-    &:hover {
-      color: #f44336;
-    }
   }
 
   li {
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    width: 100%;
+    height: 25%;
+
+    &:hover {
+      background: #00b87c;
+    }
+
+    &:nth-child(4):hover {
+      background: #f44336;
+    }
   }
 `;
