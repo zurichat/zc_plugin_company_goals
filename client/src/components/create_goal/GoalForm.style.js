@@ -1,3 +1,4 @@
+import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
 export const Goal = styled.div`
@@ -212,4 +213,9 @@ export const CloseButton = styled.button`
   font-size: 15px;
   color: #333333;
   cursor: pointer;
+`;
+
+export const FieldErrorText = styled(Typography)`
+  color: red;
+  font-size: 0.78rem;
 `;

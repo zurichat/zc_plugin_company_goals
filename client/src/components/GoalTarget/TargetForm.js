@@ -11,12 +11,13 @@ import {
   CloseButton,
   CreateButton,
   TargetContainerA,
+  HeaderContainer,
   MainTitle,
 } from './TargetForm.style';
-import { InputLabel } from './TargetInput.style'
+import { InputLabel } from './TargetInput.style';
 import TargetRadio from './TargetRadio';
-import { AddContainer } from './TargetInput.style'
-import {AiOutlinePlusCircle} from 'react-icons/ai';
+import { AddContainer, InputContainer } from './TargetInput.style';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 const TargetForm = forwardRef((props) => {
   // eslint-disable-next-line react/prop-types
@@ -24,26 +25,28 @@ const TargetForm = forwardRef((props) => {
 
   return (
     <Goal>
-      <CloseButton type="button" onClick={handleClose}>
-        x{' '}
-      </CloseButton>{' '}
+      <Container>
+        {' '}
+        <div style={{ paddingTop: '0.5rem' }}>
+          {' '}
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
+          <label htmlFor="goal-name">
+            <HeaderContainer>
+              <MainTitle> Create a new Target </MainTitle>
+              <CloseButton type="button" onClick={handleClose}>
+                x{' '}
+              </CloseButton>{' '}
+            </HeaderContainer>
+            <Info fontSize="13px">
+              Targets help you specify a means of completing a goal, they are qualifiable(numerical)
+            </Info>
+          </label>{' '}
+        </div>{' '}
+      </Container>{' '}
       <Form action="">
         <Container>
           {' '}
-          <div style={{ paddingTop: '0.5rem' }}>
-            {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
-            <label htmlFor="goal-name">
-              <MainTitle> Create a new Target </MainTitle>
-              <Info fontSize="13px">
-                Targets help you specify a means of completing a goal, they are qualifiable(numerical)
-              </Info>
-            </label>{' '}
-          </div>{' '}
-        </Container>{' '}
-        <Container style={{ marginTop: '2rem' }}>
-          {' '}
-          <div style={{ paddingTop: '0.5rem' }}>
+          <div>
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}{' '}
             <label htmlFor="goal-name">
@@ -55,11 +58,11 @@ const TargetForm = forwardRef((props) => {
             </label>{' '}
           </div>{' '}
         </Container>{' '}
-        <Container style={{ marginTop: '4rem' }}>
-          <InputLabel type="number" value="1" />
-          <Input type="text" name="target" value="I want to do this" />
-        </Container>
-        <Container style={{ marginTop: '6rem' }}>
+        <InputContainer>
+          <InputLabel type="text" value="1" />
+          <Input type="text" name="target" value="I want to do this..." />
+        </InputContainer>
+        <Container>
           <AddContainer>
             <AiOutlinePlusCircle style={{ color: 'green', marginRight: '10px' }} />
             <a style={{ color: '#00B87C' }}>Add More Milestones (you can set up to 4 milestones)</a>
