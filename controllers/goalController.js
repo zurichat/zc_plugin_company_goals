@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-var */
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
@@ -41,7 +42,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     const { data: goals } = findGoals.data;
 
     // No matching data, return an empty array
-    if (goals === null || goals.length < 1) res.status(200).json({ message: 'success', data: [] });
+    if (goals === null || goals.length < 1) return res.status(200).json({ message: 'success', data: [] });
 
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
@@ -407,6 +408,7 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
   });
 
   // check that the goal_id is valid
+  try{
   const goal = await find(
     'goals',
     {
@@ -428,10 +430,10 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
     },
     orgId
   );
-
+  
   // add like if it doesnt exist
   if (!like.data.data) {
-    addedLike = await insertOne(
+   const addedLike = await insertOne(
       'goallikes',
       {
         goal_id: goalId,
@@ -440,20 +442,29 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
       orgId
     );
 
+
+
     return res.status(201).json({
       status: 'success',
       message: 'Goal like added',
-      data: {},
+      data: {count: addedLike.data.data.insert_count}
     });
   }
 
-  removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
+  const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
   // delete like from db
+
+
   res.status(201).json({
     status: 'success',
     message: 'Goal like removed',
-    data: {},
+    data: {count: removeLike.data.data.deleted_count}
   });
+}
+catch(error){
+  res.status(500).json({status: 'failed', message: 'server Error', data: null})
+}
+
 });
 
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
@@ -647,14 +658,22 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
-  // find goals by type
-  const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+  try{
+        //find goals by type
+      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
-  // No matching data, return an empty array
-  if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
-    res.status(200).json({ message: 'success', data: [] });
-  res.status(200).json({
-    status: 'success',
-    data: goalsSorted.data.data,
-  });
+
+      // No matching data, return an empty array
+      if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+            return res.status(200).json({ message: 'success', data: [] });
+      res.status(200).json({
+        message: 'success',
+        data: goalsSorted.data.data,
+      });
+  }
+  catch(error){
+    console.log(error.message)
+    res.status(500).json({message: 'failed, server error', data: null})
+  }
+ 
 });
