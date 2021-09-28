@@ -1263,7 +1263,7 @@ dot-prop@^5.2.0:
 
 dotenv@^10.0.0:
   version "10.0.0"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 duplexer3@^0.1.4:
@@ -1783,7 +1783,7 @@ fs.realpath@^1.0.0:
 
 fsevents@~2.3.2:
   version "2.3.2"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:
@@ -3641,14 +3641,14 @@ through@^2.3.8:
 
 timeago-react@^3.0.3:
   version "3.0.3"
-  resolved "https://registry.yarnpkg.com/timeago-react/-/timeago-react-3.0.3.tgz#25a92aaa49effb2efeeadbf9eeb8972777793840"
+  resolved "https://registry.npmjs.org/timeago-react/-/timeago-react-3.0.3.tgz"
   integrity sha512-xz4OhaFASV6LUfSaGfGQVY15NPtvUqQfN86vk5302PyJ675dJZ6Wj6gnulXRFynVtlA8m838oDviLvgiPJk2sA==
   dependencies:
     timeago.js "^4.0.0"
 
 timeago.js@^4.0.0:
   version "4.0.2"
-  resolved "https://registry.yarnpkg.com/timeago.js/-/timeago.js-4.0.2.tgz#724e8c8833e3490676c7bb0a75f5daf20e558028"
+  resolved "https://registry.npmjs.org/timeago.js/-/timeago.js-4.0.2.tgz"
   integrity sha512-a7wPxPdVlQL7lqvitHGGRsofhdwtkoSXPGATFuSOA2i1ZNQEPLrGnj68vOp2sOJTCFAQVXPeNMX/GctBaO9L2w==
 
 to-readable-stream@^1.0.0:
@@ -3985,7 +3985,7 @@ yaml@^1.10.0:
 
 yamljs@^0.3.0:
   version "0.3.0"
-  resolved "https://registry.yarnpkg.com/yamljs/-/yamljs-0.3.0.tgz#dc060bf267447b39f7304e9b2bfbe8b5a7ddb03b"
+  resolved "https://registry.npmjs.org/yamljs/-/yamljs-0.3.0.tgz"
   integrity sha512-C/FsVVhht4iPQYXOInoxUM/1ELSf9EsgKH34FofQOp6hwCPrW4vG4w5++TED3xRUo8gD7l0P1J1dLlDYzODsTQ==
   dependencies:
     argparse "^1.0.7"
@@ -4011,7 +4011,7 @@ yargs@^16.2.0:
 
 yarn@^1.22.11:
   version "1.22.11"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.11.tgz#d0104043e7349046e0e2aec977c24be106925ed6"
+  resolved "https://registry.npmjs.org/yarn/-/yarn-1.22.11.tgz"
   integrity sha512-AWje4bzqO9RUn3sdnM5N8n4ZJ0BqCc/kqFJvpOI5/EVkINXui0yuvU7NDCEF//+WaxHuNay2uOHxA4+tq1P3cg==
 
 yocto-queue@^0.1.0:
