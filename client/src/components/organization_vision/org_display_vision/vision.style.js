@@ -1,59 +1,50 @@
 import styled from 'styled-components';
 
-export const VisionContainer = styled.div `
-  position: relative;
-  max-width: 100%;
-  margin: auto;
-`
-export const Box = styled.div`
-  position: relative;
+
+export const ParentBox = styled.div`
   display: flex;
-  padding: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: left;
+  width: 49%;
+
+  @media only screen and (max-width: 760px) {
+    width: 98%;
+  }
+  @media only screen and (max-width: 760px) {
+    width: 98%;
+  }
+`;
+
+export const Box = styled.div`
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
-// export const Input = styled.input`
-//   background-color: ${(props) => props.bgColor};
-//   padding: ${(props) => props.padding};
-//   margin: ${(props) => props.margin};
-//   width: 100%;
-//   height: 15%;
-//   border: none;
 
-//   @media only screen and (max-width: 420px) {
-//     width: 340px;
-//     height: 45px;
-    
-//   }
-//   &::placeholder {
-//     font-size: 18px;
-//     font-family: 'Lato';
-//     padding-left: 10px;
-//     color: #999999;
-//   }
-// `;
+
 export const Editbutton = styled.button`
   border: none;
-  position: absolute;
-  background-color: transparent;
-  top: ${(props) => props.top};
-  right: ${(props) => props.right};
+  background-color: #ffffff;
+  padding: 21px 22px 22px;
   cursor: pointer;
+  border-top: 2px solid #eee3e3;
 
   @media only screen and (max-width: 420px) {
     right: ${(props) => props.rsRight};
   }
 `;
 export const Title = styled.h3`
-  position: absolute;
   font-family: 'Lato';
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 20px;
-  top: ${(props) => props.top};
-  right: ${(props) => props.right};
-  color: ${(props) => props.color};
+
+  color: #000000;
+  margin: 0;
+
 
   @media only screen and (max-width: 420px) {
     top: ${(props) => props.rsTop};
@@ -61,15 +52,34 @@ export const Title = styled.h3`
   }
 `;
 export const VisionField = styled.p`
-  width: 40vw;
+  width: 90%;
   border: none;
   background-color: white;
+  border-radius: 3px 0 0 3px;
   padding: 21px 15px;
+  border-top: 2px solid #eee3e3;
   &:-ms-keyboard-active {
     border-style: none;
   }
+<<<<<<< HEAD
   @media only screen and (max-width: 720px) {
     width: 80vw;
     padding: 10px 15px;
+=======
+
+  @media only screen and (max-width: 760px) {
   }
+  @media only screen and (max-width: 425px) {
+
+>>>>>>> a272c2983ada2341bf7af49aafc78556249e6687
+  }
+`;
+
+export const CollapseButton = styled.button`
+  padding: 23px 24px 24px;
+  color: #fff;
+  border: none;
+  background-color: #00bb7c;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
 `;

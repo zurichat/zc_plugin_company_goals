@@ -18,6 +18,7 @@ exports.insertOne = async (collectionName, data, organization_id) => {
     newPayload.collection_name = collectionName;
     newPayload.payload = data;
     newPayload.organization_id = organization_id;
+    newPayload.bulk_write = false
 
     const response = await axios.post(`${URL}/write`, newPayload);
     logger.info(
@@ -123,6 +124,7 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
       filter,
       object_id: id,
       organization_id,
+      bulk_write:false
     };
     const response = await axios.put(`${URL}/write`, updateOnePayload);
     logger.info(

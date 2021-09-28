@@ -1,3 +1,4 @@
+import AppHeader from '../components/app_header/AppHeader';
 import React from 'react';
 import Header from '../components/header/Header';
 import EditMission from '../components/modal/EditMission';
@@ -7,6 +8,7 @@ import OrganizationVisionEditModal from '../components/organization_vision/org_e
 
 const Faqs = () => {
   return (
+<<<<<<< HEAD
     <div>
       <Header />
       <FaqsContainer />
@@ -14,6 +16,16 @@ const Faqs = () => {
       <OrganizationVisionEditModal />
 
     </div>
+=======
+    <>
+      <AppHeader />
+      <div>
+        <Header />
+        <FaqsContainer />
+        <EditMission />
+      </div>
+    </>
+>>>>>>> a272c2983ada2341bf7af49aafc78556249e6687
   );
 };
 

@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { fetchOrgMission, showEditMissionModal } from '../../redux/organizationMission.slice';
 // import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png';
-import { Editbutton, MissionField, MissionContainer, Title, Box } from './missions.style';
+
+import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
 const Missions = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { missionText } = useSelector((state) => state.organizationMission);
 
   const handleClick = () => dispatch(showEditMissionModal());
 
   useEffect(() => {
-    dispatch(fetchOrgMission());
+    dispatch(fetchOrgMission(orgId));
   }, []);
 
   return (
-    <MissionContainer>
-      <Title top="-25%" left="2%" rsTop="-30%" rsLeft="3%" color="#000000">
-        Mission
-      </Title>
+    <ParentBox>
+      <Title>Mission</Title>
+
       <Box className="box">
         <MissionField>{missionText || 'Click to add a mission'}</MissionField>
         <Editbutton onClick={handleClick} className="editMissionbutton" left="90%" rsLeft="85%">
           <img src={editImg} alt="edit" />
         </Editbutton>
       </Box>
-    </MissionContainer>
+    </ParentBox>
   );
 };
 export default Missions;

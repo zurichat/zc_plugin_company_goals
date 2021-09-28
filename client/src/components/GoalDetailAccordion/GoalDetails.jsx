@@ -13,6 +13,8 @@ import GoalDetailData from './GoalDetailData';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import Loader from '../loader/loader';
 import Error from '../error/Error';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,8 +34,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GoalDetailAccordion() {
+  let { orgId } = useParams();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const { roomId } = useSelector((state) => state.organizationRoom);
+
+  console.log('roomy', roomId);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -45,12 +51,12 @@ export default function GoalDetailAccordion() {
   };
   const requestURL = `${
     process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
-  }/api/v1/goals/?org_id=6145d099285e4a184020742e`;
+  }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
   const { data, error } = useSWR('getAllGoals', () => fetcher(requestURL));
-
+  console.log('err', error);
   if (!error && !data) return <Loader />;
 
-  if (error) return <Error errorMessage={error} />;
+  if (error) return <Error errorMessage={error.message} />;
 
   if (!data.data.length) return <EmptyGoal />;
 

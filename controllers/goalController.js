@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-var */
 /* eslint-disable quotes */
 /* eslint-disable no-underscore-dangle */
@@ -18,7 +19,7 @@ const {
   updateOne,
   deleteMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
@@ -27,7 +28,7 @@ const { createNotification } = require('./notificationController');
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, page, limit } = req.query;
+  const { org_id: orgId, page, limit, sort } = req.query;
 
   if (!orgId) {
     logger.info(`Can't get goals for null organisation id... Exiting...`);
@@ -37,15 +38,43 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   // Search for all Goals
   try {
     logger.info(`Started getting all goals for the organization: ${orgId}`);
-    const goals = await findAll('goals', orgId);
+    const findGoals = await findAll('goals', orgId);
+    const { data: goals } = findGoals.data;
 
     // No matching data, return an empty array
-    if (goals.data.data === null || goals.data.data.length < 1) res.status(200).json({ message: 'success', data: [] });
+    if (goals === null || goals.length < 1) return res.status(200).json({ message: 'success', data: [] });
 
+
+    let sorted
     // 200, response
-    if (goals.data.status === 200 && goals.data.data.length > 0) {
-      const { data } = goals.data;
-      let newGoals = data;
+    if (findGoals.data.status === 200 && goals.length > 0) {
+       sorted = goals.sort((a, b) => {
+        const c = new Date(a.created_at);
+        const d = new Date(b.created_at);
+       return c-d
+      }).reverse();
+
+      
+
+      if(sort && sort!=='created_at')
+      {
+        if(sort==='due_date')
+        {
+          logger.info('sort by due date')
+          sorted = goals.sort((a, b) => {
+            const c = new Date(a.due_date);
+            const d = new Date(b.due_date);
+           return c-d
+          }).reverse();
+        }
+
+        else if(sort==='progress')
+        {
+          logger.info('yet to be done')
+        }
+      }
+
+      let newGoals = sorted;
       if (page && limit) {
         const newPage = page * 1 || 1;
         const perPage = limit * 1 || 5;
@@ -55,14 +84,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
         const end = newPage * perPage;
 
         // Paginated goals
-        newGoals = data.slice(start, end);
-
+        newGoals = newGoals.slice(start, end);
         return res.status(200).json({
           status: 200,
           message: 'success',
           currentPage: newPage,
-          totalDocuments: data.length,
-          documentPerPage: newGoals.length,
+          totalDocuments: goals.length,
+          documentPerPage: limit*1,
           data: newGoals,
         });
       }
@@ -75,7 +103,14 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
       });
     }
   } catch (error) {
-    if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
+    logger.info('no goals for this organization');
+    console.log(error)
+    return res.status(200).json({
+      status: 200,
+      message: 'success',
+      data: [],
+    });
   }
 });
 
@@ -84,17 +119,13 @@ exports.createGoal = async (req, res, next) => {
 
   const roomId = uuidv4();
   const { org_id: orgId } = req.query;
-  const { goal_name: title, category } = req.body;
+  const { goal_name: title, category, start_date, due_date } = req.body;
 
   const goal = req.body;
   let goals;
 
-  const data = {
-    room_id: roomId,
-    is_completed: false,
-    is_expired: false,
-    ...goal,
-  };
+  const today = new Date();
+  const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
   if (!orgId) {
     logger.info(`Unable to create a goal as organization id isn't provided.`);
@@ -105,6 +136,23 @@ exports.createGoal = async (req, res, next) => {
   try {
     await goalSchema.validateAsync(req.body);
     logger.info(`Successfully validated the request body.`);
+    // const date_regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
+
+    // const d1 = new Date(start_date);
+    // const d2 = new Date(due_date);
+
+    // if (!date_regex.test(start_date) || !date_regex.test(due_date)) {
+    //   return res
+    //     .status(400)
+    //     .send({ Validation_error: `Start and due dates should be in the format YYYY-MM-DD or YYYY-M-D` });
+    // }
+
+    // if (d1.getMonth() < today.getMonth() || d1.getDate() < today.getDate()) {
+    //   return res.status(400).send({ message: 'Start date or month must not be before today' });
+    // }
+    // if (d2.getMonth() < today.getMonth() || d2.getDate() < today.getDate()) {
+    //   return res.status(400).send({ message: 'Due date or month must not be before today' });
+    // }
   } catch (err) {
     logger.info(`There are errors with the request body: ${err.details}`);
     if (err) return res.status(400).json(err.details);
@@ -114,9 +162,9 @@ exports.createGoal = async (req, res, next) => {
     logger.info(
       `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
     );
-    goals = await find('goals', { goal_name: title }, orgId);
+    const findGoals = await find('goals', { goal_name: title }, orgId);
 
-    const { data: foundGoal } = goals.data;
+    const { data: foundGoal } = findGoals.data;
 
     if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
       logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
@@ -126,17 +174,70 @@ exports.createGoal = async (req, res, next) => {
     }
   } catch (error) {
     logger.info(`There are no goals with the title: ${title}`);
-    goals = await insertOne('goals', data, orgId);
-    await createNotification(user_ids, orgId, roomId, title, 'createGoal');
-    logger.info(`Successfully created a new goal: ${goals.data.data}`);
+    if (error) goals = error.message;
   }
 
-  res.status(200).json({ message: 'success', ...goals.data, data });
+  try {
+    const data = {
+      room_id: roomId,
+      isComplete: false,
+      isExpired: false,
+      created_at: date,
+      ...goal,
+    };
+
+    goals = await insertOne('goals', data, orgId);
+
+    if (goals.data.status === 200) {
+      await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+      logger.info(`Successfully created a new goal: ${goals.data.data}`);
+      res.status(200).json({ message: 'success', data });
+    }
+  } catch (error) {
+    return res.status(400).send({ message: 'Invalid request' });
+  }
 };
+
+exports.createGoalTargets = catchAsync(async(req, res, next) => {
+  // get goal id from the url
+  const { org_id, goal_id } = req.query;
+
+  if(!goal_id){
+      // console.log(goal_id)
+      logger.info(`goal_id not specified`);
+      return res.status(400).send({ error: 'goal_id is required'})
+    }
+
+  if (!org_id) {
+    logger.info(`Unable to add target to goal with id ${id} as organization id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  
+
+  const target = req.body;
+  const data = {
+      goal_id,
+      ...target
+    }
+
+  logger.info(`Started creating targets for goal with id -> ${id}`);
+
+  try{
+    await targetSchema.validateAsync(...req.body);
+    const newTarget = insertOne('targets', data, org);
+    logger.info(`Target created for goal with id ${id}`);
+  }
+  catch(err){
+    logger.info(`There are errors with the request body: ${err.details}`);
+    if (err) return res.status(400).json(err.details);
+  }
+})
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
-  // NOTICE: YOU ARE GETTING THE GOAL BY ITS UUID STRING
+
   let users;
   const { room_id: id, org_id: org } = req.query;
 
@@ -364,31 +465,21 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
   });
 
   // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
+  try {
+    const goal = await find(
+      'goals',
+      {
+        _id: goalId,
+      },
+      orgId
+    );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
-  }
+    if (goal.data.data === null) {
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    }
 
-  // check if user already liked goal
-  const like = await find(
-    'goallikes',
-    {
-      goal_id: goalId,
-      user_id: userId,
-    },
-    orgId
-  );
-
-  // add like if it doesnt exist
-  if (!like.data.data) {
-    addedLike = await insertOne(
+    // check if user already liked goal
+    const like = await find(
       'goallikes',
       {
         goal_id: goalId,
@@ -397,20 +488,35 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
       orgId
     );
 
-    return res.status(201).json({
-      status: 'success',
-      message: 'Goal like added',
-      data: {},
-    });
-  }
+    // add like if it doesnt exist
+    if (like.data.data === null) {
+      const addedLike = await insertOne(
+        'goallikes',
+        {
+          goal_id: goalId,
+          user_id: userId,
+        },
+        orgId
+      );
 
-  removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
-  // delete like from db
-  res.status(201).json({
-    status: 'success',
-    message: 'Goal like removed',
-    data: {},
-  });
+      return res.status(201).json({
+        status: 'success',
+        message: 'Goal like added',
+        data: { count: addedLike.data.data.insert_count },
+      });
+    }
+
+    const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
+    // delete like from db
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Goal like removed',
+      data: { count: removeLike.data.data.deleted_count },
+    });
+  } catch (error) {
+    res.status(500).json({ status: 'failed', message: 'server Error', data: null });
+  }
 });
 
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
@@ -431,8 +537,8 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already liked goal
@@ -443,7 +549,8 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     },
     orgId
   );
-  if (!like.data.data) {
+
+  if (like.data.data === null) {
     return res.status(200).json({
       status: 'success',
       data: {
@@ -481,8 +588,8 @@ exports.checkUserLike = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already liked goal
@@ -494,7 +601,7 @@ exports.checkUserLike = catchAsync(async (req, res, next) => {
     },
     orgId
   );
-  if (!like.data.data) {
+  if (like.data.data === null) {
     return res.status(200).json({
       status: 'success',
       data: false,
@@ -512,34 +619,44 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
   // Validate the body
   await likeGoalSchema.validateAsync({ goalId, userId, orgId });
 
-  // check that the goal_id is valid
-  const goal = await find('goals', { goalId }, orgId);
+  try {
+    // check that the goal_id is valid
+    const goal = await find(
+      'goals',
+      {
+        _id: goalId,
+      },
+      orgId
+    );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
-  }
+    if (goal.data.data === null) {
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    }
 
-  // check if user already disliked goal
-  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
+    // check if user already disliked goal
+    const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
 
-  // add dislike if it doesnt exist
-  if (!disLike.data.data) {
-    addedDisLike = await insertOne('goalldislikes', { goal_id: goalId, user_id: userId }, orgId);
+    // add dislike if it doesnt exist
+    if (disLike.data.data === null) {
+      addedDisLike = await insertOne('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
 
-    return res.status(201).json({
+      return res.status(201).json({
+        status: 'success',
+        message: 'Goal dislike added',
+        data: {},
+      });
+    }
+
+    removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
+    // delete dislike from db
+    res.status(200).json({
       status: 'success',
-      message: 'Goal dislike added',
+      message: 'Goal dislike removed',
       data: {},
     });
+  } catch (error) {
+    res.status(500).json({ status: 'failed', message: 'server Error', data: null });
   }
-
-  removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
-  // delete dislike from db
-  res.status(201).json({
-    status: 'success',
-    message: 'Goal dislike removed',
-    data: {},
-  });
 });
 
 exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
@@ -549,10 +666,16 @@ exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
   await getGoalLikesSchema.validateAsync({ goalId, orgId });
 
   // check that the goal_id is valid
-  const goal = await find('goals', { _id: goalId }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already disliked goal
@@ -580,15 +703,21 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
   await likeGoalSchema.validateAsync({ goalId, userId, orgId });
 
   // check that the goal_id is valid
-  const goal = await find('goals', { _id: goalId }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already disliked goal
   const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-  if (!disLike.data.data) {
+  if (disLike.data.data === null) {
     return res.status(200).json({
       status: 'success',
       data: false,
@@ -598,4 +727,27 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
     status: 'success',
     data: true,
   });
+});
+
+exports.sortGoalByType = catchAsync(async (req, res, next) => {
+  const { org_id: orgId, type: goalType } = req.query;
+
+  try{
+      // find goals by type
+      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+
+
+      // No matching data, return an empty array
+      if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+            return res.status(200).json({ message: 'success', data: [] });
+      res.status(200).json({
+        message: 'success',
+        data: goalsSorted.data.data,
+      });
+  }
+  catch(error){
+    console.log(error.message)
+    res.status(500).json({message: 'failed, server error', data: null})
+  }
+ 
 });
