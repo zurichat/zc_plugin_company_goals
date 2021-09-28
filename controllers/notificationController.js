@@ -136,7 +136,7 @@ exports.getUserNotifications = async (req, res) => {
         status: 200,
         message: 'success',
         currentPage: newPage,
-        totalDocuments: notifications.length,
+        totalDocuments: notifications.data.data.length,
         documentPerPage: limit * 1,
         data: userNotifications,
       });
