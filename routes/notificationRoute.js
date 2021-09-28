@@ -11,9 +11,9 @@ const {
 const router = Router();
 
 router.get('/', getUserNotifications)
-router.put('/:notification_id', updateNotification)
-router.put('/all', updateNotifications)
-router.delete('/:notification_id', deleteNotification)
+router.put('/update/:notification_id', updateNotification)
+router.put('/update-all', updateNotifications)
+router.delete('/delete/:notification_id', deleteNotification)
 
 // router.get('/all', getAllNotifications)
 // router.delete('/all', deleteNotifications)
