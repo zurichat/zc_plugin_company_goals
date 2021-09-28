@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { fetchOrgMission, showEditMissionModal } from '../../redux/organizationMission.slice';
 // import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png';
 
 import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
-
 const Missions = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { missionText } = useSelector((state) => state.organizationMission);
 
   const handleClick = () => dispatch(showEditMissionModal());
 
-
-  const [text, setText] = useState('Loading...');
-
   useEffect(() => {
-    const jsonMissionText = window.localStorage.getItem('mission');
-    setText(JSON.parse(jsonMissionText));
+    dispatch(fetchOrgMission(orgId));
   }, []);
 
   return (
@@ -31,9 +28,7 @@ const Missions = () => {
           <img src={editImg} alt="edit" />
         </Editbutton>
       </Box>
-
     </ParentBox>
-
   );
 };
 export default Missions;

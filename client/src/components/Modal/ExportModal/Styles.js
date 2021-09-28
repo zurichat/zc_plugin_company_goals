@@ -12,11 +12,10 @@ export const GoalRadios = styled.div`
   justify-content: space-between;
   align-items: center;
   @media (max-width: 430px) {
-    flex-direction: column;
-    justify-content: space-evenly;
-    /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr; */
+    /* flex-direction: column;
+    justify-content: space-evenly; */
+    justify-content: flex-start;
+    /* justify-content: space-between; */
   }
 `;
 export const Para = styled.p`
@@ -27,6 +26,20 @@ export const Para = styled.p`
   margin-top: 17px;
   margin-bottom: 20px;
   color: #999999;
+  @media (max-width: 430px) {
+    margin-top: 0.5rem;
+  }
+`;
+export const ErrorMessage = styled.div`
+  margin-top: 2rem;
+  color: #f40101;
+  /* color: rgba(0, 0, 0, 0.87); */
+  font-size: 1.2em;
+  text-align: center;
+  font-family: Lato;
+  font-weight: 400;
+  line-height: 28.8px;
+  text-transform: capitalize;
 `;
 export const CssRadio = withStyles({
   root: {
@@ -36,6 +49,7 @@ export const CssRadio = withStyles({
       color: '#00b87c',
     },
   },
+
   checked: {},
 })((props) => <Radio {...props} />);
 
@@ -49,7 +63,7 @@ export const GoalRadio = styled.label`
     color: #00b87c;
     border: 1px solid #00b87c;
   }
-  width: 5.5em; //to enable alignment
+  width: 6.5em; //to enable alignment
   height: 68px;
   margin-right: 7rem;
   border-radius: 4px;
@@ -61,6 +75,7 @@ export const GoalRadio = styled.label`
   &.selected {
     border: 1px solid #00b87c;
   }
+
   @media (max-width: 750px) {
     margin-right: 6rem;
   }
@@ -69,6 +84,18 @@ export const GoalRadio = styled.label`
   }
   @media (max-width: 430px) {
     margin-bottom: 0.5rem;
+    margin-right: 0;
+    width: 0rem;
+    margin-right: 6rem;
+    &.selected {
+      border: none;
+    }
+  }
+  @media (max-width: 370px) {
+    margin-right: 5rem;
+  }
+  @media (max-width: 330px) {
+    margin-right: 4.5rem;
   }
 `;
 export const SelectPTag = styled.p`
@@ -89,4 +116,9 @@ export const GoalDetails = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 1rem;
+  @media (max-width: 960px) {
+    h3 {
+      margin-bottom: 0;
+    }
+  }
 `;

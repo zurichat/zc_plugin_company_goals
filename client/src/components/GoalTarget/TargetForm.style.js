@@ -22,7 +22,7 @@ export const Form = styled.form`
 export const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 5px;
 `;
 
 export const MainTitle = styled.h3`
@@ -54,6 +54,7 @@ export const Info = styled.p`
 `;
 export const Input = styled.input`
   font-family: Lato;
+  border-radius: 3px;
   font-style: normal;
   font-weight: normal;
   font-size: 15px;
@@ -62,9 +63,9 @@ export const Input = styled.input`
   height: 3rem;
   border: none;
   outline: none;
-  border: 1px solid #a1a1a1;
+  border: 1px solid #00b87c;
   background-color: #ffffff;
-  width: 100%;
+  width: 80%;
 `;
 export const SelectDiv = styled.div`
   width: 45% !important;
@@ -129,8 +130,9 @@ export const Box = styled.div`
 `;
 export const TargetContainerA = styled.div`
   width: 85% !important;
-  float: right;
   display: flex;
+  margin: 0 auto;
+  margin-left: 40px;
   justify-content: space-between;
   /* @media only screen and (max-width: 500px) {
     flex-wrap: wrap !important;
@@ -176,4 +178,11 @@ export const CloseButton = styled.button`
   font-size: 1.5rem;
   color: #333333;
   cursor: pointer;
+`;
+
+export const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;

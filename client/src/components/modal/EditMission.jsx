@@ -6,15 +6,17 @@ import Modal from '@material-ui/core/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { showEditMissionModal, updateOrgMission } from '../../redux/organizationMission.slice';
 import { Header, TextBox, SaveBtn, Paper, ModalBody } from '../Modal/styledEditMission';
+import { useParams } from 'react-router';
 
 const EditMission = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { missionText, showMissionModal } = useSelector((state) => state.organizationMission);
   const [editText, setEditText] = useState('');
 
   const dispatchAction = () => {
     if (editText) {
-      dispatch(updateOrgMission(editText));
+      dispatch(updateOrgMission({ missionText: editText, orgId }));
     }
   };
 

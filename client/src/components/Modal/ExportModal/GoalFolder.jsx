@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import badge from '../../../Images/png/Frame 756.png';
 import { GoalFolderSection, Para, GoalRadios, CssRadio, GoalRadio, SelectPTag, GoalDetails } from './Styles';
 
 const GoalFolder = () => {
   const [valueState, setValueState] = useState('all');
-  localStorage.setItem('goalFolder', valueState);
+
+  useEffect(() => {
+    localStorage.setItem('goalFolder', valueState);
+  }, [localStorage, valueState]);
 
   const radioChange = (event) => {
     setValueState(event.target.value);

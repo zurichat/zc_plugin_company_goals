@@ -2,24 +2,23 @@ import styled from 'styled-components';
 
 export const Header = styled.h2`
   text-align: center;
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 1.5rem;
+  line-height: 1.75rem;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 `;
 
 export const TextBox = styled.textarea`
-  border: 1px solid red;
   display: block;
-  height: 208px;
-  margin: 35px auto;
+  height: 13rem;
+  margin: 2.1875rem auto;
   font-family: Lato;
-  font-size: 16px;
+  font-size: 1rem;
   border: none;
   outline: none;
   background-color: white;
-  padding: 10px;
+  padding: 0.625rem;
   resize: none;
   width: 100%;
   box-sizing: border-box;
@@ -29,17 +28,11 @@ export const SaveBtn = styled.button`
   border: none;
   background-color: rgba(0, 184, 124, 1);
   color: white;
-  padding: 8px 45.5px;
-  border-radius: 6px;
+  padding: 0.5rem 2.8438rem;
+  border-radius: 0.375rem;
   cursor: pointer;
   float: right;
-  margin-right: 5px;
-
-  @media only screen and (max-width: 700px) {
-    width: 50%;
-    height: auto;
-    padding: 10px 30px;
-  }
+  margin-right: 0.3125rem;
 `;
 
 export const ModalBody = styled.div`
@@ -53,18 +46,11 @@ export const ModalBody = styled.div`
 export const Paper = styled.div`
   background-color: #f6f6f6;
   border: none;
-  border-radius: 0px;
-  padding: 35px;
+  border-radius: 0rem;
+  padding: 2.1875rem;
   font-family: Lato;
-  width: 720px;
+  width: 45rem;
   max-width: 100%;
   margin: 1rem;
   box-sizing: border-box;
-
-  @media only screen and (max-width: 700px) {
-    width: 80vw;
-    height: 60vh;
-    margin: 1rem;
-    padding: 15px 15px;
-  }
 `;
