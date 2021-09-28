@@ -19,7 +19,7 @@ const {
   updateOne,
   deleteMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema } = require('../schemas');
+const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
@@ -54,7 +54,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
         })
         .reverse();
 
-      let newGoals = sorted;
+      let newGoals=sorted;
       if (page && limit) {
         const newPage = page * 1 || 1;
         const perPage = limit * 1 || 5;
@@ -64,14 +64,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
         const end = newPage * perPage;
 
         // Paginated goals
-        newGoals = data.slice(start, end);
-
+        newGoals = newGoals.slice(start, end);
         return res.status(200).json({
           status: 200,
           message: 'success',
           currentPage: newPage,
-          totalDocuments: data.length,
-          documentPerPage: newGoals.length,
+          totalDocuments: goals.length,
+          documentPerPage: limit,
           data: newGoals,
         });
       }
@@ -86,6 +85,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   } catch (error) {
     // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
     logger.info('no goals for this organization');
+    console.log(error)
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -177,6 +177,43 @@ exports.createGoal = async (req, res, next) => {
     return res.status(400).send({ message: 'Invalid request' });
   }
 };
+
+exports.createGoalTargets = catchAsync(async(req, res, next) => {
+  // get goal id from the url
+  const { org_id, goal_id } = req.query;
+
+  if(!goal_id){
+      // console.log(goal_id)
+      logger.info(`goal_id not specified`);
+      return res.status(400).send({ error: 'goal_id is required'})
+    }
+
+  if (!org_id) {
+    logger.info(`Unable to add target to goal with id ${id} as organization id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  
+
+  const target = req.body;
+  const data = {
+      goal_id,
+      ...target
+    }
+
+  logger.info(`Started creating targets for goal with id -> ${id}`);
+
+  try{
+    await targetSchema.validateAsync(...req.body);
+    const newTarget = insertOne('targets', data, org);
+    logger.info(`Target created for goal with id ${id}`);
+  }
+  catch(err){
+    logger.info(`There are errors with the request body: ${err.details}`);
+    if (err) return res.status(400).json(err.details);
+  }
+})
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
