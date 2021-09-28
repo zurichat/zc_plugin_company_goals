@@ -28,7 +28,7 @@ const { createNotification } = require('./notificationController');
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, page, limit } = req.query;
+  const { org_id: orgId, page, limit, sort } = req.query;
 
   if (!orgId) {
     logger.info(`Can't get goals for null organisation id... Exiting...`);
@@ -44,17 +44,37 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     // No matching data, return an empty array
     if (goals === null || goals.length < 1) return res.status(200).json({ message: 'success', data: [] });
 
+
+    let sorted
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
-      const sorted = goals
-        .sort((a, b) => {
-          const c = new Date(a.created_at);
-          const d = new Date(b.created_at);
-          return c - d;
-        })
-        .reverse();
+       sorted = goals.sort((a, b) => {
+        const c = new Date(a.created_at);
+        const d = new Date(b.created_at);
+       return c-d
+      }).reverse();
 
-      let newGoals=sorted;
+      
+
+      if(sort && sort!=='created_at')
+      {
+        if(sort==='due_date')
+        {
+          logger.info('sort by due date')
+          sorted = goals.sort((a, b) => {
+            const c = new Date(a.due_date);
+            const d = new Date(b.due_date);
+           return c-d
+          }).reverse();
+        }
+
+        else if(sort==='progress')
+        {
+          logger.info('yet to be done')
+        }
+      }
+
+      let newGoals = sorted;
       if (page && limit) {
         const newPage = page * 1 || 1;
         const perPage = limit * 1 || 5;
