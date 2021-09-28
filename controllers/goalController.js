@@ -716,7 +716,7 @@ exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
   try{
-        //find goals by type
+      // find goals by type
       const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
 
