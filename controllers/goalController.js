@@ -54,7 +54,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
         })
         .reverse();
 
-      let newGoals = sorted;
+      let newGoals=sorted;
       if (page && limit) {
         const newPage = page * 1 || 1;
         const perPage = limit * 1 || 5;
@@ -64,14 +64,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
         const end = newPage * perPage;
 
         // Paginated goals
-        newGoals = data.slice(start, end);
-
+        newGoals = newGoals.slice(start, end);
         return res.status(200).json({
           status: 200,
           message: 'success',
           currentPage: newPage,
-          totalDocuments: data.length,
-          documentPerPage: newGoals.length,
+          totalDocuments: goals.length,
+          documentPerPage: limit,
           data: newGoals,
         });
       }
@@ -86,6 +85,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   } catch (error) {
     // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
     logger.info('no goals for this organization');
+    console.log(error)
     return res.status(200).json({
       status: 200,
       message: 'success',
