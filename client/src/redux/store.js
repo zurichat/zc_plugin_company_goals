@@ -21,7 +21,7 @@ const store = configureStore({
     deleteGoal: deleteGoalReducer,
     newGoal: newGoalReducer,
     snackbar: snackbarReducer,
-    goals: showGoalSliceReducer,
+    showGoals: showGoalSliceReducer,
     organizationCreateAndEditGoal: createAndEditGoalReducer,
     notifications: notificationReducer,
     organizationCreateAndEditGoalData: createAndEditGoalReducer,

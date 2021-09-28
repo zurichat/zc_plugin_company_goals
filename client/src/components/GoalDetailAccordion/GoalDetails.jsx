@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import Accordion from '@material-ui/core/Accordion';
@@ -13,8 +13,9 @@ import GoalDetailData from './GoalDetailData';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import Loader from '../loader/loader';
 import Error from '../error/Error';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import { getGoals } from '../../redux/showGoalSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,8 @@ export default function GoalDetailAccordion() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
+  const dispatch = useDispatch();
+  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
   console.log('roomy', roomId);
 
@@ -45,24 +48,24 @@ export default function GoalDetailAccordion() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const fetcher = async (getAllGoalsUrl) => {
-    const response = await axios.get(getAllGoalsUrl);
-    return response.data;
-  };
+  // const fetcher = async (getAllGoalsUrl) => {
+  //   const response = await axios.get(getAllGoalsUrl);
+  //   return response.data;
+  // };
   const requestURL = `${
     process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
   }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
-  const { data, error } = useSWR('getAllGoals', () => fetcher(requestURL));
-  console.log('err', error);
-  if (!error && !data) return <Loader />;
+  const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
+  // console.log('err', error);
+  if (!errorInfo && !goals) return <Loader />;
 
-  if (error) return <Error errorMessage={error.message} />;
+  if (errorInfo) return <Error errorMessage={errorInfo} />;
 
-  if (!data.data.length) return <EmptyGoal />;
+  if (!goals.length) return <EmptyGoal />;
 
   return (
     <div className={classes.root}>
-      {data.data.map((goal) => {
+      {goals.map((goal) => {
         return (
           <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
             <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">

@@ -55,7 +55,7 @@ const GoalItem = ({ goalData }) => {
  
   const goalLikes = useSelector((state) => state.likeGoals.likes);
   const goalDislikes = useSelector((state) => state.likeGoals.dislikes);
-  const errorMessage = useSelector((state) => state.goals.errorMessage);
+  // const errorMessage = useSelector((state) => state.goals.errorMessage);
 
   const likeGoal = (e) => {
     let goalID = goalData.id
