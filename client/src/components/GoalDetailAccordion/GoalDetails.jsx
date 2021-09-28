@@ -59,7 +59,7 @@ export default function GoalDetailAccordion() {
   // console.log('err', error);
   if (!errorInfo && !goals) return <Loader />;
 
-  if (errorInfo) return <Error errorMessage={errorInfo} />;
+  if (errorInfo) return <Error errorMessage={errorInfo.message} />;
 
   if (!goals.length) return <EmptyGoal />;
 
