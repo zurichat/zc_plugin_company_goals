@@ -70,7 +70,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
           message: 'success',
           currentPage: newPage,
           totalDocuments: goals.length,
-          documentPerPage: limit,
+          documentPerPage: limit*1,
           data: newGoals,
         });
       }
