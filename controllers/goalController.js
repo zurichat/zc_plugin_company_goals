@@ -509,7 +509,7 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
     const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
     // delete like from db
 
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       message: 'Goal like removed',
       data: { count: removeLike.data.data.deleted_count },
@@ -630,7 +630,7 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
     );
 
     if (goal.data.data === null) {
-      return res.status(404).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
     }
 
     // check if user already disliked goal
@@ -649,7 +649,7 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
 
     removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
     // delete dislike from db
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       message: 'Goal dislike removed',
       data: {},
@@ -675,7 +675,7 @@ exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
   );
 
   if (goal.data.data === null) {
-    return res.status(404).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already disliked goal
@@ -712,7 +712,7 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
   );
 
   if (goal.data.data === null) {
-    return res.status(404).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already disliked goal
