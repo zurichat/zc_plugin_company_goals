@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { fetchOrgMission, showEditMissionModal } from '../../redux/organizationMission.slice';
 // import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png';
@@ -7,13 +8,14 @@ import editImg from '../organization_vision/org_display_vision/visionAsset/editI
 import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
 const Missions = () => {
+  const { orgId } = useParams();
   const dispatch = useDispatch();
   const { missionText } = useSelector((state) => state.organizationMission);
 
   const handleClick = () => dispatch(showEditMissionModal());
 
   useEffect(() => {
-    dispatch(fetchOrgMission());
+    dispatch(fetchOrgMission(orgId));
   }, []);
 
   return (

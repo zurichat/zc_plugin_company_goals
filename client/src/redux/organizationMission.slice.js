@@ -1,21 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchOrgMission = createAsyncThunk('showMission/getMission', async () => {
-  const response = await axios.get('https://goals.zuri.chat/api/v1/mission/6145d099285e4a184020742e');
+export const fetchOrgMission = createAsyncThunk('showMission/getMission', async (orgId) => {
+  const response = await axios.get(`https://goals.zuri.chat/api/v1/mission/${orgId}`);
   return response.data.data.mission;
 });
 
-export const updateOrgMission = createAsyncThunk('editMission/updateOrgMissionStatus', async (missionText) => {
-  const response = await axios.put(
-    'https://goals.zuri.chat/api/v1/mission/update/6145d099285e4a184020742e',
-    { mission: missionText },
-    {
-      header: { 'Content-Type': 'application/json' },
-    }
-  );
-  return response.data.payload;
-});
+export const updateOrgMission = createAsyncThunk(
+  'editMission/updateOrgMissionStatus',
+  async ({ missionText, orgId }) => {
+    const response = await axios.put(
+      `https://goals.zuri.chat/api/v1/mission/update/${orgId}`,
+      { mission: missionText },
+      {
+        header: { 'Content-Type': 'application/json' },
+      }
+    );
+    return response.data.payload;
+  }
+);
 
 export const editMissionSlice = createSlice({
   name: 'editMission',
@@ -49,7 +52,7 @@ export const editMissionSlice = createSlice({
       state.showMissionModal = !state.showMissionModal;
     });
     builder.addCase(updateOrgMission.rejected, (state, action) => {
-      alert(action.error.message);
+      state.missionText = 'Failed to update mission';
     });
   },
 });
