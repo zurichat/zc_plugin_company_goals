@@ -45,14 +45,24 @@ exports.goalSchema = Joi.object({
   }),
 });
 
+// target
 exports.targetSchema = Joi.object({
-  goal_targets: Joi.array().items(
-    Joi.object().keys({ 
-        type: Joi.string().valid('number', 'logical'),
-        milestone: Joi.string().required(),
-        achieved: Joi.boolean()}).required().messages({
-      'any.required': 'goal_targets must be added',
-    })),
+  type: Joi.string().required().valid(`numeric`, `logical`),
+  milestone: Joi.any().when('type',
+   { 
+     'is': 'numeric',
+      then: Joi.object({
+          milestone_text: Joi.string().required(),
+          sub_milestones: Joi.array().items(
+            Joi.object().keys({
+              milestone_text: Joi.string().required(),
+              achieved: Joi.boolean().required()
+            })
+          ).required(),
+          achieved: Joi.boolean().required()
+          }).required()}),
+  milestone: Joi.any().when('type', { 'is': 'logical', then: Joi.required()}),
+  achieved: Joi.boolean().required()
 })
 
 // mission schema
