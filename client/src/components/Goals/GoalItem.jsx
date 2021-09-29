@@ -28,7 +28,6 @@ import { GetUserInfo } from '@zuri/control';
 const GoalItem = ({ goalData }) => { 
   let { orgId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('user'));
-  console.log('Testing shit to see if it works', GetUserInfo())
   //Setting Likes and retriving
   const [like, setLike] = useState('');
   const [totalLikes, setTotalLikes] = useState(0);
