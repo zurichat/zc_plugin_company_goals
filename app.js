@@ -10,11 +10,11 @@ const express = require('express');
 // const helmet = require('helmet');
 const morgan = require('morgan');
 const xss = require('xss-clean');
-const swaggerUi= require('swagger-ui-express');
+// const swaggerUi= require('swagger-ui-express');
 
-const yaml = require('yamljs');
+// const yaml = require('yamljs');
 
-const documentation = yaml.load('./docs/documentation.yaml');
+// const documentation = yaml.load('./docs/documentation.yaml');
 
 dotenv.config();
 
@@ -87,8 +87,8 @@ app.use(compression());
 // const swaggerJSDocument = require('swagger-jsdoc');
 
 // const swaggerOptions = {
-  //   definition: {
-    //     openapi: '3.0.0',
+//   definition: {
+//     openapi: '3.0.0',
 //     info: {
 //       title: 'Company Goals Plugin API',
 //       version: '1.0.0',
@@ -122,7 +122,7 @@ app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 // app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
+// app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 app.use('/api/v1/auth', authRouter);
 
 // Send all 404 requests not handled by the server to the Client app
