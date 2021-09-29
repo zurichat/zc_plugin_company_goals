@@ -20,12 +20,15 @@ const {
   getGoalTargets
 } = require('../controllers/goalController');
 
+const {getChartInfo} = require('../controllers/chartController')
+
 const router = Router();
 
 
 router.post('/', createGoal)
 router.post('/assign', assignGoal)
 router.get('/', getAllGoals);
+router.get('/chart', getChartInfo);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
 router.get('/userlike', checkUserLike);
