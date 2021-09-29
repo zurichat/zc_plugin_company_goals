@@ -61,17 +61,11 @@ export const VisionField = styled.p`
   &:-ms-keyboard-active {
     border-style: none;
   }
-<<<<<<< HEAD
-  @media only screen and (max-width: 720px) {
-    width: 80vw;
-    padding: 10px 15px;
-=======
 
   @media only screen and (max-width: 760px) {
   }
   @media only screen and (max-width: 425px) {
 
->>>>>>> a272c2983ada2341bf7af49aafc78556249e6687
   }
 `;
 

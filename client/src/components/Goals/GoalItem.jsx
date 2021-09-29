@@ -1,8 +1,10 @@
 /* eslint-disable no-underscore-dangle */
+import axios from 'axios'
 import { Container, Grid } from '@material-ui/core';
 import dislikes from '../../Images/png/dislikes.png';
 import likes from '../../Images/png/likes.png';
 import views from '../../Images/png/views.png';
+import { useEffect , useState } from 'react'
 import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
@@ -17,10 +19,63 @@ import {
 } from './GoalItem.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { addDisLike, addLike } from '../../redux/likeGoalSlice';
+import { useParams } from 'react-router';
+
 
 
 
 const GoalItem = ({ goalData }) => { 
+  let { orgId } = useParams();
+
+  console.log("Looking up to this sit" , goalData)
+  //Setting Likes and retriving
+  const [like, setLike] = useState('');
+  const [totalLikes, setTotalLikes] = useState(0);
+  const [userLike, setUserlike] = useState(false)
+  useEffect(() => {
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/goallikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)  
+    .then(response => setTotalLikes(response.data.data.count))
+    .catch(error => console.log(error))
+
+  }, [like])
+
+  const handleSetLike = (e) => {
+    e.stopPropagation();
+
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=4`)
+    .then(response => setLike(response.data.message))
+    .catch(error => console.log(error))  
+  }
+
+  //Setting Dislikes and retriving Dislikes
+  const [dislike, setDislike] = useState('');
+  const [totalDislikes, setTotalDislikes] = useState(0);
+  const [userDislike, setUserDislike] = useState(false);
+
+  useEffect(() => {
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)  
+    .then(response => setTotalDislikes(response.data.data.count))
+    .catch(error => console.log(error))
+
+  }, [dislike])
+
+  const handleSetDislike = (e) => {
+    e.stopPropagation();
+
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=4`)
+    .then(response => setDislike(response.data.message))
+    .catch(error => console.log(error))  
+  }
+
+
+
+
+
+
 
   // const loop = (e) => {
   //   fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${e}')
@@ -30,7 +85,7 @@ const GoalItem = ({ goalData }) => {
   // }
 
   // loop(goalData.id)
-
+  console.log("This is what i look up to",goalData._id)
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -125,13 +180,13 @@ const GoalItem = ({ goalData }) => {
       </Grid>
 
       <Grid item xs={12} sm={3} className={classes.icons}>
-        <IconItemContainer onClick={(ev) => likeGoal(ev)}>
+        <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
           <img src={likes} alt="likes-icon" className={classes.iconImages} />
-          <IconItemCount>{goalLikes}</IconItemCount>
+          <IconItemCount>{totalLikes}</IconItemCount>
         </IconItemContainer>
-        <IconItemContainer onClick={(ev) => disLikeGoal(ev)}>
+        <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
           <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
-          <IconItemCount>{goalDislikes}</IconItemCount>
+          <IconItemCount>{totalDislikes}</IconItemCount>
         </IconItemContainer>
       </Grid>
 
