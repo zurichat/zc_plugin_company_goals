@@ -5,9 +5,12 @@ require('dotenv').config({
 
 const app = require('./app');
 const logger = require('./utils/logger');
+const Cronjob= require('./controllers/cronController');
 
 const PORT = process.env.PORT || 4000;
 
+
+Cronjob();
 const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
 // process.on('unhandledRejection', (reason, promise) => {
