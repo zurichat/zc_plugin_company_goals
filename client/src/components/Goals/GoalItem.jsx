@@ -27,11 +27,9 @@ import { useParams } from 'react-router';
 const GoalItem = ({ goalData }) => { 
   let { orgId } = useParams();
 
-  console.log("Looking up to this sit" , goalData)
   //Setting Likes and retriving
   const [like, setLike] = useState('');
   const [totalLikes, setTotalLikes] = useState(0);
-  const [userLike, setUserlike] = useState(false)
   useEffect(() => {
     axios
     .get(`https://goals.zuri.chat/api/v1/goals/goallikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)  
@@ -46,13 +44,13 @@ const GoalItem = ({ goalData }) => {
     axios
     .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=4`)
     .then(response => setLike(response.data.message))
-    .catch(error => console.log(error))  
+    .catch(error => console.log(error));
+    
   }
 
   //Setting Dislikes and retriving Dislikes
   const [dislike, setDislike] = useState('');
   const [totalDislikes, setTotalDislikes] = useState(0);
-  const [userDislike, setUserDislike] = useState(false);
 
   useEffect(() => {
     axios
@@ -69,6 +67,7 @@ const GoalItem = ({ goalData }) => {
     .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=4`)
     .then(response => setDislike(response.data.message))
     .catch(error => console.log(error))  
+
   }
 
 
@@ -85,7 +84,7 @@ const GoalItem = ({ goalData }) => {
   // }
 
   // loop(goalData.id)
-  console.log("This is what i look up to",goalData._id)
+  // console.log("This is what i look up to",goalData._id)
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -108,48 +107,6 @@ const GoalItem = ({ goalData }) => {
   };
 
  
-  const goalLikes = useSelector((state) => state.likeGoals.likes);
-  const goalDislikes = useSelector((state) => state.likeGoals.dislikes);
-  const errorMessage = useSelector((state) => state.goals.errorMessage);
-
-  const likeGoal = (e) => {
-    let goalID = goalData.id
-    e.stopPropagation();
-    let like = dispatch(addLike(1));
-    (async () => {
-      const rawResponse = await fetch('https://goals.zuri.chat/api/v1/goals/like?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${goalID}', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: {like}
-      });
-      const content = await rawResponse.json();
-    
-      
-    })();
-    
-}
-  
-  const disLikeGoal = (e) => {
-    let goalIDDislike = goalData.id
-    e.stopPropagation();
-    let dislike = dispatch(addDisLike(1));
-    (async () => {
-      const rawResponse = await fetch('https://goals.zuri.chat/api/v1/goals/dislike  ?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${goalIDDislike}', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: {dislike}
-      });
-      const content = await rawResponse.json();
-  
-    })();
-  };
-
   
 
   const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
