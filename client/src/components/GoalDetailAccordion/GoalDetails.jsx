@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{Fragment} from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import Accordion from '@material-ui/core/Accordion';
@@ -16,6 +16,9 @@ import Error from '../error/Error';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { getGoals } from '../../redux/showGoalSlice';
+import TargetForm from '../TargetForm/TargetForm';
+import { Div, Text, Button } from '../GoalDetailAccordion/GoalDetail.styled';
+import { openModal } from '../../redux/TargetModalSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +43,7 @@ export default function GoalDetailAccordion() {
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
   const dispatch = useDispatch();
-  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
+  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);  
 
   console.log('roomy', roomId);
 
@@ -65,18 +68,25 @@ export default function GoalDetailAccordion() {
 
   return (
     <div className={classes.root}>
-      {goals.map((goal) => {
-        return (
-          <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
-            <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-              <GoalItem goalData={goal} />
-            </AccordionSummary>
-            <AccordionDetails style={{ height: '50%' }}>
-              <GoalDetailData goalData={goal} />
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+        {goals.map((goal) => {
+          return (
+            <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+              <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+                <GoalItem goalData={goal} />
+              </AccordionSummary>
+              <AccordionDetails style={{ height: '50%' }}>
+                <GoalDetailData goalData={goal} />
+              </AccordionDetails>
+              <AccordionDetails>
+                <Div>
+                  <Text primary> Goal Progress </Text>
+                  <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
+                </Div>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+        <TargetForm/>
     </div>
   );
 }

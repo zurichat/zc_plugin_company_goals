@@ -11,6 +11,7 @@ import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
 import likeGoalReducer from './likeGoalSlice';
 import storeOrganizationRoomReducer from './organizationRoom.slice';
+import TargetModalSliceReducer from './TargetModalSlice';
 
 const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ const store = configureStore({
     organizationCreateAndEditGoalData: createAndEditGoalReducer,
     likeGoals: likeGoalReducer,
     organizationRoom: storeOrganizationRoomReducer,
+    targetModal: TargetModalSliceReducer,
   },
 });
 
