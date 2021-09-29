@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GoalFolder from './GoalFolder';
 import ReportFormat from './ReportFormat';
 import ExportButton from './ExportButton';
+import { CrossTimes } from './CrossTimes';
 import { ErrorMessage } from './Styles';
 
 function getModalStyle() {
@@ -113,11 +114,10 @@ export default function SimpleModal() {
           <h2 className={classes.exportH2} id="simple-modal-title">
             Export Report
           </h2>
-          <div style={{ cursor: 'pointer' }} onClick={handleCloseX}>
+          <CrossTimes style={{ cursor: 'pointer' }} onClick={handleCloseX}>
             {/* <CloseIcon style={{ width: '50px', height: '50px' }} />
              */}
-            X
-          </div>
+          </CrossTimes>
         </div>
 
         {!messageState && (
