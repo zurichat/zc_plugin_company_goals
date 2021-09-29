@@ -24,7 +24,7 @@ module.exports=()=>{
            let goals=findGoals.data.data;
            goals.forEach(async (goal)=>{
                if(dateInPast(new Date(goal.due_date),Date.now())){
-                   await updateOne('orgs', {isExpired:true}, {}, 'fictionalorganisationtokeeptrack', org._id);
+                   await updateOne('goals', {isExpired:true}, {}, 'fictionalorganisationtokeeptrack', org._id);
                }
            })
        })
