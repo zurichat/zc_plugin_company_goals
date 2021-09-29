@@ -8,6 +8,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+const { object } = require('joi');
 const { v4: uuidv4 } = require('uuid');
 const {
   find,
@@ -203,7 +204,7 @@ exports.createGoalTargets = catchAsync(async(req, res, next) => {
   // get goal id from the url
   const { org_id, goal_id } = req.query;
   
-  logger.info(`Started creating a new target for goal with id ${goal_id}`);
+  // logger.info(`Started creating a new target for goal with id ${goal_id}`);
 
   // check if organization id exists
   if (!org_id) {
@@ -219,36 +220,49 @@ exports.createGoalTargets = catchAsync(async(req, res, next) => {
       logger.info(`goal_id not specified`);
       return res.status(400).send({ error: 'goal_id is required'})
     }
-
-  const target = req.body;
-
-  const data = {
-      goal_id,
-      targets:[
-        target,
-      ]
-    };
-    console.log(data)
-
-
-  // store the total targets for a goal with the goal_id as the primary key
-  // const total_targets = [ target, ];
-  // console.log(total_targets)
-
-  // // check total_targets length of a goal(using the goal_id)
-  // if (total_targets.length >= 4){
-  //   logger.info(`Total targets per goal already reached it's max.`);
-  //   return res.status(401).json({ error: `Cannot add more than 4 targets` });
-  // }
-  logger.info(`Started creating targets for goal with id -> ${goal_id}`);
-
+  
+  // check if a goal already has targets
   try{
+    let goalTargets = await findAll('targets', org_id);
+    
+    const { data: foundTargets } = goalTargets.data;
+    // console.log(foundTargets)
+    if(foundTargets){
+      foundTargets.forEach(el => {
+      // check if goal_id exists in targets
+      if (el.goal_id === goal_id) {
+        logger.info(`goal_id already exists.`);
+      }
+      logger.info(`Checking if additional targets can be added`);
+      
+      // if(el.targets >= 4){
+      //   console.log(el.targets.length)
+      //   logger.info(`Targets cannot be added`);
+      //   console.log(el.targets.length)
+      // } 
+      // else next;
+    });
+    }
+    
+  }
+  catch(err){
+    logger.info(`There are errors with the request: ${err}`);
+    if (err) return res.status(400).json(err.details);
+  }
+  try{
+    const target = req.body;
+    const targets = [];
+    targets.push(target)
+    const data = { goal_id, targets };
     console.log("Started validating req.body");
     await targetSchema.validateAsync(req.body);
+
+    logger.info(`Started creating targets for goal with id -> ${goal_id}`);
+        
     const newTarget = await insertOne('targets', data, org_id);
-    const allTarget = await findAll('targets', org_id);
-    console.log(allTarget);
+    // el.targets.push(data);
     logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
+
     return res.status(200).json({ status: 200, data })
   }
   catch(err){
@@ -272,12 +286,14 @@ exports.getGoalTargets = catchAsync(async(req, res, next) => {
 
   try{
     const allTargets = await findAll('targets', org_id);
+    // const tar = await deleteMany('targets',{target: Object}, org_id) 
     console.log(allTargets)
-    return res.status(200).json({ status: 200, data: allTargets.data })
+    return res.status(200).json({ status: 200, data: allTargets.data.data })
     }
   catch(err){
     if (err) return res.status(400).json(err.details);
   }
+  
 })
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
