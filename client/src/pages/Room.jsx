@@ -22,6 +22,7 @@ import MissionVisionContainer from '../components/header/Header';
 import EditMission from '../components/modal/EditMission';
 
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
+import {GetUserInfo} from "@zuri/control";
 
 const AppRoom = () => {
   let { orgId } = useParams();
@@ -34,14 +35,21 @@ const AppRoom = () => {
   // centrifugeConnect.setToken(
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM3MjIiLCJleHAiOjE2MzIwMzAyNjV9.mR1EBjkfXce2CZ0H3UEYLOQCxdLlhtg32XBJldSqbno'
   // );
+  async function userInfo()
+  {
+    const info = await GetUserInfo()
+    console.log(info)
+  }
   useEffect(() => {
     centrifugeConnect.on('connect', function (ctx) {
       console.log('connected', ctx);
+      userInfo()
       dispatch(activateSnackbar({ content: 'Connected to Centifugo 🥳', severity: 'info' }));
     });
 
     centrifugeConnect.on('disconnect', function (ctx) {
       console.log('disconnected', ctx);
+      userInfo()
       dispatch(activateSnackbar({ content: 'Failed to connect to Centifugo 😭', severity: 'error' }));
     });
 
