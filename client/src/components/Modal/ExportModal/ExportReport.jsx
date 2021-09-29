@@ -134,6 +134,7 @@ export default function SimpleModal() {
 
   return (
     <div>
+      <button type="button" onClick={handleOpen} style={{ padding: '0.5rem', cursor: 'pointer', backgroundColor: '#fff', border:'none', letterSpacing: '0.5px', color: '#1264A3', fontWeight: '700', fontSize: '0.75rem', }} />
       <div
         onClick={handleOpen}
         style={{
