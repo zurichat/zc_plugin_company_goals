@@ -15,12 +15,15 @@ const {
   disLikeGoal,
   getGoalDisLikes,
   checkUserDisLikes,
-  sortGoalByType,
-  createGoalTargets,
-  getGoalTargets
+  sortGoalByType
 } = require('../controllers/goalController');
 
 const {getChartInfo} = require('../controllers/chartController')
+const {
+  updateSingleGoalTargetById,
+  createGoalTargets,
+  getGoalTargets
+} = require('../controllers/targetController')
 
 const router = Router();
 
@@ -40,7 +43,7 @@ router.get('/userdislike', checkUserDisLikes);
 router.get('/catalog', sortGoalByType);
 router.post('/target', createGoalTargets)
 router.get('/target', getGoalTargets);
-
+router.put('/target/update/:id', updateSingleGoalTargetById)
 router.route('/delete').delete(deleteGoalById);
 
 router.put('/update/:id', updateSingleGoalById);

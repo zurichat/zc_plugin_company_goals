@@ -1,0 +1,82 @@
+{
+  "title": "Root",
+  "type": "object",
+  "required": [
+    "status",
+    "pluginInfo"
+  ],
+  "properties": {
+    "status": {
+      "title": "Status",
+      "type": "string"
+    },
+    "pluginInfo": {
+      "title": "Plugininfo",
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "template_url",
+        "sidebar_url",
+        "install_url",
+        "info_url",
+        "developer_name",
+        "developer_email",
+        "icon_url",
+        "authoredAt",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "template_url": {
+          "title": "Template_url",
+          "type": "string"
+        },
+        "sidebar_url": {
+          "title": "Sidebar_url",
+          "type": "string"
+        },
+        "install_url": {
+          "title": "Install_url",
+          "type": "string"
+        },
+        "info_url": {
+          "title": "Info_url",
+          "type": "string"
+        },
+        "developer_name": {
+          "title": "Developer_name",
+          "type": "string"
+        },
+        "developer_email": {
+          "title": "Developer_email",
+          "type": "string"
+        },
+        "icon_url": {
+          "title": "Icon_url",
+          "type": "string"
+        },
+        "authoredAt": {
+          "title": "Authoredat",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
