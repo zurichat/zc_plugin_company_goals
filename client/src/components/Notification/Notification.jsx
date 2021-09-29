@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TimeAgo from 'timeago-react';
 import NoNotification from './NoNotification';
 
 import {
@@ -13,52 +15,65 @@ import {
   Paragraph,
   Button,
   Grid,
-  Section,
   FlexRows,
-  FlexRow,
 } from './styledNotification';
+import { useDispatch } from 'react-redux';
 
-let notifyAlerts = [
-  {
-    id: 1,
-    message: 'Your goal as been achieved',
-    link: 'Create wireframe',
-    info: 'Congratulations you you have achieved this goal! All set targets have been met.',
-    time: '2 mins ago',
-    finished: true,
-  },
-  {
-    id: 2,
-    message: 'You failed to reach this goal',
-    link: 'Create wireframe',
-    time: '2 weeks ago',
-    finished: false,
-  },
-  {
-    id: 3,
-    message: 'You failed to reach this goal',
-    link: 'Create wireframe',
-    time: '1 min ago',
-    finished: false,
-  },
-];
+import {
+  deleteNotificationAsync,
+  markAllNotificationsAsReadAsync,
+  markNotificationAsReadAsync,
+  selectNotifications,
+} from '../../redux/notificationSlice';
+import { useSelector } from 'react-redux';
+
+const getWindowDimension = () => {
+  const { innerWidth: width } = window;
+  return width;
+};
+
+getWindowDimension();
 
 function Notification() {
-  const [show, setShow] = useState(true);
+  const [isActive, setIsActive] = useState({ id: '', status: 'active' });
+  const [index, setIndex] = useState(0);
+  const notifications = useSelector(selectNotifications);
+  const dispatch = useDispatch();
+  const [getWidth, setGetWidth] = useState(getWindowDimension);
 
-  const handleClick = () => {
-    notifyAlerts = [];
-    setShow(false);
+  //getting current window width to display time stamps below or sidesways
+  useEffect(() => {
+    const handleResize = () => setGetWidth(getWindowDimension);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [getWidth]);
+
+  const handleMarkAllAsRead = () => {
+    dispatch(markAllNotificationsAsReadAsync());
   };
+
+  const handleMarkAsRead = (_id) => {
+    dispatch(markNotificationAsReadAsync({ id: _id }));
+  };
+
+  const handleDelete = (_id) => {
+    dispatch(deleteNotificationAsync({ id: _id }));
+  };
+
+  const handleAccordion = (_id) => {
+    setIsActive({ id: isActive.id === _id ? '' : _id, active: isActive.id === _id ? '' : 'active' });
+    setIndex(_id);
+  };
+
   return (
     <NotificationSection>
       <NotificationWrapper>
         {/* Header */}
         <NotificationHeader>
-          <NotificationCount style={{ marginLeft: '30px' }}>{show ? notifyAlerts.length : 0}</NotificationCount>
+          <NotificationCount style={{ marginLeft: '30px' }}>{notifications.length}</NotificationCount>
           <Button style={{ marginRight: '30px', color: '#999999', textDecoration: 'none' }}>
-            {show ? (
-              <span style={{ cursor: 'pointer' }} onClick={handleClick}>
+            {notifications.length > 0 ? (
+              <span style={{ cursor: 'pointer' }} onClick={() => handleMarkAllAsRead()}>
                 Mark all as read
               </span>
             ) : (
@@ -67,38 +82,56 @@ function Notification() {
           </Button>
         </NotificationHeader>
         <FlexColumn backgroundWhite>
-          {show ? (
+          {notifications.length > 0 ? (
             <>
-              {notifyAlerts.map(({ finished, message, info, time, link }) => (
-                <Grid>
-                  <MailOutlineIcon style={{ color: '#999999', width: '100%', borderRight: '2px solid #ebebeb' }} />
-                  <FlexColumn>
-                    <FlexRow flexRow>
-                      <Grid gridInfo>
-                        <Paragraph dark achieved>
-                          {message}
-                        </Paragraph>
-                        <Paragraph green red={!finished}>
-                          {link}
-                        </Paragraph>
-                        <Paragraph style={{ fontSize: '15px', lineHeight: '20px' }} dark>
-                          {info}
-                        </Paragraph>
-                      </Grid>
-                      <Paragraph darkColor primary>
-                        {time}
-                      </Paragraph>
-                    </FlexRow>
-                    {finished && (
-                      <FlexRows style={{ marginBottom: '12px' }}>
-                        <Button btnFunction>Delete</Button>
-                        <Button btnFunction>Mark as Read</Button>
-                        <Button btnFunction>View goal</Button>
+              {notifications.map(({ _id, description, header, goalName, colour, isRead, createdAt }) => {
+                return (
+                  <Grid key={_id} gridActive={_id === index} borderBottom>
+                    <MailOutlineIcon style={{ margin: '0 auto', color: '#999999' }} />
+                    <FlexColumn>
+                      <FlexRows onClick={() => handleAccordion(_id)} Rows goalachievedTimeline>
+                        <FlexColumn flexBasicsColumn>
+                          <Paragraph style={{ marginBottom: '10px' }} goalParagraphHeader>
+                            {header}
+                          </Paragraph>
+                          <Button colour={colour} goalButtonHeaderWireframe>
+                            {goalName}
+                          </Button>
+                        </FlexColumn>
+                        <FlexColumn arrowContainer>
+                          {isActive.id === _id ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+
+                          {/* windows width is greater than 1300  */}
+                          {getWidth > 1300 && (
+                            <Paragraph flexbasicsParagraph>
+                              <TimeAgo datetime={createdAt} />
+                            </Paragraph>
+                          )}
+                        </FlexColumn>
                       </FlexRows>
-                    )}
-                  </FlexColumn>
-                </Grid>
-              ))}
+                      {isActive.id === _id && (
+                        <FlexColumn moreNotificationInfo>
+                          <Paragraph moreInfo>{description}</Paragraph>
+                          <FlexRows AlignRight>
+                            <Button style={{ marginRight: '10px' }} btnFunction onClick={() => handleDelete(_id)}>
+                              Delete
+                            </Button>
+                            <Button btnFunction onClick={() => handleMarkAsRead(_id)}>
+                              {isRead ? 'Mark as Unread' : 'Mark as Read'}
+                            </Button>
+                          </FlexRows>
+                        </FlexColumn>
+                      )}
+                      {/* windows width is less than 1300  */}
+                      {getWidth <= 1300 && (
+                        <Paragraph style={{ marginTop: '1rem', marginLeft: '1rem' }} flexbasicsParagraph>
+                          <TimeAgo datetime={createdAt} />
+                        </Paragraph>
+                      )}
+                    </FlexColumn>
+                  </Grid>
+                );
+              })}
             </>
           ) : (
             <>

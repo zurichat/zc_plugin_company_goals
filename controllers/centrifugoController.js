@@ -1,19 +1,21 @@
+/* eslint-disable no-console */
 const axios = require('axios');
-const { SOCKET_KEY, SOCKET_URL } = require('../centrifugo_config/index');
+const {
+  SOCKET_KEY,
+  SOCKET_URL
+} = require('../centrifugo_config/index');
 const CustomError = require('../utils/appError');
 
 const publish = async (channel, data) => {
   try {
     await axios.post(
-      SOCKET_URL,
-      {
+      SOCKET_URL, {
         method: 'publish',
         params: {
           channel,
           data,
         },
-      },
-      {
+      }, {
         headers: {
           Authorization: `apikey ${SOCKET_KEY}`,
           'Content-Type': 'application/json',
@@ -36,4 +38,7 @@ const test = async (req, res) => {
   }
 };
 
-module.exports = { test, publish };
+module.exports = {
+  test,
+  publish
+};

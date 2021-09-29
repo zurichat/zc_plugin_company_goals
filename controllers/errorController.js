@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-const { request, response } = require('express');
+const {
+  request,
+  response
+} = require('express');
 const logger = require('../utils/logger');
 
 /**
@@ -12,17 +15,14 @@ const logger = require('../utils/logger');
  * @returns
  */
 const sendErrorDev = (err, req, res) => {
-  // For API
-  if (req.originalUrl.startsWith('/api')) {
-    return res.status(err.statusCode).json({
-      status: err.status,
-      error: err,
-      message: err.message,
-      stack: err.stack,
-    });
-  }
+  logger.error({
+    message: `[errorController.js] (line 14) - ${err.message}`,
+  });
 
-  logger.error(`[errorController.js] (line 14) - ${err.message}`);
+  return res.status(err.statusCode).json({
+    ...err,
+    message: err.message,
+  });
 };
 
 /**
@@ -65,7 +65,9 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') sendErrorDev(err, req, res);
   //
   else if (process.env.NODE_ENV === 'production') {
-    const error = { ...err };
+    const error = {
+      ...err
+    };
 
     error.message = err.message;
 

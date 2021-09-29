@@ -1,0 +1,11 @@
+CHECK organization vision slice FOR MY CODE
+create a function to get the vision data using the create async thunk.
+make a request to get data and store in a state the function does everything
+we create a slice to store data
+make a request to the link given by the BE guy
+const response = await axios.get the URL with the new org organizationId
+return response.data
+make sure you use await
+create a new file to test your stuff so that you can console.log your data
+create a slice
+https://medium.com/@Dhebby/exposed-secrets-of-the-hng-internship-52076c57bad3

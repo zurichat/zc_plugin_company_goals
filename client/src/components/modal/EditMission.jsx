@@ -1,75 +1,61 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
-import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { showEditMissionModal, editMissionText } from '../../redux/editMission.slice';
-import { Header, TextBox, SaveBtn } from '../Modal/styledEditMission';
-
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'Lato',
-  },
-  paper: {
-    // backgroundColor: theme.palette.background.paper,
-    backgroundColor: '#F6F6F6',
-    border: '0px solid #000',
-    boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
-    padding: '35px',
-    fontFamily: 'Lato',
-    width: '720px',
-    height: '406px',
-    maxWidth: '100%',
-    margin: '1rem',
-    boxSizing: 'border-box',
-  },
-}));
+import { showEditMissionModal, updateOrgMission } from '../../redux/organizationMission.slice';
+import { Header, TextBox, SaveBtn, Paper, ModalBody } from '../Modal/styledEditMission';
+import { useParams } from 'react-router';
 
 const EditMission = () => {
-  const classes = useStyles();
+  const { orgId } = useParams();
   const dispatch = useDispatch();
-  const { showMission, missionText } = useSelector((state) => state.editMission);
-  const [text, setText] = useState('');
+  const { missionText, showMissionModal } = useSelector((state) => state.organizationMission);
+  const [editText, setEditText] = useState('');
+
+  const dispatchAction = () => {
+    if (editText) {
+      dispatch(updateOrgMission({ missionText: editText, orgId }));
+    }
+  };
 
   useEffect(() => {
-    setText(missionText);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showMission]);
-
-  const saveMission = () => {
-    dispatch(showEditMissionModal());
-    // eslint-disable-next-line no-unused-expressions
-    text ? dispatch(editMissionText(text)) : dispatch(editMissionText('No Mission'));
-  }
+    setEditText(missionText);
+  }, [missionText]);
 
   return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      className={classes.modal}
-      open={showMission}
-      onClose={() => dispatch(showEditMissionModal())}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-    >
-      <Fade in={showMission}>
-        <form className={classes.paper} onSubmit={e => e.preventDefault()}>
-          <Header id="transition-modal-title">Edit Mission</Header>
-          <TextBox required value={text} onChange={e => setText(e.target.value)} placeholder="Click to edit..." />
-          <SaveBtn onClick={saveMission}>Save</SaveBtn>
-          {/* <SaveBtn onClick={() => dispatch(showEditMissionModal())}>Cancel</SaveBtn> */}
-        </form>
-      </Fade>
-    </Modal>
+    <ModalBody>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        // className={classes.modal}
+        open={showMissionModal}
+        onClose={() => dispatch(showEditMissionModal())}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Fade in={showMissionModal}>
+          <Paper>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <Header id="transition-modal-title">Edit Mission</Header>
+              <TextBox
+                required
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                placeholder="Click to edit..."
+              />
+              <SaveBtn onClick={dispatchAction}>Save</SaveBtn>
+            </form>
+          </Paper>
+        </Fade>
+      </Modal>
+    </ModalBody>
   );
-}
+};
 
 export default EditMission;
