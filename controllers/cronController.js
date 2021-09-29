@@ -12,6 +12,7 @@ module.exports = () => {
   // cron scheduler runs every 12am
   cron.schedule('0 0 0 * * *', async function () {
     // list of organisation ids
+    console.log('i ran');
     const orgList = await findAll('orgs', 'fictionalorganisationtokeeptrack');
     const orgs = orgList.data.data;
     // for each organisation, get all goals
@@ -20,8 +21,9 @@ module.exports = () => {
       // for each goal, iterate through where date is past, update db.
       let goals = findGoals.data.data;
       goals.forEach(async (goal) => {
-        if (dateInPast(new Date(goal.due_date), Date.now())) {
-          await updateOne('goals', { isExpired: true }, {}, 'fictionalorganisationtokeeptrack', org._id);
+        if (dateInPast(new Date(goal.due_date), new Date())) {
+          console.log(goal._id);
+          await updateOne('goals', { isExpired: true }, {}, org.orgId, goal._id);
         }
       });
     });
