@@ -18,11 +18,17 @@ const {
   sortGoalByType,
   createGoalTargets
 } = require('../controllers/goalController');
+const auth = require('../middlewares/auth');
 
 const router = Router();
 
 
-router.post('/', createGoal)
+// auth specific routes
+router.post('/', auth, createGoal);
+router.route('/delete', auth, deleteGoalById);
+router.put('/update/:id', auth, updateSingleGoalById);
+
+
 router.post('/assign', assignGoal)
 router.get('/', getAllGoals);
 router.get('/like', likeGoal);
@@ -36,9 +42,7 @@ router.get('/userdislike', checkUserDisLikes);
 router.get('/catalog', sortGoalByType);
 router.patch('/', createGoalTargets);
 
-router.route('/delete').delete(deleteGoalById);
 
-router.put('/update/:id', updateSingleGoalById);
 
 module.exports = router;
 // router.route('/archived').get(getArchivedGoals)
