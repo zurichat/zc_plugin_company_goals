@@ -8,15 +8,6 @@ import OrganizationVisionEditModal from '../components/organization_vision/org_e
 
 const Faqs = () => {
   return (
-<<<<<<< HEAD
-    <div>
-      <Header />
-      <FaqsContainer />
-      <EditMission />
-      <OrganizationVisionEditModal />
-
-    </div>
-=======
     <>
       <AppHeader />
       <div>
@@ -24,8 +15,7 @@ const Faqs = () => {
         <FaqsContainer />
         <EditMission />
       </div>
-    </>
->>>>>>> a272c2983ada2341bf7af49aafc78556249e6687
+    </> 
   );
 };
 
