@@ -478,8 +478,8 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
       orgId
     );
 
-    if (!goal.data.data) {
-      return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+    if (goal.data.data === null) {
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
     }
 
     // check if user already liked goal
@@ -493,7 +493,7 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
     );
 
     // add like if it doesnt exist
-    if (!like.data.data) {
+    if (like.data.data === null) {
       const addedLike = await insertOne(
         'goallikes',
         {
@@ -503,29 +503,24 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
         orgId
       );
 
-
-
       return res.status(201).json({
         status: 'success',
         message: 'Goal like added',
-        data: { count: addedLike.data.data.insert_count }
+        data: { count: addedLike.data.data.insert_count },
       });
     }
 
     const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
     // delete like from db
 
-
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       message: 'Goal like removed',
-      data: { count: removeLike.data.data.deleted_count }
+      data: { count: removeLike.data.data.deleted_count },
     });
+  } catch (error) {
+    res.status(500).json({ status: 'failed', message: 'server Error', data: null });
   }
-  catch (error) {
-    res.status(500).json({ status: 'failed', message: 'server Error', data: null })
-  }
-
 });
 
 exports.getGoalLikes = catchAsync(async (req, res, next) => {
@@ -547,7 +542,7 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
   );
 
   if (goal.data.data === null) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already liked goal
@@ -559,7 +554,7 @@ exports.getGoalLikes = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (!like.data.data) {
+  if (like.data.data === null) {
     return res.status(200).json({
       status: 'success',
       data: {
@@ -597,8 +592,8 @@ exports.checkUserLike = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already liked goal
@@ -610,7 +605,7 @@ exports.checkUserLike = catchAsync(async (req, res, next) => {
     },
     orgId
   );
-  if (!like.data.data) {
+  if (like.data.data === null) {
     return res.status(200).json({
       status: 'success',
       data: false,
@@ -628,34 +623,44 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
   // Validate the body
   await likeGoalSchema.validateAsync({ goalId, userId, orgId });
 
-  // check that the goal_id is valid
-  const goal = await find('goals', { goalId }, orgId);
+  try {
+    // check that the goal_id is valid
+    const goal = await find(
+      'goals',
+      {
+        _id: goalId,
+      },
+      orgId
+    );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
-  }
+    if (goal.data.data === null) {
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    }
 
-  // check if user already disliked goal
-  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
+    // check if user already disliked goal
+    const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
 
-  // add dislike if it doesnt exist
-  if (!disLike.data.data) {
-    addedDisLike = await insertOne('goalldislikes', { goal_id: goalId, user_id: userId }, orgId);
+    // add dislike if it doesnt exist
+    if (disLike.data.data === null) {
+      addedDisLike = await insertOne('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
 
-    return res.status(201).json({
+      return res.status(201).json({
+        status: 'success',
+        message: 'Goal dislike added',
+        data: {},
+      });
+    }
+
+    removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
+    // delete dislike from db
+    res.status(200).json({
       status: 'success',
-      message: 'Goal dislike added',
+      message: 'Goal dislike removed',
       data: {},
     });
+  } catch (error) {
+    res.status(500).json({ status: 'failed', message: 'server Error', data: null });
   }
-
-  removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
-  // delete dislike from db
-  res.status(201).json({
-    status: 'success',
-    message: 'Goal dislike removed',
-    data: {},
-  });
 });
 
 exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
@@ -665,10 +670,16 @@ exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
   await getGoalLikesSchema.validateAsync({ goalId, orgId });
 
   // check that the goal_id is valid
-  const goal = await find('goals', { _id: goalId }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already disliked goal
@@ -696,15 +707,21 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
   await likeGoalSchema.validateAsync({ goalId, userId, orgId });
 
   // check that the goal_id is valid
-  const goal = await find('goals', { _id: goalId }, orgId);
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
 
-  if (!goal.data.data) {
-    return next(new AppError('There is no goal of this id attached to this organization id that was found.', 404));
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
   }
 
   // check if user already disliked goal
   const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-  if (!disLike.data.data) {
+  if (disLike.data.data === null) {
     return res.status(200).json({
       status: 'success',
       data: false,
@@ -719,9 +736,9 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
-  try {
-    //find goals by type
-    const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+  try{
+      // find goals by type
+      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
 
     // No matching data, return an empty array
