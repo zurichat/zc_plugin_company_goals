@@ -20,13 +20,15 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { addDisLike, addLike } from '../../redux/likeGoalSlice';
 import { useParams } from 'react-router';
+import { GetUserInfo } from '@zuri/control';
 
 
 
 
 const GoalItem = ({ goalData }) => { 
   let { orgId } = useParams();
-
+  const userId = JSON.parse(sessionStorage.getItem('user'));
+  console.log('Testing shit to see if it works', GetUserInfo())
   //Setting Likes and retriving
   const [like, setLike] = useState('');
   const [totalLikes, setTotalLikes] = useState(0);
@@ -42,7 +44,7 @@ const GoalItem = ({ goalData }) => {
     e.stopPropagation();
 
     axios
-    .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=4`)
+    .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
     .then(response => setLike(response.data.message))
     .catch(error => console.log(error));
     
@@ -64,7 +66,7 @@ const GoalItem = ({ goalData }) => {
     e.stopPropagation();
 
     axios
-    .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=4`)
+    .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
     .then(response => setDislike(response.data.message))
     .catch(error => console.log(error))  
 
