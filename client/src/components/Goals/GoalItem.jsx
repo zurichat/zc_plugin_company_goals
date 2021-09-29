@@ -28,8 +28,10 @@ import { GetUserInfo } from '@zuri/control';
 const GoalItem = ({ goalData }) => { 
   let { orgId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('user'));
+
   //Setting Likes and retriving
   const [like, setLike] = useState('');
+  const [toggleLike , setToggleLike] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
   useEffect(() => {
     axios
@@ -40,6 +42,7 @@ const GoalItem = ({ goalData }) => {
   }, [like])
 
   const handleSetLike = (e) => {
+    
     e.stopPropagation();
 
     axios
@@ -47,11 +50,20 @@ const GoalItem = ({ goalData }) => {
     .then(response => setLike(response.data.message))
     .catch(error => console.log(error));
     
+    if(toggleLike === false){
+      setTotalLikes(totalLikes + 1);
+      setToggleLike(true)
+    } else {
+      setTotalLikes(totalLikes - 1)
+      setToggleLike(false)
+    }
   }
 
   //Setting Dislikes and retriving Dislikes
   const [dislike, setDislike] = useState('');
   const [totalDislikes, setTotalDislikes] = useState(0);
+  const [toggleDislike , setToggleDislike] = useState(false);
+
 
   useEffect(() => {
     axios
@@ -69,6 +81,13 @@ const GoalItem = ({ goalData }) => {
     .then(response => setDislike(response.data.message))
     .catch(error => console.log(error))  
 
+    if(toggleDislike === false){
+      setTotalDislikes(totalDislikes + 1);
+      setToggleDislike(true)
+    } else {
+      setTotalDislikes(totalDislikes - 1)
+      setToggleDislike(false)
+    }
   }
 
 
