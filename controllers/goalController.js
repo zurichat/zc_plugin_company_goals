@@ -161,8 +161,8 @@ exports.createGoal = async (req, res, next) => {
     try {
       const data = {
         room_id: roomId,
-        isComplete: false,
-        isExpired: false,
+        is_complete: false,
+        is_expired: false,
         created_at: date,
         ...goal,
       };
@@ -172,6 +172,7 @@ exports.createGoal = async (req, res, next) => {
       // keeping track of organizations
       let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
       org = org.data.data
+      
       if (!org[0].orgId) {
         await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack')
       }
@@ -182,6 +183,7 @@ exports.createGoal = async (req, res, next) => {
         res.status(200).json({ message: 'success', data });
       }
     } catch (error) {
+      console.log(error, 'error')
       return res.status(400).send({ message: 'Invalid request' });
     }
   }
