@@ -48,28 +48,25 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     let sorted
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
-       sorted = goals.sort((a, b) => {
+      sorted = goals.sort((a, b) => {
         const c = new Date(a.created_at);
         const d = new Date(b.created_at);
-       return c-d
+        return c - d
       }).reverse();
 
-      
 
-      if(sort && sort!=='created_at')
-      {
-        if(sort==='due_date')
-        {
+
+      if (sort && sort !== 'created_at') {
+        if (sort === 'due_date') {
           logger.info('sort by due date')
           sorted = goals.sort((a, b) => {
             const c = new Date(a.due_date);
             const d = new Date(b.due_date);
-           return c-d
+            return c - d
           }).reverse();
         }
 
-        else if(sort==='progress')
-        {
+        else if (sort === 'progress') {
           logger.info('yet to be done')
         }
       }
@@ -90,7 +87,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
           message: 'success',
           currentPage: newPage,
           totalDocuments: goals.length,
-          documentPerPage: limit*1,
+          documentPerPage: limit * 1,
           data: newGoals,
         });
       }
@@ -187,6 +184,13 @@ exports.createGoal = async (req, res, next) => {
     };
 
     goals = await insertOne('goals', data, orgId);
+
+    // keeping track of organizations
+    let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
+    org = org.data.data
+    if (!org[0].orgId) {
+      await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack')
+    }
 
     if (goals.data.status === 200) {
       await createNotification(user_ids, orgId, roomId, title, 'createGoal');
@@ -782,17 +786,17 @@ exports.sortGoalByType = catchAsync(async (req, res, next) => {
       const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
 
-      // No matching data, return an empty array
-      if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
-            return res.status(200).json({ message: 'success', data: [] });
-      res.status(200).json({
-        message: 'success',
-        data: goalsSorted.data.data,
-      });
+    // No matching data, return an empty array
+    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+      return res.status(200).json({ message: 'success', data: [] });
+    res.status(200).json({
+      message: 'success',
+      data: goalsSorted.data.data,
+    });
   }
-  catch(error){
+  catch (error) {
     console.log(error.message)
-    res.status(500).json({message: 'failed, server error', data: null})
+    res.status(500).json({ message: 'failed, server error', data: null })
   }
- 
+
 });
