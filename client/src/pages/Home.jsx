@@ -13,7 +13,6 @@ import MainApp from '../components/main_app/MainApp';
 import EditMission from '../components/modal/EditMission';
 
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
-import GenErrorModal from '../components/GenErrorModal/GenErrorModal';
 
 function App() {
   return (
@@ -30,7 +29,6 @@ function App() {
         <MissionVisionContainer />
         <MainApp />
       </PluginSide>
-      <GenErrorModal />
     </>
   );
 }
