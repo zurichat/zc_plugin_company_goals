@@ -32,31 +32,30 @@ exports.getChartInfo = catchAsync( async (req, res, next) => {
 
        allGoals.forEach((goal)=>{
    
-            if(!goal.isComplete){
+            if(!goal.is_complete){
                 isInComplete > 0 ? isInComplete++ : isInComplete = 1            
 
                result['isComplete'] = totalGoals - isInComplete
             }
 
 
-            if(!goal.isExpired){
+            if(!goal.is_expired){
                 isNotExpired > 0 ? isNotExpired++ : isNotExpired = 1
   
               result['isExpired'] = totalGoals - isNotExpired
             } 
 
             
-            if(goal.start_date && !goal.isExpired && !goal.isComplete ){
-
+            if(goal.start_date && !goal.is_expired && !goal.is_complete ){
                 result['inProgress'] >= 0 ?  result['inProgress']++ : result['inProgress'] = 1
             } 
         })
 
-        res.status(200).json({message: 'success',  data: result});
+      return res.status(200).json({message: 'success',  data: result});
     } 
 
     catch(error){
-        console.log(error);
+       logger.info(`Something went wrong because: ${error.message}`)
         res.status(500).json({message: 'failed, Server Error',  data: null})
     }
 })
