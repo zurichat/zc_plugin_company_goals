@@ -22,7 +22,7 @@ const {
 const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const logger = require('../utils/logger');
+const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
 
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
@@ -44,30 +44,29 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     // No matching data, return an empty array
     if (goals === null || goals.length < 1) return res.status(200).json({ message: 'success', data: [] });
 
-
-    let sorted
+    let sorted;
     // 200, response
     if (findGoals.data.status === 200 && goals.length > 0) {
-      sorted = goals.sort((a, b) => {
-        const c = new Date(a.created_at);
-        const d = new Date(b.created_at);
-        return c - d
-      }).reverse();
-
-
+      sorted = goals
+        .sort((a, b) => {
+          const c = new Date(a.created_at);
+          const d = new Date(b.created_at);
+          return c - d;
+        })
+        .reverse();
 
       if (sort && sort !== 'created_at') {
         if (sort === 'due_date') {
-          logger.info('sort by due date')
-          sorted = goals.sort((a, b) => {
-            const c = new Date(a.due_date);
-            const d = new Date(b.due_date);
-            return c - d
-          }).reverse();
-        }
-
-        else if (sort === 'progress') {
-          logger.info('yet to be done')
+          logger.info('sort by due date');
+          sorted = goals
+            .sort((a, b) => {
+              const c = new Date(a.due_date);
+              const d = new Date(b.due_date);
+              return c - d;
+            })
+            .reverse();
+        } else if (sort === 'progress') {
+          logger.info('yet to be done');
         }
       }
 
@@ -102,7 +101,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   } catch (error) {
     // if (error) return res.status(404).send({ message: `Could not find goals for the organization ${orgId}` });
     logger.info('no goals for this organization');
-    console.log(error)
+    console.log(error);
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -114,6 +113,18 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 exports.createGoal = async (req, res, next) => {
   logger.info(`Started creating a new goal.`);
 
+  const response = {
+    'total Goals': goals,
+    'completed Goals': completedGoals,
+    'unCompleted Goals': unCompletedGoals,
+    'expired Goals': expiredGoals,
+  };
+
+  // Returning Response
+  res.status(200).json({ status: 200, message: 'success', data: response });
+};
+
+exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
   const { org_id: orgId } = req.query;
   const { goal_name: title, category, start_date, due_date } = req.body;
@@ -187,9 +198,9 @@ exports.createGoal = async (req, res, next) => {
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
-    org = org.data.data
+    org = org.data.data;
     if (!org[0].orgId) {
-      await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack')
+      await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 
     if (goals.data.status === 200) {
@@ -200,40 +211,36 @@ exports.createGoal = async (req, res, next) => {
   } catch (error) {
     return res.status(400).send({ message: 'Invalid request' });
   }
-};
+});
 
-exports.createGoalTargets = catchAsync(async(req, res, next) => {
-
+exports.createGoalTargets = catchAsync(async (req, res, next) => {
   // get goal id from the url
   const { org_id, goal_id } = req.query;
-  
+
   logger.info(`Started creating a new target for goal with id ${goal_id}`);
 
   // check if organization id exists
   if (!org_id) {
-    console.log("sigh")
+    console.log('sigh');
     logger.info(`Organization id isn't provided.`);
     // return new AppError("Organization_id is required", 400);
     return res.status(400).send({ error: 'Organization_id is required' });
   }
 
   // check if goal id exists
-  if(!goal_id){
-      // console.log(goal_id)
-      logger.info(`goal_id not specified`);
-      return res.status(400).send({ error: 'goal_id is required'})
-    }
+  if (!goal_id) {
+    // console.log(goal_id)
+    logger.info(`goal_id not specified`);
+    return res.status(400).send({ error: 'goal_id is required' });
+  }
 
   const target = req.body;
 
   const data = {
-      goal_id,
-      targets:[
-        target,
-      ]
-    };
-    console.log(data)
-
+    goal_id,
+    targets: [target],
+  };
+  console.log(data);
 
   // store the total targets for a goal with the goal_id as the primary key
   // const total_targets = [ target, ];
@@ -244,45 +251,61 @@ exports.createGoalTargets = catchAsync(async(req, res, next) => {
   //   logger.info(`Total targets per goal already reached it's max.`);
   //   return res.status(401).json({ error: `Cannot add more than 4 targets` });
   // }
-  logger.info(`Started creating targets for goal with id -> ${goal_id}`);
+  logger.info(`Started creating targets for goal with id api/v1/targeets?org_ -> ${goal_id}`);
 
-  try{
-    console.log("Started validating req.body");
+  try {
+    console.log('Started validating req.body');
     await targetSchema.validateAsync(req.body);
     const newTarget = await insertOne('targets', data, org_id);
     const allTarget = await findAll('targets', org_id);
     console.log(allTarget);
     logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
-    return res.status(200).json({ status: 200, data })
-  }
-  catch(err){
+    return res.status(200).json({ status: 200, data });
+  } catch (err) {
     logger.info(`There are errors with the request body: ${err}`);
     if (err) return res.status(400).json(err.details);
   }
-})
+});
 
-exports.getGoalTargets = catchAsync(async(req, res, next) => {
+exports.getGoalTargets = catchAsync(async (req, res, next) => {
   const { org_id, goal_id } = req.query;
 
   logger.info(`Getting goal targets for all goals ${org_id}`);
 
-
   if (!org_id) {
-    console.log("sigh")
+    console.log('sigh');
     logger.info(`Organization id isn't provided.`);
     // return new AppError("Organization_id is required", 400);
     return res.status(400).send({ error: 'Organization_id is required' });
   }
 
-  try{
+  try {
     const allTargets = await findAll('targets', org_id);
-    console.log(allTargets)
-    return res.status(200).json({ status: 200, data: allTargets.data })
-    }
-  catch(err){
+    console.log(allTargets);
+    return res.status(200).json({ status: 200, data: allTargets.data });
+  } catch (err) {
     if (err) return res.status(400).json(err.details);
   }
-})
+});
+
+exports.getGoalProgress = catchAsync(async (req, res, next) => {
+  const { org_id, goal_id } = req.query;
+
+  logger.info(`Getting goal progress for ${org_id}`);
+
+  if (!org_id) {
+    logger.info(`Organization id isn't provided.`);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  try {
+    const goalProgress = 67;
+    return res.status(200).json({ status: 200, data: goalProgress });
+  } catch (err) {
+    console.log(err);
+    if (err) return res.status(400).json(err.details);
+  }
+});
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
@@ -781,10 +804,9 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 exports.sortGoalByType = catchAsync(async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
-  try{
-      // find goals by type
-      const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
-
+  try {
+    // find goals by type
+    const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
     // No matching data, return an empty array
     if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
@@ -793,10 +815,8 @@ exports.sortGoalByType = catchAsync(async (req, res, next) => {
       message: 'success',
       data: goalsSorted.data.data,
     });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: 'failed, server error', data: null });
   }
-  catch (error) {
-    console.log(error.message)
-    res.status(500).json({ message: 'failed, server error', data: null })
-  }
-
 });
