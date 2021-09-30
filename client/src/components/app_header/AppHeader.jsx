@@ -1,11 +1,23 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useParams } from 'react-router';
 import Parcel from 'single-spa-react/parcel';
 import { pluginHeader } from '@zuri/plugin-header';
 import { HeaderAppBar, HeaderToolBar, HeaderToolBarTitle } from './AppHeader.styled';
 import HeaderAvatarGroup from './components/header_avatar_group/HeaderAvatarGroup';
-import { GetUserInfo, GetWorkspaceUsers } from '@zuri/control';
+import { GetWorkspaceUsers } from '@zuri/control';
 
 const AppHeader = () => {
+  let { orgId } = useParams();
+
+  async function getWorkspaceUser() {
+    orgId;
+    const info = await GetWorkspaceUsers();
+    console.log(info);
+  }
+  useEffect(() => {
+    getWorkspaceUser();
+  }, []);
+
   const headerConfig = useMemo(() => ({
     name: 'Goals Plugin', //Name on header
     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4E8rvqCqoAlL7GUOvLTZn5amfp2pDTo5oNnBFnxhhFRCAqGVPCqGb2Yjb_Z9MK13BnXM&usqp=CAU', //Image on header
