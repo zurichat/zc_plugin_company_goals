@@ -5,7 +5,7 @@
 const { find, findAll } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const logger = require('../utils/logger')
+const logger = require('../utils/logger.js');
 
 // exports.readSidebar = catchAsync(async (req, res, next) => {
 //   const { user: user_id, org: organization_id } = req.query;
@@ -21,8 +21,6 @@ const logger = require('../utils/logger')
 //   if (!user_id || !organization_id)
 //     return res.status(400).send({ error: 'sidebar query is missing the correct parameters' });
 
-
-
 //   // find all room users in an organization to get members
 //   let findRoomUsers
 //   let roomUsersArr
@@ -36,7 +34,6 @@ const logger = require('../utils/logger')
 //     roomUsersArr = []
 //     logger.error(error)
 //   }
-  
 
 //     // find rooms the user is in
 //   let findUserRooms
@@ -51,9 +48,8 @@ const logger = require('../utils/logger')
 //     getUserRooms = []
 //     logger.error(error)
 //   }
- 
+
 //   console.log('step three');
-  
 
 //   if (getUserRooms.length < 1) {
 //     return res.status(404).send({ message: `User ${user_id} has not joined any room` });
@@ -72,7 +68,6 @@ const logger = require('../utils/logger')
 //     roomMemberMap[roomuser.room_id]++
 //   }
 
-  
 //   // get all rooms the user has joined
 
 //   for (let room of getUserRooms)
@@ -99,8 +94,7 @@ const logger = require('../utils/logger')
 //   //   });
 //   // });
 
-
-//   // get all rooms in the organization 
+//   // get all rooms in the organization
 //   let getAllRooms
 //   let allRooms
 //   try {
@@ -125,7 +119,6 @@ const logger = require('../utils/logger')
 //       action: 'open',
 //     })
 //   }
- 
 
 //   // allRooms.map((room) => {
 //   //   const members = roomUsersArr.filter((el) => el.room_id === room.room_id).length;
@@ -143,14 +136,14 @@ const logger = require('../utils/logger')
 //   // });
 
 //   const response = {
-    // name: 'Company Goals Plugin',
-    // description: 'Shows company goals items',
-    // plugin_id: '613dcd7ae4010959c8dc0c56',
-    // organisation_id: '6145d099285e4a184020742e',
-    // user_id,
-    // group_name: 'Goals',
-    // show_group: false,
-    // general_room: defaultOption,
+// name: 'Company Goals Plugin',
+// description: 'Shows company goals items',
+// plugin_id: '613dcd7ae4010959c8dc0c56',
+// organisation_id: '6145d099285e4a184020742e',
+// user_id,
+// group_name: 'Goals',
+// show_group: false,
+// general_room: defaultOption,
 //     joined_rooms,
 //     public_rooms,
 //   };
@@ -158,19 +151,16 @@ const logger = require('../utils/logger')
 //   return res.status(200).json(response);
 // });
 
-
-exports.getSidebar = catchAsync(async(req,res,next)=>{
+exports.getSidebar = catchAsync(async (req, res, next) => {
   const { user: user_id, org: organization_id } = req.query;
 
-  if(!organization_id)
-  {
-    return next(new AppError('organization id is required', 400))
+  if (!organization_id) {
+    return next(new AppError('organization id is required', 400));
   }
 
   // get number of users in the organization
   // number of users in the organization == number of people in the room
   // I'll need token for this. Will do that when I figure it out.
-
 
   const sidebarJson = {
     name: 'Company Goals Plugin',
@@ -180,14 +170,14 @@ exports.getSidebar = catchAsync(async(req,res,next)=>{
     user_id,
     group_name: 'Goals',
     show_group: false,
-    public_rooms:[],
-    joined_rooms :[
+    public_rooms: [],
+    joined_rooms: [
       {
-        room_name:'All Goals',
+        room_name: 'All Goals',
         room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-        room_url: `/goals/room/${organization_id}`
-      }
-    ]
-  }
-  return res.status(200).json(sidebarJson)
+        room_url: `/goals/room/${organization_id}`,
+      },
+    ],
+  };
+  return res.status(200).json(sidebarJson);
 });

@@ -16,7 +16,8 @@ const {
   disLikeGoal,
   getGoalDisLikes,
   checkUserDisLikes,
-  sortGoalByType
+  sortGoalByType,
+  getGoalProgress,
 } = require('../controllers/goalController');
 const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
@@ -43,9 +44,11 @@ router.get('/dislike', disLikeGoal);
 router.get('/goaldislikes', getGoalDisLikes);
 router.get('/userdislike', checkUserDisLikes);
 router.get('/catalog', sortGoalByType);
-router.post('/target', createGoalTargets)
+router.post('/target', createGoalTargets);
 router.get('/target', getGoalTargets);
-router.put('/target/update/:id', updateSingleGoalTargetById)
+router.get('/goalprogress', getGoalProgress);
+router.put('/target/update/:id', updateSingleGoalTargetById);
+
 
 
 
