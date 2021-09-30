@@ -184,3 +184,38 @@ export const Grid = styled.section`
 
   ${(props) => props.gridInfo && `  grid-template-columns: 1fr; padding:0;`};
 `;
+
+export const StyledPaginatecontainer = styled.div`
+  max-width: 500px;
+  overflow: scroll;
+
+  .paginationBttns {
+    width: 100%;
+    height: 40px;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    width: max-content;
+  }
+  .paginationBttns a {
+    padding: 10px;
+    margin: 8px;
+    border-radius: 5px;
+    border: 1px solid #00b87c;
+    color: #333;
+    cursor: pointer;
+  }
+  .paginationBttns a:hover {
+    color: white;
+    background-color: #00b87c;
+  }
+  .paginationActive a {
+    color: white;
+    background-color: #00b87c;
+  }
+  .activeText {
+    color: white !important;
+    background-color: #00b87c !important;
+  }
+`;
