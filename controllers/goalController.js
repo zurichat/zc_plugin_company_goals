@@ -24,6 +24,9 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
 const { createNotification } = require('./notificationController');
+const {reduceCalculation, average, calculate} = require('../utils/calculate');
+// Dummy data
+const {goalId, targets} = require('../data/target');
 
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
@@ -110,6 +113,89 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+const findGoal = async (org_id, res) => {
+  let goals;
+  try {
+    goals = await findAll('goals', org_id);
+    // console.log(goals)
+    return goals;
+  } catch (err) {
+    if (err) return res.status(400).json(err.details);
+  }
+}
+
+const findTarget = async (org_id, res) => {
+  let targets;
+  try {
+    targets = await findAll('targets', org_id);
+    // consolelog(targets)
+    return targets;
+  } catch (err) {
+    if (err) return res.status(400).json(err.details);
+  }
+}
+
+
+exports.averageGoalProgress = catchAsync(async (req, res, next) => {
+  const {org_id} = req.query;
+  const dataGoal = await findGoal(org_id, res)
+  const dataTarget = await findTarget(org_id, res)
+  let goals = dataGoal.data.data;
+  let targets = dataTarget.data.data;
+
+  // console.log(goals)
+  // console.log(targets)
+
+  // Make the calculation
+  const result = calculate(goals, targets);
+  const reduceResult = reduceCalculation(result);
+  const averageResult = average(reduceResult);
+  console.log(averageResult);
+  
+  // // Dummy data
+  // const result = calculate(goalId, targets);
+  // const reduceResult = reduceCalculation(result);
+  // const averageResult = average(reduceResult);
+  // console.log(averageResult);
+
+  // Response
+  return res
+    .status(200)
+    .json({
+      status: 'success',
+      averageResult
+  })
+});
+
+exports.individualGoalProgress =  catchAsync(async (req, res, next) => {
+  const {org_id} = req.query;
+  const dataGoal = await findGoal(org_id, res)
+  const dataTarget = await findTarget(org_id, res)
+  let goals = dataGoal.data.data;
+  let targets = dataTarget.data.data;
+
+  // console.log(goals)
+  // console.log(targets)
+
+  // Make the calculation
+  const result = calculate(goals, targets);
+  const reduceResult = reduceCalculation(result);
+  console.log(reduceResult);
+
+  // // Dummy Data
+  // const result = calculate(goalId, targets);
+  // const reduceResult = reduceCalculation(result);
+  // console.log(reduceResult);
+
+  // Response
+  return res
+    .status(200)
+    .json({
+      status: 'success',
+      reduceResult
+  })
+})
 
 exports.createGoal = async (req, res, next) => {
   logger.info(`Started creating a new goal.`);
@@ -202,6 +288,11 @@ exports.createGoal = async (req, res, next) => {
   }
 };
 
+exports.deleteTarget = catchAsync(async (req, res, next) => {
+  await deleteMany('targets', {}, req.query.org);
+  res.status(200).send('hi')
+})
+
 exports.createGoalTargets = catchAsync(async(req, res, next) => {
 
   // get goal id from the url
@@ -225,13 +316,23 @@ exports.createGoalTargets = catchAsync(async(req, res, next) => {
     }
 
   const target = req.body;
+  let data;
 
-  const data = {
-      goal_id,
-      targets:[
-        target,
-      ]
-    };
+  if(target.type === 'numeric') {
+    data = {
+        goal_id,
+        targets:[
+          target,
+        ]
+      };
+  } else {
+    data = {
+        goal_id,
+        target:{
+          target,
+        }
+      };
+  }
     console.log(data)
 
 
@@ -248,12 +349,25 @@ exports.createGoalTargets = catchAsync(async(req, res, next) => {
 
   try{
     console.log("Started validating req.body");
+    // Validate the request body before creating
     await targetSchema.validateAsync(req.body);
+    
+    // Check if we didn't have an existing 
+    const foundTarget = await find('targets', {goal_id}, org_id);
+    const newFoundTarget = foundTarget.data.data;
+
+    if(newFoundTarget !== null) {
+      return res.status(400).json({ status: 400, message: 'A target already exist for this goal id' });
+    }
+
+    // Create a  new target
     const newTarget = await insertOne('targets', data, org_id);
     const allTarget = await findAll('targets', org_id);
-    console.log(allTarget);
+    console.log(allTarget.data.data);
     logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
-    return res.status(200).json({ status: 200, data })
+
+    // Response
+    return res.status(200).json({ status: 200, data})
   }
   catch(err){
     logger.info(`There are errors with the request body: ${err}`);

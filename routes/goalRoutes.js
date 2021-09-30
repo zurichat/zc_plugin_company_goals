@@ -17,7 +17,10 @@ const {
   checkUserDisLikes,
   sortGoalByType,
   createGoalTargets,
-  getGoalTargets
+  getGoalTargets,
+  averageGoalProgress,
+  individualGoalProgress,
+  deleteTarget
 } = require('../controllers/goalController');
 
 const {getChartInfo} = require('../controllers/chartController')
@@ -40,6 +43,9 @@ router.get('/userdislike', checkUserDisLikes);
 router.get('/catalog', sortGoalByType);
 router.post('/target', createGoalTargets)
 router.get('/target', getGoalTargets);
+router.delete('/target/delete', deleteTarget);
+router.get('/average-goal-progress', averageGoalProgress);
+router.get('/individual-goal-progress', individualGoalProgress);
 
 router.route('/delete').delete(deleteGoalById);
 
