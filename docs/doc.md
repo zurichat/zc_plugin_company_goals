@@ -877,7 +877,7 @@ curl -X 'PATCH' \
 > ### Get a Notification
 > ### Description
 
-&nbsp; This endpoint get all notifications for a specific user.
+&nbsp; This endpoint update all notifications for a specific user.
 
 > ### Parameters
 
@@ -1055,24 +1055,27 @@ curl -X 'PUT' \
 
 <!-- Get all notification endpoint -->
 
-> ### Get all Notification
+> ### Update all Notification
 > ### Description
 
-&nbsp; This endpoint get all notifications for an organization.
+&nbsp; This endpoint update all notifications for an organization.
 
 > ### Parameters
 
 | Method | Endpoint| Body | Parameter | Query | Content Type | Description |
 |-|-|-|-|-|-|-|
-| `GET` | `/notifications/all` | null | null | org_id | `application/json` | **org_id** field is required |
+| `GET` | `/notifications/all` | null | null | org_id <br> user_id | `application/json` | **org_id** and **user_id** fields are required |
 
 > ### Code Sample
 
 ```bash
-curl -X 'GET' \
+curl -X 'PUT' \
   'https://goals.zuri.chat/api/v1/notifications/all?org_id=6145d099285e4a184020742e' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
+  -d '{
+      "isRead": true
+    }'
 ```
 
 > ### Sample Response
