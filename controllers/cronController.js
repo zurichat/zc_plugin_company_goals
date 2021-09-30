@@ -1,8 +1,5 @@
 const cron = require('node-cron');
-const {
-  findAll,
-  updateOne,
-} = require('../db/databaseHelper');
+const { findAll, updateOne } = require('../db/databaseHelper');
 
 const dateInPast = function (firstDate, secondDate) {
   if (firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)) {
@@ -15,7 +12,7 @@ module.exports = () => {
   // cron scheduler runs every 12am
   cron.schedule('0 0 0 * * *', async function () {
     // list of organisation ids
-    console.log("i ran")
+    console.log('i ran');
     const orgList = await findAll('orgs', 'fictionalorganisationtokeeptrack');
     const orgs = orgList.data.data;
     // for each organisation, get all goals
@@ -25,11 +22,10 @@ module.exports = () => {
       let goals = findGoals.data.data;
       goals.forEach(async (goal) => {
         if (dateInPast(new Date(goal.due_date), new Date())) {
-          console.log(goal._id)
+          console.log(goal._id);
           await updateOne('goals', { isExpired: true }, {}, org.orgId, goal._id);
         }
-      })
-    })
+      });
+    });
   });
-
-}
+};
