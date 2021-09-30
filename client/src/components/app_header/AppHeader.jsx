@@ -9,13 +9,9 @@ import { GetWorkspaceUsers } from '@zuri/control';
 const AppHeader = () => {
   let { orgId } = useParams();
 
-  async function getWorkspaceUser() {
-    orgId;
-    const info = await GetWorkspaceUsers();
-    console.log(info);
-  }
   useEffect(() => {
-    getWorkspaceUser();
+    const info = GetWorkspaceUsers();
+    console.log(info);
   }, []);
 
   const headerConfig = useMemo(() => ({
