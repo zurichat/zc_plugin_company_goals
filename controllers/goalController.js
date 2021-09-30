@@ -30,6 +30,64 @@ const {goalId, targets} = require('../data/target');
 
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
+
+exports.sortGoalByType = async (req, res, next)=>{
+  const { org_id: orgId, type: goalType } = req.query;
+
+  try {
+    // find goals by type
+    const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+
+    // No matching data, return an empty array
+    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+    {
+      return res.status(200).json({ message: 'success', data: [] });
+    }
+      
+    res.status(200).json({
+      message: 'success',
+      data: goalsSorted.data.data,
+    });
+  } 
+  catch (error) {
+   
+    res.status(500).json({ message: 'failed, server error', data: null });
+  }
+}
+
+exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
+
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+  }
+
+  // check if user already disliked goal
+  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
+  if (disLike.data.data === null) {
+    return res.status(200).json({
+      status: 'success',
+      data: false,
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: true,
+  });
+})
+
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId, page, limit, sort } = req.query;
 
@@ -103,7 +161,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info('no goals for this organization');
-  
+
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -281,6 +339,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     
       return res.status(400).send({ message: 'Invalid request' });
     }
+  })
+
 
 exports.deleteTarget = catchAsync(async (req, res, next) => {
   await deleteMany('targets', {}, req.query.org);
@@ -877,55 +937,3 @@ exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
-
-  // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
-
-  if (goal.data.data === null) {
-    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-  }
-
-  // check if user already disliked goal
-  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-  if (disLike.data.data === null) {
-    return res.status(200).json({
-      status: 'success',
-      data: false,
-    });
-  }
-  res.status(200).json({
-    status: 'success',
-    data: true,
-  });
-});
-
-exports.sortGoalByType = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, type: goalType } = req.query;
-
-  try {
-    // find goals by type
-    const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
-
-    // No matching data, return an empty array
-    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
-      return res.status(200).json({ message: 'success', data: [] });
-    res.status(200).json({
-      message: 'success',
-      data: goalsSorted.data.data,
-    });
-  } catch (error) {
-   
-    res.status(500).json({ message: 'failed, server error', data: null });
-  }
-});
