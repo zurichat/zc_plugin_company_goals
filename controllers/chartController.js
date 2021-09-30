@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+
 const {
   find,
   findAll,
@@ -9,7 +9,8 @@ const {
   updateOne,
   deleteMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema } = require('../schemas');
+
+
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
 
