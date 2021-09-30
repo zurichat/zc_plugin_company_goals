@@ -21,6 +21,7 @@
   "author": "Team Plato",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
     "ajv": "^8.6.3",
     "axios": "^0.21.4",
     "centrifuge": "^2.8.0",
