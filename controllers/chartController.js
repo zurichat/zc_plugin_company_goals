@@ -14,6 +14,7 @@ const {
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
 
+
 exports.getChartInfo = catchAsync( async (req, res, next) => {
     const {org_id: orgId} = req.query;
     
@@ -23,8 +24,7 @@ exports.getChartInfo = catchAsync( async (req, res, next) => {
     }
 
     try{
-        const goalsData = await findAll('goals', orgId);
-        
+        const goalsData = await findAll('goals', orgId);     
         const allGoals = goalsData.data.data;
         const result = {totalGoals: allGoals.length};
         const {totalGoals, isComplete, isExpired, InProgress} = result;
@@ -46,13 +46,14 @@ exports.getChartInfo = catchAsync( async (req, res, next) => {
             } 
 
             
-            if(goal.start_date){
+            if(goal.start_date && !goal.isExpired && !goal.isComplete ){
+
                 result['inProgress'] >= 0 ?  result['inProgress']++ : result['inProgress'] = 1
             } 
         })
 
         res.status(200).json({message: 'success',  data: result});
-    }
+    } 
 
     catch(error){
         console.log(error);
