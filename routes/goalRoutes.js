@@ -21,15 +21,16 @@ const {
 } = require('../controllers/goalController');
 const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
+const restrictToOwner = require('../middlewares/restrict')
 
 
 const router = Router();
 
 
 // auth specific routes
-router.post('/', auth, createGoal);
-router.put('/update/:id', auth, updateSingleGoalById);
-router.delete('/delete', auth, deleteGoalById);
+router.post('/', auth, restrictToOwner, createGoal);
+router.put('/update/:id', auth,restrictToOwner, updateSingleGoalById);
+router.delete('/delete', auth, restrictToOwner, deleteGoalById);
 
 
 router.post('/assign', assignGoal)
