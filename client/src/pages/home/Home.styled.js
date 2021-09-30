@@ -57,6 +57,12 @@ cursor: pointer;
 export const Paragraph = styled.p`
 font-size:2rem;
 padding: 2rem;
+@media only screen and (max-width: 375px){
+
+text-align:center;
+font-size:1.6rem;
+
+}
 
 `;
 
