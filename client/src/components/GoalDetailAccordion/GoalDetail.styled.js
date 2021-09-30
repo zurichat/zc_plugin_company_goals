@@ -17,3 +17,21 @@ export const Text = styled.h4`
   text-transform: capitalize;
   text-align: ${(props) => (props.primary ? 'left' : 'right')};
 `;
+
+export const Button = styled.button`
+  background: #00b87c;
+  color: #ffffff;
+  line-height: 24px;
+  font-size: 15px;
+  border-radius: 3px;
+  padding: 1rem;
+  outline: 0;
+  border: 0;
+
+  @media screen and (max-width: 500px) {
+    padding: 0.5rem;
+  }
+  &::disabled {
+    background: rgba(0, 184, 112, 0.48);
+  }
+`;
