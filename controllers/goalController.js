@@ -253,14 +253,10 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
 
 
-  // if (designation.toLowerCase().trim() === 'owner') {
-    try {
+  if (designation.toLowerCase().trim() === 'owner') {
+ 
       
-      const goals = await findById('goals', { _id: goalId }, orgId);
-      console.log(goals.data)
-    } catch (error) {
-      console.log(error)
-    }
+      const goals = await findById('goals', goalId, orgId);
       // Then, send update to zuri core
       logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);
       await updateOne('goals', req.body, {}, orgId, goalId);
@@ -284,8 +280,8 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
         message: 'success',
         data: updatedGoal.data.data,
       });
-  // } 
-  // res.status(403).send({ status: 'failed', message: 'Forbidden' });
+  } 
+  res.status(403).send({ status: 'failed', message: 'Forbidden' });
 });
 
 
@@ -312,7 +308,7 @@ exports.getArchivedGoals = catchAsync(async (req, res, next) => {
 exports.deleteGoalById = catchAsync(async (req, res, next) => {
   // First, Get the goalId & orgid from req.params
   const { goal_id: id, org_id: org } = req.query;
-
+console.log('step one')
   logger.info(`Would attempt to delete goal for ${org} with id: ${id}`);
 
   // The organization id is required.
@@ -320,7 +316,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     logger.info('please provide an organization id.');
     res.status(400).send({ error: 'Organization_id is required' });
   }
-
+console.log('step two');
   // find the goal first to ensure the goal was created by the organization
   logger.info(`Checking to make sure the organization that deleted is the one deleting.`);
   const goal = await find('goals', { _id: id }, org);
@@ -329,17 +325,19 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     logger.info('Wrong organization id provided.');
     res.status(404).send({ error: 'There is no goal of this id attached to this organization id that was found.' });
   }
+
+  console.log('step three');
   const { room_id: roomId, goal_name } = goal.data.data;
 
   // delete assigned records
   await deleteMany('roomusers', { room_id: roomId }, org);
-
+console.log('step four');
   // Then, delete the goal.
   const response = await deleteOne('goals', org, id);
-
+console.log('step five');
   // Send a notification to each user.
   await createNotification(user_ids, org, roomId, goal_name, 'deleteGoal');
-
+console.log('step six');
   logger.info(`Successfully deleted the goal with id: ${id}`);
   res.status(200).json({ status: 200, message: 'Goal deleted successfully.', response: response.data.data });
 });

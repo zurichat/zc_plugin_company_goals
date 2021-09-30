@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { Router } = require('express');
+const {getChartInfo} = require('../controllers/chartController')
 const {
   getSingleGoal,
   getAllGoals,
@@ -17,22 +18,17 @@ const {
   checkUserDisLikes,
   sortGoalByType
 } = require('../controllers/goalController');
+const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
 
-const {getChartInfo} = require('../controllers/chartController')
-const {
-  updateSingleGoalTargetById,
-  createGoalTargets,
-  getGoalTargets
-} = require('../controllers/targetController')
 
 const router = Router();
 
 
 // auth specific routes
 router.post('/', auth, createGoal);
-router.route('/delete', auth, deleteGoalById);
 router.put('/update/:id', auth, updateSingleGoalById);
+router.delete('/delete', auth, deleteGoalById);
 
 
 router.post('/assign', assignGoal)
@@ -54,6 +50,4 @@ router.put('/target/update/:id', updateSingleGoalTargetById)
 
 
 module.exports = router;
-// router.route('/archived').get(getArchivedGoals)
-// router.route('/:id').get(getSingleGoal).delete(deleteGoal)
-// router.patch('/update/:id', updateSingleGoalById);
+
