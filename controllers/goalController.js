@@ -34,7 +34,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId, page, limit, sort } = req.query;
 
   if (!orgId) {
-    logger.info(`Can't get goals for null organisation id... Exiting...`);
+     logger.info(`Can't get goals for null organisation id... Exiting...`);
     return res.status(400).send({ error: 'org_id is required' });
   }
 
