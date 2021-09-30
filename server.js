@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
 require('dotenv').config({
-  path: './config.env'
+  path: './config.env',
 });
 
 const app = require('./app');
-const logger = require('./utils/logger');
-const Cronjob= require('./controllers/cronController');
+const Cronjob = require('./controllers/cronController');
+const logger = require('./utils/logger.js');
 
 const PORT = process.env.PORT || 4000;
-
 
 Cronjob();
 const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
