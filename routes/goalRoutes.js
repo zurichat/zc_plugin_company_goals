@@ -17,11 +17,11 @@ const {
   getGoalDisLikes,
   checkUserDisLikes,
   sortGoalByType,
-  createGoalTargets,
-  getGoalTargets,
+  // createGoalTargets,
+  // getGoalTargets,
   averageGoalProgress,
   individualGoalProgress,
-  deleteTarget,s
+  deleteTarget,
   getGoalProgress,
 } = require('../controllers/goalController');
 const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
