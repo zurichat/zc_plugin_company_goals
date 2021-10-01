@@ -9,19 +9,22 @@ const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
   const totalPagesArr = new Array(totalPages).fill(1).map((item, index) => index + 1);
   console.log(totalPagesArr);
 
-  // function handlePrev(pageNum, index, setPageNum, totalPagesArr) {
-  // if (!index === totalPagesArr[0]) setPageNum(pageNum - 1);
+  function handlePrev(pageNum, setPageNum, totalPagesArr) {
+    if (pageNum >= totalPagesArr[0]) setPageNum(pageNum - 1);
+  }
 
-  // }
-
-  //   function handleNext(pageNum, index, setPageNum, totalPagesArr) {
-  //     if (!index === totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
-  //   }
+  function handleNext(pageNum, setPageNum, totalPagesArr) {
+    if (pageNum <= totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
+  }
 
   return (
     <PagContainer>
       <div className="page_index_container">
-        <button className="index">
+        <button
+          className="index"
+          onClick={() => handlePrev(pageNum, setPageNum, totalPagesArr)}
+          disabled={pageNum === totalPagesArr[0] ? true : false}
+        >
           <BiChevronLeft />
         </button>
         {totalPagesArr?.map((page, index) => (
@@ -29,7 +32,11 @@ const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
             {page}
           </div>
         ))}
-        <button className="index">
+        <button
+          onClick={() => handleNext(pageNum, setPageNum, totalPagesArr)}
+          className="index"
+          disabled={pageNum === totalPagesArr[totalPagesArr.length - 1] ? true : false}
+        >
           <BiChevronRight />
         </button>
       </div>

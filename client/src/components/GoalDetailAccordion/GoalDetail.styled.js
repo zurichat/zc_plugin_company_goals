@@ -57,8 +57,8 @@ export const PagContainer = styled.div`
 
       outline: none;
       &:disabled {
-        color: red;
-        cursor: none;
+        color: #0005;
+        cursor: not-allowed;
       }
     }
 
