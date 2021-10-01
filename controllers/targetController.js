@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
@@ -8,20 +7,6 @@ const { targetSchema } = require('../schemas');
 const { reduceCalculation, average, calculate } = require('../utils/calculate');
 // Dummy data
 const { goalId, targets } = require('../data/target');
-=======
-const {
-  find,
-  findAll,
-  findById,
-  insertOne,
-  updateOne,
-  deleteMany
-} = require('../db/databaseHelper');
-const { targetSchema } = require('../schemas');
-const {reduceCalculation, average, calculate} = require('../utils/calculate');
-// Dummy data
-const {goalId, targets} = require('../data/target');
->>>>>>> a2ddfd9e90f8792334f1e7fc5fb65f9ab28ec2c6
 
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
@@ -242,7 +227,7 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
 
 //   // get goal id from the url
 //   const { org_id, goal_id } = req.query;
-  
+
 //   logger.info(`Started creating a new target for goal with id ${goal_id}`);
 
 //   // check if organization id exists
@@ -317,7 +302,7 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
 // })
 
 // exports.updateSingleGoalTargetById = catchAsync(async (req, res, next) => {
- 
+
 //   // First, Get the TargetById from req.params
 //   logger.info(`Starting operation to update a Target By Id`);
 //   const TargetById = req.params.id;
@@ -343,5 +328,5 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
 // }catch (error) {
 //   res.status(500).json({ status: 'failed', message: 'server Error', data: null });
 // }
-  
+
 // });
