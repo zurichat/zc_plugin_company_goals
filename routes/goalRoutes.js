@@ -16,25 +16,16 @@ const {
   disLikeGoal,
   getGoalDisLikes,
   checkUserDisLikes,
-<<<<<<< HEAD
   sortGoalByType,
 } = require('../controllers/goalController');
-const {
-=======
-  sortGoalByType
-} = require('../controllers/goalController');
+
 const { 
->>>>>>> a2ddfd9e90f8792334f1e7fc5fb65f9ab28ec2c6
   updateSingleGoalTargetById,
   createGoalTargets,
   getGoalTargets,
   averageGoalProgress,
   deleteTarget,
-<<<<<<< HEAD
-  getSingleGoalProgress,
-=======
-  getGoalProgress
->>>>>>> a2ddfd9e90f8792334f1e7fc5fb65f9ab28ec2c6
+  getSingleGoalProgress
 } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
 const restrictToOwner = require('../middlewares/restrict');
