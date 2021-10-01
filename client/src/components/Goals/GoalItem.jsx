@@ -126,10 +126,14 @@ const GoalItem = ({ goalData }) => {
     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   };
 
- 
-  
+  const Progress = async (orgId) => {
+    const data = await fetch('https://localhost:4000/api/v1/goals/individual-goal-progress?org_id=6145d099285e4a184020742e');
+    const response = await axios.get('https://localhost:4000/api/v1/goals/individual-goal-progress?org_id=6145d099285e4a184020742e');
 
-  const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
+    return response.data;
+  }
+
+  // const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
   const goalStart = new Date(goalData.start_date);
   const goalEnd = new Date(goalData.due_date);
   const startMonth = month.month_names_short[goalStart.getMonth()];
