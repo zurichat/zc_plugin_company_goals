@@ -9,6 +9,23 @@ export const Div = styled.div`
   height: 250px;
 `;
 
+export const Container = styled.div`
+  &::-webkit-scrollbar {
+    width: 4px; /* width of the entire scrollbar */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #fff; /* color of the tracking area */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #00b87c; /* color of the tracking area */
+
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid transparent; /* creates padding around scroll thumb */
+  }
+`;
+
 export const Text = styled.h4`
   margin: 0 10px;
   font-size: 1rem;
@@ -17,7 +34,6 @@ export const Text = styled.h4`
   text-transform: capitalize;
   text-align: ${(props) => (props.primary ? 'left' : 'right')};
 `;
-
 
 export const PagContainer = styled.div`
   height: 50px;
@@ -37,10 +53,9 @@ export const PagContainer = styled.div`
 
     button {
       background-color: transparent;
-      border:none;
-      
+      border: none;
 
-     outline: none;
+      outline: none;
       &:disabled {
         color: red;
         cursor: none;

@@ -14,7 +14,6 @@ function MainApp() {
         <Goal>
           <InnerNav />
           <GoalDetailAccordion />
-          
         </Goal>
       </GoalsDisplayContainer>
       {/* */}
@@ -44,7 +43,6 @@ const MainAppContainer = styled.main`
 const GoalsDisplayContainer = styled.div`
   width: 69%;
   height: 100%;
-  border: 1px solid green;
   @media only screen and (max-width: 960px) {
     width: 59%;
   }
@@ -67,7 +65,7 @@ const GoalsReportAndNotificationContainer = styled.div`
 `;
 const Goal = styled.div`
   height: 100%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
   flex: 1;
   align-items: center;
