@@ -50,11 +50,11 @@ export default function GoalDetailAccordion(props) {
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
-  if (props.selectedGoals === 'all') {
-    output = goals;
-  } else {
-    output = goals.filter((res) => res.goal_type === props.selectedGoals);
-  }
+  // if (props.selectedGoals === 'all') {
+  //   output = goals;
+  // } else {
+  //   output = goals.filter((res) => res.goal_type === props.selectedGoals);
+  // }
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
