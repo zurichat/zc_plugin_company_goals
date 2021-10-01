@@ -5,7 +5,7 @@ const day = date.getDate();
 const month = date.getMonth() + 1;
 const year = date.getFullYear();
 const today = `${year}-${month}-${day}`;
-let checkArray = [];
+
 
 exports.isDateToday = (date) =>{
     //ONLY WORKS FOR DATE FORMAT YYYY-MM-DD

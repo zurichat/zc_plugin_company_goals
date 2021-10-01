@@ -29,6 +29,7 @@ import HistoryList from '../history/historyList';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 import Loader from '../loader/loader';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
+
 import { MainSection } from './Mainside.styled';
 
 // import UnAchiveModal from '../UnAchivedGoals/UnAchiveModal';

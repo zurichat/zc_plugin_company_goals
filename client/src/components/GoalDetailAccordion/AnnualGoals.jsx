@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import Accordion from '@material-ui/core/Accordion';
@@ -13,12 +13,8 @@ import GoalDetailData from './GoalDetailData';
 import EmptyGoal from '../empty-goal-interface/EmptyGoal';
 import Loader from '../loader/loader';
 import Error from '../error/Error';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { getGoals } from '../../redux/showGoalSlice';
-import TargetForm from '../TargetForm/TargetForm';
-import { Div, Text, Button } from '../GoalDetailAccordion/GoalDetail.styled';
-import { openModal } from '../../redux/TargetModalSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,13 +33,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoalDetailAccordion() {
+const AnnualGoals = () => {
   let { orgId } = useParams();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
-  const dispatch = useDispatch();
-  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
   console.log('roomy', roomId);
 
@@ -51,42 +45,39 @@ export default function GoalDetailAccordion() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // const fetcher = async (getAllGoalsUrl) => {
-  //   const response = await axios.get(getAllGoalsUrl);
-  //   return response.data;
-  // };
+  const fetcher = async (getAllGoalsUrl) => {
+    const response = await axios.get(getAllGoalsUrl);
+    return response.data;
+  };
   const requestURL = `${
     process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
   }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
-  const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
-  // console.log('err', error);
-  if (!errorInfo && !goals) return <Loader />;
+  const { data, error } = useSWR('getAllGoals', () => fetcher(requestURL));
+  console.log('err', error);
+  if (!error && !data) return <Loader />;
 
-  if (errorInfo) return <Error errorMessage={errorInfo.message} />;
+  if (error) return <Error errorMessage={error.message} />;
 
-  if (!goals.length) return <EmptyGoal />;
+  if (!data.data.length) return <EmptyGoal />;
+
+  const annualGoals = data.data.filter(annual => annual.goal_type === 'annual')
 
   return (
     <div className={classes.root}>
-      {goals.map((goal) => {
+      {annualGoals.map((goal) => {
         return (
           <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
             <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-              <GoalItem goalData={goal} />
+              <GoalItem goalData={goal} /> 
             </AccordionSummary>
             <AccordionDetails style={{ height: '50%' }}>
               <GoalDetailData goalData={goal} />
             </AccordionDetails>
-            <AccordionDetails>
-              <Div>
-                <Text primary> Goal Progress </Text>
-                <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
-              </Div>
-            </AccordionDetails>
           </Accordion>
         );
       })}
-      <TargetForm />
     </div>
   );
 }
+
+export default AnnualGoals

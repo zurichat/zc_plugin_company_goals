@@ -1,0 +1,9 @@
+{
+  "status": 200,
+  "message": "success",
+  "payload": {
+    "_id": "6145d346285e4a184020744e",
+    "organization_id": "6145d099285e4a184020742e",
+    "vision": "Checks over stripes"
+  }
+}
