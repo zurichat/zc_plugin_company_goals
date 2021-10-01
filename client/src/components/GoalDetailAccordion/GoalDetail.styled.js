@@ -11,7 +11,7 @@ export const Div = styled.div`
 
 export const Text = styled.h4`
   margin: 0 10px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-size: 1rem;
   font-weight: 400;
   color: ${(props) => (props.primary ? '#393939' : '#8D8D8D')};
@@ -20,12 +20,18 @@ export const Text = styled.h4`
 `;
 
 export const Button = styled.button`
-  background: #00b87c;
-  color: #ffffff;
-  line-height: 24px;
-  font-size: 15px;
+  background: ${(props) => props.background};
+  color: ${(props) => props.color};
+  line-height: ${(props) => props.lineHeight};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  font-size: ${(props) => props.fontSize};
+  margin-left: ${(props) => props.marginLeft};
   border-radius: 3px;
-  padding: 1rem;
+  font-family: lato;
+  font-weight: normal;
+  margin-top: ${(props) => props.marginTop};
+  padding: ${(props) => props.padding};
   outline: 0;
   border: 0;
 
