@@ -45,5 +45,6 @@ const MVContain = styled.div`
 
   @media only screen and (max-width: 760px) {
     flex-direction: column;
+    padding: 20px 15px;
   }
 `;
