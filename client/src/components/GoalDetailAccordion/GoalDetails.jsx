@@ -1,4 +1,4 @@
-import React,{Fragment} from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import Accordion from '@material-ui/core/Accordion';
@@ -43,12 +43,9 @@ export default function GoalDetailAccordion() {
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
   const dispatch = useDispatch();
-  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);  
+  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
-  const goals = useSelector((state) => state.goals.list);
-
-  console.log('roomy', roomId);
-
+  // console.log('roomy', roomId);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -70,25 +67,25 @@ export default function GoalDetailAccordion() {
 
   return (
     <div className={classes.root}>
-        {goals.map((goal) => {
-          return (
-            <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
-              <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-                <GoalItem goalData={goal} />
-              </AccordionSummary>
-              <AccordionDetails style={{ height: '50%' }}>
-                <GoalDetailData goalData={goal} />
-              </AccordionDetails>
-              <AccordionDetails>
-                <Div>
-                  <Text primary> Goal Progress </Text>
-                  <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
-                </Div>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-        <TargetForm/>
+      {goals.map((goal) => {
+        return (
+          <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+            <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+              <GoalItem goalData={goal} />
+            </AccordionSummary>
+            <AccordionDetails style={{ height: '50%' }}>
+              <GoalDetailData goalData={goal} />
+            </AccordionDetails>
+            <AccordionDetails>
+              <Div>
+                <Text primary> Goal Progress </Text>
+                <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
+              </Div>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+      <TargetForm />
     </div>
   );
 }

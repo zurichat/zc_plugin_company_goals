@@ -1,12 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-export const getGoals = createAsyncThunk('showGoal/getGoals', async () => {
-  return fetch('https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e').then(
-    (res) => res.json()
-    //  console.log(res.json(), "response")
-  );
-});
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -21,12 +13,12 @@ export const showGoalSlice = createSlice({
     goals: null,
     status: null,
     errorMessage: null,
+    errorInfo: null,
   },
   reducers: {
     goalSorted(state, action) {
       state.goals = action.payload;
     },
-    errorInfo: null,
   },
   extraReducers: {
     [getGoals.pending]: (state, action) => {

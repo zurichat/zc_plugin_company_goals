@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const options = ['Most Recent', 'Due Date', 'Progress', 'Category'];
+const options = ['Due Date', 'Most Recent', 'Name', 'Progress', 'Category'];
 const InnerNav = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -34,6 +34,7 @@ const InnerNav = () => {
     const values = {
       'Most Recent': 'create_at',
       'Due Date': 'due_date',
+      Name: 'goal_name',
       Progress: 'progress',
       Category: 'category',
     };
@@ -41,8 +42,8 @@ const InnerNav = () => {
       `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&sort=${values[value]}`
     );
     const result = await res.json();
-    console.log(result);
-    dispatch(goalSorted(result));
+    // console.log(result.data);
+    dispatch(goalSorted(result.data));
   };
 
   const handleClickListItem = (event) => {
