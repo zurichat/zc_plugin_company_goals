@@ -50,50 +50,15 @@ export default function GoalDetailAccordion(props) {
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
-  // console.log(goals);
-  // console.log('roomy', roomId);
-  let output;
   if (props.selectedGoals === 'all') {
     output = goals;
   } else {
     output = goals.filter((res) => res.goal_type === props.selectedGoals);
   }
-  //
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
-  // const fetcher = async (pageNum) => {
-  //   let Url = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
-
-  //   const response = await axios.get(Url);
-  //   return response.data;
-  // };
-
-  // useEffect(async () => {
-  //   const response = await fetcher(pageNum);
-
-  //   setGoalComponents(response);
-  // }, [pageNum]);
-
-  // return (
-  //   <div className={classes.root}>
-  //     {console.log(goalComponents)}
-  //     {goalComponents && <Pagination pageCount={goalComponents} setPageNum={setPageNum} pageNum={pageNum} />}
-  // const fetcher = async (getAllGoalsUrl) => {
-  //   const response = await axios.get(getAllGoalsUrl);
-  //   return response.data;
-  // };
-
-  // const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
-  // // console.log('err', error);
-  // if (!errorInfo && !goals) return <Loader />;
-
-  // if (errorInfo) return <Error errorMessage={errorInfo.message} />;
-
-  // if (!goals.length) return <EmptyGoal />;
-
-  // fecth page with default paratmeter
 
   async function getAllComponentsFromServer(pageNum) {
     const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
