@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { Router } = require('express');
-const {getChartInfo} = require('../controllers/chartController')
+const { getChartInfo } = require('../controllers/chartController');
 const {
   getSingleGoal,
   getAllGoals,
@@ -17,28 +17,26 @@ const {
   getGoalDisLikes,
   checkUserDisLikes,
   sortGoalByType,
-  // createGoalTargets,
-  // getGoalTargets,
-  averageGoalProgress,
-  individualGoalProgress,
-  deleteTarget,
-  getGoalProgress,
 } = require('../controllers/goalController');
-const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
+const {
+  updateSingleGoalTargetById,
+  createGoalTargets,
+  getGoalTargets,
+  averageGoalProgress,
+  deleteTarget,
+  getSingleGoalProgress,
+} = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
-const restrictToOwner = require('../middlewares/restrict')
-
+const restrictToOwner = require('../middlewares/restrict');
 
 const router = Router();
 
-
 // auth specific routes
 router.post('/', auth, restrictToOwner, createGoal);
-router.put('/update/:id', auth,restrictToOwner, updateSingleGoalById);
+router.put('/update/:id', auth, restrictToOwner, updateSingleGoalById);
 router.delete('/delete', auth, restrictToOwner, deleteGoalById);
 
-
-router.post('/assign', assignGoal)
+router.post('/assign', assignGoal);
 router.get('/', getAllGoals);
 router.get('/chart', getChartInfo);
 router.get('/like', likeGoal);
@@ -54,12 +52,7 @@ router.post('/target', createGoalTargets);
 router.get('/target', getGoalTargets);
 router.delete('/target/delete', deleteTarget);
 router.get('/average-goal-progress', averageGoalProgress);
-router.get('/individual-goal-progress', individualGoalProgress);
-router.get('/goalprogress', getGoalProgress);
+router.get('/single-goal-progress', getSingleGoalProgress);
 router.put('/target/update/:id', updateSingleGoalTargetById);
 
-
-
-
 module.exports = router;
-
