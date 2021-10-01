@@ -97,13 +97,27 @@ const NavDiv = styled.div`
     }
   }
 `;
-const GoalsNavLayout = () => {
+
+const GoalsNavLayout = (props) => {
   const dispatch = useDispatch();
+  const clickAllHandler = () => {
+    props.onSetState('all');
+  };
+  const clickAnnualHandler = () => {
+    props.onSetState('annual');
+  };
+  const clickQuarterlyHandler = () => {
+    props.onSetState('quarterly');
+  };
   return (
     <GridLayout>
       <NavDiv>
-        <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
-        <NavName> quaterly goals </NavName>
+        <NavName className="active" onClick={clickAllHandler}>
+          {' '}
+          all goals{' '}
+        </NavName>{' '}
+        <NavName onClick={clickAnnualHandler}> annual goals </NavName>
+        <NavName onClick={clickQuarterlyHandler}> quaterly goals </NavName>
       </NavDiv>
       <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; new goal</CreateGoalButton>
     </GridLayout>
