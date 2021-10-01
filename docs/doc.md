@@ -1252,15 +1252,13 @@ You can call by organizationid and goalid. Please note that you&#39;ll need to h
 
 > ### Code Sample
 
-curl -X &#39;GET&#39; \
-
-&#39;https://goals.zuri.chat/api/v1/target?org\_id=613ddbd3e4010959c8dc0c5e&amp;goal\_id=613ddbd3e4010959c8dc0c5e\
-
--H &#39;accept: application/json&#39; \
-
--H &#39;Content-Type: application/json&#39; \
-
-}&#39;
+```bash
+curl -X 'GET' \
+ 'https://goals.zuri.chat/api/v1/target?org_id=613ddbd3e4010959c8dc0c5e&amp&goal_id=613ddbd3e4010959c8dc0c5e\
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+}'
+```
 
 > ### Sample Response
 
