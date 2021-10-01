@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoalDetailAccordion() {
+export default function GoalDetailAccordion(props) {
   let { orgId } = useParams();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -50,8 +50,15 @@ export default function GoalDetailAccordion() {
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
-  console.log('roomy', roomId);
-
+  // console.log(goals);
+  // console.log('roomy', roomId);
+  let output;
+  if (props.selectedGoals === 'all') {
+    output = goals;
+  } else {
+    output = goals.filter((res) => res.goal_type === props.selectedGoals);
+  }
+  //
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -136,35 +143,27 @@ export default function GoalDetailAccordion() {
       {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
     </React.Fragment>
   );
+
+  //   <div className={classes.root}>
+  //     {output.map((goal) => {
+  //       return (
+  //         <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+  //           <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+  //             <GoalItem goalData={goal} />
+  //           </AccordionSummary>
+  //           <AccordionDetails style={{ height: '50%' }}>
+  //             <GoalDetailData goalData={goal} />
+  //           </AccordionDetails>
+  //           <AccordionDetails>
+  //             <Div>
+  //               <Text primary> Goal Progress </Text>
+  //               <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
+  //             </Div>
+  //           </AccordionDetails>
+  //         </Accordion>
+  //       );
+  //     })}
+  //     <TargetForm />
+  //   </div>
+  // );
 }
-
-// const GoalList = ({ goals }) => {
-//   console.log(goals);
-
-//   return (
-//     <>
-//       <div className={classes.root}>
-//         {goals.map((goal) => {
-//           return (
-//             <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
-//               <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-//                 <GoalItem goalData={goal} />
-//               </AccordionSummary>
-//               <AccordionDetails style={{ height: '50%' }}>
-//                 <GoalDetailData goalData={goal} />
-//               </AccordionDetails>
-//               <AccordionDetails>
-//                 <Div>
-//                   <Text primary> Goal Progress </Text>
-//                   <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
-//                 </Div>
-//               </AccordionDetails>
-//             </Accordion>
-//           );
-//         })}
-//         <TargetForm />
-
-//       </div>
-//     </>
-//   );
-// };

@@ -93,7 +93,7 @@ const updateVision = async (req, res, next) => {
     }
     // Send notification to all users.
     if (updatedVision.data.data.modified_documents > 0) {
-      await publish('publish-vision-update', vision);
+      await publish('goals-publish-vision-update', vision);
       await createNotification(user_ids, organization_id, '', '', 'updateVision');
     }
 

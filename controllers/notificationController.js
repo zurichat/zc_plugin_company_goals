@@ -68,7 +68,7 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
     const Notification = await insertMany('goalNotifications', notifications, orgId);
     const goalNotification = notifications[0];
     goalNotification._id = Notification.data.data.object_ids[0];
-    await publish('goalNotifications', goalNotification);
+    await publish('goals-general-notifications', goalNotification);
     return goalNotification;
   } catch (error) {
     logger.info(`The write operation failed with the following error messages: ${error}`);
