@@ -43,8 +43,8 @@ const TargetForm = () => {
                 <Text>(For your goal milestone measurement)</Text>
                 <RadioContainer>
                   <InputGroup>
-                    <RadioInput id="goalMeasurement" name="goalMeasurement" />
-                    <Label htmlFor="goalMeasurement">
+                    <RadioInput id="number" name="goalMeasurement" />
+                    <Label htmlFor="number">
                       <NewRadio />
                       <br />
                       Number
@@ -54,8 +54,8 @@ const TargetForm = () => {
                   </InputGroup>
 
                   <InputGroup>
-                    <RadioInput id="goalMeasurement" name="goalMeasurement" />
-                    <Label htmlFor="goalMeasurement">
+                    <RadioInput id="logical" name="goalMeasurement" />
+                    <Label htmlFor="logical">
                       <NewRadio />
                       <br />
                       Logical
