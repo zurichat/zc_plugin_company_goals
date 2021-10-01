@@ -23,7 +23,7 @@ const publish = async (channel, data) => {
     );
     return true;
   } catch (error) {
-    throw new CustomError(`Unable to publish to ${channel}: ${error}`, '500');
+    throw new CustomError(`Unable to publish to ${channel}: ${error}`, 500);
   }
 };
 
