@@ -3,6 +3,7 @@ const axios = require('axios');
 const auth = async (req, res, next) => {
   const URL = `https://api.zuri.chat/auth/verify-token`;
   const URL_ORG = `https://api.zuri.chat/organizations`;
+  const allowedRoles = ['owner', 'member'];
 
   if (req) {
     const authorization = req.header('Authorization');
@@ -20,7 +21,6 @@ const auth = async (req, res, next) => {
         const {
           data: { user },
         } = response.data;
-
         if (user && user.email) {
           const {
             data: { data },
@@ -32,8 +32,14 @@ const auth = async (req, res, next) => {
               Authorization: AuthStr,
             },
           });
-          req.designation = data[0].role;
-          next();
+          const designation = data[0].role;
+
+          if (allowedRoles.includes(designation)) {
+            req.designation = designation;
+            next();
+          } else {
+            return res.status(401).json({status: 'failed', message:'Unauthorized to access workspace'})
+        }
         } else {
           return res.status(401).json({ status: 'failed', message: 'Token is incorrect' });
         }

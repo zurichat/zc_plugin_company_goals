@@ -37,16 +37,16 @@ const router = Router();
 router.post('/', auth, restrictToOwner, createGoal);
 router.put('/update/:id', auth,restrictToOwner, updateSingleGoalById);
 router.delete('/delete', auth, restrictToOwner, deleteGoalById);
+router.post('/assign', auth, restrictToOwner, assignGoal)
+router.delete('/assigned', auth, restrictToOwner, removeAssigned);
 
 
-router.post('/assign', assignGoal)
 router.get('/', getAllGoals);
 router.get('/chart', getChartInfo);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
 router.get('/userlike', checkUserLike);
 router.get('/single', getSingleGoal);
-router.delete('/assigned', removeAssigned);
 router.get('/dislike', disLikeGoal);
 router.get('/goaldislikes', getGoalDisLikes);
 router.get('/userdislike', checkUserDisLikes);
