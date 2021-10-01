@@ -27,8 +27,7 @@ const { createNotification } = require('./notificationController');
 
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
-
-exports.sortGoalByType = async (req, res, next)=>{
+exports.sortGoalByType = async (req, res, next) => {
   const { org_id: orgId, type: goalType } = req.query;
 
   try {
@@ -36,21 +35,18 @@ exports.sortGoalByType = async (req, res, next)=>{
     const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
 
     // No matching data, return an empty array
-    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
-    {
+    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1) {
       return res.status(200).json({ message: 'success', data: [] });
     }
-      
+
     res.status(200).json({
       message: 'success',
       data: goalsSorted.data.data,
     });
-  } 
-  catch (error) {
-   
+  } catch (error) {
     res.status(500).json({ message: 'failed, server error', data: null });
   }
-}
+};
 
 exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
   const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
@@ -83,13 +79,13 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
     status: 'success',
     data: true,
   });
-})
+});
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId, page, limit, sort } = req.query;
 
   if (!orgId) {
-     logger.info(`Can't get goals for null organisation id... Exiting...`);
+    logger.info(`Can't get goals for null organisation id... Exiting...`);
     return res.status(400).send({ error: 'org_id is required' });
   }
 
@@ -192,50 +188,49 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
   let goals;
 
-
   if (!orgId) {
     logger.info(`Unable to create a goal as organization id isn't provided.`);
     res.status(400).send({ error: 'Organization_id is required' });
     return;
   }
 
+  try {
+    await goalSchema.validateAsync(req.body);
+    logger.info(`Successfully validated the request body.`);
+  } catch (err) {
+    logger.info(`There are errors with the request body: ${err.details}`);
+    if (err) return res.status(400).json(err.details);
+  }
+  try {
+    logger.info(
+      `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
+    );
+    const findGoals = await find('goals', { goal_name: title }, orgId);
 
-    try {
-      await goalSchema.validateAsync(req.body);
-      logger.info(`Successfully validated the request body.`);
-    } catch (err) {
-      logger.info(`There are errors with the request body: ${err.details}`);
-      if (err) return res.status(400).json(err.details);
+    const { data: foundGoal } = findGoals.data;
+
+    if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
+      logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
+      return res.status(400).send({
+        error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
+      });
     }
-    try {
-      logger.info(
-        `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
-      );
-      const findGoals = await find('goals', { goal_name: title }, orgId);
+  } catch (error) {
+    logger.info(`There are no goals with the title: ${title}`);
+    if (error) goals = error.message;
+  }
 
-      const { data: foundGoal } = findGoals.data;
+  try {
+    const data = {
+      room_id: roomId,
+      is_complete: false,
+      is_expired: false,
+      progress: 0,
+      created_at: date,
+      ...goal,
+    };
 
-      if (foundGoal[0].goal_name === title && foundGoal[0].category === category) {
-        logger.info(`You are not allowed to create a goal with the same name as a previous goal.`);
-        return res.status(400).send({
-          error: `Goal with the title: '${title}' and  category: '${category}' already exists on your organization`,
-        });
-      }
-    } catch (error) {
-      logger.info(`There are no goals with the title: ${title}`);
-      if (error) goals = error.message;
-    }
-
-    try {
-      const data = {
-        room_id: roomId,
-        is_complete: false,
-        is_expired: false,
-        created_at: date,
-        ...goal,
-      };
-
-      goals = await insertOne('goals', data, orgId);
+    goals = await insertOne('goals', data, orgId);
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
@@ -244,16 +239,15 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 
-      if (goals.data.status === 200) {
-        await createNotification(user_ids, orgId, roomId, title, 'createGoal');
-        logger.info(`Successfully created a new goal: ${goals.data.data}`);
-        res.status(200).json({ message: 'success', data });
-      }
-    } catch (error) {
-    
-      return res.status(400).send({ message: 'Invalid request' });
+    if (goals.data.status === 200) {
+      await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+      logger.info(`Successfully created a new goal: ${goals.data.data}`);
+      res.status(200).json({ message: 'success', data });
     }
-  })
+  } catch (error) {
+    return res.status(400).send({ message: 'Invalid request' });
+  }
+});
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
@@ -305,49 +299,37 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
   next(new AppError({ message: 'invalid request' }, { statusCode: 400 }));
 });
 
-
-
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
- 
   // First, Get the goalId from req.params
   logger.info(`Starting operation to update a goal by its id.`);
   const goalId = req.params.id;
   const { org_id: orgId } = req.query;
 
+  const goals = await findById('goals', goalId, orgId);
+  // Then, send update to zuri core
+  logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);
+  await updateOne('goals', req.body, {}, orgId, goalId);
 
+  // Send notifications to all users.
+  const updatedGoal = await find('goals', { _id: goalId }, orgId);
+  const { goal_name, room_id } = updatedGoal.data.data;
 
- 
-      
-      const goals = await findById('goals', goalId, orgId);
-      // Then, send update to zuri core
-      logger.info(`Updating goal with id: ${goalId} with data: ${req.body}`);
-      await updateOne('goals', req.body, {}, orgId, goalId);
+  if (req.body.is_expired === true) {
+    await createNotification(user_ids, orgId, room_id, goal_name, 'expiredGoal');
+  } else if (req.body.is_completed === true) {
+    await createNotification(user_ids, orgId, room_id, goal_name, 'achievedGoal');
+  } else {
+    await createNotification(user_ids, orgId, room_id, goal_name, 'updatedGoal');
+  }
 
-      // Send notifications to all users.
-      const updatedGoal = await find('goals', { _id: goalId }, orgId);
-      const { goal_name, room_id } = updatedGoal.data.data;
-
-      if (req.body.is_expired === true) {
-        await createNotification(user_ids, orgId, room_id, goal_name, 'expiredGoal');
-      } else if (req.body.is_completed === true) {
-        await createNotification(user_ids, orgId, room_id, goal_name, 'achievedGoal');
-      } else {
-        await createNotification(user_ids, orgId, room_id, goal_name, 'updatedGoal');
-      }
-
-      // send the updated goal to client.
-      logger.info(`Successfully updated the goal and got the response: ${updatedGoal.data.data}`);
-      return res.status(200).json({
-        status: 200,
-        message: 'success',
-        data: updatedGoal.data.data,
-      });
-
+  // send the updated goal to client.
+  logger.info(`Successfully updated the goal and got the response: ${updatedGoal.data.data}`);
+  return res.status(200).json({
+    status: 200,
+    message: 'success',
+    data: updatedGoal.data.data,
+  });
 });
-
-
-
-
 
 exports.getArchivedGoals = catchAsync(async (req, res, next) => {
   // Gets archived goals
@@ -386,7 +368,6 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
     logger.info('Wrong organization id provided.');
     res.status(404).send({ error: 'There is no goal of this id attached to this organization id that was found.' });
   }
-
 
   const { room_id: roomId, goal_name } = goal.data.data;
 
@@ -729,4 +710,3 @@ exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
     },
   });
 });
-
