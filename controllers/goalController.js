@@ -167,19 +167,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.createGoal = async (req, res, next) => {
-  logger.info(`Started creating a new goal.`);
 
-  const response = {
-    'total Goals': goals,
-    'completed Goals': completedGoals,
-    'unCompleted Goals': unCompletedGoals,
-    'expired Goals': expiredGoals,
-  };
-
-  // Returning Response
-  res.status(200).json({ status: 200, message: 'success', data: response });
-};
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
