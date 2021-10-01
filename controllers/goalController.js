@@ -238,6 +238,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 
+<<<<<<< HEAD
     if (goals.data.status === 200) {
       await createNotification(user_ids, orgId, roomId, title, 'createGoal');
       logger.info(`Successfully created a new goal: ${goals.data.data}`);
@@ -247,6 +248,18 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     return res.status(400).send({ message: 'Invalid request' });
   }
 });
+=======
+      if (goals.data.status === 200) {
+        await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+        logger.info(`Successfully created a new goal: ${goals.data.data}`);
+        res.status(200).json({ message: 'success', data });
+      }
+    } catch (error) {
+    
+      return res.status(400).send({ message: 'Invalid request' });
+    }
+  })
+>>>>>>> a2ddfd9e90f8792334f1e7fc5fb65f9ab28ec2c6
 
 exports.getSingleGoal = catchAsync(async (req, res, next) => {
   logger.info(`Started getting a single goal by its UUID.`);
