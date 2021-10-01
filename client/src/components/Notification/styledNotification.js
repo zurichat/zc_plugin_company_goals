@@ -197,22 +197,31 @@ export const StyledPaginatecontainer = styled.div`
     justify-content: flex-end;
     margin-top: 20px;
     width: max-content;
+    margin-bottom: 21px;
+    scrollbar-color: yellow;
   }
   .paginationBttns a {
     padding: 10px;
     margin: 8px;
-    border-radius: 5px;
-    border: 1px solid #00b87c;
     color: #333;
     cursor: pointer;
+    font-weight: 400;
+    font-size: 17px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .paginationBttns a:hover {
-    color: white;
-    background-color: #00b87c;
+    color: black;
+    background-color: #00b87c32;
   }
   .paginationActive a {
-    color: white;
-    background-color: #00b87c;
+    border: 1px solid #00b87c;
+    background: #00b87c;
+    box-shadow: 0 0 2px -2px #0005;
+    color: #fff;
   }
   .activeText {
     color: white !important;
