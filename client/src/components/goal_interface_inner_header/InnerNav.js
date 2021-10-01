@@ -32,7 +32,7 @@ const InnerNav = () => {
 
   const fetchSortGoals = async (value) => {
     const values = {
-      'Most Recent': 'create_at',
+      'Most Recent': 'created_at',
       'Due Date': 'due_date',
       Name: 'goal_name',
       Progress: 'progress',
