@@ -18,6 +18,7 @@ export const Text = styled.h4`
   text-align: ${(props) => (props.primary ? 'left' : 'right')};
 `;
 
+<<<<<<< HEAD
 
 export const PagContainer = styled.div`
   height: 50px;
@@ -72,3 +73,22 @@ export const PagContainer = styled.div`
     }
   }
 `;
+=======
+export const Button = styled.button`
+  background: #00b87c;
+  color: #ffffff;
+  line-height: 24px;
+  font-size: 15px;
+  border-radius: 3px;
+  padding: 1rem;
+  outline: 0;
+  border: 0;
+
+  @media screen and (max-width: 500px) {
+    padding: 0.5rem;
+  }
+  &::disabled {
+    background: rgba(0, 184, 112, 0.48);
+  }
+`;
+>>>>>>> 5f5d31806dc460fe0de6847cfc144e931e937bde

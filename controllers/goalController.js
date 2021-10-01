@@ -24,14 +24,75 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
+const {reduceCalculation, average, calculate} = require('../utils/calculate');
+// Dummy data
+const {goalId, targets} = require('../data/target');
 
 const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
+
+
+exports.sortGoalByType = async (req, res, next)=>{
+  const { org_id: orgId, type: goalType } = req.query;
+
+  try {
+    // find goals by type
+    const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
+
+    // No matching data, return an empty array
+    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
+    {
+      return res.status(200).json({ message: 'success', data: [] });
+    }
+      
+    res.status(200).json({
+      message: 'success',
+      data: goalsSorted.data.data,
+    });
+  } 
+  catch (error) {
+   
+    res.status(500).json({ message: 'failed, server error', data: null });
+  }
+}
+
+exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
+  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
+
+  // Validate the body
+  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
+
+  // check that the goal_id is valid
+  const goal = await find(
+    'goals',
+    {
+      _id: goalId,
+    },
+    orgId
+  );
+
+  if (goal.data.data === null) {
+    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+  }
+
+  // check if user already disliked goal
+  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
+  if (disLike.data.data === null) {
+    return res.status(200).json({
+      status: 'success',
+      data: false,
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: true,
+  });
+})
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const { org_id: orgId, page, limit, sort } = req.query;
 
   if (!orgId) {
-    logger.info(`Can't get goals for null organisation id... Exiting...`);
+     logger.info(`Can't get goals for null organisation id... Exiting...`);
     return res.status(400).send({ error: 'org_id is required' });
   }
 
@@ -100,7 +161,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info('no goals for this organization');
-  
+
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -108,6 +169,89 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+const findGoal = async (org_id, res) => {
+  let goals;
+  try {
+    goals = await findAll('goals', org_id);
+    // console.log(goals)
+    return goals;
+  } catch (err) {
+    if (err) return res.status(400).json(err.details);
+  }
+}
+
+const findTarget = async (org_id, res) => {
+  let targets;
+  try {
+    targets = await findAll('targets', org_id);
+    // consolelog(targets)
+    return targets;
+  } catch (err) {
+    if (err) return res.status(400).json(err.details);
+  }
+}
+
+
+exports.averageGoalProgress = catchAsync(async (req, res, next) => {
+  const {org_id} = req.query;
+  const dataGoal = await findGoal(org_id, res)
+  const dataTarget = await findTarget(org_id, res)
+  let goals = dataGoal.data.data;
+  let targets = dataTarget.data.data;
+
+  // console.log(goals)
+  // console.log(targets)
+
+  // Make the calculation
+  const result = calculate(goals, targets);
+  const reduceResult = reduceCalculation(result);
+  const averageResult = average(reduceResult);
+  console.log(averageResult);
+  
+  // // Dummy data
+  // const result = calculate(goalId, targets);
+  // const reduceResult = reduceCalculation(result);
+  // const averageResult = average(reduceResult);
+  // console.log(averageResult);
+
+  // Response
+  return res
+    .status(200)
+    .json({
+      status: 'success',
+      averageResult
+  })
+});
+
+exports.individualGoalProgress =  catchAsync(async (req, res, next) => {
+  const {org_id} = req.query;
+  const dataGoal = await findGoal(org_id, res)
+  const dataTarget = await findTarget(org_id, res)
+  let goals = dataGoal.data.data;
+  let targets = dataTarget.data.data;
+
+  // console.log(goals)
+  // console.log(targets)
+
+  // Make the calculation
+  const result = calculate(goals, targets);
+  const reduceResult = reduceCalculation(result);
+  console.log(reduceResult);
+
+  // // Dummy Data
+  // const result = calculate(goalId, targets);
+  // const reduceResult = reduceCalculation(result);
+  // console.log(reduceResult);
+
+  // Response
+  return res
+    .status(200)
+    .json({
+      status: 'success',
+      reduceResult
+  })
+})
 
 exports.createGoal = async (req, res, next) => {
   logger.info(`Started creating a new goal.`);
@@ -195,8 +339,13 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     
       return res.status(400).send({ message: 'Invalid request' });
     }
+  })
 
-});
+
+exports.deleteTarget = catchAsync(async (req, res, next) => {
+  await deleteMany('targets', {}, req.query.org);
+  res.status(200).send('hi')
+})
 
 exports.createGoalTargets = catchAsync(async (req, res, next) => {
   // get goal id from the url
@@ -220,23 +369,55 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
   }
 
   const target = req.body;
+  let data;
 
-  const data = {
-    goal_id,
-    targets: [target],
-  };
+  if(target.type === 'numeric') {
+    data = {
+        goal_id,
+        targets:[
+          target,
+        ]
+      };
+  } else {
+    data = {
+        goal_id,
+        target:{
+          target,
+        }
+      };
+  }
+    console.log(data)
 
+
+  // store the total targets for a goal with the goal_id as the primary key
+  // const total_targets = [ target, ];
+  // console.log(total_targets)
+  
   logger.info(`Started creating targets for goal with id api/v1/targeets?org_ -> ${goal_id}`);
 
-  try {
-  
+  try{
+    console.log("Started validating req.body");
+    // Validate the request body before creating
     await targetSchema.validateAsync(req.body);
+    
+    // Check if we didn't have an existing 
+    const foundTarget = await find('targets', {goal_id}, org_id);
+    const newFoundTarget = foundTarget.data.data;
+
+    if(newFoundTarget !== null) {
+      return res.status(400).json({ status: 400, message: 'A target already exist for this goal id' });
+    }
+
+    // Create a  new target
     const newTarget = await insertOne('targets', data, org_id);
     const allTarget = await findAll('targets', org_id);
- 
+    console.log(allTarget.data.data);
     logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
-    return res.status(200).json({ status: 200, data });
-  } catch (err) {
+
+    // Response
+    return res.status(200).json({ status: 200, data})
+  }
+  catch(err){
     logger.info(`There are errors with the request body: ${err}`);
     if (err) return res.status(400).json(err.details);
   }
@@ -756,55 +937,3 @@ exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
-
-  // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
-
-  if (goal.data.data === null) {
-    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-  }
-
-  // check if user already disliked goal
-  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-  if (disLike.data.data === null) {
-    return res.status(200).json({
-      status: 'success',
-      data: false,
-    });
-  }
-  res.status(200).json({
-    status: 'success',
-    data: true,
-  });
-});
-
-exports.sortGoalByType = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, type: goalType } = req.query;
-
-  try {
-    // find goals by type
-    const goalsSorted = await find('goals', { goal_type: goalType }, orgId);
-
-    // No matching data, return an empty array
-    if (goalsSorted.data.data === null || goalsSorted.data.data.length < 1)
-      return res.status(200).json({ message: 'success', data: [] });
-    res.status(200).json({
-      message: 'success',
-      data: goalsSorted.data.data,
-    });
-  } catch (error) {
-   
-    res.status(500).json({ message: 'failed, server error', data: null });
-  }
-});
