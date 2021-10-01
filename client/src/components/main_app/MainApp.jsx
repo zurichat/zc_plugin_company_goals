@@ -4,15 +4,20 @@ import InnerNav from '../goal_interface_inner_header/InnerNav';
 import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
+import { useState } from 'react';
 
 function MainApp() {
+  const [state, setstate] = useState('all');
+  const changeState = (type) => {
+    setstate(type);
+  };
   return (
     <MainAppContainer>
       <GoalsDisplayContainer>
-        <GoalsNavLayout />
+        <GoalsNavLayout onSetState={changeState} />
         <Goal>
           <InnerNav />
-          <GoalDetailAccordion />
+          <GoalDetailAccordion selectedGoals={state} />
         </Goal>
       </GoalsDisplayContainer>
       <GoalsReportAndNotificationContainer>
