@@ -39,6 +39,8 @@ export default function GoalDetailAccordion() {
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
 
+  const goals = useSelector((state) => state.goals.list);
+
   console.log('roomy', roomId);
 
   const handleChange = (panel) => (event, isExpanded) => {
