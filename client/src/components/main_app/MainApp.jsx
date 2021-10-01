@@ -5,6 +5,7 @@ import GoalsNavLayout from '../goal_interface_navbar/NavLayout';
 import ReportsAndNotificationContainer from '../reports_and_notifications/ReportsAndNotificationContainer';
 import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 import { useState } from 'react';
+import TargetForm from '../../components/TargetForm/TargetForm';
 
 function MainApp() {
   const [state, setstate] = useState('all');
@@ -13,7 +14,6 @@ function MainApp() {
   };
   return (
     <MainAppContainer>
-      {/* */}
       <GoalsDisplayContainer>
         <GoalsNavLayout onSetState={changeState} />
         <Goal>
@@ -21,8 +21,7 @@ function MainApp() {
           <GoalDetailAccordion selectedGoals={state} />
         </Goal>
       </GoalsDisplayContainer>
-      {/* */}
-
+      <TargetForm />
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />
       </GoalsReportAndNotificationContainer>
