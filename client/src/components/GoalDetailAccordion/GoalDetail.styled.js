@@ -18,7 +18,6 @@ export const Text = styled.h4`
   text-align: ${(props) => (props.primary ? 'left' : 'right')};
 `;
 
-<<<<<<< HEAD
 
 export const PagContainer = styled.div`
   height: 50px;
@@ -73,7 +72,6 @@ export const PagContainer = styled.div`
     }
   }
 `;
-=======
 export const Button = styled.button`
   background: #00b87c;
   color: #ffffff;
@@ -91,4 +89,3 @@ export const Button = styled.button`
     background: rgba(0, 184, 112, 0.48);
   }
 `;
->>>>>>> 5f5d31806dc460fe0de6847cfc144e931e937bde

@@ -48,13 +48,10 @@ export default function GoalDetailAccordion() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
-<<<<<<< HEAD
   const [goalComponents, setGoalComponents] = React.useState();
   const [pageNum, setPageNum] = React.useState(1);
-=======
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);  
->>>>>>> 5f5d31806dc460fe0de6847cfc144e931e937bde
 
   console.log('roomy', roomId);
 
@@ -62,25 +59,23 @@ export default function GoalDetailAccordion() {
     setExpanded(isExpanded ? panel : false);
   };
 
-<<<<<<< HEAD
-  const fetcher = async (pageNum) => {
-    let Url = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
+  // const fetcher = async (pageNum) => {
+  //   let Url = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
 
-    const response = await axios.get(Url);
-    return response.data;
-  };
+  //   const response = await axios.get(Url);
+  //   return response.data;
+  // };
 
-  useEffect(async () => {
-    const response = await fetcher(pageNum);
+  // useEffect(async () => {
+  //   const response = await fetcher(pageNum);
 
-    setGoalComponents(response);
-  }, [pageNum]);
+  //   setGoalComponents(response);
+  // }, [pageNum]);
 
-  return (
-    <div className={classes.root}>
-      {console.log(goalComponents)}
-      {goalComponents && <Pagination pageCount={goalComponents} setPageNum={setPageNum} pageNum={pageNum} />}
-=======
+  // return (
+  //   <div className={classes.root}>
+  //     {console.log(goalComponents)}
+  //     {goalComponents && <Pagination pageCount={goalComponents} setPageNum={setPageNum} pageNum={pageNum} />}
   // const fetcher = async (getAllGoalsUrl) => {
   //   const response = await axios.get(getAllGoalsUrl);
   //   return response.data;
@@ -117,7 +112,6 @@ export default function GoalDetailAccordion() {
           );
         })}
         <TargetForm/>
->>>>>>> 5f5d31806dc460fe0de6847cfc144e931e937bde
     </div>
   );
 }
