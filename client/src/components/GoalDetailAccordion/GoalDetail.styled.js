@@ -17,3 +17,58 @@ export const Text = styled.h4`
   text-transform: capitalize;
   text-align: ${(props) => (props.primary ? 'left' : 'right')};
 `;
+
+
+export const PagContainer = styled.div`
+  height: 50px;
+  width: 100%;
+  padding: 4px;
+  display: flex;
+  justify-content: end;
+  margin-left: 0.5rem;
+
+  .page_index_container {
+    display: flex;
+    width: auto;
+    padding: 0 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      background-color: transparent;
+      border:none;
+      
+
+     outline: none;
+      &:disabled {
+        color: red;
+        cursor: none;
+      }
+    }
+
+    .index {
+      width: 35px;
+      height: 35px;
+      font-size: 17px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 3px;
+      color: #393939;
+
+      &.active {
+        border: 1px solid #00b87c;
+        background: #00b87c;
+        box-shadow: 0 0 2px -2px #0005;
+
+        color: #fff;
+      }
+
+      &:hover {
+        background: #00b87c32;
+        box-shadow: 0 0 2px -2px #0005;
+      }
+    }
+  }
+`;

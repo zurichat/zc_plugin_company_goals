@@ -8,13 +8,17 @@ import GoalDetailAccordion from '../GoalDetailAccordion/GoalDetails';
 function MainApp() {
   return (
     <MainAppContainer>
+      {/* */}
       <GoalsDisplayContainer>
         <GoalsNavLayout />
         <Goal>
           <InnerNav />
           <GoalDetailAccordion />
+          
         </Goal>
       </GoalsDisplayContainer>
+      {/* */}
+
       <GoalsReportAndNotificationContainer>
         <ReportsAndNotificationContainer />
       </GoalsReportAndNotificationContainer>
@@ -40,7 +44,7 @@ const MainAppContainer = styled.main`
 const GoalsDisplayContainer = styled.div`
   width: 69%;
   height: 100%;
-  /* border: 1px solid green; */
+  border: 1px solid green;
   @media only screen and (max-width: 960px) {
     width: 59%;
   }
@@ -62,6 +66,9 @@ const GoalsReportAndNotificationContainer = styled.div`
   }
 `;
 const Goal = styled.div`
+  height: 100%;
+  border: 1px solid red;
+
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -70,7 +77,7 @@ const Goal = styled.div`
   background: red;
   background: ${(props) => (props.primary ? 'white' : 'white')};
   color: ${(props) => (props.primary ? 'white' : 'red')};
-  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.1);
 `;
 
 const Link = styled(RouterLink)`
