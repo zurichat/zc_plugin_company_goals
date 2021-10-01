@@ -12,6 +12,7 @@ import DisplayOrganizationVision from '../organization_vision/org_display_vision
 import styled from 'styled-components';
 import Missions from '../organization_mission/Missions';
 import arrDown from '../organization_vision/org_display_vision/visionAsset/arr-down.png';
+
 const Header = () => {
   // const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
@@ -25,18 +26,15 @@ const Header = () => {
     document.querySelector('.editMissionbutton').style.display = 'none';
   };
   return (
-
     <MVContain>
       <Missions />
       <DisplayOrganizationVision />
     </MVContain>
-
   );
 };
 export default Header;
 
 const MVContain = styled.div`
-
   display: flex;
   width: 100%;
   justify-content: space-evenly;

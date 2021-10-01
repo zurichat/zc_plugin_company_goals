@@ -25,6 +25,8 @@ import OrganizationVisionEditModal from '../components/organization_vision/org_e
 import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
 
 const AppRoom = () => {
+  console.log('Am going to get userInfo');
+  console.log(GetUserInfo());
   let { orgId } = useParams();
   const dispatch = useDispatch();
   //   useEffect(() => {
