@@ -27,7 +27,6 @@ const {
   deleteTarget,
   getGoalProgress
 } = require('../controllers/targetController');
-// const { updateSingleGoalTargetById } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
 const restrictToOwner = require('../middlewares/restrict')
 
