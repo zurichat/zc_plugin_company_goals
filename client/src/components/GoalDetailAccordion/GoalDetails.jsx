@@ -1,4 +1,4 @@
-import React,{Fragment} from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import Accordion from '@material-ui/core/Accordion';
@@ -6,6 +6,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import { makeStyles } from '@material-ui/core/styles';
 // import Typography from '@material-ui/core/Typography';
+import Pagination from './Pagination';
 
 import GoalItem from '../Goals/GoalItem';
 
@@ -17,12 +18,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { getGoals } from '../../redux/showGoalSlice';
 import TargetForm from '../TargetForm/TargetForm';
-import { Div, Text, Button } from '../GoalDetailAccordion/GoalDetail.styled';
+import { Div, Text, Button, Container } from './GoalDetail.styled';
 import { openModal } from '../../redux/TargetModalSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    height: '480px',
+    overflowY: 'scroll',
     marginTop: 0,
     zIndex: 0,
   },
@@ -42,19 +45,15 @@ export default function GoalDetailAccordion() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
+  const [goalComponents, setGoalComponents] = React.useState();
+  const [pageNum, setPageNum] = React.useState(1);
   const dispatch = useDispatch();
-  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);  
-
-  console.log('roomy', roomId);
+  const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // const fetcher = async (getAllGoalsUrl) => {
-  //   const response = await axios.get(getAllGoalsUrl);
-  //   return response.data;
-  // };
   const requestURL = `${
     process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
   }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
@@ -66,8 +65,56 @@ export default function GoalDetailAccordion() {
 
   if (!goals.length) return <EmptyGoal />;
 
+  // async function getAllComponentsFromServer(pageNum) {
+  //   const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
+  //   try {
+  //     let { data } = await axios.get(requestURL);
+  //     if (!data) {
+  //       console.log('no data');
+
+  //       return <Loader />;
+  //     } else {
+  //       console.log('there is data');
+  //       setGoalComponents(data);
+
+  //       console.log('there is still  data');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     return <Error errorMessage={error.message} />;
+  //   }
+  // }
+
+  // React.useEffect(() => {
+  //   getAllComponentsFromServer(pageNum);
+  // }, [pageNum]);
+
   return (
-    <div className={classes.root}>
+    //   <React.Fragment>
+    //     <Container className={classes.root}>
+    //       {console.log(goalComponents)}
+    //       {!goalComponents ? (
+    //         <Loader />
+    //       ) : (
+    //         goalComponents.data.map((goal) => {
+    //           return (
+    //             <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+    //               <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+    //                 <GoalItem goalData={goal} />
+    //               </AccordionSummary>
+    //               <AccordionDetails style={{ height: '50%' }}>
+    //                 <GoalDetailData goalData={goal} />
+    //               </AccordionDetails>
+    //             </Accordion>
+    //           );
+    //         })
+    //       )}
+    //     </Container>
+    //     {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
+    //   </React.Fragment>
+    // );
+    <React.Fragment>
+      <Container className={classes.root}>
         {goals.map((goal) => {
           return (
             <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
@@ -86,7 +133,9 @@ export default function GoalDetailAccordion() {
             </Accordion>
           );
         })}
-        <TargetForm/>
-    </div>
+        <TargetForm />
+      </Container>
+      {/* {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />} */}
+    </React.Fragment>
   );
 }
