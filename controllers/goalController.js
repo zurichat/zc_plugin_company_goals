@@ -29,7 +29,24 @@ const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145c
 
 
 exports.sortGoalByType = async (req, res, next)=>{
+  const goalTypes = ['none', 'annual', 'quarterly', 'daily', 'monthly']
   const { org_id: orgId, type: goalType } = req.query;
+
+  if (!orgId) {
+    return res.status(400).send({
+      error: 'org_id is required',
+    });
+  }
+  if (!goalType) {
+    return res.status(400).send({
+      error: 'type is required',
+    });
+  }
+  if (!goalTypes.includes(goalType)) {
+    return res.status(400).send({
+      error: "type should either be 'annual' or 'quarterly'."
+    });
+  }
 
   try {
     // find goals by type
@@ -48,7 +65,11 @@ exports.sortGoalByType = async (req, res, next)=>{
   } 
   catch (error) {
    
-    res.status(500).json({ message: 'failed, server error', data: null });
+    res.status(500).json({ 
+      status: 500,
+      message: 'failed, server error.', 
+      error: error.message
+    });
   }
 }
 
@@ -142,11 +163,10 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
               {
                 return -1
               }
-              else if(c===d)
+              if(c===d)
               {
                 return 0
               }
-
               return 1;
             })
         }
@@ -157,15 +177,8 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
               const c = String(a.goal_name).toLowerCase().trim()
               const d = String(b.goal_name).toLowerCase().trim()
 
-              if(c<d)
-              {
-                return -1
-              }
-              else if(c===d)
-              {
-                return 0
-              }
-
+              if(c < d) return -1;
+              if(c === d) return 0;
               return 1;
             })
         }
