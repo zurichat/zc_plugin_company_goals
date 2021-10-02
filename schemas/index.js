@@ -109,6 +109,5 @@ exports.allowedFields = [
     'goal_type',
     'is_complete',
     'is_expired',
-    'room_id',
     'start_date',
   ];
