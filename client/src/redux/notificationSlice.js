@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const getNotifications = createAsyncThunk('notifications/getNotifications', async () => {
+export const getNotifications = createAsyncThunk('notifications/getNotifications', async (orgId) => {
   const response = await fetch(
-    'https://goals.zuri.chat/api/v1/notifications/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426'
+    `https://goals.zuri.chat/api/v1/notifications/?org_id=${orgId}&user_id=6145cf0c285e4a1840207426`
   );
   if (response.ok) {
     const notifications = await response.json();

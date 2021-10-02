@@ -39,7 +39,7 @@ const GoalItem = ({ goalData }) => {
     .then(response => setTotalLikes(response.data.data.count))
     .catch(error => console.log(error))
 
-  }, [like])
+  }, [])
 
   const handleSetLike = (e) => {
     
@@ -50,13 +50,6 @@ const GoalItem = ({ goalData }) => {
     .then(response => setLike(response.data.message))
     .catch(error => console.log(error));
     
-    if(toggleLike === false){
-      setTotalLikes(totalLikes + 1);
-      setToggleLike(true)
-    } else {
-      setTotalLikes(totalLikes - 1)
-      setToggleLike(false)
-    }
   }
 
   //Setting Dislikes and retriving Dislikes
@@ -71,7 +64,7 @@ const GoalItem = ({ goalData }) => {
     .then(response => setTotalDislikes(response.data.data.count))
     .catch(error => console.log(error))
 
-  }, [dislike])
+  }, [])
 
   const handleSetDislike = (e) => {
     e.stopPropagation();
@@ -81,13 +74,6 @@ const GoalItem = ({ goalData }) => {
     .then(response => setDislike(response.data.message))
     .catch(error => console.log(error))  
 
-    if(toggleDislike === false){
-      setTotalDislikes(totalDislikes + 1);
-      setToggleDislike(true)
-    } else {
-      setTotalDislikes(totalDislikes - 1)
-      setToggleDislike(false)
-    }
   }
 
 
