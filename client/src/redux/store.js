@@ -17,7 +17,6 @@ import pageNumSlice from './pageNumSlice';
 
 const store = configureStore({
   reducer: {
-    workspaceUsers: getWorkspaceUsersReducer,
     organizationMission: missionReducer,
     organizationVision: visionReducer,
     toggleCreateGoalModal: createGoalModalReducer,
