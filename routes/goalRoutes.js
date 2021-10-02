@@ -23,6 +23,8 @@ const {
   individualGoalProgress,
   deleteTarget,
   getGoalProgress,
+  getGoalReaction,
+  setGoalReaction,
 } = require('../controllers/goalController');
 const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
@@ -56,6 +58,7 @@ router.delete('/target/delete', deleteTarget);
 router.get('/average-goal-progress', averageGoalProgress);
 router.get('/individual-goal-progress', individualGoalProgress);
 router.get('/goalprogress', getGoalProgress);
+router.get('/goalReaction', getGoalReaction).put('/goalReaction', setGoalReaction);
 router.put('/target/update/:id', updateSingleGoalTargetById);
 
 
