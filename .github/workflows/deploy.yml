@@ -3,9 +3,7 @@ name: Zuri goals Deployment
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -15,15 +13,61 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-         
-      - name: install Dependencies && run test scripts
+
+      - name: Use cached node_modules
+        uses: c-hive/gha-yarn-cache@v2
+        with:
+         directory: client
+
+      - name: install Dependencies && run build statics
         run: |
+          ls
           yarn install
+          cd client
+          yarn install
+          yarn build
+
+      - name: test
+        run: |
           yarn run coverage
-          
 
-      
+      - name: Git Pull on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ZURI_HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd zc_plugin_company_goals/
+            git stash
+            git fetch --all
+            git reset --hard origin/main
+            git pull
+            cd client/
+            yarn install
+            cd ../serve-client
+            yarn install
+            yarn build
+            cd ..
+            yarn install
 
-          
-          
-     
+
+      - name: copy build to server
+        uses: Creepios/sftp-action@v1.0.1
+        with:
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.ZURI_HOST }}
+          password: ${{ secrets.PASSWORD }}
+          localPath: './client/dist/'
+          remotePath: '/home/plato/zc_plugin_company_goals/client/dist'
+
+      - name: restart pm2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ZURI_HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            pm2 list
+            pm2 restart 0
+            pm2 reload 0
