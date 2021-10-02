@@ -45,11 +45,12 @@ exports.goalSchema = Joi.object({
   }),
 });
 
-// target
+// target schema
 exports.targetSchema = Joi.object({
-  type: Joi.string().required().valid(`numeric`, `logical`),
-  milestone: Joi.any().when('type',
+  target: [Joi.string().required(), Joi.number().required()],
+  milestone: Joi.array().when('type',
    { 
+<<<<<<< HEAD
      'is': 'numeric',
       then: Joi.object({
           milestone_text: Joi.string().required(),
@@ -63,6 +64,17 @@ exports.targetSchema = Joi.object({
           }).required()}),
   milestone: Joi.any().when('type', { 'is': 'logical', then: Joi.required()}),
   achieved: Joi.boolean().required()
+=======
+      is: Joi.number(),
+      then: Joi.array().items({
+        first_milestone: Joi.number().default(0).required(),
+        second_milestone: Joi.number().default(0).required(),
+        third_milestone: Joi.number().default(0).required(),
+        last_milestone: Joi.number().default(0).required(),
+      }),
+  }),
+  achieved: Joi.boolean().default(`false`).required()
+>>>>>>> fd0c2460bab2c808f4c013618e634730ff7436dc
 })
 
 // mission schema
@@ -99,3 +111,15 @@ exports.getGoalLikesSchema = Joi.object({
     'any.required': 'organization id is required',
   }),
 });
+
+
+exports.allowedFields = [
+    'category',
+    'description',
+    'due_date',
+    'goal_name',
+    'goal_type',
+    'is_complete',
+    'is_expired',
+    'start_date',
+  ];
