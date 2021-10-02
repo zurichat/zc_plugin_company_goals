@@ -11,7 +11,7 @@ exports.calculate = (goalId, targets) => {
       if (target.goal_id === _id) {
         // Differetiate betweeen: logical target and numerical target
         if(target.hasOwnProperty('target')) {
-          const {target: {achieved}} = target
+          const {target:{target:{achieved}}} = target
 
           // 🆗 Check if the target has be achieved and set it's value to 100 
           if(achieved === 'true') {
