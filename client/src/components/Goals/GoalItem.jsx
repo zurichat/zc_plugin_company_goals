@@ -124,7 +124,7 @@ const GoalItem = ({ goalData }) => {
   return (
     <Container className={classes.root} key={goalData.room_id}>
       <Grid item xs={12} sm={3} className={classes.rightSpacing}>
-        <GoalTitle>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
+        <GoalTitle goalIsExpired={goalData.isExpired}>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
         <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
       </Grid>
 
