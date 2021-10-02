@@ -30,7 +30,7 @@ const MissionAndVisionDisplay = ({ labelTitle, fieldText, placeholderText }) => 
         minRows={2}
         disabled={disableField}
         inputProps={{
-          maxlength: 100,
+          maxLength: 100,
         }}
         InputProps={{
           endAdornment: (

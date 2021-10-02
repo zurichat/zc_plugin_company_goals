@@ -29,9 +29,9 @@ const InnerNav = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const { goals, pageNumber } = useSelector((state) => state.showGoals);
+  const { goals, pageNum } = useSelector((state) => state.showGoals);
 
-  const fetchSortGoals = async (value, pageNumber) => {
+  const fetchSortGoals = async (value, pageNum) => {
     const values = {
       'Most Recent': 'created_at',
       'Due Date': 'due_date',
@@ -39,7 +39,7 @@ const InnerNav = () => {
       Category: 'category',
     };
     const res = await fetch(
-      `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNumber}&limit=3&sort=${values[value]}`
+      `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3&sort=${values[value]}`
     );
     const result = await res.json();
     // console.log(result.data);
@@ -53,7 +53,7 @@ const InnerNav = () => {
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
-    fetchSortGoals(event.currentTarget.innerText, pageNumber);
+    fetchSortGoals(event.currentTarget.innerText, pageNum);
   };
   const handleClose = () => {
     setAnchorEl(null);

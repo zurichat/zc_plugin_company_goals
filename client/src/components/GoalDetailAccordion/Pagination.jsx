@@ -3,25 +3,19 @@ import { PagContainer } from './GoalDetail.styled';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
 
-const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
+const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
   const dispatch = useDispatch();
-
   const totalPages = Math.ceil(goalComponents.totalDocuments / 3);
-  console.log(totalPages);
-
   const totalPagesArr = new Array(totalPages).fill(1).map((item, index) => index + 1);
   console.log(totalPagesArr);
-
   function handlePrev(pageNum, setPageNum, totalPagesArr) {
     if (pageNum >= totalPagesArr[0]) setPageNum(pageNum - 1);
     dispatch(goalPaginated(pageNum));
   }
-
   function handleNext(pageNum, setPageNum, totalPagesArr) {
     if (pageNum <= totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
     dispatch(goalPaginated(pageNum));
   }
-
   return (
     <PagContainer>
       <div className="page_index_container">
@@ -48,9 +42,7 @@ const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
     </PagContainer>
   );
 };
-
 export default Pagination;
 // <Pagination pageCount={totalPagesArr} pageIndex={pageIndex} setPageIndex={setPageIndex} />;
-
 // get total pages available
 // const totalPages = Math.ceil(data.totalDocuments / 3);
