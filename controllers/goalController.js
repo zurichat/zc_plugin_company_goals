@@ -8,6 +8,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+const { object } = require('joi');
 const { v4: uuidv4 } = require('uuid');
 const {
   find,
