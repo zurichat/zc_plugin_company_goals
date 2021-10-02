@@ -38,21 +38,21 @@ const ReportsAndNotificationContainer = () => {
       <NavTabs>
         <NavContainer>
           <TabButtonNotification border={activeTab === 'tab1'}>
-            <TabButton
+            {/* <TabButton
               color={activeTab === 'tab1'}
               style={{ cursor: 'pointer' }}
               onClick={handleTab1}
               color={activeTab === 'tab1'}
             >
               Reports
-            </TabButton>
+            </TabButton> */}
           </TabButtonNotification>
         </NavContainer>
         <NavContainer>
           <TabButtonNotification border={activeTab === 'tab2'}>
-            <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
+            {/* <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
               Notifications
-            </TabButton>
+            </TabButton> */}
             <Span>{notifications.length}</Span>
           </TabButtonNotification>
         </NavContainer>

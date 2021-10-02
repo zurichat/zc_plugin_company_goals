@@ -8,7 +8,6 @@ const chaiHTTP = require('chai-http');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const app = require('../../../app');
-// const publishCntrl = require('../../../controllers/centrifugoController');
 const logger = require('../../../utils/logger');
 const { urls, defaultOrg } = require('../../globals');
 const sampleVision = require('./sampleVision.json');
@@ -23,15 +22,11 @@ const sandbox = sinon.createSandbox();
 describe('VISION TESTS', () => {
   let loggerStub;
   let axiosGetStub;
-  // let axiosPutStub;
 
   beforeEach(() => {
     // Disable logger messages
     loggerStub = sandbox.stub(logger, 'info').returns('');
     axiosGetStub = sandbox.stub(axios, 'get').returns({ data: { data: sampleVision } });
-    // axiosPutStub = sandbox.stub(axios, 'put').returns({ data: { data: { ...sampleVision, modified_documents: 1 } } });
-    // pubStubA = sandbox.stub(publishCntrl, 'publish').returns(true);
-    // pubStubB = sandbox.stub(publishCntrl, 'test').returns(true);
   });
 
   // Refresh sandbox for each test
@@ -66,7 +61,6 @@ describe('VISION TESTS', () => {
       const axiosPutStub = sinon
         .stub(axios, 'put')
         .returns({ data: { data: { ...sampleVision, modified_documents: 0 } } });
-      // const pubspy = sinon.spy(publishCntrl, 'publish');
       chai
         .request(app)
         .patch(URL)
@@ -76,8 +70,6 @@ describe('VISION TESTS', () => {
           expect(res).to.be.json;
           expect(res).to.have.status(404);
           expect(axiosPutStub).to.have.been.calledOnce;
-          // expect(pubspy).to.have.been.calledOnce;
-          // expect(publishCntrl).to.have.been.calledOnce;
           expect(res.body).to.have.property('message', 'No matching documents were found');
           done();
         });
