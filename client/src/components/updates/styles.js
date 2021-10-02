@@ -103,8 +103,7 @@ export const ReportContainer = styled.div`
           switch(dotChange){
             case 'Expired': return '#F44336';
             case 'Completed': return '#00B87C';
-            case 'In Progress': return '#2F80ED';
-            case 'Total Goals': return '#e0e0e0'; 
+            default: return '#2F80ED';
           }
         }};
 
@@ -118,7 +117,7 @@ export const ReportContainer = styled.div`
 
       .dot_pagination {
         display: flex;
-        width: 70px;
+        width: 45px;
         justify-content: space-between;
         margin-top: 4px;
 
