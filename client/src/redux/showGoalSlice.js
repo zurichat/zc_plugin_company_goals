@@ -9,12 +9,15 @@ export const showGoalSlice = createSlice({
   name: 'showGoal',
   initialState: {
     goals: null,
-    status: null,
+    status: '',
     errorInfo: null,
   },
   reducers: {
     goalSorted(state, action) {
       state.goals = action.payload;
+    },
+    SetStatus(state, action) {
+      state.status = action.payload;
     },
   },
   extraReducers: {
@@ -31,7 +34,7 @@ export const showGoalSlice = createSlice({
     },
   },
 });
-export const { goalSorted } = showGoalSlice.actions;
+export const { goalSorted, SetStatus } = showGoalSlice.actions;
 export default showGoalSlice.reducer;
 
 // /* eslint-disable no-param-reassign */

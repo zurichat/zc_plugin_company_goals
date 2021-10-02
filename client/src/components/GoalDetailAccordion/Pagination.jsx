@@ -15,10 +15,8 @@ const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
   }
   function handleNext(pageNum, setPageNum, totalPagesArr) {
     if (pageNum <= totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
-    console.log(pageNum);
     dispatch(goalPaginated(pageNum));
   }
-  console.log(pageNum);
 
   return (
     <PagContainer>
@@ -33,7 +31,7 @@ const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
         {totalPagesArr?.map((page, index) => (
           <div
             onClick={() => {
-              dispatch(goalPaginated(pageNum));
+              dispatch(goalPaginated(page));
               setPageNum(page);
             }}
             className={`index ${pageNum === page && 'active'}`}
