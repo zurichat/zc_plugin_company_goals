@@ -50,18 +50,9 @@ export default function GoalDetailAccordion() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const requestURL = `${
-    process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'https://goals.zuri.chat'
-  }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
-  const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
-  // console.log('err', error);
-  
-  
   React.useEffect(() => {
     getAllComponentsFromServer(pageNum);
   }, [pageNum]);
-  
-  
   if (!errorInfo && !goals) return <Loader />;
   if (errorInfo) return <Error errorMessage={errorInfo.message} />;
   if (!goals.data.length) return <EmptyGoal />;

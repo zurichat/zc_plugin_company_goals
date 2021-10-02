@@ -6,9 +6,12 @@ import { goalPaginated } from '../../redux/pageNumSlice';
 
 const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
   const dispatch = useDispatch();
+  console.log(goalComponents);
+  
   const totalPages = Math.ceil(goalComponents.totalDocuments / 3);
+  console.log(totalPages);
+  
   const totalPagesArr = new Array(totalPages).fill(1).map((item, index) => index + 1);
-  // console.log(totalPagesArr);
   function handlePrev(pageNum, setPageNum, totalPagesArr) {
     if (pageNum >= totalPagesArr[0]) setPageNum(pageNum - 1);
     dispatch(goalPaginated(pageNum));
