@@ -16,20 +16,10 @@ chai.use(require('chai-json-schema-ajv'));
 chai.use(chaiHTTP);
 chai.use(sinonChai);
 const sandbox = sinon.createSandbox();
+const time = Date.now();
 
-const goalName = 'Test Title';
-const category = 'Weekend';
-const startDate = '11-3-2021';
-const dueDate = '11-20-2021';
-const goalType = 'annual';
 const orgId = '61578237b9b9f30465f49ee8';
-const payload = {
-  goal_name: goalName,
-  start_date: startDate,
-  due_date: dueDate,
-  goal_type: goalType,
-  category,
-};
+
 const URL = `/api/v1/goals/`;
 const orgURL = `/api/v1/goals/?org_id=${orgId}`;
 
@@ -40,7 +30,7 @@ const testLogin = {
 };
 
 describe('CREATE GOAL TESTS', () => {
-  context('PASSING Goal CASES', () => {
+  context('CASES', () => {
     let token;
     let roomId;
     let loggerStub;
@@ -121,7 +111,7 @@ describe('CREATE GOAL TESTS', () => {
       chai
         .request(app)
         .post(orgURL)
-        .send({ start_date: startDate, due_date: dueDate, goal_type: goalType, category })
+        .send({ start_date: '11-15-2021', due_date: '11-20-2021', goal_type: 'annual', category: 'Test Category' })
         .set('Authorization', `Bearer ${token} ${orgId}`)
         .end((err, res) => {
           expect(loggerStub).to.have.been.called;
@@ -134,7 +124,13 @@ describe('CREATE GOAL TESTS', () => {
       chai
         .request(app)
         .post(orgURL)
-        .send(payload)
+        .send({
+          goal_name: `Test 1 ${time}`,
+          start_date: '11-15-2021',
+          due_date: '11-20-2021',
+          goal_type: 'annual',
+          category: 'Test Category',
+        })
         .set('Authorization', `Bearer ${token} ${orgId}`)
         .end((err, res) => {
           expect(loggerStub).to.have.been.called;
@@ -149,7 +145,13 @@ describe('CREATE GOAL TESTS', () => {
       chai
         .request(app)
         .post(orgURL)
-        .send(payload)
+        .send({
+          goal_name: `Test 2 ${time}`,
+          start_date: '11-15-2021',
+          due_date: '11-20-2021',
+          goal_type: 'annual',
+          category: 'Test Category',
+        })
         .set('Authorization', `Bearer ${token} ${orgId}`)
         .end((err, res) => {
           expect(loggerStub).to.have.been.called;
@@ -164,7 +166,13 @@ describe('CREATE GOAL TESTS', () => {
       chai
         .request(app)
         .post(orgURL)
-        .send(payload)
+        .send({
+          goal_name: `Test 3 ${time}`,
+          start_date: '11-15-2021',
+          due_date: '11-20-2021',
+          goal_type: 'annual',
+          category: 'Test Category',
+        })
         .set('Authorization', `Bearer ${token} ${orgId}`)
         .end((err, res) => {
           expect(loggerStub).to.have.been.called;
