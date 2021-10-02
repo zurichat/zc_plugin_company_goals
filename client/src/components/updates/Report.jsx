@@ -88,10 +88,10 @@ const Report = () => {
   if (!pieChartData) return null;
 
    data.datasets[0].data = [
-     pieChartData['totalGoals'],
      pieChartData['isComplete'],
-     pieChartData['isExpired'],
      pieChartData['inProgress'],
+     pieChartData['isExpired'],
+     pieChartData['totalGoals'],
    ];
 
   return (

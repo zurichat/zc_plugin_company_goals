@@ -6,7 +6,6 @@ export const ReportContainer = styled.div`
   /* width: 360px; */
   width: 100%;
   background: #fff;
-
   height: 100%;
   padding-bottom: 20px;
   color: #999999;
@@ -97,6 +96,7 @@ export const ReportContainer = styled.div`
         margin-block-start: 0px;
         margin-block-end: 0px;
         line-height: 45px;
+         z-index: -100;
       }
       .status {
         color: ${({dotChange})=>{
@@ -107,7 +107,7 @@ export const ReportContainer = styled.div`
             case 'Total Goals': return '#e0e0e0'; 
           }
         }};
-        
+
         font-size: 16px;
         margin-top: 8px;
         font-weight: 700;
