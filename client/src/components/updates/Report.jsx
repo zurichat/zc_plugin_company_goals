@@ -96,6 +96,8 @@ const Report = () => {
 
   data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
 
+  //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
+
   return (
     <ReportContainer className="report_section" dotChange={dotChange}>
       <Header>
