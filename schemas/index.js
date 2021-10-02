@@ -99,3 +99,16 @@ exports.getGoalLikesSchema = Joi.object({
     'any.required': 'organization id is required',
   }),
 });
+
+
+exports.allowedFields = [
+    'category',
+    'description',
+    'due_date',
+    'goal_name',
+    'goal_type',
+    'is_complete',
+    'is_expired',
+    'room_id',
+    'start_date',
+  ];
