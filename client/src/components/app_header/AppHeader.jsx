@@ -8,13 +8,14 @@ import { GetWorkspaceUsers } from '@zuri/control';
 
 const AppHeader = () => {
 const [total, settotal] = useState(null);
+ const imagePlaceholder = "https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png";
 const GetUsers = async () => {
   try {
     const info = await GetWorkspaceUsers();
     console.log('totalWorkSpaceUser', info.totalUsers);
 
     const workspace_info = {
-      thumbnailUrl: [info[0].image_url, info[1].image_url, info[2].image_url],
+      thumbnailUrl: [(info[0].image_url || imagePlaceholder), (info[1].image_url || imagePlaceholder), (info[2].image_url || imagePlaceholder)],
       userCount: info.totalUsers,
     };
     settotal(workspace_info);

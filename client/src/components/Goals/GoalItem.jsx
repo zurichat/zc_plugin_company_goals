@@ -40,6 +40,12 @@ const GoalItem = ({ goalData }) => {
       )
       .then((response) => setTotalLikes(response.data.data.count))
       .catch((error) => console.log(error));
+    axios
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/single-goal-progress?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }`
+      )
   });
 
   const handleSetLike = (e) => {
@@ -53,8 +59,11 @@ const GoalItem = ({ goalData }) => {
       )
       .then((response) => setLike(response.data.message))
       .catch((error) => console.log(error));
-    
+ 
     setToggleLike(!toggleLike)
+if(toggleLike === true && toggleDislike === true){
+    setToggleDislike(false)
+}
   };
 
   //Setting Dislikes and retriving Dislikes
@@ -86,6 +95,9 @@ const GoalItem = ({ goalData }) => {
       .catch((error) => console.log(error));
     
     setToggleDislike(!toggleDislike)
+if(toggleLike === true && toggleDislike === true){
+    setToggleLike(false)
+}
   };
 
 
