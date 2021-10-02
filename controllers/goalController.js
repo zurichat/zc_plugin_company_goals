@@ -262,6 +262,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
         room_id: roomId,
         is_complete: false,
         is_expired: false,
+        progress: 0,
         created_at: date,
         ...goal,
       };
