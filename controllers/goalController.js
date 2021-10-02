@@ -19,7 +19,7 @@ const {
   updateOne,
   deleteMany, updateMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema, goalReactionSchema} = require('../schemas');
+const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema, goalReactionSchema, allowedFields} = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
@@ -507,25 +507,30 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 });
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
- 
+
   // First, Get the goalId from req.params
   logger.info(`Starting operation to update a goal by its id.`);
   const goalId = req.params.id;
   const { org_id: orgId } = req.query;
-
   const updateFields = req.body;
 
   for (const property in updateFields) {
     if (!allowedFields.includes(property)) {
      return res.status(400).send({status: 'failed', message: `property '${property}' not allowed`})
-   }
+    }
  }
-
-      const goals = await findById('goals', goalId, orgId);
-      // Then, send update to zuri core
-      logger.info(`Updating goal with id: ${goalId} with data: ${updateFields}`);
-      await updateOne('goals', req.body, {}, orgId, goalId);
-
+  
+  try {
+    const goals = await findById('goals', goalId, orgId);
+    // Then, send update to zuri core
+    logger.info(`Updating goal with id: ${goalId} with data: ${updateFields}`);
+     await updateOne('goals', req.body, {}, orgId, goalId);
+  
+  } catch (error) {
+    console.log(error)
+  }
+      
+     
       // Send notifications to all users.
       const updatedGoal = await find('goals', { _id: goalId }, orgId);
       const { goal_name, room_id } = updatedGoal.data.data;
