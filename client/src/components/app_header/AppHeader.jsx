@@ -5,38 +5,38 @@ import { HeaderAppBar, HeaderToolBar, HeaderToolBarTitle } from './AppHeader.sty
 import HeaderAvatarGroup from './components/header_avatar_group/HeaderAvatarGroup';
 import { GetWorkspaceUsers } from '@zuri/control';
 
-const AppHeader = () => {
+export const GetUsers = async () => {
   const [total, settotal] = useState(null);
-  export const GetUsers = async () => {
-    try {
-      const info = await GetWorkspaceUsers();
-      console.log('totalWorkSpaceUser', info.totalUsers);
+  try {
+    const info = await GetWorkspaceUsers();
+    console.log('totalWorkSpaceUser', info.totalUsers);
 
-      const workspace_info = {
-        thumbnailUrl: [
-          info[0].image_url ||
-            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
-          info[1].image_url ||
-            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
-          info[2].image_url ||
-            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
-        ],
-        userCount: info.totalUsers,
-      };
-      settotal(workspace_info);
-    } catch (error) {
-      console.log('Error', error);
-      const workspace_info = {
-        thumbnailUrl: [
-          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
-          'https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg',
+    const workspace_info = {
+      thumbnailUrl: [
+        info[0].image_url ||
           'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
-        ],
-        userCount: 50,
-      };
-      settotal(workspace_info);
-    }
-  };
+        info[1].image_url ||
+          'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
+        info[2].image_url ||
+          'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
+      ],
+      userCount: info.totalUsers,
+    };
+    settotal(workspace_info);
+  } catch (error) {
+    console.log('Error', error);
+    const workspace_info = {
+      thumbnailUrl: [
+        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
+        'https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg',
+        'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
+      ],
+      userCount: 50,
+    };
+    settotal(workspace_info);
+  }
+};
+const AppHeader = () => {
   useEffect(() => {
     GetUsers();
   }, []);
