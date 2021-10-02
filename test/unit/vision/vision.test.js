@@ -9,10 +9,10 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const app = require('../../../app');
 const logger = require('../../../utils/logger');
-const { orgID, visionRead } = require('../../globals');
+const { urls, defaultOrg } = require('../../globals');
 const sampleVision = require('./sampleVision.json');
 
-const URL = `/api/v1/vision/${orgID}`;
+const URL = `/api/v1/vision/${defaultOrg}`;
 
 chai.use(chaiHTTP);
 chai.use(sinonChai);
@@ -34,17 +34,7 @@ describe('VISION TESTS', () => {
     sandbox.restore();
   });
 
-  context('GET /api/v1/vision/:org_id', () => {
-    it('Should check for org_id param', (done) => {
-      chai
-        .request(app)
-        .get('/api/v1/vision')
-        .end((err, res) => {
-          expect(res).to.have.header('content-type', 'text/html; charset=UTF-8');
-          done();
-        });
-    });
-
+  context('GET VISION', () => {
     it('Should get vision successfully', (done) => {
       chai
         .request(app)
@@ -54,7 +44,7 @@ describe('VISION TESTS', () => {
           expect(res).to.have.status(200);
           expect(loggerStub).to.have.been.called;
           expect(axiosStub).to.have.been.calledOnce;
-          expect(axiosStub).to.have.been.calledWith(visionRead);
+          expect(axiosStub).to.have.been.calledWith(urls().visionRead);
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.property('status', 200);
           expect(res.body).to.have.property('message', 'success');

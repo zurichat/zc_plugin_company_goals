@@ -33,21 +33,21 @@ exports.getChartInfo = catchAsync( async (req, res, next) => {
 
        allGoals.forEach((goal)=>{
    
-            if(!goal.isExpired){
+            if(!goal.is_expired){
                 isInComplete > 0 ? isInComplete++ : isInComplete = 1            
 
                result['isComplete'] = totalGoals - isInComplete
             }
 
 
-            if(!goal.isExpired){
+            if(!goal.is_expired){
                 isNotExpired > 0 ? isNotExpired++ : isNotExpired = 1
   
               result['isExpired'] = totalGoals - isNotExpired
             } 
 
             
-            if(goal.start_date && !goal.isExpired && !goal.isComplete ){
+            if(goal.start_date && !goal.is_expired && !goal.is_complete ){
                 
                 result['inProgress'] >= 0 ?  result['inProgress']++ : result['inProgress'] = 1
             } 
