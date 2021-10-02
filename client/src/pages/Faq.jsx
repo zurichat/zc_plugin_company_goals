@@ -1,21 +1,17 @@
 import AppHeader from '../components/app_header/AppHeader';
 import React from 'react';
-import Header from '../components/header/Header';
-import EditMission from '../components/modal/EditMission';
+import MissionVisionContainer from '../components/organization_mission_vision/OrganizationMissionVision';
 import FaqsContainer from '../containers/Faqs';
-import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
-
 
 const Faqs = () => {
   return (
     <>
       <AppHeader />
       <div>
-        <Header />
+        <MissionVisionContainer />
         <FaqsContainer />
-        <EditMission />
       </div>
-    </> 
+    </>
   );
 };
 

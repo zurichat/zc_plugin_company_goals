@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
 import { NavName, CreateGoalButton } from './NavName';
+import { getGoals } from '../../redux/showGoalSlice';
 
 const GridLayout = styled.div`
   display: flex;
@@ -97,13 +98,38 @@ const NavDiv = styled.div`
     }
   }
 `;
+
 const GoalsNavLayout = () => {
   const dispatch = useDispatch();
+
+  const getData = (param) => {
+    let requestURL;
+    if (param === 'all') {
+      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=1&limit=3&sort=create_at`;
+    } else {
+      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=1&limit=3&sort=create_at&type=${param}`;
+    }
+
+    dispatch(getGoals(requestURL));
+  };
+  const clickAllHandler = async () => {
+    getData('all');
+  };
+  const clickAnnualHandler = () => {
+    getData('annual');
+  };
+  const clickQuarterlyHandler = () => {
+    getData('quarterly');
+  };
   return (
     <GridLayout>
       <NavDiv>
-        <NavName className="active"> all goals </NavName> <NavName> annual goals </NavName>
-        <NavName> quaterly goals </NavName>
+        <NavName className="active" onClick={clickAllHandler}>
+          {' '}
+          all goals{' '}
+        </NavName>{' '}
+        <NavName onClick={clickAnnualHandler}> annual goals </NavName>
+        <NavName onClick={clickQuarterlyHandler}> quaterly goals </NavName>
       </NavDiv>
       <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; new goal</CreateGoalButton>
     </GridLayout>
