@@ -208,7 +208,7 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
     const result = calculate(goals, targets);
     const reduceResult = reduceCalculation(result);
     const keys = Object.keys(reduceResult);
-    keys.forEach((key) => {
+    keys.forEach(async(key) => {
       if (key === goal_id) {
         const finalResult = reduceResult[goal_id];
         await updateOne('goals', {progress: finalResult}, {}, org_id, goal_id
