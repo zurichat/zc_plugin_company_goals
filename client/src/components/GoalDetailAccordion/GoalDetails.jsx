@@ -50,15 +50,20 @@ export default function GoalDetailAccordion(props) {
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
+
+  // let output;
   // if (props.selectedGoals === 'all') {
   //   output = goals;
   // } else {
   //   output = goals.filter((res) => res.goal_type === props.selectedGoals);
   // }
-
+   
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+
+
 
   async function getAllComponentsFromServer(pageNum) {
     const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
@@ -70,6 +75,7 @@ export default function GoalDetailAccordion(props) {
         return <Loader />;
       } else {
         console.log('there is data');
+        
         setGoalComponents(data);
 
         console.log('there is still  data');
