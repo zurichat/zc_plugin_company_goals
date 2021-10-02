@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { Router } = require('express');
+const { getChartInfo } = require('../controllers/chartController');
 const {
   getSingleGoal,
   getAllGoals,
@@ -18,8 +19,6 @@ const {
   sortGoalByType,
   getGoalProgress,
 } = require('../controllers/goalController');
-
-const { getChartInfo } = require('../controllers/chartController');
 const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
 
 const router = Router();

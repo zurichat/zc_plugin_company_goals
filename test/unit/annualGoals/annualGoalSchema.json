@@ -1,0 +1,33 @@
+{
+    "title": "Sorted goals schema v1",
+    "type": "object",
+    "required": [
+      "goal_name",
+      "start_date",
+      "due_date",
+      "goal_type",
+      "category"
+    ],
+    "properties": {
+      "goal_name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "start_date": {
+        "type": "string"
+      },
+      "due_date": {
+        "type": "string"
+      },
+      "goal_type": {
+        "type": "string",
+        "enum": ["annual", "quarterly"]
+      },
+      "category": {
+        "type": "string"
+      }
+    }
+  }
+  
