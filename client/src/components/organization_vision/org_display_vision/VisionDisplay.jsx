@@ -12,7 +12,9 @@ import { useParams } from 'react-router';
 
 const DisplayOrganizationVision = () => {
   //getting the role of the logged in user
-  const { role } = GetUserInfo();
+  const info = GetUserInfo();
+  console.log('loggin out what am getting back as info for useRole', info);
+  console.log(info);
 
   const { orgId } = useParams();
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ const DisplayOrganizationVision = () => {
       <Box className="box">
         <VisionField className="visionInput">{visionText || 'Click to add a vision'}</VisionField>
 
-        {role !== 'owner' && (
+        {info[0]?.role === 'owner' && (
           <Editbutton className="editbutton" onClick={() => dispatch(showEditVisionModal())}>
             <img src={editImg} alt="edit" />
           </Editbutton>

@@ -9,7 +9,7 @@ import { GetUserInfo } from '@zuri/control';
 import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
 const Missions = () => {
-  const { role } = GetUserInfo();
+  const info = GetUserInfo();
   const { orgId } = useParams();
   const dispatch = useDispatch();
   const { missionText } = useSelector((state) => state.organizationMission);
@@ -26,7 +26,7 @@ const Missions = () => {
 
       <Box className="box">
         <MissionField>{missionText || 'Click to add a mission'}</MissionField>
-        {role === 'owner' && (
+        {info[0]?.role === 'owner' && (
           <Editbutton onClick={handleClick} className="editMissionbutton" left="90%" rsLeft="85%">
             <img src={editImg} alt="edit" />
           </Editbutton>
