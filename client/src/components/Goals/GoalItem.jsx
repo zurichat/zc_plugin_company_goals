@@ -28,6 +28,7 @@ import { GetUserInfo } from '@zuri/control';
 const GoalItem = ({ goalData }) => { 
   let { orgId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('user'));
+  
 
   //Setting Likes and retriving
   const [like, setLike] = useState('');
@@ -39,6 +40,23 @@ const GoalItem = ({ goalData }) => {
     .then(response => setTotalLikes(response.data.data.count))
     .catch(error => console.log(error))
 
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+    .then(response => setToggleLike(!response.data.data))
+    .catch(error => console.log(error))
+
+    if(toggleLike === false && toggleDislike === false){
+      axios
+        .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+        .then(response => setDislike(response.data.data))
+        .catch(error => console.log(error))  
+
+      axios
+        .get(`https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+        .then(response => setToggleDislike(!response.data.data))
+        .catch(error => console.log(error));
+    }
+
   }, [like])
 
   const handleSetLike = (e) => {
@@ -47,22 +65,28 @@ const GoalItem = ({ goalData }) => {
 
     axios
     .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
-    .then(response => setLike(response.data.message))
+    .then(response => setLike(response.data.data.count))
+    .catch(error => console.log(error));
+
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+    .then(response => setToggleLike(!response.data.data))
     .catch(error => console.log(error));
     
-    if(toggleLike === false){
-      setTotalLikes(totalLikes + 1);
-      setToggleLike(true)
-    } else {
-      setTotalLikes(totalLikes - 1)
-      setToggleLike(false)
-    }
+    console.log('checking' , toggleLike)
+    // if(toggleLike === false){
+    //   setTotalLikes(totalLikes + 1);
+    //   setToggleLike(true)
+    // } else {
+    //   setTotalLikes(totalLikes - 1)
+    //   setToggleLike(false)
+    // }
   }
 
   //Setting Dislikes and retriving Dislikes
   const [dislike, setDislike] = useState('');
   const [totalDislikes, setTotalDislikes] = useState(0);
-  const [toggleDislike , setToggleDislike] = useState(false);
+  const [toggleDislike , setToggleDislike] = useState(true);
 
 
   useEffect(() => {
@@ -71,6 +95,23 @@ const GoalItem = ({ goalData }) => {
     .then(response => setTotalDislikes(response.data.data.count))
     .catch(error => console.log(error))
 
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+    .then(response => setToggleDislike(!response.data.data))
+    .catch(error => console.log(error));
+
+    if(toggleLike === false && toggleDislike === false){
+      axios
+        .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+        .then(response => setLike(response.data.data.count))
+        .catch(error => console.log(error));
+
+      axios
+        .get(`https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+        .then(response => setToggleLike(!response.data.data))
+        .catch(error => console.log(error));
+    }
+
   }, [dislike])
 
   const handleSetDislike = (e) => {
@@ -78,18 +119,22 @@ const GoalItem = ({ goalData }) => {
 
     axios
     .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
-    .then(response => setDislike(response.data.message))
+    .then(response => setDislike(response.data.data))
     .catch(error => console.log(error))  
 
-    if(toggleDislike === false){
-      setTotalDislikes(totalDislikes + 1);
-      setToggleDislike(true)
-    } else {
-      setTotalDislikes(totalDislikes - 1)
-      setToggleDislike(false)
-    }
-  }
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
+    .then(response => setToggleDislike(!response.data.data))
+    .catch(error => console.log(error));
 
+    // if(toggleDislike === false){
+    //   setTotalDislikes(totalDislikes + 1);
+    //   setToggleDislike(true)
+    // } else {
+    //   setTotalDislikes(totalDislikes - 1)
+    //   setToggleDislike(false)
+    // }
+  }
 
 
 
