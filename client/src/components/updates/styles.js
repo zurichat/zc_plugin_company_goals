@@ -6,7 +6,6 @@ export const ReportContainer = styled.div`
   /* width: 360px; */
   width: 100%;
   background: #fff;
-
   height: 100%;
   padding-bottom: 20px;
   color: #999999;
@@ -97,17 +96,17 @@ export const ReportContainer = styled.div`
         margin-block-start: 0px;
         margin-block-end: 0px;
         line-height: 45px;
+         z-index: -100;
       }
       .status {
         color: ${({dotChange})=>{
           switch(dotChange){
             case 'Expired': return '#F44336';
             case 'Completed': return '#00B87C';
-            case 'In Progress': return '#2F80ED';
-            case 'Total Goals': return '#e0e0e0'; 
+            default: return '#2F80ED';
           }
         }};
-        
+
         font-size: 16px;
         margin-top: 8px;
         font-weight: 700;
@@ -118,7 +117,7 @@ export const ReportContainer = styled.div`
 
       .dot_pagination {
         display: flex;
-        width: 70px;
+        width: 45px;
         justify-content: space-between;
         margin-top: 4px;
 
