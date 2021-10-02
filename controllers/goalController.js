@@ -86,7 +86,7 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
 })
 
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, page, limit, sort } = req.query;
+  const { org_id: orgId, page, limit, sort, type: goalType } = req.query;
 
   if (!orgId) {
      logger.info(`Can't get goals for null organisation id... Exiting...`);
@@ -96,7 +96,15 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   // Search for all Goals
   try {
     logger.info(`Started getting all goals for the organization: ${orgId}`);
-    const findGoals = await findAll('goals', orgId);
+    let findGoals;
+    if(goalType)
+    {
+      findGoals = await find('goals', { goal_type: goalType }, orgId);
+    }
+    else
+    {
+      findGoals = await findAll('goals', orgId)
+    }
     const { data: goals } = findGoals.data;
 
     // No matching data, return an empty array
@@ -193,7 +201,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info('no goals for this organization');
-
+    console.log(error)
     return res.status(200).json({
       status: 200,
       message: 'success',
