@@ -3,6 +3,7 @@ import deleteGoalReducer from './deleteGoal.slice';
 import missionReducer from './organizationMission.slice';
 import newGoalReducer from './newGoalSlice';
 import notificationReducer from './notificationSlice';
+import pieChartReducer from './pieChartSlice';
 import createAndEditGoalReducer from './organizationGoal.slice';
 import visionReducer from './organizationVision.slice';
 import showGoalSliceReducer from './showGoalSlice';
@@ -23,6 +24,7 @@ const store = configureStore({
     snackbar: snackbarReducer,
     goals: showGoalSliceReducer,
     organizationCreateAndEditGoal: createAndEditGoalReducer,
+    pieChart: pieChartReducer,
     notifications: notificationReducer,
     organizationCreateAndEditGoalData: createAndEditGoalReducer,
     likeGoals: likeGoalReducer,

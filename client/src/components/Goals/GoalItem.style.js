@@ -199,6 +199,9 @@ export const GoalMenu = styled.ul`
   padding: 0;
 
   button {
+    width: 100%;
+    text-align: left;
+    padding-left: 1rem;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -206,8 +209,6 @@ export const GoalMenu = styled.ul`
 
   li {
     display: flex;
-    align-items: center;
-    padding-left: 1rem;
     width: 100%;
     height: 25%;
 
