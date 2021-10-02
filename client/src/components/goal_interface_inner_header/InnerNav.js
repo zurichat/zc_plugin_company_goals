@@ -7,6 +7,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavContainer, Sort, SortText, GoalText } from './InnerNav.styled';
+import { goalSorted } from '../../redux/showGoalSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
   root: {
@@ -21,11 +23,29 @@ const useStyles = makeStyles({
   },
 });
 
-const options = ['Most Recent', 'Due Date', 'Progress', 'Category', 'Timeline'];
+const options = ['Due Date', 'Most Recent', 'Name', 'Category'];
 const InnerNav = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const { pageNum } = useSelector((state) => state.pageNum);
+  console.log(pageNum);
+
+  const fetchSortGoals = async (value, pageNum) => {
+    const values = {
+      'Most Recent': 'created_at',
+      'Due Date': 'due_date',
+      Name: 'goal_name',
+      Category: 'category',
+    };
+    const res = await fetch(
+      `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3&sort=${values[value]}`
+    );
+    const result = await res.json();
+    // console.log(result.data);
+    dispatch(goalSorted(result));
+  };
 
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,8 +54,8 @@ const InnerNav = () => {
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
+    fetchSortGoals(event.currentTarget.innerText, pageNum);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };

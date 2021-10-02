@@ -2020,6 +2020,16 @@
     "@mui/utils" "^5.0.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
+=======
+"@mui/styled-engine-sc@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-5.0.0.tgz#e8a8c154b27a5c98db2ae0e0c151ee6dbd2a651e"
+  integrity sha512-N2+VHdqBE8hOyoHwFyNHIV8r+/wySsavvRysTbLtLIzDPOlsq7FkPdjH2+tQbzZpWcKvdby7vxcat9C8cREelA==
+  dependencies:
+    prop-types "^15.7.2"
+
+>>>>>>> e60a97a962cd7213bd191f7105251a9d3038a883
 "@mui/styled-engine@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@mui/styled-engine/-/styled-engine-5.0.1.tgz#401e3e0ff846ad1b1e7e097c8050b36d7b68343e"
