@@ -65,6 +65,7 @@ export default function GoalDrop({ goalData }) {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsMenuOpen((oldState) => !oldState);
                 dispatch(editGoalData(setEditGoalData));
                 dispatch(toggleCreateGoalModalAction());
@@ -81,6 +82,7 @@ export default function GoalDrop({ goalData }) {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsMenuOpen((oldState) => !oldState);
                 dispatch(deleteConfirmationAction(goalData._id));
               }}

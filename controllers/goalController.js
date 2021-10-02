@@ -93,13 +93,10 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   try {
     logger.info(`Started getting all goals for the organization: ${orgId}`);
     let findGoals;
-    if(goalType)
-    {
+    if (goalType) {
       findGoals = await find('goals', { goal_type: goalType }, orgId);
-    }
-    else
-    {
-      findGoals = await findAll('goals', orgId)
+    } else {
+      findGoals = await findAll('goals', orgId);
     }
     const { data: goals } = findGoals.data;
 
@@ -129,41 +126,32 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
             .reverse();
         } else if (sort === 'category') {
           logger.info('sort goals by category');
-          sorted = goals
-            .sort((a, b) => {
-              const c = String(a.category).toLowerCase().trim()
-              const d = String(b.category).toLowerCase().trim()
+          sorted = goals.sort((a, b) => {
+            const c = String(a.category).toLowerCase().trim();
+            const d = String(b.category).toLowerCase().trim();
 
-              if(c<d)
-              {
-                return -1
-              }
-              else if(c===d)
-              {
-                return 0
-              }
+            if (c < d) {
+              return -1;
+            } else if (c === d) {
+              return 0;
+            }
 
-              return 1;
-            })
-        }
-        else if(sort === 'goal_name'){
+            return 1;
+          });
+        } else if (sort === 'goal_name') {
           logger.info('sort goals by goal name');
-          sorted = goals
-            .sort((a, b) => {
-              const c = String(a.goal_name).toLowerCase().trim()
-              const d = String(b.goal_name).toLowerCase().trim()
+          sorted = goals.sort((a, b) => {
+            const c = String(a.goal_name).toLowerCase().trim();
+            const d = String(b.goal_name).toLowerCase().trim();
 
-              if(c<d)
-              {
-                return -1
-              }
-              else if(c===d)
-              {
-                return 0
-              }
+            if (c < d) {
+              return -1;
+            } else if (c === d) {
+              return 0;
+            }
 
-              return 1;
-            })
+            return 1;
+          });
         }
       }
 
@@ -197,7 +185,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info('no goals for this organization');
-    console.log(error)
+    console.log(error);
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -205,8 +193,6 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     });
   }
 });
-
-
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
@@ -266,7 +252,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     org = org.data.data;
-    if (!org[0].orgId) {
+
+    if (org === null || !org[0].orgId || org.length < 1) {
       await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 

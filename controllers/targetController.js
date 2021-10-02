@@ -5,11 +5,11 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 
-const { goalId, targets } = require('../data/target');
 const { find, findAll, findById, insertOne, updateOne, deleteMany } = require('../db/databaseHelper');
 const { targetSchema } = require('../schemas');
 const { reduceCalculation, average, calculate } = require('../utils/calculate');
 // Dummy data
+const { goalId, targets } = require('../data/target');
 
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
