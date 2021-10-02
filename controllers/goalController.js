@@ -244,7 +244,7 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
 });
 
 exports.individualGoalProgress =  catchAsync(async (req, res, next) => {
-  const {org_id} = req.query;
+  const { org_id } = req.query;
   const dataGoal = await findGoal(org_id, res)
   const dataTarget = await findTarget(org_id, res)
   let goals = dataGoal.data.data;
@@ -257,7 +257,7 @@ exports.individualGoalProgress =  catchAsync(async (req, res, next) => {
   const result = calculate(goals, targets);
   const reduceResult = reduceCalculation(result);
   console.log(reduceResult);
-
+})
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
@@ -315,7 +315,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       };
 
       goals = await insertOne('goals', data, orgId);
-      await insertOne('goalReactions', {goal_id: goals.data.data.object_id}, orgId);
+      await insertOne('goalReactions', {goal_id: goals.data.data.object_id, reactions: [], orgId}, orgId);
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
@@ -992,7 +992,7 @@ exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.setGoalReaction = catchAsync(async (req, res) => {
+exports.setGoalReaction = catchAsync(async (req, res, next) => {
 
   const { goal_id, org_id} = req.query;
   const {reaction, _id} = req.body;
@@ -1021,6 +1021,8 @@ exports.setGoalReaction = catchAsync(async (req, res) => {
   if (goalReactionsData.reactions.filter(e => e.user_id === reactions[0].user_id).length > 0) {
     const userIndex = goalReactionsData.reactions.findIndex(e => e.user_id === reactions[0].user_id);
     goalReactionsData.reactions[userIndex].reaction = reactions[0].reaction;
+
+
   } else {
     goalReactionsData.reactions.push(reactions);
   }
@@ -1036,7 +1038,7 @@ exports.setGoalReaction = catchAsync(async (req, res) => {
 
 })
 
-exports.getGoalReaction = catchAsync(async (req, res) => {
+exports.getGoalReaction = catchAsync(async (req, res, next) => {
   const {goal_id, org_id} = req.query;
 
   logger.info(`Getting all the reactions (likes & dislikes) for the goal: ${goal_id}`);
@@ -1054,12 +1056,11 @@ exports.getGoalReaction = catchAsync(async (req, res) => {
     return res.status(400).send({ error: `The goal with the goal id of ${goal_id} does not exist` });
   }
 
-  const goalReactions = await find('goalReactions', {goal_id}, org_id);
-
-  return res.status(200).json({
-    status: 200,
-    message: 'success',
-    data: goalReactions.data.data,
-  });
-
+  try {
+    const goalReactions = await find('goalReactions', {goal_id}, org_id);
+    return res.status(200).json({ status: 200, message: 'success', data: goalReactions.data.data, });
+  } catch (err) {
+    if (err)
+      return res.status(400).send({status: 400, message: 'failed', data: err.details });
+  }
 })
