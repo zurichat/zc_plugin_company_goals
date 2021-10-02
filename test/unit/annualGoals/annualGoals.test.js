@@ -118,7 +118,7 @@ describe('ANNUAL GOALS TEST', () => {
           expect(res.body).to.have.property('data');
           expect(res.body.data).to.be.an('array')
           if (res.body.data.length > 0) {
-            res.body.data.forEach(goal => expect(goal).to.be.an('object').that.contains({goal_type: 'annual'}))
+            res.body.data.forEach(goal => expect(goal).to.be.an('object').that.contains({goal_type: type}))
           }
           done();
         });
