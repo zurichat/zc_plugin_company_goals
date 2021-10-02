@@ -379,3 +379,69 @@ exports.getGoalProgress = catchAsync(async (req, res, next) => {
     return res.status(400).json(err);
   }
 });
+
+
+exports.updateTarget = catchAsync(async (req, res, next) => {
+  // get goal id from the url
+
+  const { org_id: orgId, goal_id: goalId, target_id: targetId } = req.query;
+
+  // check if organization id exists
+  if (!orgId) {
+    logger.info(`Organization id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  // check if goal id exists
+  if (!goalId) {
+    logger.info(`goal_id not specified`);
+    return res.status(400).send({ error: 'goal_id is required' });
+  }
+
+  // check if target id exists
+  if (!targetId) {
+    logger.info(`target_id not specified`);
+    return res.status(400).send({ error: 'target_id is required' });
+  }
+
+  const reqTarget = req.body;
+
+  try {
+    // check that the goal_id is valid
+    const goal = await find(
+      'goals',
+      {
+        _id: goalId,
+      },
+      orgId
+    );
+
+    if (goal.data.data === null) {
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    }
+    // check that the target_id is valid
+    const target = await find(
+      'targets',
+      {
+        _id: targetId,
+      },
+      orgId
+    );
+
+    if (target.data.data === null) {
+      return res.status(400).send({ error: `The target with the target id of ${targetId} does not exist` });
+    }
+    // update target
+    logger.info(`Updating target`);
+    const updatedTarget = await updateMany('targets', reqTarget, { _id: targetId }, orgId);
+    logger.info(`Target update with id ${targetId}`);
+
+    // Response
+    logger.info(`Target update`);
+    return res.status(200).json({ status: 200, data: updatedTarget.data.data });
+  } catch (err) {
+    logger.info(`There are errors ${err}`);
+    if (err) return res.status(500).json(err);
+  }
+});
