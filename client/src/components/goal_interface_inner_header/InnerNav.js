@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { NavContainer, Sort, SortText, GoalText } from './InnerNav.styled';
 import { goalSorted } from '../../redux/showGoalSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles({
   root: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles({
 
 const options = ['Due Date', 'Most Recent', 'Name', 'Category'];
 const InnerNav = () => {
+  let { orgId } = useParams();
   const dispatch = useDispatch();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,7 +42,9 @@ const InnerNav = () => {
       Category: 'category',
     };
     const res = await fetch(
-      `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3&sort=${values[value]}`
+      `https://goals.zuri.chat/api/v1/goals?org_id=${
+        orgId || '61578237b9b9f30465f49ee8'
+      }&page=${pageNum}&limit=3&sort=${values[value]}`
     );
     const result = await res.json();
     // console.log(result.data);
