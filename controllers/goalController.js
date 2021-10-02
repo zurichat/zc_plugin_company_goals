@@ -1024,11 +1024,11 @@ exports.setGoalReaction = catchAsync(async (req, res, next) => {
 
 
   } else {
-    goalReactionsData.reactions.push(reactions);
+    goalReactionsData.reactions.push(reaction);
   }
 
   try {
-    const updatedGoalReactions = await updateOne('goalReactions', goalReactionsData, {}, org_id, _id);
+    const updatedGoalReactions = await updateOne('goalReactions', { reactions }, {}, org_id, _id);
 
     return res.status(200).json({ status: 200, message: 'success', data: updatedGoalReactions.data.data });
   } catch (err) {
