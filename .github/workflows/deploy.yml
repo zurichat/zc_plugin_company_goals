@@ -29,7 +29,7 @@ jobs:
       
       - name: test
         run: |
-          pwd
+          yarn run test
           
       - name: Git Pull on Server
         uses: appleboy/ssh-action@master
