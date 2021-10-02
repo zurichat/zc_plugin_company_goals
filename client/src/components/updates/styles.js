@@ -98,9 +98,16 @@ export const ReportContainer = styled.div`
         margin-block-end: 0px;
         line-height: 45px;
       }
-
       .status {
-        color: #f44336;
+        color: ${({dotChange})=>{
+          switch(dotChange){
+            case 'Expired': return '#F44336';
+            case 'Completed': return '#00B87C';
+            case 'In Progress': return '#2F80ED';
+            case 'Total Goals': return '#e0e0e0'; 
+          }
+        }};
+        
         font-size: 16px;
         margin-top: 8px;
         font-weight: 700;
