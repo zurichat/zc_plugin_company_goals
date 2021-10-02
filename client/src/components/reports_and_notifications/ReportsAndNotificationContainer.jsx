@@ -10,6 +10,7 @@ import { TabButtonNotification } from './ReportsAndNotificationContainer.styled'
 import { Span } from './ReportsAndNotificationContainer.styled';
 import { useSelector } from 'react-redux';
 import { selectNotifications, getNotifications } from '../../redux/notificationSlice';
+import { getPieChart } from '../../redux/pieChartSlice';
 import { useDispatch } from 'react-redux';
 
 const ReportsAndNotificationContainer = () => {
@@ -20,6 +21,10 @@ const ReportsAndNotificationContainer = () => {
 
   useEffect(() => {
     dispatch(getNotifications());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getPieChart());
   }, [dispatch]);
 
   const notifications = useSelector(selectNotifications);
