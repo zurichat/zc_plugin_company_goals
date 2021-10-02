@@ -184,3 +184,47 @@ export const Grid = styled.section`
 
   ${(props) => props.gridInfo && `  grid-template-columns: 1fr; padding:0;`};
 `;
+
+export const StyledPaginatecontainer = styled.div`
+  max-width: 500px;
+  overflow: scroll;
+
+  .paginationBttns {
+    width: 100%;
+    height: 40px;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    width: max-content;
+    margin-bottom: 21px;
+    scrollbar-color: yellow;
+  }
+  .paginationBttns a {
+    padding: 10px;
+    margin: 8px;
+    color: #333;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 17px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paginationBttns a:hover {
+    color: black;
+    background-color: #00b87c32;
+  }
+  .paginationActive a {
+    border: 1px solid #00b87c;
+    background: #00b87c;
+    box-shadow: 0 0 2px -2px #0005;
+    color: #fff;
+  }
+  .activeText {
+    color: white !important;
+    background-color: #00b87c !important;
+  }
+`;
