@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 // import CentrifugeClient from 'centrifuge';
 import styled from 'styled-components';
 import MainApp from '../components/main_app/MainApp';
-import { storeRoomId } from '../redux/organizationRoom.slice';
 import { activateSnackbar } from '../redux/snackbar.slice';
 import { addNotificationFromRTC } from '../redux/notificationSlice';
 import { updateOrgMissionFromRTC } from '../redux/organizationMission.slice';
@@ -18,13 +17,11 @@ import DeleteErrorModal from '../components/DeleteError/DeleteErrorModal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/organization_mission_vision/OrganizationMissionVision';
-
-import EditMission from '../components/modal/EditMission';
-
-import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
 
 const AppRoom = () => {
+  console.log('Am going to get userInfo');
+  console.log(GetUserInfo());
   let { orgId } = useParams();
   const dispatch = useDispatch();
   //   useEffect(() => {
@@ -76,8 +73,6 @@ const AppRoom = () => {
       <BasicModal />
       <DeleteSuccessModal />
       <DeleteErrorModal />
-      <OrganizationVisionEditModal />
-      <EditMission />
       <SnackBar />
       <PluginSide>
         <MissionVisionContainer />
