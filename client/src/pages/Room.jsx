@@ -63,20 +63,18 @@ const AppRoom = () => {
       console.log('goals-publish-vision-update', ctx);
       dispatch(updateOrgVisionFromRTC(ctx.data));
     });
-    // centrifugeConnect.subscribe('CreateOrganizationMember', function (ctx) {
-    //   console.log('CreateOrganizationMember', ctx);
-    //   GetUsers();
-    // });
-    // centrifugeConnect.subscribe('DeactivateOrganizationMember', function (ctx) {
-    //   console.log('DeactivateOrganizationMember', ctx);
-    //   GetUsers();
-    // });
-    // centrifugeConnect.subscribe('ReactivateOrganizationMember', function (ctx) {
-    //   console.log('ReactivateOrganizationMember', ctx);
-    //   GetUsers();
-    // });
-
-    // centrifugeConnect.connect();
+    SubscribeToChannel('CreateOrganizationMember', function (ctx) {
+      console.log('CreateOrganizationMember', ctx);
+      GetUsers();
+    });
+    SubscribeToChannel('DeactivateOrganizationMember', function (ctx) {
+      console.log('DeactivateOrganizationMember', ctx);
+      GetUsers();
+    });
+    SubscribeToChannel('ReactivateOrganizationMember', function (ctx) {
+      console.log('ReactivateOrganizationMember', ctx);
+      GetUsers();
+    });
   }, []);
   return (
     <>
