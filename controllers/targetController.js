@@ -199,6 +199,33 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
   });
 });
 
+<<<<<<< HEAD
+exports.individualGoalProgress = catchAsync(async (req, res, next) => {
+  const { org_id } = req.query;
+  const dataGoal = await findGoal(org_id, res);
+  const dataTarget = await findTarget(org_id, res);
+  let goals = dataGoal.data.data;
+  let targets = dataTarget.data.data;
+
+  // console.log(goals)
+  // console.log(targets)
+
+  // Make the calculation
+  const result = calculate(goals, targets);
+  const reduceResult = reduceCalculation(result);
+  console.log(reduceResult);
+
+  // // Dummy Data
+  // const result = calculate(goalId, targets);
+  // const reduceResult = reduceCalculation(result);
+  // console.log(reduceResult);
+
+  // Response
+  return res.status(200).json({
+    status: 'success',
+    reduceResult,
+  });
+=======
 exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
   const { org_id, goal_id } = req.query;
 
@@ -235,6 +262,7 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
   } catch (err) {
     return res.status(400).json(err);
   }
+>>>>>>> 849dc9473c5ca61b0e5cd70f620ee74d8cfddeb7
 });
 
 // exports.createGoalTargets = catchAsync(async(req, res, next) => {
