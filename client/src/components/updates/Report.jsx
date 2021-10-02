@@ -90,7 +90,11 @@ const Report = () => {
      pieChartData['isExpired'], 
      pieChartData['isComplete']
    ];
+   
 
+   const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
+
+   
   return (
     <ReportContainer className="report_section" dotChange={dotChange}>
       <div className="header">
@@ -157,6 +161,7 @@ const Report = () => {
           <div className="bar"></div>
         </div>
         <h3 className="prcent">Progress Rate 73%</h3>
+        {/* <h3 className="prcent">Progress Rate {Average ? Average : 0}%</h3> */}
       </div>
     </ReportContainer>
   );
