@@ -1,8 +1,11 @@
 import React from 'react';
 import { PagContainer } from './GoalDetail.styled';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { useDispatch } from 'react-redux';
 
 const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
+  const dispatch = useDispatch();
+
   const totalPages = Math.ceil(goalComponents.totalDocuments / 3);
   console.log(totalPages);
 
@@ -11,11 +14,12 @@ const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
 
   function handlePrev(pageNum, setPageNum, totalPagesArr) {
     if (pageNum >= totalPagesArr[0]) setPageNum(pageNum - 1);
-    dispatch(pageNum);
+    dispatch(goalPaginated(pageNum));
   }
 
   function handleNext(pageNum, setPageNum, totalPagesArr) {
     if (pageNum <= totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
+    dispatch(goalPaginated(pageNum));
   }
 
   return (

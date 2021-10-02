@@ -10,15 +10,18 @@ export const getGoals = createAsyncThunk('showGoal/getGoals', async (getAllGoals
 export const showGoalSlice = createSlice({
   name: 'showGoal',
   initialState: {
-    goals: null,
+    goals: [getGoals],
     status: null,
     errorMessage: null,
     errorInfo: null,
-    pageNumber: 1,
+    pageNumb: 1,
   },
   reducers: {
     goalSorted(state, action) {
       state.goals = action.payload;
+    },
+    goalPaginated(state, action) {
+      state.pageNumb = action.payload;
     },
   },
   extraReducers: {

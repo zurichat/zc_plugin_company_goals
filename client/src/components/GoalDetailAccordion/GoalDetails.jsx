@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoalDetailAccordion(props) {
+export default function GoalDetailAccordion() {
   let { orgId } = useParams();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -49,16 +49,26 @@ export default function GoalDetailAccordion(props) {
   const [pageNum, setPageNum] = React.useState(1);
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
-
+  console.log(goals);
   // console.log('roomy', roomId);
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  const getAllComponentsFromServer = (pageNum) => {
-    const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
-    // console.log('err', error);
+  console.log(goals);
+  c;
+  // const requestURL = `${
+  //   process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
+  // }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
+  // const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
+
+  getAllComponentsFromServer = (pageNum) => {
+    const requestURL = `${
+      process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
+    }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}&page=${pageNum}&limit=3`;
     dispatch(getGoals(requestURL));
   };
+  // console.log('err', error);
   if (!errorInfo && !goals) return <Loader />;
 
   if (errorInfo) return <Error errorMessage={errorInfo.message} />;
@@ -69,7 +79,6 @@ export default function GoalDetailAccordion(props) {
   //   const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
   //   try {
   //     let { data } = await axios.get(requestURL);
-  //     dispatch(getGoals(requestURL));
   //     if (!data) {
   //       console.log('no data');
 
@@ -86,15 +95,38 @@ export default function GoalDetailAccordion(props) {
   //   }
   // }
 
-  React.useEffect(() => {
-    getAllComponentsFromServer(pageNum);
-  }, [pageNum]);
+  // React.useEffect(() => {
+  //   getAllComponentsFromServer(pageNum);
+  // }, [pageNum]);
 
   return (
-    <div className={classes.root}>
-      {goals.map((goal) => {
-        return (
-          <>
+    //   <React.Fragment>
+    //     <Container className={classes.root}>
+    //       {console.log(goalComponents)}
+    //       {!goalComponents ? (
+    //         <Loader />
+    //       ) : (
+    //         goalComponents.data.map((goal) => {
+    //           return (
+    //             <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+    //               <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+    //                 <GoalItem goalData={goal} />
+    //               </AccordionSummary>
+    //               <AccordionDetails style={{ height: '50%' }}>
+    //                 <GoalDetailData goalData={goal} />
+    //               </AccordionDetails>
+    //             </Accordion>
+    //           );
+    //         })
+    //       )}
+    //     </Container>
+    //     {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
+    //   </React.Fragment>
+    // );
+    <React.Fragment>
+      <Container className={classes.root}>
+        {goals.map((goal) => {
+          return (
             <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
               <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
                 <GoalItem goalData={goal} />
@@ -109,36 +141,36 @@ export default function GoalDetailAccordion(props) {
                 </Div>
               </AccordionDetails>
             </Accordion>
-            {goals && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goals} />}
-          </>
-        );
-      })}
-      <TargetForm />
-    </div>
+          );
+        })}
+        <TargetForm />
+      </Container>
+      {/* {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />} */}
+    </React.Fragment>
   );
-
-  // <React.Fragment>
-  //   <Container className={classes.root}>
-  //     {console.log(goalComponents)}
-  //     {!goalComponents ? (
-  //       <Loader />
-  //     ) : (
-  //       goalComponents.data.map((goal) => {
-  //         return (
-  //           <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
-  //             <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-  //               <GoalItem goalData={goal} />
-  //             </AccordionSummary>
-  //             <AccordionDetails style={{ height: '50%' }}>
-  //               <GoalDetailData goalData={goal} />
-  //             </AccordionDetails>
-  //           </Accordion>
-  //         );
-  //       })
-  //     )}
-  //   </Container>
-  //   {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
-  // </React.Fragment>
-
-  // );
 }
+
+// <React.Fragment>
+//   <Container className={classes.root}>
+//     {console.log(goalComponents)}
+//     {!goalComponents ? (
+//       <Loader />
+//     ) : (
+//       goalComponents.data.map((goal) => {
+//         return (
+//           <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+//             <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+//               <GoalItem goalData={goal} />
+//             </AccordionSummary>
+//             <AccordionDetails style={{ height: '50%' }}>
+//               <GoalDetailData goalData={goal} />
+//             </AccordionDetails>
+//           </Accordion>
+//         );
+//       })
+//     )}
+//   </Container>
+//   {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
+// </React.Fragment>
+
+// );

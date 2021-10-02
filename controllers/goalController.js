@@ -270,8 +270,9 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
-    org = org.data.data;
-    if (!org[0].orgId) {
+      org = org.data.data;
+     
+    if (org === null || !org[0].orgId || org.length < 1) {
       await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 
@@ -281,7 +282,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
         res.status(200).json({ message: 'success', data });
       }
     } catch (error) {
-    
+ 
       return res.status(400).send({ message: 'Invalid request' });
     }
   })
