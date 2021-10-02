@@ -1,9 +1,12 @@
 import { parse, isDate } from 'date-fns';
 import axios from 'axios';
+import { GetUserInfo } from "@zuri/control";
 
 let createEditGoalBaseRouteUrl = 'http://localhost:4000/api/v1/goals';
 let createGoalRouteUrl = `${createEditGoalBaseRouteUrl}/?org_id=`;
 let editGoalRouteUrl = `${createEditGoalBaseRouteUrl}/update`;
+
+
 
 if (process.env.NODE_ENV === 'production') {
   createEditGoalBaseRouteUrl = 'https://goals.zuri.chat/api/v1/goals';
@@ -11,13 +14,27 @@ if (process.env.NODE_ENV === 'production') {
   editGoalRouteUrl = `${createEditGoalBaseRouteUrl}/update`;
 }
 
+
 const goalCreateEditDataApi = {
+ 
   create: async (createGoalData, orgId) => {
-    const response = await axios.post(`${createGoalRouteUrl}${orgId}`, createGoalData);
+     const getInfo = await GetUserInfo();
+     const { token } = getInfo;
+    const response = await axios.post(`${createGoalRouteUrl}${orgId}`, createGoalData, {
+      headers: {
+      'Authorization': `Bearer ${token} ${orgId}`
+    }});
     return response;
   },
   edit: async (goalId, editGoalData, orgId) => {
-    const response = await axios.put(`${editGoalRouteUrl}/${goalId}?org_id=${orgId}`, editGoalData);
+     const getInfo = await GetUserInfo();
+     const { token } = getInfo;
+    const response = await axios.put(`${editGoalRouteUrl}/${goalId}?org_id=${orgId}`, editGoalData, {
+      headers: {
+        'Authorization': `Bearer ${token} ${orgId}`
+      }
+    });
+    
     return response;
   },
 };

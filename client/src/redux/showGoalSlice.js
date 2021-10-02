@@ -14,6 +14,7 @@ export const showGoalSlice = createSlice({
     status: null,
     errorMessage: null,
     errorInfo: null,
+    pageNumber: 1,
   },
   reducers: {
     goalSorted(state, action) {

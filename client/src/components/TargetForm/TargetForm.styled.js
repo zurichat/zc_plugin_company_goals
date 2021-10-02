@@ -17,7 +17,7 @@ export const Close = styled.p`
 `;
 
 export const Overlay = styled.div`
-  background: #00000014;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 10;
   position: fixed;
   width: 100%;

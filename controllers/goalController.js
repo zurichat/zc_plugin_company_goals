@@ -123,8 +123,43 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
               return c - d;
             })
             .reverse();
-        } else if (sort === 'progress') {
-          logger.info('yet to be done');
+        } else if (sort === 'category') {
+          logger.info('sort goals by category');
+          sorted = goals
+            .sort((a, b) => {
+              const c = String(a.category).toLowerCase().trim()
+              const d = String(b.category).toLowerCase().trim()
+
+              if(c<d)
+              {
+                return -1
+              }
+              else if(c===d)
+              {
+                return 0
+              }
+
+              return 1;
+            })
+        }
+        else if(sort === 'goal_name'){
+          logger.info('sort goals by goal name');
+          sorted = goals
+            .sort((a, b) => {
+              const c = String(a.goal_name).toLowerCase().trim()
+              const d = String(b.goal_name).toLowerCase().trim()
+
+              if(c<d)
+              {
+                return -1
+              }
+              else if(c===d)
+              {
+                return 0
+              }
+
+              return 1;
+            })
         }
       }
 
@@ -167,19 +202,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.createGoal = async (req, res, next) => {
-  logger.info(`Started creating a new goal.`);
 
-  const response = {
-    'total Goals': goals,
-    'completed Goals': completedGoals,
-    'unCompleted Goals': unCompletedGoals,
-    'expired Goals': expiredGoals,
-  };
-
-  // Returning Response
-  res.status(200).json({ status: 200, message: 'success', data: response });
-};
 
 exports.createGoal = catchAsync(async (req, res, next) => {
   const roomId = uuidv4();
@@ -677,7 +700,7 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
       return res.status(201).json({
         status: 'success',
         message: 'Goal dislike added',
-        data: {},
+        data: { count: addedDisLike.data.data.insert_count },
       });
     }
 
@@ -686,7 +709,7 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'Goal dislike removed',
-      data: {},
+      data: { count: removeDisLike.data.data.deleted_count },
     });
   } catch (error) {
     res.status(500).json({ status: 'failed', message: 'server Error', data: null });

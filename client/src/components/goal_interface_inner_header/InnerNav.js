@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const options = ['Due Date', 'Most Recent', 'Name', 'Progress', 'Category'];
+const options = ['Due Date', 'Most Recent', 'Name', 'Category'];
 const InnerNav = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -35,7 +35,6 @@ const InnerNav = () => {
       'Most Recent': 'created_at',
       'Due Date': 'due_date',
       Name: 'goal_name',
-      Progress: 'progress',
       Category: 'category',
     };
     const res = await fetch(

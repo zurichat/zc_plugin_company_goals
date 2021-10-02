@@ -15,6 +15,7 @@ const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger');
 
 
+
 exports.getChartInfo = catchAsync( async (req, res, next) => {
     const {org_id: orgId} = req.query;
     
@@ -32,21 +33,22 @@ exports.getChartInfo = catchAsync( async (req, res, next) => {
 
        allGoals.forEach((goal)=>{
    
-            if(!goal.is_complete){
+            if(!goal.isExpired){
                 isInComplete > 0 ? isInComplete++ : isInComplete = 1            
 
                result['isComplete'] = totalGoals - isInComplete
             }
 
 
-            if(!goal.is_expired){
+            if(!goal.isExpired){
                 isNotExpired > 0 ? isNotExpired++ : isNotExpired = 1
   
               result['isExpired'] = totalGoals - isNotExpired
             } 
 
             
-            if(goal.start_date && !goal.is_expired && !goal.is_complete ){
+            if(goal.start_date && !goal.isExpired && !goal.isComplete ){
+                
                 result['inProgress'] >= 0 ?  result['inProgress']++ : result['inProgress'] = 1
             } 
         })
