@@ -16,15 +16,17 @@ const {
   disLikeGoal,
   getGoalDisLikes,
   checkUserDisLikes,
-  sortGoalByType,
-  // createGoalTargets,
-  // getGoalTargets,
+  sortGoalByType
+} = require('../controllers/goalController');
+const { 
+  updateSingleGoalTargetById,
+  createGoalTargets,
+  getGoalTargets,
   averageGoalProgress,
   individualGoalProgress,
   deleteTarget,
-  getGoalProgress,
-} = require('../controllers/goalController');
-const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
+  getGoalProgress
+} = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
 const restrictToOwner = require('../middlewares/restrict')
 
