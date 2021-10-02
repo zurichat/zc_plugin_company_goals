@@ -15,7 +15,7 @@ const GetUsers = async () => {
     console.log('totalWorkSpaceUser', info.totalUsers);
 
     const workspace_info = {
-      thumbnailUrl: [(info[0].image_url || imagePlaceholder), (info[1].image_url || imagePlaceholder), (info[2].image_url] || imagePlaceholder)],
+      thumbnailUrl: [(info[0].image_url || imagePlaceholder), (info[1].image_url || imagePlaceholder), (info[2].image_url || imagePlaceholder)],
       userCount: info.totalUsers,
     };
     settotal(workspace_info);
