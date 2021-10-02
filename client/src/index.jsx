@@ -13,7 +13,7 @@ const Root = () => {
       <StylesProvider injectFirst>
         <Provider store={reduxStore}>
           <React.StrictMode>
-              <App />
+            <App />
           </React.StrictMode>
         </Provider>
       </StylesProvider>
