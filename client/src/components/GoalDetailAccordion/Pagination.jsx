@@ -8,19 +8,18 @@ const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
   const dispatch = useDispatch();
   const totalPages = Math.ceil(goalComponents.totalDocuments / 3);
   const totalPagesArr = new Array(totalPages).fill(1).map((item, index) => index + 1);
-  console.log(totalPagesArr);
+  // console.log(totalPagesArr);
   function handlePrev(pageNum, setPageNum, totalPagesArr) {
     if (pageNum >= totalPagesArr[0]) setPageNum(pageNum - 1);
     dispatch(goalPaginated(pageNum));
   }
   function handleNext(pageNum, setPageNum, totalPagesArr) {
     if (pageNum <= totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
+    console.log(pageNum);
     dispatch(goalPaginated(pageNum));
   }
-  function handleChange(page) {
-    setPageNum(page);
-    dispatch(goalPaginated(page));
-  }
+  console.log(pageNum);
+
   return (
     <PagContainer>
       <div className="page_index_container">
@@ -32,7 +31,14 @@ const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
           <BiChevronLeft />
         </button>
         {totalPagesArr?.map((page, index) => (
-          <div onClick={() => handleChange(page)} className={`index ${pageNum === page && 'active'}`} key={index}>
+          <div
+            onClick={() => {
+              dispatch(goalPaginated(pageNum));
+              setPageNum(page);
+            }}
+            className={`index ${pageNum === page && 'active'}`}
+            key={index}
+          >
             {page}
           </div>
         ))}

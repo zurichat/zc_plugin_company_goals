@@ -8,7 +8,6 @@ const chaiHTTP = require('chai-http');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const app = require('../../../app');
-// const publishCntrl = require('../../../controllers/centrifugoController');
 const logger = require('../../../utils/logger');
 const { urls, defaultOrg } = require('../../globals');
 const sampleMission = require('./sampleMission.json');
@@ -57,22 +56,6 @@ describe('MISSION TESTS', () => {
   });
 
   context('UPDATE MISSION', () => {
-    // it('Should fail to update mission', (done) => {
-    //   const axiosPutStub = sinon.stub(axios, 'put').returns({ data: { data: null } });
-    //   chai
-    //     .request(app)
-    //     .patch(URL)
-    //     .send({ vision: `out like a light.` })
-    //     .end((err, res) => {
-    //       expect(err).to.not.be.an('error');
-    //       expect(res).to.be.json;
-    //       expect(res).to.have.status(404);
-    //       expect(axiosPutStub).to.have.been.calledOnce;
-    //       expect(res.body).to.have.property('message', 'No matching documents were found');
-    //       done();
-    //     });
-    // });
-
     it('Should update mission successfully', (done) => {
       sinon.restore();
       const axiosPutStub = sinon
