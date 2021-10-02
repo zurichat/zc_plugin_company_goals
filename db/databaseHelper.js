@@ -109,7 +109,7 @@ exports.find = async (collectionName, filter, organization_id) => {
     return response;
   } catch (error) {
     logger.info(`The read operation failed with the following error messages: ${error}`);
-    throw new AppError(`find by id operation failed: ${error}`, 500);
+    throw new AppError(`find operation failed: ${error}`, 500);
   }
 };
 

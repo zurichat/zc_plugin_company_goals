@@ -23,9 +23,12 @@ const MissionVisionDisplayField = styled(TextField)`
   & > .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled {
     color: black;
   }
-  & textarea.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+  & textarea.css-mixo3p-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
     -webkit-text-fill-color: black;
     color: black;
+  }
+  & > p.css-1wc848c-MuiFormHelperText-root {
+    text-align: end;
   }
 `;
 

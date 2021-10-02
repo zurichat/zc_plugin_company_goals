@@ -11,37 +11,32 @@ const app = require('../../../app');
 // const publishCntrl = require('../../../controllers/centrifugoController');
 const logger = require('../../../utils/logger');
 const { urls, defaultOrg } = require('../../globals');
-const sampleVision = require('./sampleVision.json');
+const sampleMission = require('./sampleMission.json');
 
-const URL = `/api/v1/vision/${defaultOrg}`;
+const URL = `/api/v1/mission/${defaultOrg}`;
 
 chai.use(chaiHTTP);
 chai.use(sinonChai);
 
 const sandbox = sinon.createSandbox();
 
-describe('VISION TESTS', () => {
+describe('MISSION TESTS', () => {
   let loggerStub;
   let axiosGetStub;
-  // let axiosPutStub;
 
   beforeEach(() => {
     // Disable logger messages
     loggerStub = sandbox.stub(logger, 'info').returns('');
-    axiosGetStub = sandbox.stub(axios, 'get').returns({ data: { data: sampleVision } });
-    // axiosPutStub = sandbox.stub(axios, 'put').returns({ data: { data: { ...sampleVision, modified_documents: 1 } } });
-    // pubStubA = sandbox.stub(publishCntrl, 'publish').returns(true);
-    // pubStubB = sandbox.stub(publishCntrl, 'test').returns(true);
+    axiosGetStub = sandbox.stub(axios, 'get').returns({ data: { data: sampleMission } });
   });
 
   // Refresh sandbox for each test
   afterEach(() => {
     sandbox.restore();
-    sinon.restore();
   });
 
-  context('GET VISION', () => {
-    it('Should get vision successfully', (done) => {
+  context('GET MISSION', () => {
+    it('Should get mission successfully', (done) => {
       chai
         .request(app)
         .get(URL)
@@ -51,7 +46,7 @@ describe('VISION TESTS', () => {
           expect(res).to.be.json;
           expect(loggerStub).to.have.been.called;
           expect(axiosGetStub).to.have.been.calledOnce;
-          expect(axiosGetStub).to.have.been.calledWith(urls().visionRead);
+          expect(axiosGetStub).to.have.been.calledWith(urls().missionRead);
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.property('status', 200);
           expect(res.body).to.have.property('message', 'success');
@@ -61,37 +56,32 @@ describe('VISION TESTS', () => {
     });
   });
 
-  context('UPDATE VISION', () => {
-    it('Should fail to update vision', (done) => {
-      const axiosPutStub = sinon
-        .stub(axios, 'put')
-        .returns({ data: { data: { ...sampleVision, modified_documents: 0 } } });
-      // const pubspy = sinon.spy(publishCntrl, 'publish');
-      chai
-        .request(app)
-        .patch(URL)
-        .send({ vision: `out like a light.` })
-        .end((err, res) => {
-          expect(err).to.not.be.an('error');
-          expect(res).to.be.json;
-          expect(res).to.have.status(404);
-          expect(axiosPutStub).to.have.been.calledOnce;
-          // expect(pubspy).to.have.been.calledOnce;
-          // expect(publishCntrl).to.have.been.calledOnce;
-          expect(res.body).to.have.property('message', 'No matching documents were found');
-          done();
-        });
-    });
+  context('UPDATE MISSION', () => {
+    // it('Should fail to update mission', (done) => {
+    //   const axiosPutStub = sinon.stub(axios, 'put').returns({ data: { data: null } });
+    //   chai
+    //     .request(app)
+    //     .patch(URL)
+    //     .send({ vision: `out like a light.` })
+    //     .end((err, res) => {
+    //       expect(err).to.not.be.an('error');
+    //       expect(res).to.be.json;
+    //       expect(res).to.have.status(404);
+    //       expect(axiosPutStub).to.have.been.calledOnce;
+    //       expect(res.body).to.have.property('message', 'No matching documents were found');
+    //       done();
+    //     });
+    // });
 
-    it('Should update vision successfully', (done) => {
+    it('Should update mission successfully', (done) => {
       sinon.restore();
       const axiosPutStub = sinon
         .stub(axios, 'put')
-        .returns({ data: { data: { ...sampleVision, modified_documents: 1 } } });
+        .returns({ data: { data: { ...sampleMission, modified_documents: 1 } } });
       chai
         .request(app)
         .patch(URL)
-        .send({ vision: `Always Strive And Prosper.` })
+        .send({ mission: `Eh Macarena` })
         .end((err, res) => {
           expect(err).to.not.be.an('error');
           expect(res).to.have.status(200);
