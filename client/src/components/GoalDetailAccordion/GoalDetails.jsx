@@ -45,7 +45,7 @@ export default function GoalDetailAccordion(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const { roomId } = useSelector((state) => state.organizationRoom);
-  const [goalComponents, setGoalComponents] = React.useState();
+  // const [goalComponents, setGoalComponents] = React.useState();
   const [pageNum, setPageNum] = React.useState(1);
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);

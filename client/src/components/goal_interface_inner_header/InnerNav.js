@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavContainer, Sort, SortText, GoalText } from './InnerNav.styled';
 import { goalSorted } from '../../redux/showGoalSlice';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
   root: {
@@ -29,8 +29,9 @@ const InnerNav = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const { goals, pageNumber } = useSelector((state) => state.showGoals);
 
-  const fetchSortGoals = async (value) => {
+  const fetchSortGoals = async (value, pageNumber) => {
     const values = {
       'Most Recent': 'created_at',
       'Due Date': 'due_date',
@@ -38,7 +39,7 @@ const InnerNav = () => {
       Category: 'category',
     };
     const res = await fetch(
-      `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&sort=${values[value]}`
+      `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNumber}&limit=3&sort=${values[value]}`
     );
     const result = await res.json();
     // console.log(result.data);
@@ -52,7 +53,7 @@ const InnerNav = () => {
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
-    fetchSortGoals(event.currentTarget.innerText);
+    fetchSortGoals(event.currentTarget.innerText, pageNumber);
   };
   const handleClose = () => {
     setAnchorEl(null);
