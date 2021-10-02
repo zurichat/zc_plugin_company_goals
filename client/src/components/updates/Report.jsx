@@ -49,10 +49,7 @@ const Report = () => {
     },
   };
   const setChartPercentage = (dataMark, label) => {
-    const piePercentage =
-      ((pieChartData[dataMark] /
-        pieChartData['totalGoals']) *
-      100);
+    const piePercentage = (pieChartData[dataMark] / pieChartData['totalGoals']) * 100;
 
     setCount({ countlabel: label, countPercentage: Math.round(piePercentage) });
   };
@@ -61,12 +58,12 @@ const Report = () => {
     if (pieChartData) {
       setChartPercentage('isExpired', 'Expired');
     }
-  },[pieChartData]);
+  }, [pieChartData]);
 
- const setCountLabel = (key, status) => {
-   setDotChange(status);
-   setChartPercentage(key, status);
- };
+  const setCountLabel = (key, status) => {
+    setDotChange(status);
+    setChartPercentage(key, status);
+  };
 
   const clickArea = (event) => {
     switch (event[0].index) {
@@ -82,19 +79,12 @@ const Report = () => {
     }
   };
 
-
   if (!pieChartData) return null;
 
-   data.datasets[0].data = [
-     pieChartData['inProgress'],
-     pieChartData['isExpired'], 
-     pieChartData['isComplete']
-   ];
-   
+  data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
 
-   const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
+  //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
 
-   
   return (
     <ReportContainer className="report_section" dotChange={dotChange}>
       <div className="header">
@@ -135,7 +125,7 @@ const Report = () => {
           <div className="indexs">
             <div className="each red">
               <Label className="red" bgc="#EBEBEB"></Label>
-             
+
               <p>{pieChartData['totalGoals']} Goals</p>
             </div>
             <div className="each green">
@@ -150,7 +140,7 @@ const Report = () => {
             </div>
             <div className="each blue">
               <Label className="red" bgc="#00B87C"></Label>
-              <p>{ pieChartData['isComplete']} Completed</p>
+              <p>{pieChartData['isComplete']} Completed</p>
             </div>
           </div>
         </div>
