@@ -39,7 +39,7 @@ const GoalItem = ({ goalData }) => {
     .then(response => setTotalLikes(response.data.data.count))
     .catch(error => console.log(error))
 
-  }, [like])
+  }, [])
 
   const handleSetLike = (e) => {
     
@@ -64,7 +64,7 @@ const GoalItem = ({ goalData }) => {
     .then(response => setTotalDislikes(response.data.data.count))
     .catch(error => console.log(error))
 
-  }, [dislike])
+  }, [])
 
   const handleSetDislike = (e) => {
     e.stopPropagation();

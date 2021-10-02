@@ -151,17 +151,17 @@ exports.updateNotification = async (req, res) => {
 
   // Check for org_id, user_id and notification_id
   if (!orgId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'org_id is required',
     });
   }
   if (!userId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'user_id is required',
     });
   }
   if (!notificationId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'notification_id is required',
     });
   }
@@ -316,18 +316,12 @@ exports.deleteNotification = async (req, res) => {
 //       error: 'org_id is required',
 //     });
 //   }
-//   if (!userId) {
-//     return res.status(403).send({
-//       error: 'user_id is required',
-//     });
-//   }
 
 //   try {
 //     await deleteMany(
 //       'goalNotifications',
 //       {
 //         org_id: orgId,
-//         user_id: userId,
 //       },
 //       orgId
 //     );
