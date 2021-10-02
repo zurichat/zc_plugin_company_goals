@@ -12,15 +12,19 @@ import { useSelector } from 'react-redux';
 import { selectNotifications, getNotifications } from '../../redux/notificationSlice';
 import { getPieChart } from '../../redux/pieChartSlice';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
 
 const ReportsAndNotificationContainer = () => {
   const [activeTab, setActiveTab] = useState('tab1');
   const handleTab1 = () => setActiveTab('tab1');
   const handleTab2 = () => setActiveTab('tab2');
   const dispatch = useDispatch();
+  const { orgId } = useParams();
 
   useEffect(() => {
-    dispatch(getNotifications());
+    dispatch(getNotifications(orgId));
+
   }, [dispatch]);
 
   useEffect(() => {
