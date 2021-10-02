@@ -15,7 +15,7 @@ components:
     Goals:
       type: object
       properties:
-        status: 
+        status:
           type: string
           example: 200
         message:
@@ -62,6 +62,21 @@ components:
         room_id:
           type: string
           example: 'b66e5fe5-2c66-413c-b2fc-a38d6ab76330'
+    #Target goals schema
+    TargetGoal:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '613ddbd3e4010959c8dc0c5e'
+        targetType:
+          type: numbers
+            example: 1,10,1000
+          type: logical
+            example: done or undone
+        mileStones:
+          type: array
+          example: [{1,'finish this'},{2,'finish this next year'}]
   responses:
     BadRequest:
       description: 'Bad request'

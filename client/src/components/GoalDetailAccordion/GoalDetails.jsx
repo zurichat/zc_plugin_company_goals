@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoalDetailAccordion(props) {
+export default function GoalDetailAccordion() {
   let { orgId } = useParams();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -50,91 +50,93 @@ export default function GoalDetailAccordion(props) {
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
 
-
-  // let output;
-  // if (props.selectedGoals === 'all') {
-  //   output = goals;
-  // } else {
-  //   output = goals.filter((res) => res.goal_type === props.selectedGoals);
-  // }
-   
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  console.log(goals);
 
+  const requestURL = `${
+    process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
+  }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
+  const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
+  // console.log('err', error);
+  if (!errorInfo && !goals) return <Loader />;
 
+  if (errorInfo) return <Error errorMessage={errorInfo.message} />;
 
+  if (!goals.length) return <EmptyGoal />;
 
-  async function getAllComponentsFromServer(pageNum) {
-    const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
-    try {
-      let { data } = await axios.get(requestURL);
-      if (!data) {
-        console.log('no data');
+  // async function getAllComponentsFromServer(pageNum) {
+  //   const requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=${pageNum}&limit=3`;
+  //   try {
+  //     let { data } = await axios.get(requestURL);
+  //     if (!data) {
+  //       console.log('no data');
 
-        return <Loader />;
-      } else {
-        console.log('there is data');
-        
-        setGoalComponents(data);
+  //       return <Loader />;
+  //     } else {
+  //       console.log('there is data');
+  //       setGoalComponents(data);
 
-        console.log('there is still  data');
-      }
-    } catch (error) {
-      console.log(error);
-      return <Error errorMessage={error.message} />;
-    }
-  }
+  //       console.log('there is still  data');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     return <Error errorMessage={error.message} />;
+  //   }
+  // }
 
-  React.useEffect(() => {
-    getAllComponentsFromServer(pageNum);
-  }, [pageNum]);
+  // React.useEffect(() => {
+  //   getAllComponentsFromServer(pageNum);
+  // }, [pageNum]);
 
   return (
+    //   <React.Fragment>
+    //     <Container className={classes.root}>
+    //       {console.log(goalComponents)}
+    //       {!goalComponents ? (
+    //         <Loader />
+    //       ) : (
+    //         goalComponents.data.map((goal) => {
+    //           return (
+    //             <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+    //               <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+    //                 <GoalItem goalData={goal} />
+    //               </AccordionSummary>
+    //               <AccordionDetails style={{ height: '50%' }}>
+    //                 <GoalDetailData goalData={goal} />
+    //               </AccordionDetails>
+    //             </Accordion>
+    //           );
+    //         })
+    //       )}
+    //     </Container>
+    //     {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
+    //   </React.Fragment>
+    // );
     <React.Fragment>
       <Container className={classes.root}>
-        {console.log(goalComponents)}
-        {!goalComponents ? (
-          <Loader />
-        ) : (
-          goalComponents.data.map((goal) => {
-            return (
-              <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
-                <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-                  <GoalItem goalData={goal} />
-                </AccordionSummary>
-                <AccordionDetails style={{ height: '50%' }}>
-                  <GoalDetailData goalData={goal} />
-                </AccordionDetails>
-              </Accordion>
-            );
-          })
-        )}
+        {goals.map((goal) => {
+          return (
+            <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
+              <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+                <GoalItem goalData={goal} />
+              </AccordionSummary>
+              <AccordionDetails style={{ height: '50%' }}>
+                <GoalDetailData goalData={goal} />
+              </AccordionDetails>
+              <AccordionDetails>
+                <Div>
+                  <Text primary> Goal Progress </Text>
+                  <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
+                </Div>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+        <TargetForm />
       </Container>
-      {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />}
+      {/* {goalComponents && <Pagination setPageNum={setPageNum} pageNum={pageNum} goalComponents={goalComponents} />} */}
     </React.Fragment>
   );
-
-  //   <div className={classes.root}>
-  //     {output.map((goal) => {
-  //       return (
-  //         <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
-  //           <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-  //             <GoalItem goalData={goal} />
-  //           </AccordionSummary>
-  //           <AccordionDetails style={{ height: '50%' }}>
-  //             <GoalDetailData goalData={goal} />
-  //           </AccordionDetails>
-  //           <AccordionDetails>
-  //             <Div>
-  //               <Text primary> Goal Progress </Text>
-  //               <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
-  //             </Div>
-  //           </AccordionDetails>
-  //         </Accordion>
-  //       );
-  //     })}
-  //     <TargetForm />
-  //   </div>
-  // );
 }
