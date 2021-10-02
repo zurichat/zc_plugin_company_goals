@@ -350,7 +350,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
 
   for (const property in updateFields) {
     if (!allowedFields.includes(property)) {
-     return res.status(400).send({status: 'failed', message: `${property} not allowed`})
+     return res.status(400).send({status: 'failed', message: `property '${property}' not allowed`})
    }
  }
     
