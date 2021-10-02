@@ -5,7 +5,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TimeAgo from 'timeago-react';
 import NoNotification from './NoNotification';
-import ReactPaginate from "react-paginate";
+import ReactPaginate from 'react-paginate';
 
 import {
   NotificationCount,
@@ -17,7 +17,7 @@ import {
   Button,
   Grid,
   FlexRows,
-  StyledPaginatecontainer
+  StyledPaginatecontainer,
 } from './styledNotification';
 import { useDispatch } from 'react-redux';
 
@@ -68,7 +68,6 @@ function Notification() {
   };
 
   useEffect(() => {
-
     if (notifications.length > 0) {
       setShowPaginateButtons(true);
     } else {
@@ -80,7 +79,7 @@ function Notification() {
   const [pageNumber, setPageNumber] = useState(0);
   const notificationsPerPage = 5;
   const pagesVisited = pageNumber * notificationsPerPage;
-  
+
   const pageCount = notifications.length > 0 && Math.ceil(notifications.length / notificationsPerPage);
 
   const changePage = ({ selected }) => {

@@ -8,17 +8,13 @@ import { useState } from 'react';
 import TargetForm from '../../components/TargetForm/TargetForm';
 
 function MainApp() {
-  const [state, setstate] = useState('all');
-  const changeState = (type) => {
-    setstate(type);
-  };
   return (
     <MainAppContainer>
       <GoalsDisplayContainer>
-        <GoalsNavLayout onSetState={changeState} />
+        <GoalsNavLayout />
         <Goal>
           <InnerNav />
-          <GoalDetailAccordion selectedGoals={state} />
+          <GoalDetailAccordion />
         </Goal>
       </GoalsDisplayContainer>
       <TargetForm />

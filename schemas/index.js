@@ -45,7 +45,7 @@ exports.goalSchema = Joi.object({
   }),
 });
 
-// target
+// target schema
 exports.targetSchema = Joi.object({
   type: Joi.string().required().valid(`numeric`, `logical`),
   milestone: Joi.any().when('type',
@@ -64,7 +64,6 @@ exports.targetSchema = Joi.object({
   milestone: Joi.any().when('type', { 'is': 'logical', then: Joi.required()}),
   achieved: Joi.boolean().required()
 })
-
 // mission schema
 exports.missionSchema = Joi.object({
   title: Joi.string().optional(),
@@ -99,3 +98,30 @@ exports.getGoalLikesSchema = Joi.object({
     'any.required': 'organization id is required',
   }),
 });
+
+exports.goalReactionSchema = Joi.object({
+  goal_id: Joi.string().required().messages({
+    'any.required': 'goal id is required',
+  }),
+  reactions: Joi.array().items(
+    Joi.object().keys({
+      user_id: Joi.string().required().messages({'any.reuired': 'The user_id is a reuired field'}),
+      reaction: Joi.string().valid('like', 'dislike', 'none').required().messages({'messages': 'You need to set a user reaction'})
+    })
+  ),
+  org_id: Joi.string().required().messages({
+  'any.required': 'organization id is required',
+}),
+});
+
+
+exports.allowedFields = [
+    'category',
+    'description',
+    'due_date',
+    'goal_name',
+    'goal_type',
+    'is_complete',
+    'is_expired',
+    'start_date',
+  ];
