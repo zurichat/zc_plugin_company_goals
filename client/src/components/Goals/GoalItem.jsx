@@ -166,14 +166,14 @@ const GoalItem = ({ goalData }) => {
         <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
           {toggleLike == false 
             ? <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/>
-            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)"}} />
+            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)", width:"18px" , height:"18px"}} />
           }         
           <IconItemCount>{totalLikes}</IconItemCount>
         </IconItemContainer>
         <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
           {toggleDislike == false 
           ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/> 
-          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)"}}/>}
+          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)" , width:"18px" , height:"18px"}}/>}
           
           <IconItemCount>{totalDislikes}</IconItemCount>
         </IconItemContainer>
