@@ -93,7 +93,7 @@ const Report = () => {
      pieChartData['isExpired'],
      pieChartData['inProgress'],
    ];
-
+   
   return (
     <ReportContainer className="report_section" dotChange={dotChange}>
       <div className="header">
