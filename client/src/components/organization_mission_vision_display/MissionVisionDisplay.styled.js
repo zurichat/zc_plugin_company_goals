@@ -1,5 +1,33 @@
+import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 
+const MissionVisionDisplayContainer = styled.div`
+  /* border: 1px solid blue; */
+  margin-bottom: 1rem;
+  @media (min-width: 600px) {
+    flex-basis: 47%;
+  }
+`;
+
+const MissionVisionDisplayField = styled(TextField)`
+  width: 100%;
+  & .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+    font-weight: 900;
+  }
+  & .css-17mclh2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #00b87c;
+  }
+  & > label.css-1kty9di-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+    color: #00b87c;
+  }
+  & > .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled {
+    color: black;
+  }
+  & textarea.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+    -webkit-text-fill-color: black;
+    color: black;
+  }
+`;
 
 export const ParentBox = styled.div`
   display: flex;
@@ -51,10 +79,8 @@ export const Title = styled.h3`
 
   @media only screen and (max-width: 760px) {
   }
-
 `;
 export const MissionField = styled.p`
-
   border: none;
   background-color: white;
   border-radius: 3px 0 0 3px;
@@ -68,6 +94,7 @@ export const MissionField = styled.p`
   @media only screen and (max-width: 760px) {
   }
   @media only screen and (max-width: 425px) {
-
   }
 `;
+
+export { MissionVisionDisplayContainer, MissionVisionDisplayField };
