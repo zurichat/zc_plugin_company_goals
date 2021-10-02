@@ -27,49 +27,40 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
   }
 
   const target = req.body;
-  let data;
 
-  if (target.type === 'numeric') {
-    data = {
-      goal_id,
-      targets: [target],
-    };
-  } else {
-    data = {
-      goal_id,
-      target: {
-        target,
-      },
-    };
+  // if (target.type === 'numeric') {
+  //   data = {
+  //     goal_id,
+  //     targets: [target],
+  //   };
+  // } else {
+  //   data = {
+  //     goal_id,
+  //     target: {
+  //       target,
+  //     },
+  //   };
+  // }
+
+  const data = {
+    goal_id,
+    targets: [ target ]
   }
-  console.log(data);
 
   // store the total targets for a goal with the goal_id as the primary key
   // const total_targets = [ target, ];
   // console.log(total_targets)
 
-  logger.info(`Started creating targets for goal with id api/v1/targeets?org_ -> ${goal_id}`);
+  logger.info(`Started creating targets for goal with id api/v1/targets?org_ -> ${goal_id}`);
 
   try {
     console.log('Started validating req.body');
     // Validate the request body before creating
     await targetSchema.validateAsync(req.body);
 
-    // // Check if we didn't have an existing
-    // const foundTarget = await find('targets', { goal_id }, org_id);
-    // const newFoundTarget = foundTarget.data.data;
-
-    // if (newFoundTarget !== null) {
-    //   return res.status(400).json({
-    //     status: 400,
-    //     message: 'A target already exist for this goal id',
-    //   });
-    // }
-
     // Create a  new target
     const newTarget = await insertOne('targets', data, org_id);
-    const allTarget = await findAll('targets', org_id);
-    console.log(allTarget.data.data);
+
     logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
 
     // Response
@@ -93,6 +84,7 @@ exports.getGoalTargets = catchAsync(async (req, res, next) => {
 
   try {
     const allTargets = await findAll('targets', org_id);
+    await deleteMany('targets', {targets: Object}, org_id);
 
     return res.status(200).json({ status: 200, data: allTargets.data });
   } catch (err) {
