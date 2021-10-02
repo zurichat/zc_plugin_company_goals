@@ -51,7 +51,7 @@ export default function QuaterlyGoal() {
   };
   const requestURL = `${
     process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
-  }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
+  }/api/v1/goals/?org_id=${orgId || '61578237b9f30465f49ee8'}`;
   const { data, error } = useSWR('getAllGoals', () => fetcher(requestURL));
   console.log('err', error);
   if (!error && !data) return <Loader />;
