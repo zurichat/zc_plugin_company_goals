@@ -126,7 +126,8 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
       ...payload,
       collection_name: collectionName,
       payload: data,
-      filter:filterObject,
+      filter,
+      object_id: id,
       organization_id,
       bulk_write: false,
     };
