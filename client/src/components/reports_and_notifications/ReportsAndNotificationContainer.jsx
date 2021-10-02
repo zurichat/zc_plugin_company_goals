@@ -10,16 +10,25 @@ import { TabButtonNotification } from './ReportsAndNotificationContainer.styled'
 import { Span } from './ReportsAndNotificationContainer.styled';
 import { useSelector } from 'react-redux';
 import { selectNotifications, getNotifications } from '../../redux/notificationSlice';
+import { getPieChart } from '../../redux/pieChartSlice';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
 
 const ReportsAndNotificationContainer = () => {
   const [activeTab, setActiveTab] = useState('tab1');
   const handleTab1 = () => setActiveTab('tab1');
   const handleTab2 = () => setActiveTab('tab2');
   const dispatch = useDispatch();
+  const { orgId } = useParams();
 
   useEffect(() => {
-    dispatch(getNotifications());
+    dispatch(getNotifications(orgId));
+
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getPieChart());
   }, [dispatch]);
 
   const notifications = useSelector(selectNotifications);
@@ -29,21 +38,21 @@ const ReportsAndNotificationContainer = () => {
       <NavTabs>
         <NavContainer>
           <TabButtonNotification border={activeTab === 'tab1'}>
-            <TabButton
+            {/* <TabButton
               color={activeTab === 'tab1'}
               style={{ cursor: 'pointer' }}
               onClick={handleTab1}
               color={activeTab === 'tab1'}
             >
               Reports
-            </TabButton>
+            </TabButton> */}
           </TabButtonNotification>
         </NavContainer>
         <NavContainer>
           <TabButtonNotification border={activeTab === 'tab2'}>
-            <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
+            {/* <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
               Notifications
-            </TabButton>
+            </TabButton> */}
             <Span>{notifications.length}</Span>
           </TabButtonNotification>
         </NavContainer>

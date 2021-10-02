@@ -2,7 +2,7 @@
 const axios = require('axios');
 const AppError = require('../utils/appError');
 const { URL, payload } = require('../utils/config').DATABASE;
-const logger = require('../utils/logger');
+const logger = require('../utils/logger.js');
 
 exports.insertOne = async (collectionName, data, organization_id) => {
   logger.info(
@@ -18,7 +18,7 @@ exports.insertOne = async (collectionName, data, organization_id) => {
     newPayload.collection_name = collectionName;
     newPayload.payload = data;
     newPayload.organization_id = organization_id;
-    newPayload.bulk_write = false
+    newPayload.bulk_write = false;
 
     const response = await axios.post(`${URL}/write`, newPayload);
     logger.info(
@@ -109,7 +109,7 @@ exports.find = async (collectionName, filter, organization_id) => {
     return response;
   } catch (error) {
     logger.info(`The read operation failed with the following error messages: ${error}`);
-    throw new AppError(`find by id operation failed: ${error}`, 500);
+    throw new AppError(`find operation failed: ${error}`, 500);
   }
 };
 
@@ -117,15 +117,21 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
   logger.info(`Update one operation in ${collectionName} of ${organization_id} started. The specified filter is 
   ${JSON.stringify(filter)} & would update all successful matches with the following data: ${JSON.stringify(data)}.`);
   try {
+    const filterObject = {...filter};
+    if(id)
+    {
+      filterObject._id = id
+    }
     const updateOnePayload = {
       ...payload,
       collection_name: collectionName,
       payload: data,
-      filter,
-      object_id: id,
+      filter:filterObject,
       organization_id,
-      bulk_write:false
+      bulk_write: false,
     };
+
+    console.log(filterObject)
     const response = await axios.put(`${URL}/write`, updateOnePayload);
     logger.info(
       `The update operation was successful with the following response: ${JSON.stringify(response.data.data)}`

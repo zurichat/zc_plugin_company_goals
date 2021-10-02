@@ -30,7 +30,7 @@ export const editVisionSlice = createSlice({
   name: 'editVision',
   initialState: {
     showVisionModal: false,
-    visionText: '',
+    visionText: 'Add a vision for your organization',
     status: null,
     errorMessage: '',
   },

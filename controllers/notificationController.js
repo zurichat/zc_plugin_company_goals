@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const { find, insertMany, deleteOne, updateOne, updateMany, findAll, deleteMany } = require('../db/databaseHelper');
-const logger = require('../utils/logger');
+const logger = require('../utils/logger.js');
 const { publish } = require('./centrifugoController');
 
 const notificationStructure = {
@@ -12,23 +12,14 @@ const notificationStructure = {
     'Congratulations, we have achieved this goal. All set targets have been met.',
     'green',
   ],
-  createGoal: [
-    'A new goal has been created.', 
-    'We have within the stipulated time to achieve this goal.', 
-    'purple'],
-  deleteGoal: [
-    'One of our goals has been deleted.', 
-    'We will no longer be working towards this goal.', 
-    'red'],
+  createGoal: ['A new goal has been created.', 'We have within the stipulated time to achieve this goal.', 'purple'],
+  deleteGoal: ['One of our goals has been deleted.', 'We will no longer be working towards this goal.', 'red'],
   expiredGoal: [
     'We failed to reach this goal.',
     'Unfortunately, we have been unable to achieve this goal within the set time frame.',
     'red',
   ],
-  updateGoal: [
-    'This goal has been updated.', 
-    'Please check the goal info for details.', 
-    'blue'],
+  updateGoal: ['This goal has been updated.', 'Please check the goal info for details.', 'blue'],
 
   updateMission: ['Our mission has been updated.', '', 'blue'],
   updateVision: ['Our vision has been updated.', '', 'blue'],
@@ -55,7 +46,6 @@ const notificationStructure = {
 // };
 
 exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) => {
-
   try {
     const notifications = [];
 
@@ -72,19 +62,18 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
         createdAt: Date.now(),
       };
       notifications.push(notification);
-    }
-    userIds.forEach(myFunc)
+    };
+    userIds.forEach(myFunc);
 
     const Notification = await insertMany('goalNotifications', notifications, orgId);
     const goalNotification = notifications[0];
     goalNotification._id = Notification.data.data.object_ids[0];
-    await publish('goalNotifications', goalNotification);
+    await publish('goals-general-notifications', goalNotification);
     return goalNotification;
   } catch (error) {
     logger.info(`The write operation failed with the following error messages: ${error}`);
   }
 };
-
 
 exports.getUserNotifications = async (req, res) => {
   const { org_id: orgId, user_id: userId, page, limit } = req.query;
@@ -100,7 +89,7 @@ exports.getUserNotifications = async (req, res) => {
       error: 'user_id is required',
     });
   }
-  
+
   try {
     // Search for all Goals
     const notifications = await find(
@@ -111,10 +100,10 @@ exports.getUserNotifications = async (req, res) => {
       },
       orgId
     );
-    
-    let { data: userNotifications } = notifications.data
 
-    if (userNotifications == null ||userNotifications.length < 1) {
+    let { data: userNotifications } = notifications.data;
+
+    if (userNotifications == null || userNotifications.length < 1) {
       return res.status(200).json({
         status: 200,
         message: [],
@@ -140,8 +129,8 @@ exports.getUserNotifications = async (req, res) => {
         documentPerPage: limit * 1,
         data: userNotifications,
       });
-    }   
-    
+    }
+
     // Returning Response
     return res.status(200).json({
       status: 200,
@@ -156,24 +145,23 @@ exports.getUserNotifications = async (req, res) => {
   }
 };
 
-
 exports.updateNotification = async (req, res) => {
   const { notification_id: notificationId } = req.params;
-  const { org_id: orgId, user_id: userId  } = req.query;
+  const { org_id: orgId, user_id: userId } = req.query;
 
   // Check for org_id, user_id and notification_id
   if (!orgId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'org_id is required',
     });
   }
   if (!userId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'user_id is required',
     });
   }
   if (!notificationId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'notification_id is required',
     });
   }
@@ -213,7 +201,6 @@ exports.updateNotification = async (req, res) => {
     });
   }
 };
-
 
 exports.updateNotifications = async (req, res) => {
   const { org_id: orgId, user_id: userId } = req.query;
@@ -257,7 +244,6 @@ exports.updateNotifications = async (req, res) => {
   }
 };
 
-
 exports.deleteNotification = async (req, res) => {
   const { notification_id: notificationId } = req.params;
   const { org_id: orgId, user_id: userId } = req.query;
@@ -298,7 +284,6 @@ exports.deleteNotification = async (req, res) => {
   }
 };
 
-
 // // This is not for frontend consumption
 // exports.getAllNotifications = async (req, res) => {
 //   const orgId = '6145d099285e4a184020742e';
@@ -331,18 +316,12 @@ exports.deleteNotification = async (req, res) => {
 //       error: 'org_id is required',
 //     });
 //   }
-//   if (!userId) {
-//     return res.status(403).send({
-//       error: 'user_id is required',
-//     });
-//   }
 
 //   try {
 //     await deleteMany(
 //       'goalNotifications',
 //       {
 //         org_id: orgId,
-//         user_id: userId,
 //       },
 //       orgId
 //     );
