@@ -17,7 +17,7 @@ import SimpleModal from '../components/create_goal/CreateGoal';
 import DeleteErrorModal from '../components/DeleteError/DeleteErrorModal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
-import MissionVisionContainer from '../components/header/Header';
+import MissionVisionContainer from '../components/organization_mission_vision/OrganizationMissionVision';
 
 import EditMission from '../components/modal/EditMission';
 
