@@ -5,14 +5,16 @@ import { HeaderAppBar, HeaderToolBar, HeaderToolBarTitle } from './AppHeader.sty
 import HeaderAvatarGroup from './components/header_avatar_group/HeaderAvatarGroup';
 import { GetWorkspaceUsers } from '@zuri/control';
 
-export const GetUsers = async () => {
-  const [total, settotal] = useState(null);
+
+const AppHeader = () => {
+const [total, settotal] = useState(null);
+const GetUsers = async () => {
   try {
     const info = await GetWorkspaceUsers();
     console.log('totalWorkSpaceUser', info.totalUsers);
 
     const workspace_info = {
-      thumbnailUrl: [info[0].image_url],
+      thumbnailUrl: [info[0].image_url, info[1].image_url, info[2].image_url]
       userCount: info.totalUsers,
     };
     settotal(workspace_info);
@@ -29,7 +31,6 @@ export const GetUsers = async () => {
     settotal(workspace_info);
   }
 };
-const AppHeader = () => {
   useEffect(() => {
     GetUsers();
   }, []);
