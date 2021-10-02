@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import axios from 'axios'
+import axios from 'axios';
 import { Container, Grid } from '@material-ui/core';
 import dislikes from '../../Images/png/dislikes.png';
 import likes from '../../Images/png/likes.png';
 import views from '../../Images/png/views.png';
-import { useEffect , useState } from 'react'
+import { useEffect, useState } from 'react';
 import GoalDropDown from './GoalDropDown';
 import {
   useStyles,
@@ -22,79 +22,66 @@ import { addDisLike, addLike } from '../../redux/likeGoalSlice';
 import { useParams } from 'react-router';
 import { GetUserInfo } from '@zuri/control';
 
-
-
-
-const GoalItem = ({ goalData }) => { 
+const GoalItem = ({ goalData }) => {
   let { orgId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('user'));
 
   //Setting Likes and retriving
   const [like, setLike] = useState('');
-  const [toggleLike , setToggleLike] = useState(false);
+  const [toggleLike, setToggleLike] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
   useEffect(() => {
     axios
-    .get(`https://goals.zuri.chat/api/v1/goals/goallikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)  
-    .then(response => setTotalLikes(response.data.data.count))
-    .catch(error => console.log(error))
-
-  }, [like])
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/goallikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }`
+      )
+      .then((response) => setTotalLikes(response.data.data.count))
+      .catch((error) => console.log(error));
+  });
 
   const handleSetLike = (e) => {
-    
     e.stopPropagation();
 
     axios
-    .get(`https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
-    .then(response => setLike(response.data.message))
-    .catch(error => console.log(error));
-    
-    if(toggleLike === false){
-      setTotalLikes(totalLikes + 1);
-      setToggleLike(true)
-    } else {
-      setTotalLikes(totalLikes - 1)
-      setToggleLike(false)
-    }
-  }
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setLike(response.data.message))
+      .catch((error) => console.log(error));
+  };
 
   //Setting Dislikes and retriving Dislikes
   const [dislike, setDislike] = useState('');
   const [totalDislikes, setTotalDislikes] = useState(0);
-  const [toggleDislike , setToggleDislike] = useState(false);
-
+  const [toggleDislike, setToggleDislike] = useState(false);
 
   useEffect(() => {
     axios
-    .get(`https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)  
-    .then(response => setTotalDislikes(response.data.data.count))
-    .catch(error => console.log(error))
-
-  }, [dislike])
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }`
+      )
+      .then((response) => setTotalDislikes(response.data.data.count))
+      .catch((error) => console.log(error));
+  });
 
   const handleSetDislike = (e) => {
     e.stopPropagation();
 
     axios
-    .get(`https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${goalData._id}&user_id=${userId ? userId.id : 5}`)
-    .then(response => setDislike(response.data.message))
-    .catch(error => console.log(error))  
-
-    if(toggleDislike === false){
-      setTotalDislikes(totalDislikes + 1);
-      setToggleDislike(true)
-    } else {
-      setTotalDislikes(totalDislikes - 1)
-      setToggleDislike(false)
-    }
-  }
-
-
-
-
-
-
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setDislike(response.data.message))
+      .catch((error) => console.log(error));
+  };
 
   // const loop = (e) => {
   //   fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${e}')
@@ -138,7 +125,7 @@ const GoalItem = ({ goalData }) => {
   return (
     <Container className={classes.root} key={goalData.room_id}>
       <Grid item xs={12} sm={3} className={classes.rightSpacing}>
-        <GoalTitle>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
+        <GoalTitle goalIsExpired={goalData.isExpired}>{goalData.goal_name ? goalData.goal_name : 'No name'}</GoalTitle>
         <GoalTags>{goalData.category ? goalData.category : 'No category'}</GoalTags>
       </Grid>
 
@@ -165,9 +152,8 @@ const GoalItem = ({ goalData }) => {
         </IconItemContainer>
       </Grid>
 
-      
-        <GoalDropDown goalData={goalData} />
-      
+      <GoalDropDown goalData={goalData} />
+
       {/* <Menuoption show={showDropDown} toggleShowDropDown={() => setDropDown(!showDropDown)} /> */}
     </Container>
   );

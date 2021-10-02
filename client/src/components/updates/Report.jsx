@@ -16,7 +16,7 @@ const Report = () => {
   const [dotChange, setDotChange] = useState('Expired');
 
   const data = {
-    labels: ['Completed', 'In progress', 'Expired', 'Goals'],
+    labels: ['In progress', 'Expired', 'Completed'],
     datasets: [
       {
         // circumference:180,
@@ -26,8 +26,8 @@ const Report = () => {
         // offset: 40,
         borderAlign: 'inner',
 
-        backgroundColor: ['#00B87C', '#2F80ED', '#F44336', '#e0e0e0'],
-        borderColor: ['#00B87C', '#2F80ED', '#F44336', '#e0e0e0'],
+        backgroundColor: ['#2F80ED', '#F44336', '#00B87C'],
+        borderColor: ['#2F80ED', '#F44336', '#00B87C'],
       },
     ],
   };
@@ -50,37 +50,35 @@ const Report = () => {
   };
   const setChartPercentage = (dataMark, label) => {
     const piePercentage =
-      (dataMark /
-        (pieChartData.totalGoals + pieChartData.isComplete + pieChartData.isExpired + pieChartData.inProgress)) *
-      100;
+      ((pieChartData[dataMark] /
+        pieChartData['totalGoals']) *
+      100);
 
     setCount({ countlabel: label, countPercentage: Math.round(piePercentage) });
   };
 
   useEffect(() => {
     if (pieChartData) {
-      setChartPercentage(pieChartData['isExpired'], 'Expired');
+      setChartPercentage('isExpired', 'Expired');
     }
   },[pieChartData]);
 
  const setCountLabel = (key, status) => {
    setDotChange(status);
-   setChartPercentage(pieChartData[key], status);
+   setChartPercentage(key, status);
  };
 
   const clickArea = (event) => {
     switch (event[0].index) {
       case 0:
-        setCountLabel('isComplete', 'Completed');
-        break;
-      case 1:
         setCountLabel('inProgress', 'In Progress');
         break;
-      case 2:
+      case 1:
         setCountLabel('isExpired', 'Expired');
         break;
       default:
-        setCountLabel('totalGoals', 'Total Goals');
+        setCountLabel('isComplete', 'Completed');
+        break;
     }
   };
 
@@ -88,10 +86,9 @@ const Report = () => {
   if (!pieChartData) return null;
 
    data.datasets[0].data = [
-     pieChartData['totalGoals'],
-     pieChartData['isComplete'],
-     pieChartData['isExpired'],
      pieChartData['inProgress'],
+     pieChartData['isExpired'], 
+     pieChartData['isComplete']
    ];
    
 
@@ -130,10 +127,6 @@ const Report = () => {
               onClick={() => setCountLabel('inProgress', 'In Progress')}
               className={`dots ${dotChange == 'In Progress' && 'yellow'}`}
             ></div>
-            <div
-              onClick={() => setCountLabel('totalGoals', 'Total Goals')}
-              className={`dots ${dotChange == 'Total Goals' && 'yellow'}`}
-            ></div>
           </div>
         </div>
       </div>
@@ -146,13 +139,13 @@ const Report = () => {
               <p>{pieChartData['totalGoals']} Goals</p>
             </div>
             <div className="each green">
-              <Label className="red" bgc="#F44336"></Label>
+              <Label className="red" bgc="#2F80ED"></Label>
               <p>{pieChartData['inProgress']} in progress</p>
             </div>
           </div>
           <div className="indexs">
             <div className="each gray">
-              <Label className="red" bgc="#2F80ED"></Label>
+              <Label className="red" bgc="#F44336"></Label>
               <p>{pieChartData['isExpired']} Expired</p>
             </div>
             <div className="each blue">
