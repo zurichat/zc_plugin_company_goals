@@ -26,6 +26,10 @@ jobs:
           cd client
           yarn install
           yarn build
+      
+      - name: test
+        run: |
+          pwd
           
       - name: Git Pull on Server
         uses: appleboy/ssh-action@master
