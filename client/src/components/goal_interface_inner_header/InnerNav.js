@@ -29,7 +29,8 @@ const InnerNav = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const { goals, pageNum } = useSelector((state) => state.showGoals);
+  const { pageNum } = useSelector((state) => state.pageNum);
+  console.log(pageNum);
 
   const fetchSortGoals = async (value, pageNum) => {
     const values = {
@@ -43,7 +44,7 @@ const InnerNav = () => {
     );
     const result = await res.json();
     // console.log(result.data);
-    dispatch(goalSorted(result.data));
+    dispatch(goalSorted(result));
   };
 
   const handleClickListItem = (event) => {

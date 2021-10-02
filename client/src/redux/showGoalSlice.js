@@ -11,15 +11,11 @@ export const showGoalSlice = createSlice({
     goals: null,
     status: null,
     errorInfo: null,
-    pageNum: 1,
   },
   reducers: {
     goalSorted(state, action) {
       state.goals = action.payload;
     },
-    // goalPaginated(state, action) {
-    //   state.pageNum = action.payload;
-    // },
   },
   extraReducers: {
     [getGoals.pending]: (state, action) => {

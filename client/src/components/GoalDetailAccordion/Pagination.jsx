@@ -2,6 +2,7 @@ import React from 'react';
 import { PagContainer } from './GoalDetail.styled';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
+import { goalPaginated } from '../../redux/pageNumSlice';
 
 const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
   const dispatch = useDispatch();
