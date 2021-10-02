@@ -111,12 +111,12 @@ app.get('/zuri-plugin-company-goals.js', (req, res) => {
 });
 // Api routes
 app.use('/api/v1/goals', goalRouter);
-app.use('/api/v1/rooms', rateLimiter(), roomRouter);
-app.use('/api/v1/users', rateLimiter(), userRouter);
-app.use('/api/v1/search', rateLimiter(), searchRouter);
-app.use('/ping', rateLimiter(), pingRouter);
-app.use('/api/v1/sidebar', rateLimiter(), sidebarRouter);
-app.use('/info', rateLimiter(), pluginInfoRouter);
+app.use('/api/v1/rooms', roomRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/search', searchRouter);
+app.use('/ping', pingRouter);
+app.use('/api/v1/sidebar', sidebarRouter);
+app.use('/info', pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
