@@ -23,6 +23,7 @@ import EditMission from '../components/modal/EditMission';
 
 import OrganizationVisionEditModal from '../components/organization_vision/org_edit_vision/modal/EditOrgVisionModal';
 import { GetUserInfo } from '@zuri/control';
+import { GetUsers } from '../components/app_header/AppHeader';
 
 const AppRoom = () => {
   let { orgId } = useParams();
@@ -65,6 +66,18 @@ const AppRoom = () => {
     centrifugeConnect.subscribe('publish-vision-update', function (ctx) {
       console.log('publish-vision-update', ctx);
       dispatch(updateOrgVisionFromRTC(ctx.data));
+    });
+    centrifugeConnect.subscribe('CreateOrganizationMember', function (ctx) {
+      console.log('CreateOrganizationMember', ctx);
+      GetUsers();
+    });
+    centrifugeConnect.subscribe('DeactivateOrganizationMember', function (ctx) {
+      console.log('DeactivateOrganizationMember', ctx);
+      GetUsers();
+    });
+    centrifugeConnect.subscribe('ReactivateOrganizationMember', function (ctx) {
+      console.log('ReactivateOrganizationMember', ctx);
+      GetUsers();
     });
 
     centrifugeConnect.connect();

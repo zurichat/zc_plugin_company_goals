@@ -12,9 +12,10 @@ import editGoalModalReducer from './toggleEditGoalModal.slice';
 import likeGoalReducer from './likeGoalSlice';
 import storeOrganizationRoomReducer from './organizationRoom.slice';
 import TargetModalSliceReducer from './TargetModalSlice';
-
+import getWorkspaceUsersReducer from './getWorkspaceUserSlice';
 const store = configureStore({
   reducer: {
+    workspaceUsers: getWorkspaceUsersReducer,
     organizationMission: missionReducer,
     organizationVision: visionReducer,
     toggleCreateGoalModal: createGoalModalReducer,
