@@ -53,6 +53,8 @@ const GoalItem = ({ goalData }) => {
       )
       .then((response) => setLike(response.data.message))
       .catch((error) => console.log(error));
+    
+    setToggleLike(!toggleLike)
   };
 
   //Setting Dislikes and retriving Dislikes
@@ -82,6 +84,8 @@ const GoalItem = ({ goalData }) => {
       )
       .then((response) => setDislike(response.data.message))
       .catch((error) => console.log(error));
+    
+    setToggleDislike(!toggleDislike)
   };
 
 
@@ -94,6 +98,8 @@ const GoalItem = ({ goalData }) => {
       )
       .then((response) => setToggleDislike(response.data.data))
       .catch((error) => console.log(error));
+    
+   
 
       axios
       .get(
