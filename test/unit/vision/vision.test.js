@@ -34,17 +34,7 @@ describe('VISION TESTS', () => {
     sandbox.restore();
   });
 
-  context('GET /api/v1/vision/:org_id', () => {
-    it('Should check for org_id param', (done) => {
-      chai
-        .request(app)
-        .get('/api/v1/vision')
-        .end((err, res) => {
-          expect(res).to.have.header('content-type', 'text/html; charset=UTF-8');
-          done();
-        });
-    });
-
+  context('GET VISION', () => {
     it('Should get vision successfully', (done) => {
       chai
         .request(app)
