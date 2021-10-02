@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { fetchVision } from '../../../redux/getVisionSlice';
 import { Editbutton, Title, Box, VisionField, VisionContainer } from './vision.style';
 import { fetchOrgVision, showEditVisionModal } from '../../../redux/organizationVision.slice';
-import { GetUserInfo } from '@zuri/control';
 
 import { ParentBox } from './vision.style';
 
@@ -11,11 +10,6 @@ import editImg from './visionAsset/editImg.png';
 import { useParams } from 'react-router';
 
 const DisplayOrganizationVision = () => {
-  //getting the role of the logged in user
-  const info = GetUserInfo();
-  console.log('loggin out what am getting back as info for useRole', info);
-  console.log(info);
-
   const { orgId } = useParams();
   const dispatch = useDispatch();
   const { visionText } = useSelector((state) => state.organizationVision);
@@ -32,11 +26,9 @@ const DisplayOrganizationVision = () => {
       <Box className="box">
         <VisionField className="visionInput">{visionText || 'Click to add a vision'}</VisionField>
 
-        {info[0]?.role === 'owner' && (
-          <Editbutton className="editbutton" onClick={() => dispatch(showEditVisionModal())}>
-            <img src={editImg} alt="edit" />
-          </Editbutton>
-        )}
+        <Editbutton className="editbutton" onClick={() => dispatch(showEditVisionModal())}>
+          <img src={editImg} alt="edit" />
+        </Editbutton>
       </Box>
     </ParentBox>
   );

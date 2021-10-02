@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import { fetchOrgMission, showEditMissionModal } from '../../redux/organizationMission.slice';
 // import EditMission from '../modal/EditMission'
 import editImg from '../organization_vision/org_display_vision/visionAsset/editImg.png';
-import { GetUserInfo } from '@zuri/control';
 
 import { ParentBox, Editbutton, MissionField, Title, Box } from './missions.style';
 
@@ -26,11 +25,10 @@ const Missions = () => {
 
       <Box className="box">
         <MissionField>{missionText || 'Click to add a mission'}</MissionField>
-        {info[0]?.role === 'owner' && (
-          <Editbutton onClick={handleClick} className="editMissionbutton" left="90%" rsLeft="85%">
-            <img src={editImg} alt="edit" />
-          </Editbutton>
-        )}
+
+        <Editbutton onClick={handleClick} className="editMissionbutton" left="90%" rsLeft="85%">
+          <img src={editImg} alt="edit" />
+        </Editbutton>
       </Box>
     </ParentBox>
   );
