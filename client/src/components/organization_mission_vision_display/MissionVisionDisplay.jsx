@@ -66,7 +66,7 @@ const MissionAndVisionDisplay = ({ labelTitle, fieldText, placeholderText }) => 
         disabled={fieldIsDisabled}
         helperText={`${text.length}/70`}
         inputProps={{
-          maxlength: 70,
+          maxLength: 70,
         }}
         InputProps={{
           endAdornment: (
