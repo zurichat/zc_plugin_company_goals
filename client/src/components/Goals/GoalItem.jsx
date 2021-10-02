@@ -84,6 +84,27 @@ const GoalItem = ({ goalData }) => {
       .catch((error) => console.log(error));
   };
 
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setToggleDislike(response.data.data))
+      .catch((error) => console.log(error));
+
+      axios
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setToggleLike(response.data.data))
+      .catch((error) => console.log(error));
+  } , [like , dislike]);
+
   // const loop = (e) => {
   //   fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${e}')
   //   .then(response => response.json())
@@ -143,16 +164,16 @@ const GoalItem = ({ goalData }) => {
 
       <Grid item xs={12} sm={3} className={classes.icons}>
         <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
-          {like == "Goal like removed" 
-            ? <img src={likes} alt="likes-icon" className={classes.iconImages} />
-            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(0) invert(1)"}} />
+          {toggleLike == false 
+            ? <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/>
+            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)"}} />
           }         
           <IconItemCount>{totalLikes}</IconItemCount>
         </IconItemContainer>
         <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
-          {dislike == "Goal dislike removed" 
-          ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} /> 
-          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(0) invert(1)"}}/>}
+          {toggleDislike == false 
+          ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/> 
+          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)"}}/>}
           
           <IconItemCount>{totalDislikes}</IconItemCount>
         </IconItemContainer>
