@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import img from './images/Group 2686.png';
 import { NavName, CreateGoalButton } from './NavName';
+import { getGoals } from '../../redux/showGoalSlice';
 
 const GridLayout = styled.div`
   display: flex;
@@ -98,16 +99,27 @@ const NavDiv = styled.div`
   }
 `;
 
-const GoalsNavLayout = (props) => {
+const GoalsNavLayout = () => {
   const dispatch = useDispatch();
-  const clickAllHandler = () => {
-    props.onSetState('all');
+
+  const getData = (param) => {
+    let requestURL;
+    if (param === 'all') {
+      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=1&limit=3&sort=create_at`;
+    } else {
+      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=1&limit=3&sort=create_at&type=${param}`;
+    }
+
+    dispatch(getGoals(requestURL));
+  };
+  const clickAllHandler = async () => {
+    getData('all');
   };
   const clickAnnualHandler = () => {
-    props.onSetState('annual');
+    getData('annual');
   };
   const clickQuarterlyHandler = () => {
-    props.onSetState('quarterly');
+    getData('quarterly');
   };
   return (
     <GridLayout>
