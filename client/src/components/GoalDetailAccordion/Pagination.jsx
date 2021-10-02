@@ -2,9 +2,10 @@ import React from 'react';
 import { PagContainer } from './GoalDetail.styled';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
-const Pagination = ({ pageCount, pageNum, setPageNum, goalComponents }) => {
+const Pagination = ({  pageNum, setPageNum, goalComponents }) => {
+
   const totalPages = Math.ceil(goalComponents.totalDocuments / 3);
-  console.log(totalPages);
+
 
   const totalPagesArr = new Array(totalPages).fill(1).map((item, index) => index + 1);
   console.log(totalPagesArr);

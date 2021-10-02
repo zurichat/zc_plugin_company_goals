@@ -4,7 +4,7 @@ import { createSlice ,createAsyncThunk} from '@reduxjs/toolkit';
 
      export const getGoals = createAsyncThunk('showGoal/getGoals', async (getAllGoalsUrl) => {
        const response = await axios.get(getAllGoalsUrl);
-       return response.data;
+       return response;
       }
      )
 
@@ -13,7 +13,8 @@ export const showGoalSlice = createSlice({
   initialState: {
     goals: null,
     status: null,
-    errorInfo: null
+    errorInfo: null,
+    pageNum: 1
   },
   extraReducers: {
     [getGoals.pending]: (state, action) => {
