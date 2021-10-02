@@ -275,6 +275,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
         room_id: roomId,
         is_complete: false,
         is_expired: false,
+        progress: 0,
         created_at: date,
         ...goal,
       };
@@ -283,8 +284,9 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
-    org = org.data.data;
-    if (!org[0].orgId) {
+      org = org.data.data;
+     
+    if (org === null || !org[0].orgId || org.length < 1) {
       await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 
@@ -294,7 +296,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
         res.status(200).json({ message: 'success', data });
       }
     } catch (error) {
-    
+ 
       return res.status(400).send({ message: 'Invalid request' });
     }
   })
@@ -568,6 +570,20 @@ exports.likeGoal = catchAsync(async (req, res, next) => {
 
     // add like if it doesnt exist
     if (like.data.data === null) {
+      // check if dislike exists and remove
+      const disLike = await find(
+        'goaldislikes',
+        {
+          goal_id: goalId,
+          user_id: userId,
+        },
+        orgId
+      );
+      if (disLike.data.data !== null) {
+        await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
+      }
+
+      // add like
       const addedLike = await insertOne(
         'goallikes',
         {
@@ -716,6 +732,20 @@ exports.disLikeGoal = catchAsync(async (req, res, next) => {
 
     // add dislike if it doesnt exist
     if (disLike.data.data === null) {
+      // check if like exists and remove
+      const like = await find(
+        'goallikes',
+        {
+          goal_id: goalId,
+          user_id: userId,
+        },
+        orgId
+      );
+      if (like.data.data !== null) {
+        await deleteOne('goallikes', orgId, like.data.data[0]._id);
+      }
+
+      // add dislike
       addedDisLike = await insertOne('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
 
       return res.status(201).json({
