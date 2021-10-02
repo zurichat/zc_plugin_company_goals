@@ -5,15 +5,27 @@ import { ReportContainer, Icons, Label } from './styles';
 import ExportReport from '../Modal/ExportModal/ExportReport';
 import { selectPieChart } from '../../redux/pieChartSlice';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import styled from 'styled-components';
 import { set } from 'date-fns';
 
 // totalGoals, isComplete, isExpired, inProgress;
 
 const Report = () => {
   const pieChartData = useSelector(selectPieChart);
-
+  let { orgId } = useParams();
   const [count, setCount] = useState('Kehinde');
+  const [percent, setPercent] = useState(0);
   const [dotChange, setDotChange] = useState('Expired');
+
+  useEffect(() => {
+    const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${
+      orgId || '6145d099285e4a184020742e'
+    }`;
+    fetch(fetchURL)
+      .then((response) => response.json())
+      .then((data) => setPercent(data.averageResult));
+  }, []);
 
   const data = {
     labels: ['In progress', 'Expired', 'Completed'],
@@ -49,10 +61,7 @@ const Report = () => {
     },
   };
   const setChartPercentage = (dataMark, label) => {
-    const piePercentage =
-      ((pieChartData[dataMark] /
-        pieChartData['totalGoals']) *
-      100);
+    const piePercentage = (pieChartData[dataMark] / pieChartData['totalGoals']) * 100;
 
     setCount({ countlabel: label, countPercentage: Math.round(piePercentage) });
   };
@@ -61,12 +70,12 @@ const Report = () => {
     if (pieChartData) {
       setChartPercentage('isExpired', 'Expired');
     }
-  },[pieChartData]);
+  }, [pieChartData]);
 
- const setCountLabel = (key, status) => {
-   setDotChange(status);
-   setChartPercentage(key, status);
- };
+  const setCountLabel = (key, status) => {
+    setDotChange(status);
+    setChartPercentage(key, status);
+  };
 
   const clickArea = (event) => {
     switch (event[0].index) {
@@ -82,14 +91,9 @@ const Report = () => {
     }
   };
 
-
   if (!pieChartData) return null;
 
-   data.datasets[0].data = [
-     pieChartData['inProgress'],
-     pieChartData['isExpired'], 
-     pieChartData['isComplete']
-   ];
+  data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
 
   return (
     <ReportContainer className="report_section" dotChange={dotChange}>
@@ -131,7 +135,7 @@ const Report = () => {
           <div className="indexs">
             <div className="each red">
               <Label className="red" bgc="#EBEBEB"></Label>
-             
+
               <p>{pieChartData['totalGoals']} Goals</p>
             </div>
             <div className="each green">
@@ -146,7 +150,7 @@ const Report = () => {
             </div>
             <div className="each blue">
               <Label className="red" bgc="#00B87C"></Label>
-              <p>{ pieChartData['isComplete']} Completed</p>
+              <p>{pieChartData['isComplete']} Completed</p>
             </div>
           </div>
         </div>
@@ -154,12 +158,19 @@ const Report = () => {
       <div className="averge">
         <h1 className="text">Average Progress Rate</h1>
         <div className="progrress">
-          <div className="bar"></div>
+          <AverageProgress percent={percent} className="bar"></AverageProgress>
         </div>
-        <h3 className="prcent">Progress Rate 73%</h3>
+        <h3 className="prcent">Progress Rate {Math.round(percent)}</h3>
       </div>
     </ReportContainer>
   );
 };
 
 export default Report;
+
+export const AverageProgress = styled.div`
+  width: ${({ percent }) => percent}%;
+  height: 100%;
+  background: #2f80ed;
+  border-radius: 16px;
+`;

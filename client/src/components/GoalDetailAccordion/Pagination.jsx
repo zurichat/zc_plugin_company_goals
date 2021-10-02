@@ -17,6 +17,10 @@ const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
     if (pageNum <= totalPagesArr[totalPagesArr.length - 1]) setPageNum(pageNum + 1);
     dispatch(goalPaginated(pageNum));
   }
+  function handleChange(page) {
+    setPageNum(page);
+    dispatch(goalPaginated(page));
+  }
   return (
     <PagContainer>
       <div className="page_index_container">
@@ -28,7 +32,7 @@ const Pagination = ({ pageNum, setPageNum, goalComponents }) => {
           <BiChevronLeft />
         </button>
         {totalPagesArr?.map((page, index) => (
-          <div onClick={() => setPageNum(page)} className={`index ${pageNum === page && 'active'}`} key={index}>
+          <div onClick={() => handleChange(page)} className={`index ${pageNum === page && 'active'}`} key={index}>
             {page}
           </div>
         ))}

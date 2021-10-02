@@ -96,14 +96,17 @@ export const ReportContainer = styled.div`
         margin-block-start: 0px;
         margin-block-end: 0px;
         line-height: 45px;
-         z-index: -100;
+        z-index: -100;
       }
       .status {
-        color: ${({dotChange})=>{
-          switch(dotChange){
-            case 'Expired': return '#F44336';
-            case 'Completed': return '#00B87C';
-            default: return '#2F80ED';
+        color: ${({ dotChange }) => {
+          switch (dotChange) {
+            case 'Expired':
+              return '#F44336';
+            case 'Completed':
+              return '#00B87C';
+            default:
+              return '#2F80ED';
           }
         }};
 
@@ -180,12 +183,6 @@ export const ReportContainer = styled.div`
       background: #2f80ed80;
       border-radius: 16px;
       margin: 10px 0;
-      .bar {
-        width: 75%;
-        height: 100%;
-        background: #2f80ed;
-        border-radius: 16px;
-      }
     }
 
     .prcent {
