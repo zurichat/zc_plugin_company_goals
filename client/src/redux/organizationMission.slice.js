@@ -24,7 +24,7 @@ export const editMissionSlice = createSlice({
   name: 'editMission',
   initialState: {
     showMissionModal: false,
-    missionText: '',
+    missionText: 'Add a mission for your organization',
   },
   reducers: {
     showEditMissionModal: (state) => {
