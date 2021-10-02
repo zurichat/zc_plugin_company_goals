@@ -25,6 +25,7 @@ import { GetUserInfo } from '@zuri/control';
 const GoalItem = ({ goalData }) => {
   let { orgId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('user'));
+  
 
   //Setting Likes and retriving
   const [like, setLike] = useState('');
@@ -46,12 +47,14 @@ const GoalItem = ({ goalData }) => {
 
     axios
       .get(
-        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
           goalData._id
         }&user_id=${userId ? userId.id : 5}`
       )
       .then((response) => setLike(response.data.message))
       .catch((error) => console.log(error));
+    
+    setToggleLike(!toggleLike)
   };
 
   //Setting Dislikes and retriving Dislikes
@@ -62,7 +65,7 @@ const GoalItem = ({ goalData }) => {
   useEffect(() => {
     axios
       .get(
-        `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+        `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
           goalData._id
         }`
       )
@@ -75,13 +78,46 @@ const GoalItem = ({ goalData }) => {
 
     axios
       .get(
-        `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+        `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
           goalData._id
         }&user_id=${userId ? userId.id : 5}`
       )
       .then((response) => setDislike(response.data.message))
       .catch((error) => console.log(error));
+    
+    setToggleDislike(!toggleDislike)
   };
+
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setToggleDislike(response.data.data))
+      .catch((error) => console.log(error));
+    
+   
+
+      axios
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setToggleLike(response.data.data))
+      .catch((error) => console.log(error));
+  } , [like , dislike]);
+
+  //Getting goal reaction
+  useEffect(() => {
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/goalReaction?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)
+    .then(response => console.log(response.data.data))
+    .catch(error => console.log(error))
+  },[])
 
   // const loop = (e) => {
   //   fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${e}')
@@ -113,7 +149,8 @@ const GoalItem = ({ goalData }) => {
     month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   };
 
-  const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
+  // const Progress = ((goalData.milestone1 + goalData.milestone2 + goalData.milestone3) / 30) * 100;
+  const Progress = Math.floor(goalData.Progress ? goalData.Progress : 0);
   const goalStart = new Date(goalData.start_date);
   const goalEnd = new Date(goalData.due_date);
   const startMonth = month.month_names_short[goalStart.getMonth()];
@@ -142,11 +179,17 @@ const GoalItem = ({ goalData }) => {
 
       <Grid item xs={12} sm={3} className={classes.icons}>
         <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
-          <img src={likes} alt="likes-icon" className={classes.iconImages} />
+          {toggleLike == false 
+            ? <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/>
+            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)", width:"18px" , height:"18px"}} />
+          }         
           <IconItemCount>{totalLikes}</IconItemCount>
         </IconItemContainer>
         <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
-          <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
+          {toggleDislike == false 
+          ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/> 
+          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)" , width:"18px" , height:"18px"}}/>}
+          
           <IconItemCount>{totalDislikes}</IconItemCount>
         </IconItemContainer>
       </Grid>

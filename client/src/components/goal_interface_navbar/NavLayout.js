@@ -1,10 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
 import styled from 'styled-components';
-
 import img from './images/Group 2686.png';
 import { NavName, CreateGoalButton } from './NavName';
 import { getGoals } from '../../redux/showGoalSlice';
+import { useState } from 'react';
+import { useParams } from 'react-router';
+import { goalPaginated, goalTab } from '../../redux/pageNumSlice';
 
 const GridLayout = styled.div`
   display: flex;
@@ -101,35 +103,50 @@ const NavDiv = styled.div`
 
 const GoalsNavLayout = () => {
   const dispatch = useDispatch();
-
+  const [state, setstate] = useState('all');
+  let { orgId } = useParams();
   const getData = (param) => {
     let requestURL;
     if (param === 'all') {
-      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=1&limit=3&sort=create_at`;
+      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=${
+        orgId || '61578237b9b9f30465f49ee8'
+      }&page=1&limit=3&sort=create_at`;
     } else {
-      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=6145d099285e4a184020742e&page=1&limit=3&sort=create_at&type=${param}`;
+      requestURL = `https://goals.zuri.chat/api/v1/goals?org_id=${
+        orgId || '61578237b9b9f30465f49ee8'
+      }&page=1&limit=3&sort=create_at&type=${param}`;
     }
 
     dispatch(getGoals(requestURL));
+    dispatch(goalPaginated(1));
   };
-  const clickAllHandler = async () => {
+  const clickAllHandler = () => {
     getData('all');
+    setstate('all');
+    dispatch(goalTab('all'));
   };
   const clickAnnualHandler = () => {
     getData('annual');
+    setstate('annual');
+    dispatch(goalTab('annual'));
   };
   const clickQuarterlyHandler = () => {
     getData('quarterly');
+    setstate('quarterly');
+    dispatch(goalTab('quarterly'));
   };
   return (
     <GridLayout>
       <NavDiv>
-        <NavName className="active" onClick={clickAllHandler}>
-          {' '}
-          all goals{' '}
-        </NavName>{' '}
-        <NavName onClick={clickAnnualHandler}> annual goals </NavName>
-        <NavName onClick={clickQuarterlyHandler}> quaterly goals </NavName>
+        <NavName className={state === 'all' && 'active'} onClick={clickAllHandler}>
+          all goals
+        </NavName>
+        <NavName className={state === 'annual' && 'active'} onClick={clickAnnualHandler}>
+          annual goals
+        </NavName>
+        <NavName className={state === 'quarterly' && 'active'} onClick={clickQuarterlyHandler}>
+          quaterly goals
+        </NavName>
       </NavDiv>
       <CreateGoalButton onClick={() => dispatch(toggleCreateGoalModalAction())}>&#43; new goal</CreateGoalButton>
     </GridLayout>
