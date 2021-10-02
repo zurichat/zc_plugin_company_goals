@@ -55,7 +55,7 @@ export default function GoalDetailAccordion() {
   };
 
   const requestURL = `${
-    process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'http://localhost:4000'
+    process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'https://goals.zuri.chat'
   }/api/v1/goals/?org_id=${orgId || '6145d099285e4a184020742e'}`;
   const info = useSWR('getAllGoals', () => dispatch(getGoals(requestURL)));
   // console.log('err', error);
