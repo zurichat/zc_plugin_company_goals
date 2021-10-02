@@ -91,8 +91,7 @@ const Report = () => {
      pieChartData['isComplete']
    ];
    
-
-   const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
+  //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length;
 
    
   return (
