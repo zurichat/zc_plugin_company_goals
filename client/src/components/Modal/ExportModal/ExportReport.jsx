@@ -134,7 +134,6 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen} style={{ padding: '0.5rem', cursor: 'pointer', backgroundColor: '#fff', border:'none', letterSpacing: '0.5px', color: '#1264A3', fontWeight: '700', fontSize: '0.75rem', }} />
       <div
         onClick={handleOpen}
         style={{
@@ -144,9 +143,7 @@ export default function SimpleModal() {
           fontWeight: 'normal',
           fontSize: '0.9rem',
           lineHeight: '28px',
-          textDecorationLine: 'underline',
-          color: '#393939',
-          marginBottom: '0.5rem',
+          color: '#1264A3',
           textUnderlinePosition: 'under',
         }}
       >

@@ -63,6 +63,18 @@ const AppRoom = () => {
       console.log('goals-publish-vision-update', ctx);
       dispatch(updateOrgVisionFromRTC(ctx.data));
     });
+    SubscribeToChannel('CreateOrganizationMember', function (ctx) {
+      console.log('CreateOrganizationMember', ctx);
+      GetUsers();
+    });
+    SubscribeToChannel('DeactivateOrganizationMember', function (ctx) {
+      console.log('DeactivateOrganizationMember', ctx);
+      GetUsers();
+    });
+    SubscribeToChannel('ReactivateOrganizationMember', function (ctx) {
+      console.log('ReactivateOrganizationMember', ctx);
+      GetUsers();
+    });
   }, []);
   return (
     <>
