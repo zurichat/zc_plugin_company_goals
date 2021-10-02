@@ -47,7 +47,7 @@ const GoalItem = ({ goalData }) => {
 
     axios
       .get(
-        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
           goalData._id
         }&user_id=${userId ? userId.id : 5}`
       )
@@ -63,7 +63,7 @@ const GoalItem = ({ goalData }) => {
   useEffect(() => {
     axios
       .get(
-        `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+        `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
           goalData._id
         }`
       )
@@ -76,7 +76,7 @@ const GoalItem = ({ goalData }) => {
 
     axios
       .get(
-        `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+        `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
           goalData._id
         }&user_id=${userId ? userId.id : 5}`
       )
@@ -143,11 +143,17 @@ const GoalItem = ({ goalData }) => {
 
       <Grid item xs={12} sm={3} className={classes.icons}>
         <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
-          <img src={likes} alt="likes-icon" className={classes.iconImages} />
+          {like == "Goal like removed" 
+            ? <img src={likes} alt="likes-icon" className={classes.iconImages} />
+            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(0) invert(1)"}} />
+          }         
           <IconItemCount>{totalLikes}</IconItemCount>
         </IconItemContainer>
         <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
-          <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} />
+          {dislike == "Goal dislike removed" 
+          ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} /> 
+          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(0) invert(1)"}}/>}
+          
           <IconItemCount>{totalDislikes}</IconItemCount>
         </IconItemContainer>
       </Grid>
