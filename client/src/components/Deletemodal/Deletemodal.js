@@ -4,6 +4,7 @@ import { useSWRConfig } from 'swr';
 import { deleteConfirmationAction, deleteSuccessAction, deleteErrorAction } from '../../redux/deleteGoal.slice';
 import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
+import {GetUserInfo} from "@zuri/control";
 
 const Deletemodal = () => {
   const { orgId } = useParams();
@@ -11,16 +12,26 @@ const Deletemodal = () => {
   const { mutate } = useSWRConfig();
   const { showDeleteConfirmationModal, goalID } = useSelector(({ deleteGoal }) => deleteGoal);
 
+
+
   const outClose = (e) => {
+
     if (e.target.classList.contains('faded')) {
       dispatch(deleteConfirmationAction());
     }
   };
 
-  const showSuccess = (e) => {
+ 
+  
+  const showSuccess = async (e) => {
+    const getInfo = await GetUserInfo();
+    const { token } = getInfo;
     e.preventDefault();
     fetch(`https://goals.zuri.chat/api/v1/goals/delete?org_id=${orgId}&goal_id=${goalID}`, {
       method: 'delete',
+      headers: {
+        Authorization: `Bearer ${token} ${orgId}`,
+      },
     })
       .then((res) => {
         if (!res.ok) {

@@ -16,10 +16,16 @@ const {
   disLikeGoal,
   getGoalDisLikes,
   checkUserDisLikes,
-  sortGoalByType,
-  getGoalProgress,
+  sortGoalByType
 } = require('../controllers/goalController');
-const { updateSingleGoalTargetById, createGoalTargets, getGoalTargets } = require('../controllers/targetController');
+const { 
+  updateSingleGoalTargetById,
+  createGoalTargets,
+  getGoalTargets,
+  averageGoalProgress,
+  deleteTarget,
+  getSingleGoalProgress
+} = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
 const restrictToOwner = require('../middlewares/restrict')
 
@@ -31,23 +37,25 @@ const router = Router();
 router.post('/', auth, restrictToOwner, createGoal);
 router.put('/update/:id', auth,restrictToOwner, updateSingleGoalById);
 router.delete('/delete', auth, restrictToOwner, deleteGoalById);
+router.post('/assign', auth, restrictToOwner, assignGoal)
+router.delete('/assigned', auth, restrictToOwner, removeAssigned);
 
 
-router.post('/assign', assignGoal)
 router.get('/', getAllGoals);
 router.get('/chart', getChartInfo);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
 router.get('/userlike', checkUserLike);
 router.get('/single', getSingleGoal);
-router.delete('/assigned', removeAssigned);
 router.get('/dislike', disLikeGoal);
 router.get('/goaldislikes', getGoalDisLikes);
 router.get('/userdislike', checkUserDisLikes);
 router.get('/catalog', sortGoalByType);
 router.post('/target', createGoalTargets);
 router.get('/target', getGoalTargets);
-router.get('/goalprogress', getGoalProgress);
+router.delete('/target/delete', deleteTarget);
+router.get('/average-goal-progress', averageGoalProgress);
+router.get('/single-goal-progress', getSingleGoalProgress);
 router.put('/target/update/:id', updateSingleGoalTargetById);
 
 

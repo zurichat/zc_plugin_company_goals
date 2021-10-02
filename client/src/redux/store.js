@@ -12,6 +12,7 @@ import createGoalModalReducer from './toggleCreateGoalModal.slice';
 import editGoalModalReducer from './toggleEditGoalModal.slice';
 import likeGoalReducer from './likeGoalSlice';
 import storeOrganizationRoomReducer from './organizationRoom.slice';
+import TargetModalSliceReducer from './TargetModalSlice';
 
 const store = configureStore({
   reducer: {
@@ -22,13 +23,14 @@ const store = configureStore({
     deleteGoal: deleteGoalReducer,
     newGoal: newGoalReducer,
     snackbar: snackbarReducer,
-    goals: showGoalSliceReducer,
+    showGoals: showGoalSliceReducer,
     organizationCreateAndEditGoal: createAndEditGoalReducer,
     pieChart: pieChartReducer,
     notifications: notificationReducer,
     organizationCreateAndEditGoalData: createAndEditGoalReducer,
     likeGoals: likeGoalReducer,
     organizationRoom: storeOrganizationRoomReducer,
+    targetModal: TargetModalSliceReducer,
   },
 });
 
