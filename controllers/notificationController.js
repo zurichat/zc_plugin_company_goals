@@ -68,7 +68,7 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
     const Notification = await insertMany('goalNotifications', notifications, orgId);
     const goalNotification = notifications[0];
     goalNotification._id = Notification.data.data.object_ids[0];
-    await publish('goalNotifications', goalNotification);
+    await publish('goals-general-notifications', goalNotification);
     return goalNotification;
   } catch (error) {
     logger.info(`The write operation failed with the following error messages: ${error}`);
@@ -151,17 +151,17 @@ exports.updateNotification = async (req, res) => {
 
   // Check for org_id, user_id and notification_id
   if (!orgId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'org_id is required',
     });
   }
   if (!userId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'user_id is required',
     });
   }
   if (!notificationId) {
-    return res.status(403).send({
+    return res.status(400).send({
       error: 'notification_id is required',
     });
   }
@@ -316,18 +316,12 @@ exports.deleteNotification = async (req, res) => {
 //       error: 'org_id is required',
 //     });
 //   }
-//   if (!userId) {
-//     return res.status(403).send({
-//       error: 'user_id is required',
-//     });
-//   }
 
 //   try {
 //     await deleteMany(
 //       'goalNotifications',
 //       {
 //         org_id: orgId,
-//         user_id: userId,
 //       },
 //       orgId
 //     );

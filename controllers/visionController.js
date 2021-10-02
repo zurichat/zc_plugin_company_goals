@@ -89,17 +89,19 @@ const updateVision = async (req, res, next) => {
 
     // Handle if no matches were found
     if (updatedVision.data.data.modified_documents === 0) {
-      return next(new AppError('No matching documents were found', 404));
+      return res.status(404).json({ message: 'No matching documents were found' });
+      // return next(new AppError('No matching documents were found', 404));
     }
     // Send notification to all users.
     if (updatedVision.data.data.modified_documents > 0) {
-      await publish('publish-vision-update', vision);
+      await publish('goals-publish-vision-update', vision);
       await createNotification(user_ids, organization_id, '', '', 'updateVision');
     }
 
     return res.status(200).json({ status: 200, message: 'success', payload: vision });
   } catch (error) {
-    return next(new AppError('No vision exists for this organization.', 404));
+    return res.status(404).json({ message: 'No vision exists for this organization.' });
+    // return next(new AppError('No vision exists for this organization.', 404));
   }
 };
 
