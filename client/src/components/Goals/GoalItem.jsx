@@ -55,6 +55,9 @@ const GoalItem = ({ goalData }) => {
       .catch((error) => console.log(error));
     
     setToggleLike(!toggleLike)
+if(toggleLike === true && toggleDislike === true){
+    setToggleDislike(false)
+}
   };
 
   //Setting Dislikes and retriving Dislikes
@@ -86,6 +89,9 @@ const GoalItem = ({ goalData }) => {
       .catch((error) => console.log(error));
     
     setToggleDislike(!toggleDislike)
+if(toggleLike === true && toggleDislike === true){
+    setToggleLike(false)
+}
   };
 
 
