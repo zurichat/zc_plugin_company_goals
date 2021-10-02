@@ -55,6 +55,11 @@ const GoalItem = ({ goalData }) => {
       .catch((error) => console.log(error));
     
     setToggleLike(!toggleLike)
+    if(toggleLike === true){
+      setTotalLikes(totalLikes + 1)
+    } else {
+      setTotalLikes(totalLikes - 1)
+    }
   };
 
   //Setting Dislikes and retriving Dislikes
