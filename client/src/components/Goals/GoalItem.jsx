@@ -111,6 +111,14 @@ const GoalItem = ({ goalData }) => {
       .catch((error) => console.log(error));
   } , [like , dislike]);
 
+  //Getting goal reaction
+  useEffect(() => {
+    axios
+    .get(`https://goals.zuri.chat/api/v1/goals/goalReaction?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${goalData._id}`)
+    .then(response => console.log(response.data.data))
+    .catch(error => console.log(error))
+  },[])
+
   // const loop = (e) => {
   //   fetch('https://goals.zuri.chat/api/v1/goals/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&goal_id=${e}')
   //   .then(response => response.json())
