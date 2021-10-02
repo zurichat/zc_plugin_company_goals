@@ -196,7 +196,7 @@ export const MileStoneNumber = styled.div`
 `;
 
 export const MileStoneInput = styled.input.attrs({
-  type: 'text',
+  type: 'number', 
 })`
   display: flex;
   justify-content: center;
@@ -229,6 +229,7 @@ export const AddMileStoneButton = styled.div`
   padding: 0 0.5rem;
   /* padding: 4px; */
   cursor: pointer;  
+  ${props=> props.disabled && `cursor:not-allowed;`}
 `;
 
 export const AddMileStoneText = styled.p`
