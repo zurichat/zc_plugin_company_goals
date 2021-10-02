@@ -14,12 +14,12 @@ const AppHeader = () => {
 
       const workspace_info = {
         thumbnailUrl: [
-          info[0].image_url ||
-            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
-          info[1].image_url ||
-            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
-          info[2].image_url ||
-            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png',
+          {info[0].image_url === " " ?
+            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png' : info[0].image_url},
+          {info[1].image_url === "" ?
+            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png' : info[1].image_url},
+          {info[2].image_url === " " ?
+            'https://www.kemhospitalpune.org/wp-content/uploads/2020/12/Profile_avatar_placeholder_large.png' : info[2].image_url},
         ],
         userCount: info.totalUsers,
       };
