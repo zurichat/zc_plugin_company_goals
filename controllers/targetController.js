@@ -1,3 +1,10 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
+/* eslint-disable camelcase */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-shadow */
+/* eslint-disable no-undef */
+
 const { find, findAll, findById, insertOne, updateOne, deleteMany } = require('../db/databaseHelper');
 const { targetSchema } = require('../schemas');
 const { reduceCalculation, average, calculate } = require('../utils/calculate');
@@ -208,12 +215,14 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
     const result = calculate(goals, targets);
     const reduceResult = reduceCalculation(result);
     const keys = Object.keys(reduceResult);
-    keys.forEach((key) => {
+    keys.forEach(async (key) => {
       if (key === goal_id) {
         const finalResult = reduceResult[goal_id];
+        await updateOne('goals', { progress: finalResult }, {}, org_id, goal_id);
+
         return res.status(200).json({
           status: 200,
-          finalResult,
+          message: 'get goal data successful',
         });
       }
     });
