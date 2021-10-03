@@ -30,7 +30,7 @@ const TargetForm = () => {
     const TargetModal = useSelector((state) => state.targetModal.showModal);
     return (
       <React.Fragment>
-        {TargetModal && (
+        {TargetModal ? (
           <React.Fragment>
             <TargetFormContainer>
               <Container>
@@ -43,8 +43,8 @@ const TargetForm = () => {
                 <Text>(For your goal milestone measurement)</Text>
                 <RadioContainer>
                   <InputGroup>
-                    <RadioInput id="number" name="goalMeasurement" />
-                    <Label htmlFor="number">
+                    <RadioInput id="measure_number" name="goalMeasurement" />
+                    <Label htmlFor="measure_number">
                       <NewRadio />
                       <br />
                       Number
@@ -54,8 +54,8 @@ const TargetForm = () => {
                   </InputGroup>
 
                   <InputGroup>
-                    <RadioInput id="logical" name="goalMeasurement" />
-                    <Label htmlFor="logical">
+                    <RadioInput id="measure_logical" name="goalMeasurement" />
+                    <Label htmlFor="measure_logical">
                       <NewRadio />
                       <br />
                       Logical
@@ -81,7 +81,7 @@ const TargetForm = () => {
             </TargetFormContainer>
             <Overlay onClick={() => dispatch(closeModal())} />
           </React.Fragment>
-        )}
+        ):null}
       </React.Fragment>
     );
 }

@@ -12,7 +12,9 @@ exports.calculate = (goalId, targets) => {
         // Differetiate betweeen: logical target and numerical target
         if (target.hasOwnProperty('target')) {
           const {
-            target: { achieved },
+            target: {
+              target: { achieved },
+            },
           } = target;
 
           // 🆗 Check if the target has be achieved and set it's value to 100
@@ -137,4 +139,29 @@ exports.average = (item) => {
     });
     return result / objKeys.length;
   }
+};
+
+//calculate the milestones and compare to the actual target
+exports.getNumericalTgtDone = (item) => {
+  let numericalTargetsDone = [];
+  for (let i = 0; i < item.length; i++) {
+    let milestonesMet =
+      item[i].second_milestone + item[i].first_milestone + item[i].last_milestone + item[i].third_milestone;
+    if (item[i].target === milestonesMet) {
+      numericalTargetsDone.push(item[i]);
+    }
+  }
+  return numericalTargetsDone.length;
+};
+
+//check if target is achieved
+exports.getLogicalTgtDone = (item) => {
+  let logicalTargetDone = [];
+  for (let i = 0; i < item.length; i++) {
+    if (item[i].achieved === 'true') {
+      logicalTargetDone.push(item[i]);
+    }
+  }
+  //console.log(logicalTargetDone.length)
+  return logicalTargetDone.length;
 };

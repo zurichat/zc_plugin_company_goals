@@ -59,13 +59,16 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
     // Validate the request body before creating
     await targetSchema.validateAsync(req.body);
 
-    // Check if we didn't have an existing
-    const foundTarget = await find('targets', { goal_id }, org_id);
-    const newFoundTarget = foundTarget.data.data;
+    // // Check if we didn't have an existing
+    // const foundTarget = await find('targets', { goal_id }, org_id);
+    // const newFoundTarget = foundTarget.data.data;
 
-    if (newFoundTarget !== null) {
-      return res.status(400).json({ status: 400, message: 'A target already exist for this goal id' });
-    }
+    // if (newFoundTarget !== null) {
+    //   return res.status(400).json({
+    //     status: 400,
+    //     message: 'A target already exist for this goal id',
+    //   });
+    // }
 
     // Create a  new target
     const newTarget = await insertOne('targets', data, org_id);
@@ -205,13 +208,13 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
     const goals = dataGoal.data.data;
     const targets = dataTarget.data.data;
 
-    // Make the calculation
     const result = calculate(goals, targets);
     const reduceResult = reduceCalculation(result);
     const keys = Object.keys(reduceResult);
-    keys.forEach((key) => {
+    keys.forEach(async (key) => {
       if (key === goal_id) {
         const finalResult = reduceResult[goal_id];
+        await updateOne('goals', { progress: finalResult }, {}, org_id, goal_id);
         return res.status(200).json({
           status: 200,
           finalResult,
@@ -330,3 +333,50 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
 // }
 
 // });
+
+exports.getGoalProgress = catchAsync(async (req, res, next) => {
+  const { org_id, goal_id } = req.query;
+
+  if (!org_id) {
+    logger.info(`Organization id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  if (!goal_id) {
+    logger.info(`Goal id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Goal_id is required' });
+  }
+
+  try {
+    //get all targets with similar goal ID
+    const foundTargets = await find('targets', { goal_id }, org_id);
+    const logicalTargets = [];
+    const numericalTargets = [];
+
+    //check if the target is of type logical or numerical, if it is then populate the arrays defined above
+    for (let i = 0; i < foundTargets.data.data.length; i++) {
+      if (typeof foundTargets.data.data[i].target.target.type === 'number') {
+        numericalTargets.push(foundTargets.data.data[i].target.target);
+      }
+      if (typeof foundTargets.data.data[i].target.target.type === 'string') {
+        logicalTargets.push(foundTargets.data.data[i].target.target);
+      }
+    }
+
+    //get the sum of completed targets, both for logical and numerical
+    const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets);
+    achievedTargets = (achievedTargets / foundTargets.data.data.length) * 100;
+
+    //send response with total number of targets in percentage
+    return res.status(200).json({
+      status: 200,
+      data: {
+        achievedTargets,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});

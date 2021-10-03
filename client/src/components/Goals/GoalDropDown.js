@@ -1,16 +1,17 @@
 import { useDispatch } from 'react-redux';
-import { useRef,useState,useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import ellipsis from '../../Images/png/ellipsis.png';
 import { editGoalData } from '../../redux/organizationGoal.slice';
-import {  MoreOptions} from './GoalItem.style'
+import { MoreOptions } from './GoalItem.style';
 import { deleteConfirmationAction } from '../../redux/deleteGoal.slice';
 import { GoalMenu } from './GoalItem.style';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
-
+import { GetUserInfo } from '@zuri/control';
 
 export default function GoalDrop({ goalData }) {
   const ref = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -45,6 +46,20 @@ export default function GoalDrop({ goalData }) {
   };
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const userInfo = await GetUserInfo();
+        if (userInfo) {
+          const userRole = userInfo[0].role;
+          userRole === 'owner' && setIsOwner(true);
+        }
+      } catch (err) {
+        console.log('something went wrong with getting user info from goals dropdown display', err);
+      }
+    })();
+  }, []);
+
   return (
     <MoreOptions ref={ref}>
       <img
@@ -60,34 +75,40 @@ export default function GoalDrop({ goalData }) {
           <li>
             <button type="submit">View</button>
           </li>
-          <li>
-            <button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen((oldState) => !oldState);
-                dispatch(editGoalData(setEditGoalData));
-                dispatch(toggleCreateGoalModalAction());
-              }}
-            >
-              Edit
-            </button>
-          </li>
-          <li>
-            <button type="submit">Update</button>
-          </li>
-          <li>
-            <button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen((oldState) => !oldState);
-                dispatch(deleteConfirmationAction(goalData._id));
-              }}
-            >
-              Delete
-            </button>
-          </li>
+          {isOwner && (
+            <>
+              <li>
+                <button
+                  type="submit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsMenuOpen((oldState) => !oldState);
+                    dispatch(editGoalData(setEditGoalData));
+                    dispatch(toggleCreateGoalModalAction());
+                  }}
+                >
+                  Edit
+                </button>
+              </li>
+              <li>
+                <button type="submit">Update</button>
+              </li>
+              <li>
+                <button
+                  type="submit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsMenuOpen((oldState) => !oldState);
+                    dispatch(deleteConfirmationAction(goalData._id));
+                  }}
+                >
+                  Delete
+                </button>
+              </li>
+            </>
+          )}
         </GoalMenu>
       )}
     </MoreOptions>
