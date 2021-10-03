@@ -1,6 +1,8 @@
 import { Doughnut } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import styled from 'styled-components';
 import {
   ReportContainer,
   Icons,
@@ -23,7 +25,7 @@ import { set } from 'date-fns';
 
 const Report = () => {
   const pieChartData = useSelector(selectPieChart);
-
+  let { orgId } = useParams();
   const [count, setCount] = useState('Kehinde');
   const [percent, setPercent] = useState(0);
   const [dotChange, setDotChange] = useState('Expired');
