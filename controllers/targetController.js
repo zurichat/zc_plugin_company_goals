@@ -1,6 +1,6 @@
 const { find, findAll, findById, insertOne, updateOne, deleteMany } = require('../db/databaseHelper');
 const { targetSchema } = require('../schemas');
-const { reduceCalculation, average, calculate } = require('../utils/calculate');
+const { reduceCalculation, average, calculate , getNumericalTgtDone, getLogicalTgtDone} = require('../utils/calculate');
 // Dummy data
 const { goalId, targets } = require('../data/target');
 
@@ -26,28 +26,28 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
     return res.status(400).send({ error: 'goal_id is required' });
   }
 
-  const target = req.body;
+  // const target = req.body;
 
-  // if (target.type === 'numeric') {
-  //   data = {
-  //     goal_id,
-  //     targets: [target],
-  //   };
-  // } else {
-  //   data = {
-  //     goal_id,
-  //     target: {
-  //       target,
-  //     },
-  //   };
+  // // if (target.type === 'numeric') {
+  // //   data = {
+  // //     goal_id,
+  // //     targets: [target],
+  // //   };
+  // // } else {
+  // //   data = {
+  // //     goal_id,
+  // //     target: {
+  // //       target,
+  // //     },
+  // //   };
+  // // }
+
+  // const data = {
+  //   goal_id,
+  //   targets: [ target ]
   // }
 
-  const data = {
-    goal_id,
-    targets: [ target ]
-  }
-
-  // store the total targets for a goal with the goal_id as the primary key
+  // // store the total targets for a goal with the goal_id as the primary key
   // const total_targets = [ target, ];
   // console.log(total_targets)
 
@@ -56,15 +56,16 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
   try {
     console.log('Started validating req.body');
     // Validate the request body before creating
-    await targetSchema.validateAsync(req.body);
-
+    const validatedTarget = await targetSchema.validateAsync(req.body);
+    validatedTarget.goal_id = goal_id
+  
     // Create a  new target
-    const newTarget = await insertOne('targets', data, org_id);
+    const newTarget = await insertOne('targets', validatedTarget, org_id);
 
     logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
 
     // Response
-    return res.status(200).json({ status: 200, data });
+    return res.status(200).json({ status: 200, data: validatedTarget });
   } catch (err) {
     logger.info(`There are errors with the request body: ${err}`);
     if (err) return res.status(400).json(err.details);
@@ -121,7 +122,7 @@ exports.updateSingleGoalTargetById = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteTarget = catchAsync(async (req, res, next) => {
-  await deleteMany('targets', {}, req.query.org);
+  await deleteMany('targets', {}, req.query.org_id);
   res.status(200).send('hi');
 });
 
@@ -328,41 +329,48 @@ exports.getGoalProgress = catchAsync(async (req, res, next) => {
 
   if (!org_id) {
     logger.info(`Organization id isn't provided.`);
-    // return new AppError("Organization_id is required", 400);
+
     return res.status(400).send({ error: "Organization_id is required" });
   }
 
   if (!goal_id) {
     logger.info(`Goal id isn't provided.`);
-    // return new AppError("Organization_id is required", 400);
+   
     return res.status(400).send({ error: "Goal_id is required" });
   }
 
   try {
     //get all targets with similar goal ID
     const foundTargets = await find('targets', { goal_id }, org_id);
+    //logical targets are like open ended questions, yes or no answers
     const logicalTargets = [];
+     //numerical targets are those with number values
     const numericalTargets = [];
 
-    //check if the target is of type logical or numerical, if it is then populate the arrays defined above
+    //check if a target is of type logical or numerical, if it is then populate the arrays defined above
     for (let i = 0; i < foundTargets.data.data.length; i++) {
-      if((typeof foundTargets.data.data[i].target.target.type) === 'number' ){
-        numericalTargets.push(foundTargets.data.data[i].target.target)
+      if((typeof foundTargets.data.data[i].target) === 'number' ){
+        numericalTargets.push(foundTargets.data.data[i])
       }
-      if(typeof foundTargets.data.data[i].target.target.type === 'string' ){
-        logicalTargets.push(foundTargets.data.data[i].target.target)
+      if(typeof foundTargets.data.data[i].target === 'string' ){
+        logicalTargets.push(foundTargets.data.data[i])
       }
     }
+  
+    const numericalBag = getNumericalTgtDone(numericalTargets)
+    const logicalBag = getLogicalTgtDone(logicalTargets)
+    
+    // //const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets)
+    const achievedTargetsPercentage = ((logicalBag.logicalTargetDone.length + numericalBag.numericalTargetsDone.length)/foundTargets.data.data.length)*100
    
-    //get the sum of completed targets, both for logical and numerical
-    const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets)
-    achievedTargets = (achievedTargets/foundTargets.data.data.length)*100
-   
+    const  unachievedTargetsPercentage = ((logicalBag.logicalTargetNotDone.length + numericalBag.numericalTargetsNotDone.length)/foundTargets.data.data.length)*100
+    
     //send response with total number of targets in percentage
     return res.status(200).json({
       status: 200,
       data: {
-        achievedTargets
+        achievedTargetsPercentage,
+        unachievedTargetsPercentage
       }
     });
     
