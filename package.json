@@ -22,7 +22,13 @@
   "author": "Team Plato",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "@material-ui/icons": "^4.11.2",
+=======
+    "@emotion/react": "^11.4.1",
+    "@mui/icons-material": "^5.0.1",
+    "@mui/material": "^5.0.2",
+>>>>>>> 1d17d85f3d15f3bef32b4d15a35c8ef48d935a0e
     "ajv": "^8.6.3",
     "axios": "^0.21.4",
     "centrifuge": "^2.8.0",
@@ -43,6 +49,7 @@
     "morgan": "^1.10.0",
     "node-cron": "^3.0.0",
     "nyc": "^15.1.0",
+    "react-paginate": "^7.1.3",
     "request": "^2.88.2",
     "rewire": "^5.0.0",
     "sinon": "^11.1.2",

@@ -18,6 +18,7 @@ import { getGoals } from '../../redux/showGoalSlice';
 import TargetForm from '../TargetForm/TargetForm';
 import { Div, Text, Button, Container } from './GoalDetail.styled';
 import { openModal } from '../../redux/TargetModalSlice';
+import Spinner from './GreenSpinner';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -43,6 +44,7 @@ export default function GoalDetailAccordion() {
   const { roomId } = useSelector((state) => state.organizationRoom);
   const [goalComponents, setGoalComponents] = React.useState();
   const [pageNum, setPageNum] = React.useState(1);
+  const { tab } = useSelector((state) => state.pageNum);
   const dispatch = useDispatch();
   const { goals, status, errorInfo } = useSelector((state) => state.showGoals);
   const handleChange = (panel) => (event, isExpanded) => {
@@ -52,20 +54,22 @@ export default function GoalDetailAccordion() {
   React.useEffect(() => {
     getAllComponentsFromServer(pageNum);
   }, [pageNum]);
-  if (!errorInfo && !goals) return <Loader />;
+  if (!errorInfo && !goals) return <Spinner />;
+  if (status === 'loading') return <Spinner />;
   if (errorInfo) return <Error errorMessage={errorInfo.message} />;
   if (!goals.data.length) return <EmptyGoal />;
   async function getAllComponentsFromServer(pageNum) {
     const requestURL = `${
       process.env.NODE_ENV === 'production' ? 'https://goals.zuri.chat' : 'https://goals.zuri.chat'
-    }/api/v1/goals/?org_id=${orgId || '61578237b9b9f30465f49ee8'}&page=${pageNum}&limit=3`;
-
+    }/api/v1/goals/?org_id=${orgId || '61578237b9b9f30465f49ee8'}&page=${pageNum}&limit=3&type=${
+      tab === 'all' ? '' : tab
+    }`;
     dispatch(getGoals(requestURL));
   }
   return (
     <React.Fragment>
       <Container className={classes.root}>
-        {console.log(goals)}
+        {/* {console.log(goals)} */}
         {goals &&
           goals.data?.map((goal) => {
             return (

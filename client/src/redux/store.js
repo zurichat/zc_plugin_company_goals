@@ -14,10 +14,10 @@ import likeGoalReducer from './likeGoalSlice';
 import storeOrganizationRoomReducer from './organizationRoom.slice';
 import TargetModalSliceReducer from './TargetModalSlice';
 import pageNumSlice from './pageNumSlice';
+import averageGoalSliceReducer from './averageGoal.slice';
 
 const store = configureStore({
   reducer: {
-    workspaceUsers: getWorkspaceUsersReducer,
     organizationMission: missionReducer,
     organizationVision: visionReducer,
     toggleCreateGoalModal: createGoalModalReducer,
@@ -34,6 +34,7 @@ const store = configureStore({
     likeGoals: likeGoalReducer,
     organizationRoom: storeOrganizationRoomReducer,
     targetModal: TargetModalSliceReducer,
+    averageGoal: averageGoalSliceReducer,
   },
 });
 
