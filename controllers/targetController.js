@@ -4,7 +4,7 @@
 
 const { find, findAll, findById, insertOne, updateOne, deleteMany } = require('../db/databaseHelper');
 const { targetSchema } = require('../schemas');
-const { reduceCalculation, average, calculate } = require('../utils/calculate');
+const { reduceCalculation, average, calculate, getLogicalTgtDone, getNumericalTgtDone } = require('../utils/calculate');
 // Dummy data
 const { goalId, targets } = require('../data/target');
 
@@ -366,7 +366,7 @@ exports.getGoalProgress = catchAsync(async (req, res, next) => {
     }
 
     //get the sum of completed targets, both for logical and numerical
-    const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets);
+    let achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets);
     achievedTargets = (achievedTargets / foundTargets.data.data.length) * 100;
 
     //send response with total number of targets in percentage
