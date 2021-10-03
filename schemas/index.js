@@ -44,21 +44,28 @@ exports.goalSchema = Joi.object({
   }),
 });
 
-// target schema
+// target schema (please, im begging you, DO NOT touch this schema @Odogwu)
 exports.targetSchema = Joi.object({
   target: [Joi.string().required(), Joi.number().required()],
-  milestone: Joi.array().when('type', {
+  milestones: Joi.any().when('target', {
     is: Joi.number(),
-    then: Joi.array().items({
-      first_milestone: Joi.number().default(0).required(),
-      second_milestone: Joi.number().default(0).required(),
-      third_milestone: Joi.number().default(0).required(),
-      last_milestone: Joi.number().default(0).required(),
-    }),
+    then: Joi.array()
+      .items(
+        Joi.object().keys({
+          1: Joi.object({ value: Joi.number(), achieved: Joi.boolean().default(false) })
+            .required()
+            .messages({ 'any.required': 'The first milestone is required' }),
+          2: Joi.object({ value: Joi.number().allow().default('0'), achieved: Joi.boolean().default(false) }).default(),
+          3: Joi.object({ value: Joi.number().allow().default('0'), achieved: Joi.boolean().default(false) }).default(),
+          4: Joi.object({ value: Joi.number().allow().default('0'), achieved: Joi.boolean().default(false) }).default(),
+        })
+      )
+      .required(),
+    otherwise: Joi.string().required(),
   }),
-  achieved: Joi.boolean().default(`false`).required(),
+  //milestone: Joi.string().when('type', { is: Joi.string(), then: Joi.required()}),
+  achieved: Joi.boolean().default(false),
 });
-
 // mission schema
 exports.missionSchema = Joi.object({
   title: Joi.string().optional(),
