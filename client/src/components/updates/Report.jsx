@@ -18,6 +18,7 @@ import ExportReport from '../Modal/ExportModal/ExportReport';
 import { selectPieChart } from '../../redux/pieChartSlice';
 import { useSelector } from 'react-redux';
 import { set } from 'date-fns';
+import styled from 'styled-components';
 
 // totalGoals, isComplete, isExpired, inProgress;
 
