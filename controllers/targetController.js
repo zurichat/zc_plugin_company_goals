@@ -434,7 +434,7 @@ exports.updateTarget = catchAsync(async (req, res, next) => {
     }
     // update target
     logger.info(`Updating target`);
-    const updatedTarget = await updateMany('targets', reqTarget, { _id: targetId }, orgId);
+    const updatedTarget = await updateOne('targets', reqTarget, { _id: targetId }, orgId);
     logger.info(`Target update with id ${targetId}`);
 
     // Response
