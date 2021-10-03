@@ -36,7 +36,7 @@ const Report = () => {
     }`;
     fetch(fetchURL)
       .then((response) => response.json())
-      .then((data) => console.log(data.averageResult));
+      .then((data) => setPercent(data.averageResult));
   }, []);
 
   const data = {
