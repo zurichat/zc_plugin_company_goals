@@ -27,10 +27,11 @@ const {
   averageGoalProgress,
   deleteTarget,
   getSingleGoalProgress,
-  getGoalProgress
+  getGoalProgress,
+  updateTarget,
 } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
-const restrictToOwner = require('../middlewares/restrict')
+const restrictToOwner = require('../middlewares/restrict');
 
 
 const router = Router();
@@ -65,6 +66,7 @@ router.get('/single-goal-progress', getSingleGoalProgress);
 router.put('/target/update/:id', updateSingleGoalTargetById);
 router.get('/goal-progress', getGoalProgress);
 
+router.put('/target/edit', updateTarget);
 
 
 

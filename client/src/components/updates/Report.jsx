@@ -11,7 +11,6 @@ import {
   Folder,
   LabelContainer,
   Progress,
-  Bar,
   LabelsContainer,
   Index,
 } from './styles';
@@ -26,7 +25,17 @@ const Report = () => {
   const pieChartData = useSelector(selectPieChart);
 
   const [count, setCount] = useState('Kehinde');
+  const [percent, setPercent] = useState(0);
   const [dotChange, setDotChange] = useState('Expired');
+
+  useEffect(() => {
+    const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${
+      orgId || '6145d099285e4a184020742e'
+    }`;
+    fetch(fetchURL)
+      .then((response) => response.json())
+      .then((data) => setPercent(data.averageResult));
+  }, []);
 
   const data = {
     labels: ['In progress', 'Expired', 'Completed'],
@@ -94,6 +103,13 @@ const Report = () => {
 
   if (!pieChartData) return null;
 
+   data.datasets[0].data = [
+     pieChartData['inProgress'],
+     pieChartData['isExpired'], 
+     pieChartData['isComplete']
+   ];
+   
+  //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length;
   data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
 
   //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
@@ -160,12 +176,19 @@ const Report = () => {
       <Average>
         <h5 className="text">Average Progress Rate</h5>
         <Progress>
-          <Bar />
+          <Bar percent={percent} />
         </Progress>
-        <h6 className="percent">Progress Rate 73%</h6>
+        <h6 className="percent">Progress Rate {Math.round(percent)}</h6>
       </Average>
     </ReportContainer>
   );
 };
 
 export default Report;
+
+export const Bar = styled.div`
+  width: ${({ percent }) => percent}%;
+  height: 100%;
+  background: #2f80ed;
+  border-radius: 16px;
+`;

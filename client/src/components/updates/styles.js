@@ -17,14 +17,12 @@ export const Folder = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-left: 20px;
-
   .folder_text {
     color: #393939;
     font-weight: 400;
     font-size: 13px;
     /* lato */
   }
-
   .folder_btn {
     display: flex;
     align-items: center;
@@ -49,14 +47,12 @@ export const ReportContainer = styled.div`
   color: #999999;
   font-size: 12px;
   font-weight: 400;
-
   .piechart {
     position: relative;
     /* padding-top: 10px;
     padding-bottom: 10px; */
     height: 230px;
     /* border: 1px solid blue; */
-
     .percentage {
       position: absolute;
       top: 53%;
@@ -68,7 +64,6 @@ export const ReportContainer = styled.div`
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-
       .count {
         color: #393939;
         font-size: 55px;
@@ -91,7 +86,6 @@ export const ReportContainer = styled.div`
               return '#2F80ED';
           }
         }};
-
         font-size: 16px;
         margin-top: 8px;
         font-weight: 700;
@@ -100,19 +94,16 @@ export const ReportContainer = styled.div`
         font-family: Lato;
         text-transform: capitalize;
       }
-
       .dot_pagination {
         display: flex;
         width: 45px;
         justify-content: space-between;
         margin-top: 4px;
-
         .dots {
           width: 10px;
           height: 10px;
           background-color: #c4c4c4;
           border-radius: 100%;
-
           &.yellow {
             background-color: #ffc107;
           }
@@ -133,17 +124,15 @@ export const Index = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 8px 0;
-
   .each {
     display: flex;
     align-items: center;
   }
-
-    p {
-      color: #616061;
-      margin-left: 1rem;
-      font-size: 14px;
-    }
+  p {
+    color: #616061;
+    margin-left: 1rem;
+    font-size: 14px;
+  }
 `;
 
 export const LabelContainer = styled.div`
@@ -187,7 +176,6 @@ export const Average = styled.div`
   color: #393939;
   text-align: center;
   font-weight: bold;
-
   .text {
     font-weight: bold;
     font-size: 16px;
