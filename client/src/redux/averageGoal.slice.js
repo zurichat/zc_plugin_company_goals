@@ -18,14 +18,9 @@ export const averageGoalSlice = createSlice({
   initialState: {
     averageProgress: null,
   },
-  reducers: {
-    goalSorted(state, action) {
-      state.goals = action.payload;
-    },
-  },
   extraReducers: {
     [getAverageProgress.fulfilled]: (state, { payload }) => {
-      state.goals = payload.data;
+      state.averageProgress = payload.data;
       state.status = 'success';
     },
   },
