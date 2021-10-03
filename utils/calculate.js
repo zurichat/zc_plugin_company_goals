@@ -140,24 +140,43 @@ exports.average = (item) => {
 
 //calculate the milestones and compare to the actual target
 exports.getNumericalTgtDone = (item) => {
-  let numericalTargetsDone = [];
-      for (let i = 0; i < item.length; i++) {
-        let milestonesMet = (item[i].second_milestone + item[i].first_milestone + item[i].last_milestone + item[i].third_milestone)
-        if(item[i].target === milestonesMet ){
-        numericalTargetsDone.push(item[i])
+
+  const numericalTargetsDone = [];
+  const numericalTargetsNotDone = [];
+  
+      for (let i = 0, j= i,k = j; i < item.length; i++) {
+
+         if(item[i].milestones[j][k+1].achieved == false ){
+          numericalTargetsNotDone.push(item[i])
         }
+         if(item[i].milestones[j][k+1].achieved === true ){
+          numericalTargetsDone.push(item[i])
+         }
       }
-      return numericalTargetsDone.length
+      var obj = {
+        numericalTargetsDone,
+        numericalTargetsNotDone
+      }
+
+      return obj
 }
 
 //check if target is achieved
 exports.getLogicalTgtDone = (item) => {
   let logicalTargetDone = [];
+  let logicalTargetNotDone = [];
+
   for (let i = 0; i < item.length; i++) {
-    if(item[i].achieved === 'true' ){
+    if(item[i].achieved === true ){
       logicalTargetDone.push(item[i])
     }
+    if(item[i].achieved === false ){
+      logicalTargetNotDone.push(item[i])
+    }
   }
-  //console.log(logicalTargetDone.length)
-  return logicalTargetDone.length
+  var obj = {
+    logicalTargetDone,
+    logicalTargetNotDone
+  }
+  return obj
 }

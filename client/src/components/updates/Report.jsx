@@ -20,6 +20,7 @@ import ExportReport from '../Modal/ExportModal/ExportReport';
 import { selectPieChart } from '../../redux/pieChartSlice';
 import { useSelector } from 'react-redux';
 import { set } from 'date-fns';
+import styled from 'styled-components';
 
 // totalGoals, isComplete, isExpired, inProgress;
 
@@ -32,7 +33,7 @@ const Report = () => {
 
   useEffect(() => {
     const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${
-      orgId || '6145d099285e4a184020742e'
+      /*orgId || */'6145d099285e4a184020742e'
     }`;
     fetch(fetchURL)
       .then((response) => response.json())
@@ -105,6 +106,13 @@ const Report = () => {
 
   if (!pieChartData) return null;
 
+   data.datasets[0].data = [
+     pieChartData['inProgress'],
+     pieChartData['isExpired'], 
+     pieChartData['isComplete']
+   ];
+   
+  //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length;
   data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
 
   //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
