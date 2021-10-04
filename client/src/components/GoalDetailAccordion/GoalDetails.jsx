@@ -83,7 +83,20 @@ export default function GoalDetailAccordion() {
                 <AccordionDetails>
                   <Div>
                     <Text primary> Goal Progress </Text>
-                    <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
+                    <Button
+                      width="143px"
+                      fontSize="15px"
+                      font-weight="700"
+                      borderRadius="3px"
+                      background="#00B87C"
+                      padding="12px 35px"
+                      color="#ffffff"
+                      marginLeft="0px 0px"
+                      onClick={() => dispatch(openModal())}
+                    >
+                      {' '}
+                      + Add Target!{' '}
+                    </Button>
                   </Div>
                 </AccordionDetails>
               </Accordion>
