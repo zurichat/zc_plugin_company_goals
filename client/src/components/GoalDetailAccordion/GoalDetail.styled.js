@@ -27,7 +27,7 @@ export const Container = styled.div`
 `;
 
 export const Text = styled.h4`
-  margin: 0 10px;
+  margin: 0px 10px;
   font-size: 1rem;
   font-weight: 400;
   color: ${(props) => (props.primary ? '#393939' : '#8D8D8D')};
@@ -87,15 +87,31 @@ export const PagContainer = styled.div`
     }
   }
 `;
+
 export const Button = styled.button`
-  background: #00b87c;
+  background: ${(props) => props.background};
+  color: ${(props) => props.color};
+  line-height: ${(props) => props.lineHeight};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  font-size: ${(props) => props.fontSize};
+  margin-left: ${(props) => props.marginLeft};
+  border-radius: 3px;
+  border: 1 px solid #999999;
+  font-family: lato;
+  font-weight: ${(props) => props.fontWeight};
+  padding: ${(props) => props.padding};
+  outline: 0;
+  border: 0;
+
+  /* background: #00b87c;
   color: #ffffff;
   line-height: 24px;
   font-size: 15px;
   border-radius: 3px;
   padding: 1rem;
   outline: 0;
-  border: 0;
+  border: 0; */
 
   @media screen and (max-width: 500px) {
     padding: 0.5rem;
