@@ -22,6 +22,7 @@ const {
 } = require('../db/databaseHelper');
 const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema, goalReactionSchema, allowedFields} = require('../schemas');
 const AppError = require('../utils/appError');
+const {average, calculate, reduceCalculation} = require('../utils/calculate');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
