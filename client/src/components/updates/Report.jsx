@@ -34,7 +34,7 @@ const Report = () => {
     const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${
 
 
-      /*orgId ||*/ '6145d099285e4a184020742e'
+      orgId || '6145d099285e4a184020742e'
 
 
 
