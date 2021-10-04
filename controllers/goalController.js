@@ -215,20 +215,20 @@ const findTarget = async (org_id, res) => {
 }
 
 exports.averageGoalProgress = catchAsync(async (req, res, next) => {
-  const {org_id} = req.query;
-  const dataGoal = await findGoal(org_id, res)
-  const dataTarget = await findTarget(org_id, res)
-  let goals = dataGoal.data.data;
-  let targets = dataTarget.data.data;
+  // const {org_id} = req.query;
+  // const dataGoal = await findGoal(org_id, res)
+  // const dataTarget = await findTarget(org_id, res)
+  // let goals = dataGoal.data.data;
+  // let targets = dataTarget.data.data;
 
   // console.log(goals)
   // console.log(targets)
 
   // Make the calculation
-  const result = calculate(goals, targets);
-  const reduceResult = reduceCalculation(result);
-  const averageResult = average(reduceResult);
-  console.log(averageResult);
+  // const result = calculate(goals, targets);
+  // const reduceResult = reduceCalculation(result);
+  // const averageResult = average(reduceResult);
+  // console.log(averageResult);
 
   // // Dummy data
   // const result = calculate(goalId, targets);
@@ -241,7 +241,7 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
     .status(200)
     .json({
       status: 'success',
-      averageResult
+      averageResult:0
   })
 });
 
