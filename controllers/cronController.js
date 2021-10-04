@@ -10,7 +10,7 @@ const dateInPast = function (firstDate, secondDate) {
 
 module.exports = () => {
   // cron scheduler runs every 12am
-  cron.schedule('* * * * * *', async function () {
+  cron.schedule('* * * * *', async function () {
     // list of organisation ids
     console.log('i ran');
     const orgList = await findAll('orgs', 'fictionalorganisationtokeeptrack');
