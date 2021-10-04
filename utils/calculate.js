@@ -11,7 +11,7 @@ exports.calculate = (goalId, targets) => {
       if (target.goal_id === _id) {
         // Differetiate betweeen: logical target and numerical target
         if(target.hasOwnProperty('target')) {
-          const {target: {achieved}} = target
+          const {target:{target:{achieved}}} = target
 
           // 🆗 Check if the target has be achieved and set it's value to 100 
           if(achieved === 'true') {
@@ -136,4 +136,47 @@ exports.average = (item) => {
     });
     return result / objKeys.length;
   }
+}
+
+//calculate the milestones and compare to the actual target
+exports.getNumericalTgtDone = (item) => {
+
+  const numericalTargetsDone = [];
+  const numericalTargetsNotDone = [];
+  
+      for (let i = 0, j= i,k = j; i < item.length; i++) {
+
+         if(item[i].milestones[j][k+1].achieved == false ){
+          numericalTargetsNotDone.push(item[i])
+        }
+         if(item[i].milestones[j][k+1].achieved === true ){
+          numericalTargetsDone.push(item[i])
+         }
+      }
+      var obj = {
+        numericalTargetsDone,
+        numericalTargetsNotDone
+      }
+
+      return obj
+}
+
+//check if target is achieved
+exports.getLogicalTgtDone = (item) => {
+  let logicalTargetDone = [];
+  let logicalTargetNotDone = [];
+
+  for (let i = 0; i < item.length; i++) {
+    if(item[i].achieved === true ){
+      logicalTargetDone.push(item[i])
+    }
+    if(item[i].achieved === false ){
+      logicalTargetNotDone.push(item[i])
+    }
+  }
+  var obj = {
+    logicalTargetDone,
+    logicalTargetNotDone
+  }
+  return obj
 }

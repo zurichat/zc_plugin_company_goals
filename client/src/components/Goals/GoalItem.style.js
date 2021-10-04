@@ -1,10 +1,5 @@
-import {
-  LinearProgress
-} from '@material-ui/core';
-import {
-  makeStyles,
-  withStyles
-} from '@material-ui/core/styles';
+import { LinearProgress } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 
 export const useStyles = makeStyles(() => ({
@@ -43,11 +38,11 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-export const GoalTitle = styled.span `
+export const GoalTitle = styled.span`
   display: block;
   font-weight: 700;
   line-height: 1.75rem;
-  color: #1d1c1d;
+  color: ${(props) => (props.goalIsExpired ? 'red' : '#1d1c1d')};
   font-size: 0.938rem;
   text-transform: capitalize;
   width: 100%;
@@ -61,7 +56,7 @@ export const GoalTitle = styled.span `
   }
 `;
 
-export const GoalTags = styled.span `
+export const GoalTags = styled.span`
   display: table-caption;
   color: #616061;
   font-size: 0.7rem;
@@ -100,13 +95,13 @@ export const ProgressBar = withStyles(() => ({
   },
 }))(LinearProgress);
 
-export const ProgressDetailsContainer = styled.div `
+export const ProgressDetailsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 0.8rem;
 `;
 
-export const ProgressRate = styled.span `
+export const ProgressRate = styled.span`
   color: #616061;
   font-size: 0.813rem;
   line-height: 1rem;
@@ -119,7 +114,7 @@ export const ProgressRate = styled.span `
   }
 `;
 
-export const ProgressDate = styled.span `
+export const ProgressDate = styled.span`
   height: 0.875rem;
   line-height: 1rem;
   font-size: 0.813rem;
@@ -130,7 +125,7 @@ export const ProgressDate = styled.span `
   }
 `;
 
-export const IconItemContainer = styled.div `
+export const IconItemContainer = styled.div`
   margin-left: 2.5rem;
   cursor: pointer;
   position: relative;
@@ -146,14 +141,14 @@ export const IconItemContainer = styled.div `
   }
 `;
 
-export const IconItemCount = styled.span `
+export const IconItemCount = styled.span`
   color: #616061;
   font-size: 0.813rem;
   line-height: 1rem;
   position: absolute;
 `;
 
-export const Likes = styled.span `
+export const Likes = styled.span`
   position: absolute;
   top: 0.063rem;
 `;
