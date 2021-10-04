@@ -21,7 +21,8 @@
         "start_date",
         "due_date",
         "goal_type",
-        "category"
+        "category",
+        "progress"
       ],
       "properties": {
         "room_id": {
@@ -59,6 +60,10 @@
         "category": {
           "title": "category",
           "type": "string"
+        },
+        "progress":{
+          "title": "progress",
+          "type": "number"
         }
       }
     }

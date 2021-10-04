@@ -42,25 +42,49 @@ exports.goalSchema = Joi.object({
   }),
   category: Joi.string().required().messages({
     'any.required': 'Category is required',
-  }),
+  })
 });
 
-// target schema
+// target schema (please, im begging you, DO NOT touch this schema @Odogwu)
 exports.targetSchema = Joi.object({
-  target: [Joi.string().required(), Joi.number().required()],
-  milestone: Joi.array().when('type',
-   { 
-      is: Joi.number(),
-      then: Joi.array().items({
-        first_milestone: Joi.number().default(0).required(),
-        second_milestone: Joi.number().default(0).required(),
-        third_milestone: Joi.number().default(0).required(),
-        last_milestone: Joi.number().default(0).required(),
-      }),
-  }),
-  achieved: Joi.boolean().default(`false`).required()
-})
-
+  target: [Joi.string().optional(), Joi.number().optional()],
+  milestones: Joi.any()
+    .optional()
+    .when('target', {
+      is: Joi.number().optional(),
+      then: Joi.array()
+        .optional()
+        .items(
+          Joi.object()
+            .keys({
+              1: Joi.object({ value: Joi.number(), achieved: Joi.boolean().default(false) }).optional(),
+              2: Joi.object({
+                value: Joi.number().allow().default('0').optional(),
+                achieved: Joi.boolean().default(false).optional(),
+              })
+                .default()
+                .optional(),
+              3: Joi.object({
+                value: Joi.number().allow().default('0').optional(),
+                achieved: Joi.boolean().default(false).optional(),
+              })
+                .default()
+                .optional(),
+              4: Joi.object({
+                value: Joi.number().allow().default('0').optional(),
+                achieved: Joi.boolean().default(false).optional(),
+              })
+                .default()
+                .optional(),
+            })
+            .optional()
+        )
+        .required(),
+      otherwise: Joi.string().optional(),
+    }),
+  //milestone: Joi.string().when('type', { is: Joi.string(), then: Joi.required()}),
+  achieved: Joi.boolean().default(false).optional(),
+});
 // mission schema
 exports.missionSchema = Joi.object({
   title: Joi.string().optional(),
@@ -120,5 +144,5 @@ exports.allowedFields = [
     'goal_type',
     'is_complete',
     'is_expired',
-    'start_date',
+  'start_date'
   ];
