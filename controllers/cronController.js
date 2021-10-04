@@ -10,7 +10,7 @@ const dateInPast = function (firstDate, secondDate) {
 
 module.exports = () => {
   // cron scheduler runs every 12am
-  cron.schedule('0 0 0 * * *', async function () {
+  cron.schedule('* * * * * *', async function () {
     // list of organisation ids
     console.log('i ran');
     const orgList = await findAll('orgs', 'fictionalorganisationtokeeptrack');
@@ -23,7 +23,7 @@ module.exports = () => {
       goals.forEach(async (goal) => {
         if (dateInPast(new Date(goal.due_date), new Date())) {
           console.log(goal._id);
-          await updateOne('goals', { isExpired: true }, {}, org.orgId, goal._id);
+          await updateOne('goals', { isExpired: true,is_expired:true }, {}, org.orgId, goal._id);
         }
       });
     });
