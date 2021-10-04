@@ -28,7 +28,7 @@ const ReportsAndNotificationContainer = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getPieChart());
+    dispatch(getPieChart(orgId));
   }, [dispatch]);
 
   const notifications = useSelector(selectNotifications);
