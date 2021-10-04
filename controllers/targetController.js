@@ -168,6 +168,7 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
   // Make the calculation
   const result = calculate(goals, targets);
   const reduceResult = reduceCalculation(result);
+  console.log(reduceResult)
   const averageResult = average(reduceResult);
   console.log(averageResult);
 
