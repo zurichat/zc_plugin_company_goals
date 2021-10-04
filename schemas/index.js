@@ -42,8 +42,7 @@ exports.goalSchema = Joi.object({
   }),
   category: Joi.string().required().messages({
     'any.required': 'Category is required',
-  }),
-  progress: Joi.number().required()
+  })
 });
 
 // target schema (please, im begging you, DO NOT touch this schema @Odogwu)
