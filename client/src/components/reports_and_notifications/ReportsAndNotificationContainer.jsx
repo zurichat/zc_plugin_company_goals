@@ -29,7 +29,7 @@ const ReportsAndNotificationContainer = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getPieChart());
+    dispatch(getPieChart(orgId));
   }, [dispatch]);
 
   useEffect(() => {
