@@ -14,7 +14,7 @@ export const Sort = styled.div`
   display: flex;
   align-items: center;
   font-family: 'Lato';
-  margin: 9px 0;
+  margin: 2% 0;
 `;
 export const SortText = styled.p`
   font-family: 'Lato';

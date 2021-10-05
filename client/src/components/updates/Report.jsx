@@ -1,6 +1,8 @@
 import { Doughnut } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import styled from 'styled-components';
 import {
   ReportContainer,
   Icons,
@@ -11,7 +13,6 @@ import {
   Folder,
   LabelContainer,
   Progress,
-  Bar,
   LabelsContainer,
   Index,
 } from './styles';
@@ -24,9 +25,19 @@ import { set } from 'date-fns';
 
 const Report = () => {
   const pieChartData = useSelector(selectPieChart);
-
+  let { orgId } = useParams();
   const [count, setCount] = useState('Kehinde');
+  const [percent, setPercent] = useState(0);
   const [dotChange, setDotChange] = useState('Expired');
+
+  useEffect(() => {
+
+    const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${orgId || '6145d099285e4a184020742e'}`;
+
+    fetch(fetchURL)
+      .then((response) => response.json())
+      .then((data) => console.log(data.averageResult));
+  }, []);
 
   const data = {
     labels: ['In progress', 'Expired', 'Completed'],
@@ -96,6 +107,9 @@ const Report = () => {
 
   data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
 
+  //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length;
+  data.datasets[0].data = [pieChartData['inProgress'], pieChartData['isExpired'], pieChartData['isComplete']];
+
   //  const Average = goalData.Progress.reduce((sum, curr) => sum + Number(curr), 0) / goalData.Progress.length
 
   return (
@@ -115,8 +129,8 @@ const Report = () => {
       <div className="piechart">
         <Doughnut options={options} data={data} getElementAtEvent={clickArea} />
         <div className="percentage">
-          <h1 className="count">{`${count.countPercentage}%`}</h1>
-          <p className="status">{count.countlabel}</p>
+          <h1 className="count">{`${count? count.countPercentage:''}%`}</h1>
+          <p className="status">{count?count.countlabel:''}</p>
           <div className="dot_pagination">
             <div
               onClick={() => setCountLabel('isExpired', 'Expired')}
@@ -160,12 +174,19 @@ const Report = () => {
       <Average>
         <h5 className="text">Average Progress Rate</h5>
         <Progress>
-          <Bar />
+          <Bar percent={percent} />
         </Progress>
-        <h6 className="percent">Progress Rate 73%</h6>
+        <h6 className="percent">Progress Rate {Math.round(percent)}</h6>
       </Average>
     </ReportContainer>
   );
 };
 
 export default Report;
+
+export const Bar = styled.div`
+  width: ${({ percent }) => percent}%;
+  height: 100%;
+  background: #2f80ed;
+  border-radius: 16px;
+`;

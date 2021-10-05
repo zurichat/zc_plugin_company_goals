@@ -20,8 +20,9 @@ const {
   updateOne,
   deleteMany, updateMany,
 } = require('../db/databaseHelper');
-const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema, goalReactionSchema} = require('../schemas');
+const { goalSchema, likeGoalSchema, getGoalLikesSchema, targetSchema, goalReactionSchema, allowedFields} = require('../schemas');
 const AppError = require('../utils/appError');
+const {average, calculate, reduceCalculation} = require('../utils/calculate');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
@@ -214,20 +215,20 @@ const findTarget = async (org_id, res) => {
 }
 
 exports.averageGoalProgress = catchAsync(async (req, res, next) => {
-  const {org_id} = req.query;
-  const dataGoal = await findGoal(org_id, res)
-  const dataTarget = await findTarget(org_id, res)
-  let goals = dataGoal.data.data;
-  let targets = dataTarget.data.data;
+  // const {org_id} = req.query;
+  // const dataGoal = await findGoal(org_id, res)
+  // const dataTarget = await findTarget(org_id, res)
+  // let goals = dataGoal.data.data;
+  // let targets = dataTarget.data.data;
 
   // console.log(goals)
   // console.log(targets)
 
   // Make the calculation
-  const result = calculate(goals, targets);
-  const reduceResult = reduceCalculation(result);
-  const averageResult = average(reduceResult);
-  console.log(averageResult);
+  // const result = calculate(goals, targets);
+  // const reduceResult = reduceCalculation(result);
+  // const averageResult = average(reduceResult);
+  // console.log(averageResult);
 
   // // Dummy data
   // const result = calculate(goalId, targets);
@@ -240,7 +241,7 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
     .status(200)
     .json({
       status: 'success',
-      averageResult
+      averageResult:0
   })
 });
 
@@ -508,25 +509,30 @@ exports.getSingleGoal = catchAsync(async (req, res, next) => {
 });
 
 exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
- 
+
   // First, Get the goalId from req.params
   logger.info(`Starting operation to update a goal by its id.`);
   const goalId = req.params.id;
   const { org_id: orgId } = req.query;
-
   const updateFields = req.body;
 
   for (const property in updateFields) {
     if (!allowedFields.includes(property)) {
      return res.status(400).send({status: 'failed', message: `property '${property}' not allowed`})
-   }
+    }
  }
-
-      const goals = await findById('goals', goalId, orgId);
-      // Then, send update to zuri core
-      logger.info(`Updating goal with id: ${goalId} with data: ${updateFields}`);
-      await updateOne('goals', req.body, {}, orgId, goalId);
-
+  
+  try {
+    const goals = await findById('goals', goalId, orgId);
+    // Then, send update to zuri core
+    logger.info(`Updating goal with id: ${goalId} with data: ${updateFields}`);
+     await updateOne('goals', req.body, {}, orgId, goalId);
+  
+  } catch (error) {
+    console.log(error)
+  }
+      
+     
       // Send notifications to all users.
       const updatedGoal = await find('goals', { _id: goalId }, orgId);
       const { goal_name, room_id } = updatedGoal.data.data;

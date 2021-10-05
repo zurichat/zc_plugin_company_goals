@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { useParams } from 'react-router';
 
-export const getPieChart = createAsyncThunk('pieChart/getNotifications', async () => {
-  const response = await fetch('https://goals.zuri.chat/api/v1/goals/chart?org_id=6145d099285e4a184020742e');
+
+export const getPieChart = createAsyncThunk('pieChart/getNotifications', async (getOrgID) => {
+  const response = await fetch(`https://goals.zuri.chat/api/v1/goals/chart?org_id=${getOrgID}`);
+
   if (response.ok) {
     const pieChartData = await response.json();
     return { pieChartData };

@@ -18,6 +18,7 @@ import { getGoals } from '../../redux/showGoalSlice';
 import TargetForm from '../TargetForm/TargetForm';
 import { Div, Text, Button, Container } from './GoalDetail.styled';
 import { openModal } from '../../redux/TargetModalSlice';
+import Spinner from './GreenSpinner';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -53,7 +54,8 @@ export default function GoalDetailAccordion() {
   React.useEffect(() => {
     getAllComponentsFromServer(pageNum);
   }, [pageNum]);
-  if (!errorInfo && !goals) return <Loader />;
+  if (!errorInfo && !goals) return <Spinner />;
+  if (status === 'loading') return <Spinner />;
   if (errorInfo) return <Error errorMessage={errorInfo.message} />;
   if (!goals.data.length) return <EmptyGoal />;
   async function getAllComponentsFromServer(pageNum) {
@@ -62,7 +64,6 @@ export default function GoalDetailAccordion() {
     }/api/v1/goals/?org_id=${orgId || '61578237b9b9f30465f49ee8'}&page=${pageNum}&limit=3&type=${
       tab === 'all' ? '' : tab
     }`;
-
     dispatch(getGoals(requestURL));
   }
   return (
@@ -82,7 +83,20 @@ export default function GoalDetailAccordion() {
                 <AccordionDetails>
                   <Div>
                     <Text primary> Goal Progress </Text>
-                    <Button onClick={() => dispatch(openModal())}> + Add Target! </Button>
+                    <Button
+                      width="143px"
+                      fontSize="15px"
+                      font-weight="700"
+                      borderRadius="3px"
+                      background="#00B87C"
+                      padding="12px 35px"
+                      color="#ffffff"
+                      marginLeft="0px 0px"
+                      onClick={() => dispatch(openModal())}
+                    >
+                      {' '}
+                      + Add Target!{' '}
+                    </Button>
                   </Div>
                 </AccordionDetails>
               </Accordion>
