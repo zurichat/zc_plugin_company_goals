@@ -84,7 +84,7 @@ exports.getGoalTargets = catchAsync(async (req, res, next) => {
 
   try {
     const allTargets = await findAll('targets', org_id);
-    await deleteMany('targets', {targets: Object}, org_id);
+    // await deleteMany('targets', {targets: Object}, org_id);
 
     return res.status(200).json({ status: 200, data: allTargets.data });
   } catch (err) {

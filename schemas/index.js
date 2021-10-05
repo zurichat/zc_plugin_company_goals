@@ -58,7 +58,7 @@ exports.targetSchema = Joi.object({
               milestone_text: Joi.string().required(),
               achieved: Joi.boolean().required()
             })
-          ).required(),
+          ).optional(),
           achieved: Joi.boolean().required()
           }).required()}),
   milestone: Joi.any().when('type', { 'is': 'logical', then: Joi.required()}),
