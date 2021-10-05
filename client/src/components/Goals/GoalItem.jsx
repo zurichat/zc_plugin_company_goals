@@ -44,17 +44,7 @@ const GoalItem = ({ goalData }) => {
   });
 
   const handleSetLike = (e) => {
-    e.stopPropagation();
-
-    axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }&user_id=${userId ? userId.id : 5}`
-      )
-      .then((response) => setLike(response.data.message))
-      .catch((error) => console.log(error));
-    
+    e.stopPropagation(); 
     //setToggleLike(!toggleLike)
 
     if(toggleDislike === true && toggleLike === false){
@@ -69,6 +59,15 @@ const GoalItem = ({ goalData }) => {
       setToggleDislike(false)
       setToggleLike(false)
     }
+
+    axios
+      .get(
+        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+          goalData._id
+        }&user_id=${userId ? userId.id : 5}`
+      )
+      .then((response) => setLike(response.data.message))
+      .catch((error) => console.log(error));
     
   };
 
@@ -90,15 +89,6 @@ const GoalItem = ({ goalData }) => {
 
   const handleSetDislike = (e) => {
     e.stopPropagation();
-
-    axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }&user_id=${userId ? userId.id : 5}`
-      )
-      .then((response) => setDislike(response.data.message))
-      .catch((error) => console.log(error));
     
     //setToggleDislike(!toggleDislike)
         if(toggleDislike === false && toggleLike === true){
@@ -113,6 +103,15 @@ const GoalItem = ({ goalData }) => {
           setToggleDislike(false)
           setToggleLike(false)
         }
+
+        axios
+        .get(
+          `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+            goalData._id
+          }&user_id=${userId ? userId.id : 5}`
+        )
+        .then((response) => setDislike(response.data.message))
+        .catch((error) => console.log(error));
 
   };
 
@@ -209,14 +208,14 @@ const GoalItem = ({ goalData }) => {
         <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
           {toggleLike == false 
             ? <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/>
-            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)", width:"18px !important" , height:"18px !important"}} />
+            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)", width:"5mm" , height:"5mm"}} />
           }         
           <IconItemCount>{totalLikes}</IconItemCount>
         </IconItemContainer>
         <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
           {toggleDislike == false 
           ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/> 
-          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)" , width:"18px !important" , height:"18px !important"}}/>}
+          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)" , width:"5mm" , height:"5mm"}}/>}
           
           <IconItemCount>{totalDislikes}</IconItemCount>
         </IconItemContainer>
