@@ -31,9 +31,8 @@ const Report = () => {
   const [dotChange, setDotChange] = useState('Expired');
 
   useEffect(() => {
-    const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${
-      /*orgId ||*/ '6145d099285e4a184020742e'
-    }`;
+
+    const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${orgId || '6145d099285e4a184020742e'}`;
     fetch(fetchURL)
       .then((response) => response.json())
       .then((data) => setPercent(data.averageResult));
@@ -129,8 +128,8 @@ const Report = () => {
       <div className="piechart">
         <Doughnut options={options} data={data} getElementAtEvent={clickArea} />
         <div className="percentage">
-          <h1 className="count">{`${count.countPercentage}%`}</h1>
-          <p className="status">{count.countlabel}</p>
+          <h1 className="count">{`${count? count.countPercentage:''}%`}</h1>
+          <p className="status">{count?count.countlabel:''}</p>
           <div className="dot_pagination">
             <div
               onClick={() => setCountLabel('isExpired', 'Expired')}

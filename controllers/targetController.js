@@ -1,6 +1,6 @@
 const { find, findAll, findById, insertOne, updateOne, deleteMany } = require('../db/databaseHelper');
 const { targetSchema } = require('../schemas');
-const { reduceCalculation, average, calculate , getNumericalTgtDone, getLogicalTgtDone} = require('../utils/calculate');
+const { reduceCalculation, average, calculate, getNumericalTgtDone, getLogicalTgtDone } = require('../utils/calculate');
 // Dummy data
 const { goalId, targets } = require('../data/target');
 
@@ -57,8 +57,8 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
     console.log('Started validating req.body');
     // Validate the request body before creating
     const validatedTarget = await targetSchema.validateAsync(req.body);
-    validatedTarget.goal_id = goal_id
-  
+    validatedTarget.goal_id = goal_id;
+
     // Create a  new target
     const newTarget = await insertOne('targets', validatedTarget, org_id);
 
@@ -85,7 +85,7 @@ exports.getGoalTargets = catchAsync(async (req, res, next) => {
 
   try {
     const allTargets = await findAll('targets', org_id);
-    await deleteMany('targets', {targets: Object}, org_id);
+    await deleteMany('targets', { targets: Object }, org_id);
 
     return res.status(200).json({ status: 200, data: allTargets.data });
   } catch (err) {
@@ -150,19 +150,23 @@ const findTarget = async (org_id, res) => {
 
 exports.averageGoalProgress = catchAsync(async (req, res, next) => {
   const { org_id } = req.query;
-  const dataGoal = await findGoal(org_id, res);
-  const dataTarget = await findTarget(org_id, res);
-  let goals = dataGoal.data.data;
-  let targets = dataTarget.data.data;
+  let progress = 0;
+  // const dataGoal = await findGoal(org_id, res);
+  // const dataTarget = await findTarget(org_id, res);
+  // let goals = dataGoal.data.data;
+  // let targets = dataTarget.data.data;
+  const data = await findAll('goals', org_id);
+  const goals = data.data.data;
 
   // console.log(goals)
   // console.log(targets)
+  goals.forEach((goal) => {progress += goal.progress});
 
-  // Make the calculation
-  const result = calculate(goals, targets);
-  const reduceResult = reduceCalculation(result);
-  const averageResult = average(reduceResult);
-  console.log(averageResult);
+  // // Make the calculation
+  // const result = calculate(goals, targets);
+  // const reduceResult = reduceCalculation(result);
+  // const averageResult = average(reduceResult);
+  // console.log(averageResult);
 
   // // Dummy data
   // const result = calculate(goalId, targets);
@@ -173,7 +177,7 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
   // Response
   return res.status(200).json({
     status: 'success',
-    averageResult,
+    averageResult:progress/goals.length,
   });
 });
 
@@ -201,10 +205,10 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
     const result = calculate(goals, targets);
     const reduceResult = reduceCalculation(result);
     const keys = Object.keys(reduceResult);
-    keys.forEach(async(key) => {
+    keys.forEach(async (key) => {
       if (key === goal_id) {
         const finalResult = reduceResult[goal_id];
-        await updateOne('goals', {progress: finalResult}, {}, org_id, goal_id)
+        await updateOne('goals', { progress: finalResult }, {}, org_id, goal_id);
         return res.status(200).json({
           status: 200,
           finalResult,
@@ -330,13 +334,13 @@ exports.getGoalProgress = catchAsync(async (req, res, next) => {
   if (!org_id) {
     logger.info(`Organization id isn't provided.`);
 
-    return res.status(400).send({ error: "Organization_id is required" });
+    return res.status(400).send({ error: 'Organization_id is required' });
   }
 
   if (!goal_id) {
     logger.info(`Goal id isn't provided.`);
-   
-    return res.status(400).send({ error: "Goal_id is required" });
+
+    return res.status(400).send({ error: 'Goal_id is required' });
   }
 
   try {
@@ -344,42 +348,46 @@ exports.getGoalProgress = catchAsync(async (req, res, next) => {
     const foundTargets = await find('targets', { goal_id }, org_id);
     //logical targets are like open ended questions, yes or no answers
     const logicalTargets = [];
-     //numerical targets are those with number values
+    //numerical targets are those with number values
     const numericalTargets = [];
 
     //check if a target is of type logical or numerical, if it is then populate the arrays defined above
     for (let i = 0; i < foundTargets.data.data.length; i++) {
-      if((typeof foundTargets.data.data[i].target) === 'number' ){
-        numericalTargets.push(foundTargets.data.data[i])
+      if (typeof foundTargets.data.data[i].target === 'number') {
+        numericalTargets.push(foundTargets.data.data[i]);
       }
-      if(typeof foundTargets.data.data[i].target === 'string' ){
-        logicalTargets.push(foundTargets.data.data[i])
+      if (typeof foundTargets.data.data[i].target === 'string') {
+        logicalTargets.push(foundTargets.data.data[i]);
       }
     }
-  
-    const numericalBag = getNumericalTgtDone(numericalTargets)
-    const logicalBag = getLogicalTgtDone(logicalTargets)
-    
+
+    const numericalBag = getNumericalTgtDone(numericalTargets);
+    const logicalBag = getLogicalTgtDone(logicalTargets);
+
     // //const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets)
-    const achievedTargetsPercentage = ((logicalBag.logicalTargetDone.length + numericalBag.numericalTargetsDone.length)/foundTargets.data.data.length)*100
-   
-    const  unachievedTargetsPercentage = ((logicalBag.logicalTargetNotDone.length + numericalBag.numericalTargetsNotDone.length)/foundTargets.data.data.length)*100
-    
+    const achievedTargetsPercentage =
+      ((logicalBag.logicalTargetDone.length + numericalBag.numericalTargetsDone.length) /
+        foundTargets.data.data.length) *
+      100;
+
+    const unachievedTargetsPercentage =
+      ((logicalBag.logicalTargetNotDone.length + numericalBag.numericalTargetsNotDone.length) /
+        foundTargets.data.data.length) *
+      100;
+    await updateOne('goals', { progress: achievedTargetsPercentage }, {}, org_id, goal_id);
+
     //send response with total number of targets in percentage
     return res.status(200).json({
       status: 200,
       data: {
         achievedTargetsPercentage,
-        unachievedTargetsPercentage
-      }
+        unachievedTargetsPercentage,
+      },
     });
-    
-
   } catch (err) {
     return res.status(400).json(err);
   }
 });
-
 
 exports.updateTarget = catchAsync(async (req, res, next) => {
   // get goal id from the url
