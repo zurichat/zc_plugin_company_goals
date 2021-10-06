@@ -21,9 +21,9 @@ module.exports = () => {
       // for each goal, iterate through where date is past, update db.
       let goals = findGoals.data.data;
       goals.forEach(async (goal) => {
-        if (dateInPast(new Date(goal.due_date), new Date())&&!goal.is_completed) {
+        if (dateInPast(new Date(goal.due_date), new Date()) && !goal.is_completed) {
           console.log(goal._id);
-          await updateOne('goals', { isExpired: true,is_expired:true }, {}, org.orgId, goal._id);
+          await updateOne('goals', { isExpired: true, is_expired: true }, {}, org.orgId, goal._id);
         }
       });
     });
