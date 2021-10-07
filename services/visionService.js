@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const { publish } = require('../controllers/centrifugoController');
 const { createNotification } = require('../controllers/notificationController');
-const { insertOne, find, updateOne } = require('../db/databaseHelper');
+const { find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 
 const USER_IDS = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
@@ -29,20 +29,15 @@ const findVision = async (orgID) => {
     }
 
     // If no vision exists -- case 1 (no error thrown)
-    // Then insert a new vision
-    if (!data) {
+    if (!vision.vision) {
       const payload = { vision: '', orgID };
-      await insertOne('vision', payload, orgID);
       vision = payload;
     }
   } catch (error) {
     // If no vision exists -- case 2 (error thrown)
-    // Then insert a new vision
     if (error.message.toLowerCase().includes('find')) {
       const payload = { vision: '', orgID };
-      await insertOne('vision', payload, orgID);
-      vision = payload;
-      return vision;
+      return payload;
     }
     return error;
   }

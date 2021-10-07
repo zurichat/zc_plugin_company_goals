@@ -10,7 +10,7 @@ const dbh = require('../../../db/databaseHelper');
 const AppError = require('../../../utils/appError');
 const logger = require('../../../utils/logger');
 
-const findVision = rewire('../../../services/vision');
+const findVision = rewire('../../../services/visionService.js');
 
 chai.use(sinonChai);
 
@@ -42,58 +42,49 @@ describe('VISION TESTS', () => {
   });
 
   context('Test DB Error', () => {
-    it('Should fail to find vision - run insert', async () => {
+    it('Should fail to find vision & return empty vision', async () => {
       sandbox.restore();
 
       const stubFind = sandbox.stub(dbh, 'find').throws(new AppError('Find opp failed', 400));
-      const stubInsert = sandbox.stub(dbh, 'insertOne');
 
       findVision.__set__('find', stubFind);
-      findVision.__set__('insertOne', stubInsert);
 
       const vision = await findVision.findVision('kalakuta');
 
       expect(loggerStub).to.have.not.been.called;
       expect(stubFind).to.have.been.calledOnce;
-      expect(stubInsert).to.have.been.calledOnce;
       expect(vision).to.have.property('vision', '');
       expect(vision).to.have.property('orgID', 'kalakuta');
     });
   });
 
   context('Test Null Data', () => {
-    it('Should fail to find vision & successfully insert new vision', async () => {
+    it('Should fail to find vision & return empty vision', async () => {
       sandbox.restore();
 
       const stubFind = sandbox.stub(dbh, 'find').resolves({ data: { data: null } });
-      const stubInsert = sandbox.stub(dbh, 'insertOne');
 
       findVision.__set__('find', stubFind);
-      findVision.__set__('insertOne', stubInsert);
 
       const vision = await findVision.findVision('kalakuta');
 
       expect(loggerStub).to.have.not.been.called;
       expect(stubFind).to.have.been.calledOnce;
-      expect(stubInsert).to.have.been.calledOnce;
       expect(vision).to.have.property('vision', '');
       expect(vision).to.have.property('orgID', 'kalakuta');
     });
 
-    it('Should fail to find vision & fail to insert vision', async () => {
+    it('Should fail to find vision due to other error', async () => {
       sandbox.restore();
 
-      const stubFind = sandbox.stub(dbh, 'find').resolves({ data: { data: null } });
-      const stubInsert = sandbox.stub(dbh, 'insertOne').throws(new AppError('Failed to insert vision', 500));
+      const stubFind = sandbox.stub(dbh, 'find').throws(new AppError('Some random error', 500));
 
       findVision.__set__('find', stubFind);
-      findVision.__set__('insertOne', stubInsert);
 
       const vision = await findVision.findVision('kalakuta');
 
       expect(loggerStub).to.have.not.been.called;
       expect(stubFind).to.have.been.calledOnce;
-      expect(stubInsert).to.have.been.calledOnce;
       expect(vision).to.have.property('status', 'error');
       expect(vision).to.have.property('statusCode', 500);
     });
@@ -104,15 +95,12 @@ describe('VISION TESTS', () => {
       sandbox.restore();
 
       const stubFind = sandbox.stub(dbh, 'find').resolves({ data: { data: { vision: 'Always Strive And Prosper' } } });
-      const stubInsert = sandbox.stub(dbh, 'insertOne');
 
       findVision.__set__('find', stubFind);
-      findVision.__set__('insertOne', stubInsert);
 
       const vision = await findVision.findVision('kalakuta');
 
       expect(loggerStub).to.have.not.been.called;
-      expect(stubInsert).to.have.not.been.called;
       expect(stubFind).to.have.been.calledOnce;
       expect(vision).to.have.property('orgID', 'kalakuta');
       expect(vision).to.have.property('vision', 'Always Strive And Prosper');
