@@ -26,7 +26,7 @@ const {
   getGoalTargets,
   averageGoalProgress,
   deleteTarget,
-  getSingleGoalProgress,
+  // getSingleGoalProgress,
   getGoalProgress,
   updateTarget,
 } = require('../controllers/targetController');
