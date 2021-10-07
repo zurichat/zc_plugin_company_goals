@@ -5,6 +5,7 @@
 // eslint-disable-next-line no-unused-vars
 const { request, response } = require('express');
 const { insertOne, find, updateOne } = require('../db/databaseHelper');
+const { findVision } = require('../services/vision');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { publish } = require('./centrifugoController');
@@ -21,35 +22,11 @@ const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145c
  */
 const getVision = async (req, res, next) => {
   const { organization_id } = req.params;
-  let vision;
 
-  if (!organization_id) {
-    return next(new AppError('organization_id is required', 400));
-  }
+  const vision = findVision(organization_id);
 
-  try {
-    const {
-      data: { data },
-    } = await find('vision', { organization_id }, organization_id);
-
-    // Check for multiple vision objects
-    if (Array.isArray(data)) {
-      [vision] = data;
-    } else {
-      vision = data;
-    }
-
-    // If no vision exists -- case 1 (no error thrown)
-    if (!data) {
-      const payload = { vision: '', organization_id };
-      await insertOne('vision', payload, organization_id);
-      vision = payload;
-    }
-  } catch (error) {
-    // If no vision exists -- case 2 (error thrown)
-    const payload = { vision: '', organization_id };
-    await insertOne('vision', payload, organization_id);
-    vision = payload;
+  if (!vision) {
+    return res.status(500).json({ status: 500, message: 'No organization_id was provided', payload: null });
   }
 
   res.status(200).json({ status: 200, message: 'success', payload: vision });
