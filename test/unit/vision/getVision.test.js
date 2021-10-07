@@ -16,7 +16,7 @@ chai.use(sinonChai);
 
 const sandbox = sinon.createSandbox();
 
-describe('VISION TESTS', () => {
+describe('GET VISION TESTS', () => {
   let loggerStub;
   let findStub;
 
@@ -34,6 +34,7 @@ describe('VISION TESTS', () => {
   context('Test Invalid orgID', () => {
     it('Should fail to find vision - return error', async () => {
       const vision = await findVision.findVision();
+
       expect(findStub).to.have.not.been.called;
       expect(loggerStub).to.have.not.been.called;
       expect(vision.statusCode).to.equal(500);
@@ -87,6 +88,7 @@ describe('VISION TESTS', () => {
       expect(stubFind).to.have.been.calledOnce;
       expect(vision).to.have.property('status', 'error');
       expect(vision).to.have.property('statusCode', 500);
+      expect(vision).to.have.property('message', 'Some random error');
     });
   });
 
