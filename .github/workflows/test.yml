@@ -20,14 +20,9 @@ jobs:
         run: |
           yarn install
 
-      - name: Run unit tests
+      - name: Run tests
         run: |
-          yarn run coverage:unit
-
-      - name: Run integration tests
-        run: |
-          yarn run coverage:integration
-
+          yarn run coverage
 
 
 
