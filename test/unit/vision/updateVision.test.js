@@ -18,7 +18,7 @@ chai.use(sinonChai);
 
 const sandbox = sinon.createSandbox();
 
-describe('UPDATE VISION TESTS', () => {
+describe('UPDATE VISION TESTS (UNIT)', () => {
   let loggerStub;
   let findStub;
   let insertStub;
