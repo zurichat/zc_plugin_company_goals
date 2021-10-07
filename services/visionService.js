@@ -8,7 +8,7 @@ const AppError = require('../utils/appError');
 const USER_IDS = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
 /**
- * Service for fetching an organizations vision, and inserting an empty vision if none exists.
+ * Service for fetching an organizations vision.
  * @param {string} orgID User's organization id
  * @returns null | {}
  */
@@ -46,9 +46,10 @@ const findVision = async (orgID) => {
 };
 
 /**
- * Service for fetching an organizations vision, and inserting an empty vision if none exists.
- * @param {string} orgID User's organization id
- * @returns null | {}
+ * Service for updating an organization's vision.
+ * @param {string} orgID Organization ID
+ * @param {string} vision Updated organization vision
+ * @returns Error | {}
  */
 const insertVision = async (orgID, vision) => {
   if (!orgID) return new AppError('No organization id was provided', 500);
