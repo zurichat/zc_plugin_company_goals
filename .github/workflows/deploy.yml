@@ -27,9 +27,13 @@ jobs:
           yarn install
           yarn build
 
-      - name: test
+      - name: Run unit tests
         run: |
-          yarn run coverage
+          yarn run coverage:unit
+
+      - name: Run integration tests
+        run: |
+          yarn run coverage:integration
 
       - name: Git Pull on Server
         uses: appleboy/ssh-action@master
