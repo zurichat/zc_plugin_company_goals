@@ -9,7 +9,7 @@ chai.use(require('chai-json-schema-ajv'));
 
 chai.use(chaiHTTP);
 
-describe('INFO TESTS', () => {
+describe('INFO TESTS (INTEGRATION)', () => {
   context('PASSING CASES', () => {
     it('Should GET /info', (done) => {
       chai

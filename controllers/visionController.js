@@ -11,36 +11,43 @@ const catchAsync = require('../utils/catchAsync');
  * @param {request} req Express request object
  * @param {response} res Express response object
  */
-const getVision = async (req, res) => {
+const getVision = async (req, res, next) => {
   const { organization_id } = req.params;
 
-  const data = await findVision(organization_id);
+  try {
+    const data = await findVision(organization_id);
 
-  // Check if error was returned
-  if (data instanceof Error) {
-    return res.status(data.statusCode).json({ status: data.statusCode, message: data.message });
+    // Check if error was returned
+    if (data instanceof Error) {
+      return res.status(data.statusCode).json({ status: data.statusCode, message: data.message });
+    }
+
+    res.status(200).json({ status: 200, message: 'success', payload: data });
+  } catch (error) {
+    return next(error);
   }
-
-  res.status(200).json({ status: 200, message: 'success', payload: data });
 };
 
 /**
  * Update an organization's vision.
  * @param {request} req Express request object
  * @param {response} res Express response object
- * @param {NextFunction} next Express next function
  */
 const updateVision = async (req, res, next) => {
   const { organization_id } = req.params;
   const { vision } = req.body;
 
-  const data = await insertVision(organization_id, vision);
+  try {
+    const data = await insertVision(organization_id, vision);
 
-  if (data instanceof Error) {
-    return next(data);
+    if (data instanceof Error) {
+      return res.status(data.statusCode).json({ status: data.statusCode, message: data.message });
+    }
+
+    return res.status(200).json({ status: 200, message: 'success', payload: data });
+  } catch (error) {
+    return next(error);
   }
-
-  return res.status(200).json({ status: 200, message: 'success', payload: data });
 };
 
 // Exports
