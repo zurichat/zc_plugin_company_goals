@@ -130,7 +130,7 @@ const TargetForm = () => {
   //     );
   return (
     <React.Fragment>
-      {TargetModal && (
+      {TargetModal ? (
         <React.Fragment>
           <TargetFormContainer>
             <Container>
@@ -203,7 +203,7 @@ const TargetForm = () => {
           </TargetFormContainer>
           <Overlay onClick={() => dispatch(closeModal())} />
         </React.Fragment>
-      )}
+      ) : null}
     </React.Fragment>
   );
 };
