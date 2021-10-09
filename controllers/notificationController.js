@@ -2,7 +2,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 
+const { request, response } = require('express');
 const { find, insertMany, deleteOne, updateOne, updateMany, findAll, deleteMany } = require('../db/databaseHelper');
+const notificationService = require('../services/notification.service');
+const AppError = require('../utils/appError');
 const logger = require('../utils/logger.js');
 const { publish } = require('./centrifugoController');
 
@@ -75,72 +78,33 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
   }
 };
 
+/**
+ * GET all user notifications.
+ * @param { request } req Express request object
+ * @param { response } res Express response object
+ */
 exports.getUserNotifications = async (req, res) => {
   const { org_id: orgId, user_id: userId, page, limit } = req.query;
 
-  // Check for org_id and user_id
-  if (!orgId) {
-    return res.status(403).send({
-      error: 'org_id is required',
-    });
-  }
-  if (!userId) {
-    return res.status(403).send({
-      error: 'user_id is required',
-    });
-  }
-
   try {
-    // Search for all Goals
-    const notifications = await find(
-      'goalNotifications',
-      {
-        org_id: orgId,
-        user_id: userId,
-      },
-      orgId
-    );
+    // Call service to retrieve user notifications
+    const notifs = await notificationService.getNotifications(orgId, userId);
 
-    let { data: userNotifications } = notifications.data;
-
-    if (userNotifications == null || userNotifications.length < 1) {
-      return res.status(200).json({
-        status: 200,
-        message: [],
-      });
-    }
-
-    if (page && limit) {
-      const newPage = page * 1 || 1;
-      const perPage = limit * 1 || 7;
-
-      // Calculate the start and end index
-      const start = (newPage - 1) * perPage;
-      const end = newPage * perPage;
-
-      // Paginated notifications
-      userNotifications = userNotifications.slice(start, end);
-
-      return res.status(200).json({
-        status: 200,
-        message: 'success',
-        currentPage: newPage,
-        totalDocuments: notifications.data.data.length,
-        documentPerPage: limit * 1,
-        data: userNotifications,
-      });
-    }
-
-    // Returning Response
-    return res.status(200).json({
-      status: 200,
-      message: 'success',
-      data: userNotifications,
-    });
+    return res.status(200).json({ statusCode: 200, message: 'success', ...notifs });
   } catch (error) {
+    // If programmatic error
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({
+        statusCode: error.statusCode,
+        message: error.message,
+        error: error.status,
+      });
+    }
+    // If unexpected error
     res.status(500).json({
-      status: 500,
-      message: `Unable to get user notifications: ${error.message}`,
+      statusCode: 500,
+      message: `Something unexpected occured`,
+      error: 'Server Error',
     });
   }
 };
