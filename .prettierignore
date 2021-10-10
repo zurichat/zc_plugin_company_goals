@@ -3,3 +3,5 @@
 client/
 docs/
 coverage/
+.nyc_output/
+serve-client/
