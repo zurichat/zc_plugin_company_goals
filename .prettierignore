@@ -1,2 +1,4 @@
 # don't mess with CI/CD workflow files
 .github/
+client/
+docs/
