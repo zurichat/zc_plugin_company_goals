@@ -1,9 +1,7 @@
 {
   "title": "Root",
   "type": "object",
-  "required": [
-    "data"
-  ],
+  "required": ["data"],
   "properties": {
     "message": {
       "title": "Message",
@@ -61,7 +59,7 @@
           "title": "category",
           "type": "string"
         },
-        "progress":{
+        "progress": {
           "title": "progress",
           "type": "number"
         }

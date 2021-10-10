@@ -117,10 +117,9 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
   logger.info(`Update one operation in ${collectionName} of ${organization_id} started. The specified filter is 
   ${JSON.stringify(filter)} & would update all successful matches with the following data: ${JSON.stringify(data)}.`);
   try {
-    const filterObject = {...filter};
-    if(id)
-    {
-      filterObject._id = id
+    const filterObject = { ...filter };
+    if (id) {
+      filterObject._id = id;
     }
     const updateOnePayload = {
       ...payload,
@@ -132,7 +131,7 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
       bulk_write: false,
     };
 
-    console.log(filterObject)
+    console.log(filterObject);
     const response = await axios.put(`${URL}/write`, updateOnePayload);
     logger.info(
       `The update operation was successful with the following response: ${JSON.stringify(response.data.data)}`

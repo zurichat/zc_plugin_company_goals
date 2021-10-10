@@ -9,7 +9,7 @@ const limiter = (maxNumOfRequests = 100, timeToReEntry = 60) =>
     handler: (req, res) => {
       res.status(500).json({
         status: 'fail',
-        message: 'Too many requests from this IP address'
+        message: 'Too many requests from this IP address',
       });
     },
   });

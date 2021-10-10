@@ -15,7 +15,7 @@ const auth = async (req, res, next) => {
       try {
         const response = await axios.get(URL, {
           headers: {
-            'Authorization': AuthStr,
+            Authorization: AuthStr,
           },
         });
         const {
@@ -38,8 +38,8 @@ const auth = async (req, res, next) => {
             req.designation = designation;
             next();
           } else {
-            return res.status(401).json({status: 'failed', message:'Unauthorized to access workspace'})
-        }
+            return res.status(401).json({ status: 'failed', message: 'Unauthorized to access workspace' });
+          }
         } else {
           return res.status(401).json({ status: 'failed', message: 'Token is incorrect' });
         }

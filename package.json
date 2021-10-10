@@ -90,8 +90,7 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --write .",
-      "eslint --cache --fix"
+      "prettier --write ."
     ]
   },
   "engines": {

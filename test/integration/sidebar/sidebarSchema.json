@@ -50,11 +50,7 @@
       "items": {
         "title": "Items",
         "type": "object",
-        "required": [
-          "room_name",
-          "room_image",
-          "room_url"
-        ],
+        "required": ["room_name", "room_image", "room_url"],
         "properties": {
           "room_name": {
             "title": "Room_name",
