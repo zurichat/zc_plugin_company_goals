@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // eslint-disable-next-line no-unused-vars
 const { request, response } = require('express');
-const { findVision, insertVision } = require('../services/visionService');
+const { findVision, insertVision } = require('../services/vision.service');
 // const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
