@@ -88,12 +88,15 @@ exports.getUserNotifications = async (req, res) => {
 
   try {
     // Call service to retrieve user notifications
-    const notifs = await notificationService.getNotifications(orgId, userId);
+    const notifs = await notificationService.getNotifications(orgId, userId, page, limit);
+
+    // If an error was returned
+    if (notifs instanceof Error) throw notifs;
 
     return res.status(200).json({ statusCode: 200, message: 'success', ...notifs });
   } catch (error) {
     // If programmatic error
-    if (error instanceof AppError) {
+    if (error.isOperational) {
       return res.status(error.statusCode).json({
         statusCode: error.statusCode,
         message: error.message,

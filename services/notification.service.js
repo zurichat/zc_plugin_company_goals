@@ -27,7 +27,7 @@ const sendNotification = async (orgID, userID, page = null, limit = null) => {
       return { data: [] };
     }
 
-    if (page && limit) {
+    if (page > 0 && limit > 0) {
       const newPage = page * 1 || 1;
       const perPage = limit * 1 || 7;
 
@@ -51,6 +51,9 @@ const sendNotification = async (orgID, userID, page = null, limit = null) => {
     // Return unpaginated notifications
     return { data: notifs };
   } catch (error) {
+    if (error.isOperational) {
+      return error;
+    }
     return new AppError(`Something unexpected occured`, 500);
   }
 };
