@@ -8,8 +8,6 @@
     "routes/**/*.js",
     "helpers/**/*.js"
   ],
-  "exclude": [
-    "client"
-  ],
+  "exclude": ["client"],
   "excludeNodeModules": true
 }

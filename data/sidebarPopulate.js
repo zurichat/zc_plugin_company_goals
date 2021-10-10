@@ -1,7 +1,4 @@
-const {
-  uuid
-} = require('uuidv4');
-
+const { uuid } = require('uuidv4');
 
 const sidebarOptions = {
   name: 'Company Goals Plugin',
@@ -12,13 +9,14 @@ const sidebarOptions = {
   group_name: 'Goals',
   show_group: false,
 
-  joined_rooms: [{
+  joined_rooms: [
+    {
       title: 'quarterly',
       id: uuid(),
       unread: 2,
       members: 23,
       icon: 'shovel',
-      action: 'open'
+      action: 'open',
     },
     {
       title: 'annually',
@@ -28,17 +26,19 @@ const sidebarOptions = {
       members: 132,
       parent_id: 'DFGHH-EDDDDS-DFDDF',
       icon: 'spear',
-      action: 'open'
-    }
+      action: 'open',
+    },
   ],
-  public_rooms: [{
-    title: 'general',
-    id: uuid(),
-    unread: 342,
-    members: 32,
-    icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-    action: 'open'
-  }]
-}
+  public_rooms: [
+    {
+      title: 'general',
+      id: uuid(),
+      unread: 342,
+      members: 32,
+      icon: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+      action: 'open',
+    },
+  ],
+};
 
 module.exports = sidebarOptions;

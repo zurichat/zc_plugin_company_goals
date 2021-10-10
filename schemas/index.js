@@ -1,6 +1,5 @@
 const Joi = require('joi');
 
-
 // room schema
 exports.roomSchema = Joi.object({
   id: Joi.string().required().messages({
@@ -12,7 +11,7 @@ exports.roomSchema = Joi.object({
   organization_id: Joi.string().required().messages({
     'any.required': 'organization id is required',
   }),
-  isPrivate: Joi.boolean().optional()
+  isPrivate: Joi.boolean().optional(),
 });
 
 // user schema
@@ -42,7 +41,7 @@ exports.goalSchema = Joi.object({
   }),
   category: Joi.string().required().messages({
     'any.required': 'Category is required',
-  })
+  }),
 });
 
 // target schema (please, im begging you, DO NOT touch this schema @Odogwu)
@@ -126,23 +125,25 @@ exports.goalReactionSchema = Joi.object({
   }),
   reactions: Joi.array().items(
     Joi.object().keys({
-      user_id: Joi.string().required().messages({'any.reuired': 'The user_id is a reuired field'}),
-      reaction: Joi.string().valid('like', 'dislike', 'none').required().messages({'messages': 'You need to set a user reaction'})
+      user_id: Joi.string().required().messages({ 'any.reuired': 'The user_id is a reuired field' }),
+      reaction: Joi.string()
+        .valid('like', 'dislike', 'none')
+        .required()
+        .messages({ messages: 'You need to set a user reaction' }),
     })
   ),
   org_id: Joi.string().required().messages({
-  'any.required': 'organization id is required',
-}),
+    'any.required': 'organization id is required',
+  }),
 });
 
-
 exports.allowedFields = [
-    'category',
-    'description',
-    'due_date',
-    'goal_name',
-    'goal_type',
-    'is_complete',
-    'is_expired',
-  'start_date'
-  ];
+  'category',
+  'description',
+  'due_date',
+  'goal_name',
+  'goal_type',
+  'is_complete',
+  'is_expired',
+  'start_date',
+];
