@@ -2,3 +2,5 @@ node_modules/
 client/build/
 client/node_modules/
 .eslintcache
+.nyc_output/
+serve-client/
