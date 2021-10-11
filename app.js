@@ -33,7 +33,7 @@ const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
 
 const visionRouter = require('./routes/visionRoutes');
-const realTimeupdateRouter = require('./routes/realTimeupdates');
+const Bsearch = require('./routes/BsearchRoute');
 const AppError = require('./utils/appError');
 const rateLimiter = require('./utils/rateLimiter');
 
@@ -120,7 +120,7 @@ app.use('/info', pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
-app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
+app.use('/api/v1/bsearch', Bsearch);
 // app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 app.use('/api/v1/auth', authRouter);
