@@ -27,7 +27,7 @@ jobs:
           yarn install
           yarn build
 
-      - name: test
+      - name: Run tests
         run: |
           yarn run coverage
 

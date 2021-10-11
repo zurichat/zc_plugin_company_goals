@@ -37,9 +37,9 @@ Server will be running @ [http://127.0.0.1:4000](http://127.0.0.1:4000)
 
 Install dependencies in the root folder,
 
-cd into the server-client folder,  and install the dependencies,
+cd into the server-client folder, and install the dependencies,
 
-cd into the client folder,  and install the client's dependencies
+cd into the client folder, and install the client's dependencies
 
 ```bash
 yarn install

@@ -5,6 +5,7 @@ const { default: axios } = require('axios');
 const { expect } = require('chai');
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
+// const rewire = require('rewire');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const app = require('../../../app');
@@ -19,8 +20,8 @@ chai.use(sinonChai);
 
 const sandbox = sinon.createSandbox();
 
-describe('MISSION TESTS', () => {
-  let loggerStub;
+describe.skip('MISSION TESTS', () => {
+  // let loggerStub;
   let axiosGetStub;
 
   beforeEach(() => {

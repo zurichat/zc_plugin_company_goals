@@ -8,3 +8,4 @@ yarn-error.log*
 .vscode
 settings.json
 .nyc_output
+coverage

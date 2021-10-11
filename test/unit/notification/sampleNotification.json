@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "614ec2dcf31a74e068e4db28",
+    "colour": "magenta",
+    "createdAt": 1632551644191,
+    "description": "",
+    "goalName": "",
+    "goal_id": "",
+    "header": "Their mission has been updated.",
+    "isRead": false,
+    "org_id": "6145d099285e4a184020742e",
+    "user_id": "6145cf0c285e4a1840207426"
+  },
+  {
+    "_id": "614ec2dcf31a74e068e4db28",
+    "colour": "lemon",
+    "createdAt": 1632551644191,
+    "description": "",
+    "goalName": "",
+    "goal_id": "",
+    "header": "Her mission has been updated.",
+    "isRead": false,
+    "org_id": "6145d099285e4a184020742e",
+    "user_id": "6145cf0c285e4a1840207426"
+  },
+  {
+    "_id": "614ec2dcf31a74e068e4db28",
+    "colour": "Hunter green",
+    "createdAt": 1632551644191,
+    "description": "",
+    "goalName": "",
+    "goal_id": "",
+    "header": "His mission has been updated.",
+    "isRead": false,
+    "org_id": "6145d099285e4a184020742e",
+    "user_id": "6145cf0c285e4a1840207426"
+  },
+  {
+    "_id": "614ec2dcf31a74e068e4db28",
+    "colour": "purple",
+    "createdAt": 1632551644191,
+    "description": "",
+    "goalName": "",
+    "goal_id": "",
+    "header": "Our mission has been updated.",
+    "isRead": false,
+    "org_id": "6145d099285e4a184020742e",
+    "user_id": "6145cf0c285e4a1840207426"
+  },
+  {
+    "_id": "614ec2dcf31a74e068e4db28",
+    "colour": "noir",
+    "createdAt": 1632551644191,
+    "description": "",
+    "goalName": "",
+    "goal_id": "",
+    "header": "It's mission has been updated.",
+    "isRead": false,
+    "org_id": "6145d099285e4a184020742e",
+    "user_id": "6145cf0c285e4a1840207426"
+  },
+  {
+    "_id": "614ec798f31a74e068e4db7c",
+    "colour": "indigo",
+    "createdAt": 1632552856081,
+    "description": "",
+    "goalName": "",
+    "goal_id": "",
+    "header": "Her vision has been updated.",
+    "isRead": true,
+    "org_id": "6145d099285e4a184020742e",
+    "user_id": "6145cf0c285e4a1840207426"
+  }
+]

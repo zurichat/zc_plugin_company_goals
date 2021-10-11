@@ -12,7 +12,7 @@ chai.use(chaiHTTP);
 
 const URL = `/api/v1/sidebar/?org=${glob.orgID}&user=klaus`;
 
-describe('SIDEBAR TESTS', () => {
+describe('SIDEBAR TESTS (INTEGRATION)', () => {
   context('PASSING CASES', () => {
     it('Should GET /sidebar', (done) => {
       chai

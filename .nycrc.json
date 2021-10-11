@@ -1,0 +1,13 @@
+{
+  "all": false,
+  "include": [
+    "controllers/**/*.js",
+    "db/**/*.js",
+    "services/**/*.js",
+    "middlewares/**/*.js",
+    "routes/**/*.js",
+    "helpers/**/*.js"
+  ],
+  "exclude": ["client"],
+  "excludeNodeModules": true
+}

@@ -29,7 +29,7 @@ const testLogin = {
   password: 'Password123##',
 };
 
-describe('CREATE GOAL TESTS', () => {
+describe.skip('CREATE GOAL TESTS (INTEGRATION)', () => {
   context('CASES', () => {
     let token;
     let roomId;
@@ -162,6 +162,7 @@ describe('CREATE GOAL TESTS', () => {
           done();
         });
     });
+
     it('Should return correct headers', (done) => {
       chai
         .request(app)
