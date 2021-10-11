@@ -126,6 +126,13 @@ app.use('/api/v1/bsearch', Bsearch);
 app.use('/api/v1/auth', authRouter);
 
 // Send all 404 requests not handled by the server to the Client app
+
+// Lordbees 8-9 task
+app.use(express.static(path.join(__dirname, 'test/bsearch/images')));
+app.get('/bsearchtest/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/test/bsearch/index.html'));
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'serve-client/dist', 'index.html'));
 });
