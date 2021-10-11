@@ -100,6 +100,10 @@ app.use(compression());
 // };
 // const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
+app.use('/mocha', express.static(path.join(__dirname, 'node_modules/mocha')));
+app.use('/chai', express.static(path.join(__dirname, 'node_modules/chai')));
+app.use('/testfiles', express.static(path.join(__dirname, 'test')));
+
 // To serve frontend build files in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')));
@@ -121,6 +125,9 @@ app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
+app.use('/test', (req, res) => {
+  res.sendFile(path.join(__dirname, 'test/index.html'));
+});
 // app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 app.use('/api/v1/auth', authRouter);
