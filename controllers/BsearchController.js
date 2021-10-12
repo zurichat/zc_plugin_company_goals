@@ -48,8 +48,15 @@ exports.searchGoals = catchAsync(async (req, res, next) => {
       let newGoals = sorted;
 
       if (search) {
-        newGoals = newGoals.filter(({ goal_name }) => {
-          return goal_name.toLowerCase().includes(search.toLowerCase());
+        newGoals = newGoals.filter((goal) => {
+          if (!goal.description) {
+            // eslint-disable-next-line no-param-reassign
+            goal.description = '';
+          }
+          return (
+            goal.goal_name.toLowerCase().includes(search.toLowerCase()) ||
+            goal.description.toLowerCase().includes(search.toLowerCase())
+          );
         });
         // Sending response
         return res.status(200).json({
