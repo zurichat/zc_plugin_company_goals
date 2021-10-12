@@ -19,6 +19,7 @@ import TargetForm from '../TargetForm/TargetForm';
 import { Div, Text, Button, Container } from './GoalDetail.styled';
 import { openModal } from '../../redux/TargetModalSlice';
 import Spinner from './GreenSpinner';
+import { toggleShowOrganizationGoalTargetForm } from '../../redux/organizationGoalTarget.slice';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -92,7 +93,7 @@ export default function GoalDetailAccordion() {
                       padding="12px 35px"
                       color="#ffffff"
                       marginLeft="0px 0px"
-                      onClick={() => dispatch(openModal())}
+                      onClick={() => dispatch(toggleShowOrganizationGoalTargetForm())}
                     >
                       {' '}
                       + Add Target!{' '}
