@@ -32,6 +32,7 @@ const {
 } = require('../controllers/targetController');
 const auth = require('../middlewares/auth');
 const restrictToOwner = require('../middlewares/restrict');
+const statusCheck = require('../middlewares/statusTimerCheck');
 
 const router = Router();
 
@@ -43,7 +44,7 @@ router.post('/assign', auth, restrictToOwner, assignGoal);
 router.delete('/assigned', auth, restrictToOwner, removeAssigned);
 
 router.get('/', getAllGoals);
-router.get('/chart', getChartInfo);
+router.get('/chart', statusCheck, getChartInfo);
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
 router.get('/userlike', checkUserLike);
