@@ -15,6 +15,7 @@ import storeOrganizationRoomReducer from './organizationRoom.slice';
 import TargetModalSliceReducer from './TargetModalSlice';
 import pageNumSlice from './pageNumSlice';
 import averageGoalSliceReducer from './averageGoal.slice';
+import goalTargetReducer from './organizationGoalTarget.slice';
 
 const store = configureStore({
   reducer: {
@@ -35,6 +36,7 @@ const store = configureStore({
     organizationRoom: storeOrganizationRoomReducer,
     targetModal: TargetModalSliceReducer,
     averageGoal: averageGoalSliceReducer,
+    organizationGoalTarget: goalTargetReducer,
   },
 });
 
