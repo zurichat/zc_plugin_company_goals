@@ -20,6 +20,7 @@ const {
   getGoalReaction,
   setGoalReaction,
 } = require('../controllers/goalController');
+const { statusTimerReport } = require('../controllers/statusTimerReport');
 const {
   updateSingleGoalTargetById,
   createGoalTargets,
@@ -43,8 +44,10 @@ router.delete('/delete', auth, restrictToOwner, deleteGoalById);
 router.post('/assign', auth, restrictToOwner, assignGoal);
 router.delete('/assigned', auth, restrictToOwner, removeAssigned);
 
-router.get('/', getAllGoals);
+router.get('/', statusCheck, getAllGoals);
 router.get('/chart', statusCheck, getChartInfo);
+router.get('/statusreport', statusCheck, statusTimerReport);
+
 router.get('/like', likeGoal);
 router.get('/goallikes', getGoalLikes);
 router.get('/userlike', checkUserLike);

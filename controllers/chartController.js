@@ -50,12 +50,9 @@ exports.getChartInfo = catchAsync(async (req, res, next) => {
         }
       }
     });
-    // console.log(res.locals)
-    // const timeTaken = res.locals.timer ;
-    // const timeTaken = (res.locals.time.t2 - res.locals.time.t1)/1000
-    const timeTaken = res.locals.time;
+
     next();
-    return res.status(200).json({ message: 'success', data: result, timeTaken: `${timeTaken} seconds` });
+    return res.status(200).json({ message: 'success', data: result });
   } catch (error) {
     logger.info(`Something went wrong because: ${error.message}`);
     res.status(500).json({ message: 'failed, Server Error', data: null });
