@@ -12,7 +12,7 @@ const dbh = require('../../../db/databaseHelper');
 const AppError = require('../../../utils/appError');
 const logger = require('../../../utils/logger');
 
-const findVision = rewire('../../../services/visionService.js');
+const findVision = rewire('../../../services/vision.service.js');
 
 chai.use(sinonChai);
 

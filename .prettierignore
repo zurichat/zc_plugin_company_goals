@@ -1,2 +1,7 @@
 # don't mess with CI/CD workflow files
 .github/
+client/
+docs/
+coverage/
+.nyc_output/
+serve-client/

@@ -13,9 +13,10 @@
     "server:dev": "cross-env NODE_ENV=development nodemon server.js",
     "server:prod": "cross-env NODE_ENV=production nodemon server.js",
     "test": "cross-env NODE_ENV=test mocha test --timeout 30000 --recursive --exit",
+    "test:silent": "cross-env NODE_ENV=test mocha test --reporter min --timeout 30000 --recursive --exit",
     "test:unit": "cross-env NODE_ENV=test mocha test/unit --timeout 30000 --recursive --exit",
     "test:integration": "cross-env NODE_ENV=test mocha test/integration --timeout 30000 --recursive --exit",
-    "coverage": "cross-env NODE_ENV=test nyc --reporter=text yarn test",
+    "coverage": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text yarn test",
     "start": "node server.js",
     "prepare": "husky install",
     "format": "prettier -w .",
@@ -28,6 +29,7 @@
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.2",
     "ajv": "^8.6.3",
+    "aria-query": "^5.0.0",
     "axios": "^0.21.4",
     "centrifuge": "^2.8.0",
     "chai": "^4.3.4",
@@ -77,10 +79,15 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.25.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.0",
     "lint-staged": "^11.1.2",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,jsx}": [
