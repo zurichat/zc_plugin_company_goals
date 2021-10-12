@@ -31,6 +31,7 @@ const roomRouter = require('./routes/roomRoute');
 const userRouter = require('./routes/userRoute');
 const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
+const searchPluginRouter = require('./routes/search');
 
 const visionRouter = require('./routes/visionRoutes');
 const Bsearch = require('./routes/BsearchRoute');
@@ -124,6 +125,12 @@ app.use('/api/v1/bsearch', Bsearch);
 // app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/search', searchPluginRouter);
+
+// Serve search static files
+app.get('/search', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 // Send all 404 requests not handled by the server to the Client app
 
