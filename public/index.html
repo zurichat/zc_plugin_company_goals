@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<htmlJ>
+  <head>
+    <title>search endpoint</title>
+    <style>
+      h1,
+      h4 {
+        text-align: center;
+      }
+      .goal__container {
+        width: 90%;
+        margin: 2rem auto;
+      }
+      .goal__list {
+        width: 100%;
+        margin: 0 auto 1rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+      }
+      .goal__list:nth-child(even) {
+        background-color: gainsboro;
+      }
+      form {
+        width: 90%;
+        margin: 1rem auto;
+      }
+      .form__control {
+        width: 80%;
+        padding: 0.5rem;
+      }
+      .btn {
+        padding: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test page for search endpoint</h1>
+    <form>
+      <input type="text" class="form__control" placeholder="enter your search test" />
+      <button class="btn">search</button>
+    </form>
+    <div class="goal__container">
+      <h4>This show all the goals in goals plugin</h4>
+      <div class="goal__list__container">
+        <!-- <div class="goal__list">1</div>
+        <div class="goal__list">2</div> -->
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    // DOM
+    const searchTerm = document.querySelector('.form__control');
+    const btn = document.querySelector('.btn');
+    const body = document.querySelector('.goal__list__container');
+    const child = document.querySelector('.goal__list');
+
+    // Network request to list all the goals
+    fetch(`/api/v1/search/search-plugin?org_id=6145d099285e4a184020742e`)
+      .then((res) => res.json())
+      .then((data) => {
+        const goal = data.data;
+
+        // Inserting all the goal into the dom
+        goal.forEach((goal) => {
+          const html = `<div class='goal__list'><p><b>Goal Name: </b>${goal.goal_name}</p><p><b>Goal Description: </b>${goal.description}</p></div>`;
+          body.insertAdjacentHTML('beforeend', html);
+        });
+      });
+
+    // Setup a click event handler
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // First remove all the node we have in the dom
+      while (body.firstChild) {
+        body.removeChild(body.lastChild);
+        // console.log('removed')
+      }
+
+      // Simulate the loading state for fetching of goals
+      body.insertAdjacentHTML('beforeend', '<h4>loading....</h4>');
+
+      // Network request to search for goal
+      fetch(`/api/v1/search/search-plugin?org_id=6145d099285e4a184020742e&search=${searchTerm.value}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // Removing the laoding state form the DOM before rendering the newly fetched goal
+          body.removeChild(body.lastChild);
+          const goal = data.data;
+
+          // Rendering the newly searchd goals
+          goal.forEach((goal) => {
+            const html = `<div class='goal__list'><p><b>Goal Name: </b>${goal.goal_name}</p><p><b>Goal Description: </b>${goal.description}</p></div>`;
+            body.insertAdjacentHTML('beforeend', html);
+          });
+        });
+    });
+  </script>
+</htmlJ>
