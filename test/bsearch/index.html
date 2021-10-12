@@ -1,167 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Goals Plugin Search</title>
     <style>
-        body {
-            margin-top: 50px;
-        }
+      body {
+        margin-top: 50px;
+      }
 
-        #bottom {
-            display: flex;
-            align-self: baseline;
-            justify-content: center;
-        }
+      #bottom {
+        display: flex;
+        align-self: baseline;
+        justify-content: center;
+      }
 
-        #logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 50px;
-        }
+      #logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 50px;
+      }
 
-        #center {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 50px;
-        }
+      #center {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 50px;
+      }
 
-        li {
-            font-size: x-large;
-        }
+      li {
+        font-size: x-large;
+      }
 
-        #goal {
-            font-size: xx-large;
-        }
+      #goal {
+        font-size: xx-large;
+      }
 
-        .form-search {
-            margin: 0 auto;
-            text-align: center;
+      .form-search {
+        margin: 0 auto;
+        text-align: center;
 
-            font: bold 13px sans-serif;
-            max-width: 70%;
-            position: relative;
-        }
+        font: bold 13px sans-serif;
+        max-width: 70%;
+        position: relative;
+      }
 
-        .form-search input {
-            width: 60%;
-            box-sizing: border-box;
-            border-bottom-left-radius: 2px;
-            border-top-left-radius: 2px;
-            background-color: #ffffff;
-            box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-            padding: 14px 15px 14px 40px;
-            border: 1px solid #b6c3cd;
-            ;
-            border-right: 0;
-            color: #4E565C;
-            outline: none;
-            -webkit-appearance: none;
-        }
+      .form-search input {
+        width: 60%;
+        box-sizing: border-box;
+        border-bottom-left-radius: 2px;
+        border-top-left-radius: 2px;
+        background-color: #ffffff;
+        box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+        padding: 14px 15px 14px 40px;
+        border: 1px solid #b6c3cd;
+        border-right: 0;
+        color: #4e565c;
+        outline: none;
+        -webkit-appearance: none;
+      }
 
-        .form-search button {
-            border-bottom-right-radius: 2px;
-            border-top-right-radius: 2px;
-            background-color: #6caee0;
-            box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-            color: #ffffff;
-            padding: 15px 22px;
-            margin-left: -4px;
-            cursor: pointer;
-            border: none;
-            outline: none;
-        }
+      .form-search button {
+        border-bottom-right-radius: 2px;
+        border-top-right-radius: 2px;
+        background-color: #6caee0;
+        box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+        color: #ffffff;
+        padding: 15px 22px;
+        margin-left: -4px;
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
 
-        .form-search i {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            font-size: 16px;
-            color: #80A3BD;
-        }
+      .form-search i {
+        position: absolute;
+        top: 15px;
+        left: 20px;
+        font-size: 16px;
+        color: #80a3bd;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="logo-container">
-        <img src="./c3e264f62e1798a981a8.svg" alt="Zuri Chat" srcset="">
+      <img src="./c3e264f62e1798a981a8.svg" alt="Zuri Chat" srcset="" />
     </div>
 
-
-    <form class="form-search" id="form-search"onsubmit="return search()">
-        <input id="search" type="search" name="search" placeholder="search by goalname or description...">
-        <button id="button" type="button">Search</button> <br>
+    <form class="form-search" id="form-search" onsubmit="return search()">
+      <input id="search" type="search" name="search" placeholder="search by goalname or description..." />
+      <button id="button" type="button">Search</button> <br />
     </form>
     <div id="center">
-        <ul id="listitem">
-
-        </ul>
+      <ul id="listitem"></ul>
     </div>
 
     <div id="bottom">
-        <h6>Cross reference with goals at <a href="https://goals.zuri.chat/">goals.zuri.chat</a></h6>
+      <h6>Cross reference with goals at <a href="https://goals.zuri.chat/">goals.zuri.chat</a></h6>
     </div>
-</body>
-<script>
-    let list = document.getElementById("listitem")
-    let button = document.getElementById("button");
-    document.getElementById("form-search").addEventListener("submit", function(event){
-  event.preventDefault()
-  return search();
-});
+  </body>
+  <script>
+    let list = document.getElementById('listitem');
+    let button = document.getElementById('button');
+    document.getElementById('form-search').addEventListener('submit', function (event) {
+      event.preventDefault();
+      return search();
+    });
 
     fetch(`/api/v1/goals/?&org_id=6145d099285e4a184020742e`, {
-        headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpnMk9EUXpNSHhIZDNkQlIwUlplRTVVVFRWUFJGSnNUbXBKTTFwRVkzbFBWMVp0V2xkTk1FNXRUWGxQUVQwOWZHNEtVeDlnczVyRGxySFR5M2x6V1pFRXpVeTB2Wl9sUklLd0taMUNUMkpTIiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE1Mzk4NGU2MjdkNzI5ZWZlYzQ2YzI4Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDA1MDEzOCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.MGD95Uq8YupwAHNHChYcQkqnCca6PsP2V3jj4vVkKAw",
-            "User-Role": "Owner"
-        }
+      headers: {
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpnMk9EUXpNSHhIZDNkQlIwUlplRTVVVFRWUFJGSnNUbXBKTTFwRVkzbFBWMVp0V2xkTk1FNXRUWGxQUVQwOWZHNEtVeDlnczVyRGxySFR5M2x6V1pFRXpVeTB2Wl9sUklLd0taMUNUMkpTIiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE1Mzk4NGU2MjdkNzI5ZWZlYzQ2YzI4Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDA1MDEzOCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.MGD95Uq8YupwAHNHChYcQkqnCca6PsP2V3jj4vVkKAw',
+        'User-Role': 'Owner',
+      },
     })
-        .then(response => response.json())
-        .then((response) => {
-            let searchItems = response.data
-            searchItems.forEach((item) => {
-                list.innerHTML += `
+      .then((response) => response.json())
+      .then((response) => {
+        let searchItems = response.data;
+        searchItems.forEach((item) => {
+          list.innerHTML += `
                     <span id="goal">Goal: ${item.goal_name}<span><br>
-                    <li>Description: ${item.description}</li> <br>`
-            })
+                    <li>Description: ${item.description}</li> <br>`;
+        });
+      });
+
+    button.addEventListener('click', function () {
+      search();
+    });
+    async function search() {
+      list.innerHTML = '';
+      let goal = document.getElementById('search').value;
+      if (!goal || goal == '') {
+        return alert('input a valid search');
+      }
+      console.log(goal);
+
+      fetch(`/api/v1/bsearch?search=${goal}&org_id=6145d099285e4a184020742e`, {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpnMk9EUXpNSHhIZDNkQlIwUlplRTVVVFRWUFJGSnNUbXBKTTFwRVkzbFBWMVp0V2xkTk1FNXRUWGxQUVQwOWZHNEtVeDlnczVyRGxySFR5M2x6V1pFRXpVeTB2Wl9sUklLd0taMUNUMkpTIiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE1Mzk4NGU2MjdkNzI5ZWZlYzQ2YzI4Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDA1MDEzOCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.MGD95Uq8YupwAHNHChYcQkqnCca6PsP2V3jj4vVkKAw',
+          'User-Role': 'Owner',
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          let searchItems = response.data;
+          searchItems.forEach((item) => {
+            list.innerHTML += `
+                    <span id="goal">Goal: ${item.goal_name}<span><br>
+                    <li>Description: ${item.description}</li> <br>`;
+          });
         });
 
-    button.addEventListener("click", function () {
-        search()
-    })
-    async function search() {
-        list.innerHTML = ""
-        let goal = document.getElementById("search").value
-        if(!goal||goal==""){
-            return alert("input a valid search")
-        }
-        console.log(goal)
-
-        fetch(`/api/v1/bsearch?search=${goal}&org_id=6145d099285e4a184020742e`, {
-            headers: {
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpnMk9EUXpNSHhIZDNkQlIwUlplRTVVVFRWUFJGSnNUbXBKTTFwRVkzbFBWMVp0V2xkTk1FNXRUWGxQUVQwOWZHNEtVeDlnczVyRGxySFR5M2x6V1pFRXpVeTB2Wl9sUklLd0taMUNUMkpTIiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE1Mzk4NGU2MjdkNzI5ZWZlYzQ2YzI4Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDA1MDEzOCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.MGD95Uq8YupwAHNHChYcQkqnCca6PsP2V3jj4vVkKAw",
-                "User-Role": "Owner"
-            }
-        })
-            .then(response => response.json())
-            .then((response) => {
-                let searchItems = response.data
-                searchItems.forEach((item) => {
-                    list.innerHTML += `
-                    <span id="goal">Goal: ${item.goal_name}<span><br>
-                    <li>Description: ${item.description}</li> <br>`
-                })
-            });
-
-
-        // let response = await fetch(`127.0.0.1:4000/api/v1/bsearch?search=${goal}&org_id=6145d099285e4a184020742e`)
-        // response = response.json();
-        // console.log(response)
-
+      // let response = await fetch(`127.0.0.1:4000/api/v1/bsearch?search=${goal}&org_id=6145d099285e4a184020742e`)
+      // response = response.json();
+      // console.log(response)
     }
-</script>
-
+  </script>
 </html>
