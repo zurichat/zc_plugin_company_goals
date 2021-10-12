@@ -167,6 +167,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
     description: 'Shows company goals items',
     plugin_id: '613dcd7ae4010959c8dc0c56',
     organization_id,
+    category: 'productivity',
     user_id,
     group_name: 'Goals',
     show_group: false,

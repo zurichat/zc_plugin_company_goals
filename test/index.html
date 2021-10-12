@@ -1,40 +1,72 @@
 <html>
-<head>
-  <title>Goals plugins test</title>
-  <link rel="stylesheet" href="mocha/mocha.css" />
-  <script src="mocha/mocha.js"></script>
-  <script src='chai/chai.js'></script>
+  <head>
+    <title>Goals plugins test</title>
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css" />
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src='node_modules/chai-http/dist/chai-http.js'></script>
+    <script>
+      chai.use(chaiHttp);
+    </script>
 
-  <script>
-    function assert(expr, msg) {
-      if (!expr) throw new Error(msg || 'failed');
-    }
-  </script>
+    <script>
+      function assert(expr, msg) {
+        if (!expr) throw new Error(msg || 'failed');
+      }
+    </script>
+  </head>
+  <body>
+    <div id="mocha"></div>
 
-</head>
-<body>
-<div id="mocha"></div>
+    <script class="mocha-init">
+      mocha.setup({
+        ui: 'bdd',
+      });
+      mocha.checkLeaks();
+    </script>
 
-<script class="mocha-init">
-  mocha.setup({
-    ui: 'bdd' });
-  mocha.checkLeaks();
-</script>
+    <script type="module">describe('INFO TESTS (INTEGRATION)', function () {
+      context('PASSING CASES', function () {
+        // if ()
+        it('Should GET /info', (done) => {
+          chai
+            .request('https://goals.zuri.chat')
+            .get('/info')
+            .end(function (err, res) {
+              chai.expect(res).to.have.status(200);
+              chai.expect(err).to.not.be.an('error');
+              chai.expect(res.body).to.have.property('status', 'success');
+              done();
+            });
+        });
 
-<script type="module" src="testfiles/unit/vision/getVision.test.js"></script>
-<script type="module" src="testfiles/unit/vision/updateVision.test.js"></script>
-<script type='module' src='testfiles/unit/notification/getNotification.test.js'></script>
-<script type='module' src='testfiles/unit/notification/updateNotification.test.js'></script>
-<script type='module' src='testfiles/integration/goals/createGoal.test.js'></script>
-<script type='module' src='testfiles/integration/info/info.test.js'></script>
-<script type='module' src='testfiles/integration/mission/mission.test.js'></script>
-<script type='module' src='testfiles/integration/sidebar/sidebar.test.js'></script>
+        it('Should return correct JSON', function (done) {
+          chai
+            .request('https://goals.zuri.chat')
+            .get('/info')
+            .end(function (err, res) {
+              chai.expect(res).to.be.json;
+              done();
+            });
+        });
 
-<script class="mocha-exec">
-  window.onload = () => {
-    mocha.run();
-  };
-</script>
+        it('Should return correct headers', function (done) {
+          chai
+            .request('https://goals.zuri.chat')
+            .get('/info')
+            .end(function (err, res) {
+              chai.expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
+              done();
+            });
+        });
+      });
+      context.skip('FAILING CASES', function () {});
+    });</script>
 
-</body>
+    <script class="mocha-exec">
+      window.onload = () => {
+        mocha.run();
+      };
+    </script>
+  </body>
 </html>
