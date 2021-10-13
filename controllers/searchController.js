@@ -1,18 +1,12 @@
-const { getFiles } = require('../utils/Directory');
+// eslint-disable-next-line no-unused-vars
+const { request, response } = require('express');
 
-module.exports.searchFile = async (req, res) => {
-  const { channelName, fileName } = req.query;
-
-  try {
-    const folderPath = `./uploads/${channelName}`;
-    const data = await getFiles(folderPath, fileName);
-
-    if (data.length) {
-      return res.status(200).json({ message: 'Found', data: data });
-    }
-
-    return res.status(404).json({ message: 'Not Found', data: null });
-  } catch (error) {
-    return res.status(500).json({ message: 'Server Error', data: null });
-  }
-};
+/**
+ * Search controller
+ * @param {request} req Express request object
+ * @param {response} res Express response object
+ * @param {*} next *
+ */
+// exports.searchFunction = (req, res, next) => {
+//   // const {key, id}
+// };

@@ -31,7 +31,7 @@ const roomRouter = require('./routes/roomRoute');
 const userRouter = require('./routes/userRoute');
 const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
-const searchPluginRouter = require('./routes/search');
+const searchPluginRouter = require('./routes/searchRoute');
 
 const visionRouter = require('./routes/visionRoutes');
 const Bsearch = require('./routes/BsearchRoute');
@@ -118,7 +118,7 @@ app.get('/zuri-plugin-company-goals.js', (req, res) => {
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', roomRouter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/search', searchRouter);
+app.use('/api/v1/org', searchRouter);
 app.use('/ping', pingRouter);
 app.use('/api/v1/sidebar', sidebarRouter);
 app.use('/info', pluginInfoRouter);

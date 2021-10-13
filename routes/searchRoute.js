@@ -1,9 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const { searchFile } = require('../controllers/searchController');
-const { verifyToken, requireRoles } = require('../middlewares/validate');
+const router = require('express').Router();
+const { searchPlugin } = require('../controllers/searchPluginController');
 
-//router.get('/files', verifyToken, requireRoles(['admin', 'user', 'owner']), searchFile);
-router.get('/files', searchFile);
+// Search plugin
+router.route('/:org_id/members/:member_id/search').get(searchPlugin);
 
 module.exports = router;
