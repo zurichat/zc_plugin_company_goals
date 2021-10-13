@@ -102,8 +102,7 @@ app.use(compression());
 // };
 // const swaggerDocs = swaggerJSDocument(swaggerOptions);
 
-app.use('/mocha', express.static(path.join(__dirname, 'node_modules/mocha')));
-app.use('/chai', express.static(path.join(__dirname, 'node_modules/chai')));
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use('/testfiles', express.static(path.join(__dirname, 'test')));
 
 // To serve frontend build files in production

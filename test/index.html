@@ -1,40 +1,297 @@
 <html>
-<head>
-  <title>Goals plugins test</title>
-  <link rel="stylesheet" href="mocha/mocha.css" />
-  <script src="mocha/mocha.js"></script>
-  <script src='chai/chai.js'></script>
+  <head>
+    <title>Goals plugins test</title>
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css" />
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src="node_modules/chai-http/dist/chai-http.js"></script>
+    <script src='node_modules/sinon/lib/sinon.js'></script>
+    <script src='node_modules/sinon-chai/lib/sinon-chai.js'></script>
+    <script>
+      chai.use(chaiHttp);
+      chai.use(sinonChai);
+    </script>
 
-  <script>
-    function assert(expr, msg) {
-      if (!expr) throw new Error(msg || 'failed');
-    }
-  </script>
+    <script>
+      function assert(expr, msg) {
+        if (!expr) throw new Error(msg || 'failed');
+      }
+    </script>
+  </head>
+  <body>
+    <div id="mocha"></div>
 
-</head>
-<body>
-<div id="mocha"></div>
+    <script class="mocha-init">
+      mocha.setup({
+        ui: 'bdd',
+      });
+      mocha.checkLeaks();
+    </script>
 
-<script class="mocha-init">
-  mocha.setup({
-    ui: 'bdd' });
-  mocha.checkLeaks();
-</script>
+<<<<<<< HEAD
+    <script type="module" src="testfiles/unit/vision/getVision.test.js"></script>
+    <script type="module" src="testfiles/unit/vision/updateVision.test.js"></script>
+    <script type="module" src="testfiles/unit/notification/getNotification.test.js"></script>
+    <script type="module" src="testfiles/unit/notification/updateNotification.test.js"></script>
+    <script type="module" src="testfiles/integration/goals/createGoal.test.js"></script>
+    <script type="module" src="testfiles/integration/info/info.test.js"></script>
+    <script type="module" src="testfiles/integration/mission/mission.test.js"></script>
+    <script type="module" src="testfiles/integration/sidebar/sidebar.test.js"></script>
+=======
+    <script type="module">
+      describe('INFO TESTS (INTEGRATION)', function () {
+        context('PASSING CASES', function () {
+          // if ()
+          it('Should GET /info', (done) => {
+            chai
+              .request('https://goals.zuri.chat')
+              .get('/info')
+              .end(function (err, res) {
+                chai.expect(res).to.have.status(200);
+                chai.expect(err).to.not.be.an('error');
+                chai.expect(res.body).to.have.property('status', 'success');
+                done();
+              });
+          });
 
-<script type="module" src="testfiles/unit/vision/getVision.test.js"></script>
-<script type="module" src="testfiles/unit/vision/updateVision.test.js"></script>
-<script type='module' src='testfiles/unit/notification/getNotification.test.js'></script>
-<script type='module' src='testfiles/unit/notification/updateNotification.test.js'></script>
-<script type='module' src='testfiles/integration/goals/createGoal.test.js'></script>
-<script type='module' src='testfiles/integration/info/info.test.js'></script>
-<script type='module' src='testfiles/integration/mission/mission.test.js'></script>
-<script type='module' src='testfiles/integration/sidebar/sidebar.test.js'></script>
+          it('Should return correct JSON', function (done) {
+            chai
+              .request('https://goals.zuri.chat')
+              .get('/info')
+              .end(function (err, res) {
+                chai.expect(res).to.be.json;
+                done();
+              });
+          });
 
-<script class="mocha-exec">
-  window.onload = () => {
-    mocha.run();
-  };
-</script>
+          it('Should return correct headers', function (done) {
+            chai
+              .request('https://goals.zuri.chat')
+              .get('/info')
+              .end(function (err, res) {
+                chai.expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
+                done();
+              });
+          });
+        });
+        context.skip('FAILING CASES', function () {});
+      });
+    </script>
+    <script type="module">
+      const URL = `/api/v1/sidebar/?org=6145d099285e4a184020742e&user=klaus`;
 
-</body>
+      describe('SIDEBAR TESTS (INTEGRATION)', () => {
+        context('PASSING CASES', function () {
+          it('Should GET /sidebar', function (done) {
+            chai
+              .request('https://goals.zuri.chat')
+              .get(URL)
+              .end(function (err, res) {
+                chai.expect(res).to.have.status(200);
+                chai.expect(err).to.not.be.an('error');
+                done();
+              });
+          });
+
+          it('Should return correct JSON', function(done) {
+            chai
+              .request('https://goals.zuri.chat')
+              .get(URL)
+              .end(function (err, res) {
+                chai.expect(res).to.be.json;
+                done();
+              });
+          });
+
+          it('Should return correct headers', function (done) {
+            chai
+              .request('https://goals.zuri.chat')
+              .get(URL)
+              .end(function (err, res) {
+                chai.expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
+                done();
+              });
+          });
+        });
+      });
+
+    </script>
+    <script type="module">
+      const sandbox = sinon.createSandbox();
+      const orgId = '61578237b9b9f30465f49ee8';
+
+      const URL = `/api/v1/goals/`;
+      const orgURL = `/api/v1/goals/?org_id=${orgId}`;
+
+      const zcUrl = 'https://api.zuri.chat/auth/login';
+      const testLogin = {
+        email: 'creator@goals.com',
+        password: 'Password123##',
+      };
+
+      describe.skip('CREATE GOAL TESTS (INTEGRATION)', () => {
+        context('CASES', () => {
+          let token;
+          let roomId;
+          let loggerStub;
+
+          beforeEach(() => {
+            // Disable logger messages
+            loggerStub = sandbox.stub(logger, 'info').returns('');
+          });
+          // retrieve token from zuri core
+          before(async () => {
+            await axios
+              .post(zcUrl, testLogin)
+              .then((res) => {
+                expect(res).to.have.status(200);
+                const { data } = res;
+                token = data.data.user.token;
+              })
+              .catch((err) => {
+                expect(err).to.not.be.an('error');
+              });
+          });
+
+          // delete the created goal after test
+          afterEach((done) => {
+            if (roomId != null) {
+              chai
+                .request(app)
+                .get(`/api/v1/goals/single?org_id=${orgId}&room_id=${roomId}`)
+                .set('Authorization', `Bearer ${token} ${orgId}`)
+                .end((err2, res2) => {
+                  expect(res2).to.have.status(200);
+                  chai
+                    .request(app)
+                    .delete(`/api/v1/goals/delete?org_id=${orgId}&goal_id=${res2.body.data.goal[0]._id}`)
+                    .set('Authorization', `Bearer ${token} ${orgId}`)
+                    .end((err3, res3) => {
+                      expect(res3).to.have.status(200);
+                      done();
+                    });
+                });
+            } else {
+              done();
+            }
+          });
+
+          // Refresh sandbox for each test
+          afterEach(() => {
+            sandbox.restore();
+          });
+
+          it('Should return error if no organization id is passed', (done) => {
+            chai
+              .request(app)
+              .post(URL)
+              .send({})
+              .set('Authorization', `Bearer ${token} ${orgId}`)
+              .end((err, res) => {
+                expect(loggerStub).to.have.been.called;
+                expect(res).to.have.status(400);
+                done();
+              });
+          });
+
+          it('Should return error if body is empty or incorrect', (done) => {
+            chai
+              .request(app)
+              .post(orgURL)
+              .send({})
+              .set('Authorization', `Bearer ${token} ${orgId}`)
+              .end((err, res) => {
+                expect(loggerStub).to.have.been.called;
+                expect(res).to.have.status(400);
+                done();
+              });
+          });
+
+          it('Should return error if goal_name is not sent', (done) => {
+            chai
+              .request(app)
+              .post(orgURL)
+              .send({ start_date: '11-15-2021', due_date: '11-20-2021', goal_type: 'annual', category: 'Test Category' })
+              .set('Authorization', `Bearer ${token} ${orgId}`)
+              .end((err, res) => {
+                expect(loggerStub).to.have.been.called;
+                expect(res).to.have.status(400);
+                done();
+              });
+          });
+
+          it('Should successfully create goal', (done) => {
+            chai
+              .request(app)
+              .post(orgURL)
+              .send({
+                goal_name: `Test 1 ${time}`,
+                start_date: '11-15-2021',
+                due_date: '11-20-2021',
+                goal_type: 'annual',
+                category: 'Test Category',
+              })
+              .set('Authorization', `Bearer ${token} ${orgId}`)
+              .end((err, res) => {
+                expect(loggerStub).to.have.been.called;
+                expect(res).to.have.status(200);
+                expect(err).to.not.be.an('error');
+                roomId = res.body.data.room_id;
+                done();
+              });
+          });
+
+          it('Should return correct JSON', (done) => {
+            chai
+              .request(app)
+              .post(orgURL)
+              .send({
+                goal_name: `Test 2 ${time}`,
+                start_date: '11-15-2021',
+                due_date: '11-20-2021',
+                goal_type: 'annual',
+                category: 'Test Category',
+              })
+              .set('Authorization', `Bearer ${token} ${orgId}`)
+              .end((err, res) => {
+                expect(loggerStub).to.have.been.called;
+                expect(res).to.be.json;
+                expect(createGoalSchema, 'custom goal').to.be.validJsonSchema;
+                expect(res.body).to.be.jsonSchema(createGoalSchema, 'custom goal');
+                roomId = res.body.data.room_id;
+                done();
+              });
+          });
+
+          it('Should return correct headers', (done) => {
+            chai
+              .request(app)
+              .post(orgURL)
+              .send({
+                goal_name: `Test 3 ${time}`,
+                start_date: '11-15-2021',
+                due_date: '11-20-2021',
+                goal_type: 'annual',
+                category: 'Test Category',
+              })
+              .set('Authorization', `Bearer ${token} ${orgId}`)
+              .end((err, res) => {
+                expect(loggerStub).to.have.been.called;
+                expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
+                roomId = res.body.data.room_id;
+                done();
+              });
+          });
+        });
+      });
+
+    </script>
+>>>>>>> c7437eba1bd24886ebfa385af3ed04db74395d9c
+
+    <script class="mocha-exec">
+      window.onload = () => {
+        mocha.run();
+      };
+    </script>
+  </body>
 </html>
