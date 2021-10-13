@@ -72,7 +72,6 @@ const statusCheck = async (req, res, next) => {
       res.locals.time = durationInMilliseconds;
     });
     next();
-    
   }
 };
 
