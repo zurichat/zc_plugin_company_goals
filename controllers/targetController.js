@@ -160,7 +160,9 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
 
   // console.log(goals)
   // console.log(targets)
-  goals.forEach((goal) => {progress += goal.progress});
+  goals.forEach((goal) => {
+    progress += goal.progress;
+  });
 
   // // Make the calculation
   // const result = calculate(goals, targets);
@@ -177,8 +179,134 @@ exports.averageGoalProgress = catchAsync(async (req, res, next) => {
   // Response
   return res.status(200).json({
     status: 'success',
-    averageResult:progress/goals.length,
+    averageResult: progress / goals.length,
   });
+});
+
+exports.getGoalProgress = catchAsync(async (req, res, next) => {
+  const { org_id, goal_id } = req.query;
+
+  if (!org_id) {
+    logger.info(`Organization id isn't provided.`);
+
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  if (!goal_id) {
+    logger.info(`Goal id isn't provided.`);
+
+    return res.status(400).send({ error: 'Goal_id is required' });
+  }
+
+  try {
+    //get all targets with similar goal ID
+    const foundTargets = await find('targets', { goal_id }, org_id);
+    //logical targets are like open ended questions, yes or no answers
+    const logicalTargets = [];
+    //numerical targets are those with number values
+    const numericalTargets = [];
+
+    //check if a target is of type logical or numerical, if it is then populate the arrays defined above
+    for (let i = 0; i < foundTargets.data.data.length; i++) {
+      if (typeof foundTargets.data.data[i].target === 'number') {
+        numericalTargets.push(foundTargets.data.data[i]);
+      }
+      if (typeof foundTargets.data.data[i].target === 'string') {
+        logicalTargets.push(foundTargets.data.data[i]);
+      }
+    }
+
+    const numericalBag = getNumericalTgtDone(numericalTargets);
+    const logicalBag = getLogicalTgtDone(logicalTargets);
+
+    // //const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets)
+    const achievedTargetsPercentage =
+      ((logicalBag.logicalTargetDone.length + numericalBag.numericalTargetsDone.length) /
+        foundTargets.data.data.length) *
+      100;
+
+    const unachievedTargetsPercentage =
+      ((logicalBag.logicalTargetNotDone.length + numericalBag.numericalTargetsNotDone.length) /
+        foundTargets.data.data.length) *
+      100;
+    await updateOne('goals', { progress: achievedTargetsPercentage }, {}, org_id, goal_id);
+
+    //send response with total number of targets in percentage
+    return res.status(200).json({
+      status: 200,
+      data: {
+        achievedTargetsPercentage,
+        unachievedTargetsPercentage,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});
+
+exports.updateTarget = catchAsync(async (req, res, next) => {
+  // get goal id from the url
+
+  const { org_id: orgId, goal_id: goalId, target_id: targetId } = req.query;
+
+  // check if organization id exists
+  if (!orgId) {
+    logger.info(`Organization id isn't provided.`);
+    // return new AppError("Organization_id is required", 400);
+    return res.status(400).send({ error: 'Organization_id is required' });
+  }
+
+  // check if goal id exists
+  if (!goalId) {
+    logger.info(`goal_id not specified`);
+    return res.status(400).send({ error: 'goal_id is required' });
+  }
+
+  // check if target id exists
+  if (!targetId) {
+    logger.info(`target_id not specified`);
+    return res.status(400).send({ error: 'target_id is required' });
+  }
+
+  const reqTarget = req.body;
+
+  try {
+    // check that the goal_id is valid
+    const goal = await find(
+      'goals',
+      {
+        _id: goalId,
+      },
+      orgId
+    );
+
+    if (goal.data.data === null) {
+      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
+    }
+    // check that the target_id is valid
+    const target = await find(
+      'targets',
+      {
+        _id: targetId,
+      },
+      orgId
+    );
+
+    if (target.data.data === null) {
+      return res.status(400).send({ error: `The target with the target id of ${targetId} does not exist` });
+    }
+    // update target
+    logger.info(`Updating target`);
+    const updatedTarget = await updateOne('targets', reqTarget, { _id: targetId }, orgId);
+    logger.info(`Target update with id ${targetId}`);
+
+    // Response
+    logger.info(`Target update`);
+    return res.status(200).json({ status: 200, data: updatedTarget.data.data });
+  } catch (err) {
+    logger.info(`There are errors ${err}`);
+    if (err) return res.status(500).json(err);
+  }
 });
 
 exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
@@ -327,129 +455,3 @@ exports.getSingleGoalProgress = catchAsync(async (req, res, next) => {
 // }
 
 // });
-
-exports.getGoalProgress = catchAsync(async (req, res, next) => {
-  const { org_id, goal_id } = req.query;
-
-  if (!org_id) {
-    logger.info(`Organization id isn't provided.`);
-
-    return res.status(400).send({ error: 'Organization_id is required' });
-  }
-
-  if (!goal_id) {
-    logger.info(`Goal id isn't provided.`);
-
-    return res.status(400).send({ error: 'Goal_id is required' });
-  }
-
-  try {
-    //get all targets with similar goal ID
-    const foundTargets = await find('targets', { goal_id }, org_id);
-    //logical targets are like open ended questions, yes or no answers
-    const logicalTargets = [];
-    //numerical targets are those with number values
-    const numericalTargets = [];
-
-    //check if a target is of type logical or numerical, if it is then populate the arrays defined above
-    for (let i = 0; i < foundTargets.data.data.length; i++) {
-      if (typeof foundTargets.data.data[i].target === 'number') {
-        numericalTargets.push(foundTargets.data.data[i]);
-      }
-      if (typeof foundTargets.data.data[i].target === 'string') {
-        logicalTargets.push(foundTargets.data.data[i]);
-      }
-    }
-
-    const numericalBag = getNumericalTgtDone(numericalTargets);
-    const logicalBag = getLogicalTgtDone(logicalTargets);
-
-    // //const achievedTargets = getLogicalTgtDone(logicalTargets) + getNumericalTgtDone(numericalTargets)
-    const achievedTargetsPercentage =
-      ((logicalBag.logicalTargetDone.length + numericalBag.numericalTargetsDone.length) /
-        foundTargets.data.data.length) *
-      100;
-
-    const unachievedTargetsPercentage =
-      ((logicalBag.logicalTargetNotDone.length + numericalBag.numericalTargetsNotDone.length) /
-        foundTargets.data.data.length) *
-      100;
-    await updateOne('goals', { progress: achievedTargetsPercentage }, {}, org_id, goal_id);
-
-    //send response with total number of targets in percentage
-    return res.status(200).json({
-      status: 200,
-      data: {
-        achievedTargetsPercentage,
-        unachievedTargetsPercentage,
-      },
-    });
-  } catch (err) {
-    return res.status(400).json(err);
-  }
-});
-
-exports.updateTarget = catchAsync(async (req, res, next) => {
-  // get goal id from the url
-
-  const { org_id: orgId, goal_id: goalId, target_id: targetId } = req.query;
-
-  // check if organization id exists
-  if (!orgId) {
-    logger.info(`Organization id isn't provided.`);
-    // return new AppError("Organization_id is required", 400);
-    return res.status(400).send({ error: 'Organization_id is required' });
-  }
-
-  // check if goal id exists
-  if (!goalId) {
-    logger.info(`goal_id not specified`);
-    return res.status(400).send({ error: 'goal_id is required' });
-  }
-
-  // check if target id exists
-  if (!targetId) {
-    logger.info(`target_id not specified`);
-    return res.status(400).send({ error: 'target_id is required' });
-  }
-
-  const reqTarget = req.body;
-
-  try {
-    // check that the goal_id is valid
-    const goal = await find(
-      'goals',
-      {
-        _id: goalId,
-      },
-      orgId
-    );
-
-    if (goal.data.data === null) {
-      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-    }
-    // check that the target_id is valid
-    const target = await find(
-      'targets',
-      {
-        _id: targetId,
-      },
-      orgId
-    );
-
-    if (target.data.data === null) {
-      return res.status(400).send({ error: `The target with the target id of ${targetId} does not exist` });
-    }
-    // update target
-    logger.info(`Updating target`);
-    const updatedTarget = await updateMany('targets', reqTarget, { _id: targetId }, orgId);
-    logger.info(`Target update with id ${targetId}`);
-
-    // Response
-    logger.info(`Target update`);
-    return res.status(200).json({ status: 200, data: updatedTarget.data.data });
-  } catch (err) {
-    logger.info(`There are errors ${err}`);
-    if (err) return res.status(500).json(err);
-  }
-});

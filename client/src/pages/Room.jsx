@@ -18,6 +18,7 @@ import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/organization_mission_vision/OrganizationMissionVision';
 import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
+import GoalTarget from '../components/goal_target/GoalTarget';
 
 const AppRoom = () => {
   console.log('Am going to get userInfo');
@@ -85,6 +86,7 @@ const AppRoom = () => {
       <BasicModal />
       <DeleteSuccessModal />
       <DeleteErrorModal />
+      <GoalTarget />
       <SnackBar />
       <PluginSide>
         <MissionVisionContainer />
