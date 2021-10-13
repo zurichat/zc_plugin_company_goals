@@ -148,7 +148,8 @@
         })
             .then(response => response.json())
             .then((response) => {
-                let searchItems = response.data
+                console.log(response)
+                let searchItems = response.result
                 searchItems.forEach((item) => {
                     list.innerHTML += `
                     <span id="goal">Goal: ${item.goal_name}<span><br>
