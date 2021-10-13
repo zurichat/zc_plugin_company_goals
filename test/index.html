@@ -1,40 +1,39 @@
 <html>
-<head>
-  <title>Goals plugins test</title>
-  <link rel="stylesheet" href="mocha/mocha.css" />
-  <script src="mocha/mocha.js"></script>
-  <script src='chai/chai.js'></script>
+  <head>
+    <title>Goals plugins test</title>
+    <link rel="stylesheet" href="mocha/mocha.css" />
+    <script src="mocha/mocha.js"></script>
+    <script src="chai/chai.js"></script>
 
-  <script>
-    function assert(expr, msg) {
-      if (!expr) throw new Error(msg || 'failed');
-    }
-  </script>
+    <script>
+      function assert(expr, msg) {
+        if (!expr) throw new Error(msg || 'failed');
+      }
+    </script>
+  </head>
+  <body>
+    <div id="mocha"></div>
 
-</head>
-<body>
-<div id="mocha"></div>
+    <script class="mocha-init">
+      mocha.setup({
+        ui: 'bdd',
+      });
+      mocha.checkLeaks();
+    </script>
 
-<script class="mocha-init">
-  mocha.setup({
-    ui: 'bdd' });
-  mocha.checkLeaks();
-</script>
+    <script type="module" src="testfiles/unit/vision/getVision.test.js"></script>
+    <script type="module" src="testfiles/unit/vision/updateVision.test.js"></script>
+    <script type="module" src="testfiles/unit/notification/getNotification.test.js"></script>
+    <script type="module" src="testfiles/unit/notification/updateNotification.test.js"></script>
+    <script type="module" src="testfiles/integration/goals/createGoal.test.js"></script>
+    <script type="module" src="testfiles/integration/info/info.test.js"></script>
+    <script type="module" src="testfiles/integration/mission/mission.test.js"></script>
+    <script type="module" src="testfiles/integration/sidebar/sidebar.test.js"></script>
 
-<script type="module" src="testfiles/unit/vision/getVision.test.js"></script>
-<script type="module" src="testfiles/unit/vision/updateVision.test.js"></script>
-<script type='module' src='testfiles/unit/notification/getNotification.test.js'></script>
-<script type='module' src='testfiles/unit/notification/updateNotification.test.js'></script>
-<script type='module' src='testfiles/integration/goals/createGoal.test.js'></script>
-<script type='module' src='testfiles/integration/info/info.test.js'></script>
-<script type='module' src='testfiles/integration/mission/mission.test.js'></script>
-<script type='module' src='testfiles/integration/sidebar/sidebar.test.js'></script>
-
-<script class="mocha-exec">
-  window.onload = () => {
-    mocha.run();
-  };
-</script>
-
-</body>
+    <script class="mocha-exec">
+      window.onload = () => {
+        mocha.run();
+      };
+    </script>
+  </body>
 </html>

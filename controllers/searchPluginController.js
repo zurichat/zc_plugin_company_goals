@@ -1,4 +1,5 @@
 const { findAll } = require('../db/databaseHelper');
+// const { findAll, advancedFilter } = require('../db/databaseHelper');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 
@@ -19,10 +20,13 @@ exports.searchPlugin = catchAsync(async (req, res) => {
       const { data } = await findAll('goals', org_id);
       const newArray = data.data.filter((el) => el.goal_name.toLowerCase().includes(search.toLowerCase())); // || el.description.includes(search.toLowerCase));
 
+      // const result = sawait advancedFilter('goals', search, org_id);
+      // console.log('-------', result.data)
       const response = {
         status: 200,
         message: 'success',
         data: newArray,
+        // filter: result
       };
 
       res.status(200).json(response);
