@@ -119,6 +119,7 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
   try {
     const filterObject = { ...filter };
     if (id) {
+      // eslint-disable-next-line no-underscore-dangle
       filterObject._id = id;
     }
     const updateOnePayload = {
@@ -131,7 +132,7 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
       bulk_write: false,
     };
 
-    console.log(filterObject);
+    // console.log(filterObject);
     const response = await axios.put(`${URL}/write`, updateOnePayload);
     logger.info(
       `The update operation was successful with the following response: ${JSON.stringify(response.data.data)}`
@@ -214,5 +215,45 @@ exports.deleteMany = async (collectionName, filter, organization_id) => {
   } catch (error) {
     logger.info(`The delete operation failed with the following error messages: ${error}`);
     throw new AppError(`Update One operation failed: ${error}`, 500);
+  }
+};
+
+exports.advancedFilter = async (collectionName, search, organization_id) => {
+  logger.info(`Advanced filter operation in ${collectionName} of ${organization_id} started.`);
+  try {
+    let filter;
+
+    if (search !== '') {
+      filter = {
+        $or: [
+          { goal_name: { $regex: `${search}`, $options: 'i' } },
+          { description: { $regex: `${search}`, $options: 'i' } },
+        ],
+      };
+    } else {
+      filter = {};
+    }
+    // ({ });
+
+    const newpayload = {
+      ...payload,
+      collection_name: collectionName,
+      organization_id,
+      filter,
+    };
+
+    const response = await axios({
+      method: 'post',
+      url: `${URL}/read`,
+      data: newpayload,
+    });
+
+    logger.info(
+      `Advanced filter operation wa successful with the following response: ${JSON.stringify(response.data.data)}`
+    );
+    return response;
+  } catch (error) {
+    logger.info(`Advanced filter operation failed with the following error message: ${error}`);
+    throw new AppError(`Advanced filter operation failed: ${error}`, 500);
   }
 };
