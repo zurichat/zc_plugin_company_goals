@@ -13,7 +13,7 @@ const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 
 exports.searchGoals = catchAsync(async (req, res, next) => {
-  const { org_id: orgId, search, type: goalType } = req.query;
+  const { org_id: orgId, search, page, limit, type: goalType } = req.query;
 
   if (!orgId) {
     logger.info(`Can't get goals for null organisation id... Exiting...`);
@@ -58,11 +58,50 @@ exports.searchGoals = catchAsync(async (req, res, next) => {
             goal.description.toLowerCase().includes(search.toLowerCase())
           );
         });
+
+        if (page && limit) {
+          const newPage = page * 1 || 1;
+          const perPage = limit * 1 || 5;
+
+          // Calculate the start and end index
+          const start = (newPage - 1) * perPage;
+          const end = newPage * perPage;
+
+          // Paginated goals
+          const searchGoals = newGoals.slice(start, end);
+          const result = {
+            status: 200,
+            message: 'success',
+            currentPage: newPage,
+            count: newGoals.length,
+            totalDocumentsonpage: searchGoals.length,
+            documentPerPage: limit * 1,
+            result: searchGoals,
+          };
+          if (page !== 1) {
+            result.prev = `goals.zuri.com/api/v1/goals/?org_id=6145d099285e4a184020742e&search=${search}&page=${
+              page - 1
+            }&limit=${limit}`;
+            if (newGoals.length > (page - 1) * limit + searchGoals.length) {
+              result.next = `goals.zuri.com/api/v1/goals/?org_id=6145d099285e4a184020742e&search=${search}&page=${
+                page + 1
+              }&limit=${limit}`;
+            }
+          } else if (newGoals > searchGoals) {
+            result.next = `goals.zuri.com/api/v1/goals/?org_id=6145d099285e4a184020742e&search=${search}&page=${
+              page + 1
+            }&limit=${limit}`;
+          }
+
+          return res.status(200).json(result);
+        }
+
         // Sending response
         return res.status(200).json({
           status: 200,
           message: 'success',
-          data: newGoals,
+          count: newGoals.length,
+          result: newGoals,
         });
       }
 
