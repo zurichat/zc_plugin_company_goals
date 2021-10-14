@@ -9,10 +9,10 @@ const { getResults } = require('../services/search.service');
  */
 exports.searchFunction = async (req, res) => {
   const { org_id: orgID, member_id: memberID } = req.params;
-  const { key, id, page, limit } = req.query;
+  const { key, filter, page, limit } = req.query;
 
   try {
-    const result = await getResults(orgID, memberID, key, id, page, limit);
+    const result = await getResults(orgID, memberID, key, filter, page, limit);
 
     if (result instanceof Error) {
       throw result;
