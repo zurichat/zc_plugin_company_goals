@@ -277,7 +277,6 @@ exports.advancedRead = async (collectionName, filter, organization_id, page, lim
     return response;
   } catch (error) {
     logger.info(`Advanced read operation failed with the following error message: ${error}`);
-    console.log(error);
     throw new AppError(`Advanced filter operation failed: ${error}`, 500);
   }
 };
