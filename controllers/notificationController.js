@@ -79,7 +79,7 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
       };
       notifications.push(notification);
     };
-    //userIds.forEach(myFunc);
+    // userIds.forEach(myFunc);
 
     const { data } = await axios.post('https://api.zuri.chat/auth/login', {
       email: 'creator@goals.com',
