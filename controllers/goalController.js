@@ -179,7 +179,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info('no goals for this organization');
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({
       status: 200,
       message: 'success',
@@ -331,7 +331,7 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
     logger.info(`Updating goal with id: ${goalId} with data: ${updateFields}`);
     await updateOne('goals', req.body, {}, orgId, goalId);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 
   // Send notifications to all users.
@@ -802,7 +802,7 @@ exports.createGoalTargets = catchAsync(async (req, res, next) => {
       },
     };
   }
-  console.log(data);
+  // console.log(data);
 
   // store the total targets for a goal with the goal_id as the primary key
   // const total_targets = [ target, ];
