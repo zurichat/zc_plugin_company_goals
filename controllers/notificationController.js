@@ -18,7 +18,7 @@ const {
   deleteMany,
   advancedRead,
 } = require('../db/databaseHelper');
-const notificationService = require('../services/notification.service');
+const { getNotifications } = require('../services/notification.service');
 const AppError = require('../utils/appError');
 const logger = require('../utils/logger.js');
 const { publish } = require('./centrifugoController');
@@ -133,7 +133,7 @@ exports.getUserNotifications = async (req, res) => {
 
   try {
     // Call service to retrieve user notifications
-    const notifs = await notificationService.getNotifications(orgId, userId, page, limit);
+    const notifs = await getNotifications(orgId, userId, page, limit);
 
     // If an error was returned
     if (notifs instanceof Error) throw notifs;

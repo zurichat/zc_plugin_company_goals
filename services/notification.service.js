@@ -6,7 +6,7 @@ const AppError = require('../utils/appError');
  * @param {string} orgID Organization id
  * @param {string} userID User id
  */
-const sendNotification = async (orgID, userID, page = null, limit = null) => {
+const getNotifications = async (orgID, userID, page = null, limit = null) => {
   if (!orgID) {
     return new AppError(`org_id is required`, 403);
   }
@@ -58,4 +58,4 @@ const sendNotification = async (orgID, userID, page = null, limit = null) => {
   }
 };
 
-module.exports = { sendNotification };
+module.exports = { getNotifications };
