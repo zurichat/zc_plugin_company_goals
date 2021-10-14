@@ -45,7 +45,7 @@ exports.sync = async (req, res) => {
 
           if (member_ids.includes(member_id)) {
             const newMemberIds = member_ids.filter((item) => {
-              return item !== member_ids;
+              return item !== member_id;
             });
 
             await updateOne('org_ids', { member_ids: newMemberIds }, { organization_id }, 'companyGoalsPlugin');
