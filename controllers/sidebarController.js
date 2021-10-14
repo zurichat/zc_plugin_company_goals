@@ -3,6 +3,7 @@
 /* eslint-disable camelcase */
 
 const { find, findAll } = require('../db/databaseHelper');
+const { advancedRead } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
@@ -161,6 +162,18 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
   // get number of users in the organization
   // number of users in the organization == number of people in the room
   // I'll need token for this. Will do that when I figure it out.
+  let unreadCount;
+  try {
+    const unread = await advancedRead(
+      'goalNotifications',
+      { isRead: false, user_id, org_id: organization_id },
+      organization_id
+    );
+
+    unreadCount = unread.data.data.length;
+  } catch (error) {
+    unreadCount = 0;
+  }
 
   const sidebarJson = {
     name: 'Company Goals Plugin',
@@ -177,6 +190,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
         room_name: 'All Goals',
         room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
         room_url: `/goals/room/${organization_id}`,
+        unread: unreadCount,
       },
     ],
   };

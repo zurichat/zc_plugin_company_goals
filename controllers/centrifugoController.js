@@ -2,6 +2,7 @@
 const axios = require('axios');
 const { SOCKET_KEY, SOCKET_URL } = require('../centrifugo_config/index');
 const CustomError = require('../utils/appError');
+const logger = require('../utils/logger');
 
 const publish = async (channel, data) => {
   try {
@@ -32,7 +33,8 @@ const test = async (req, res) => {
     await publish('goalstest', 'this is a test');
     res.send('check front end');
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    logger.error(`failed with error ${JSON.stringify(error)}`);
     res.send('error');
   }
 };
