@@ -66,16 +66,7 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
     },
     query: key || '',
     plugin: 'Goals',
-    data: [
-      {
-        title: 'name of resource item',
-        email: `can be empty if it doesn't apply`,
-        description: '',
-        image_url: 'if any',
-        created_at: '',
-        url: 'resource item redirect url',
-      },
-    ],
+    data: [],
     filter_suggestions: { in: [searchID || 'All'], from: [key || ''] },
   };
 

@@ -32,7 +32,7 @@ const installPlugin = async (req, res, next) => {
       message: `InsertedID: ${response.InsertedID}`,
       success: 'true',
       data: {
-        redirect_url: `https://zuri.chat/goals/room/${orgID}`,
+        redirect_url: `/goals/room/${orgID}`,
       },
     });
   } catch (error) {
@@ -71,7 +71,7 @@ const uninstallPlugin = async (req, res, next) => {
       message: `DeletedCount: ${response.data.DeletedCount}`,
       success: 'true',
       data: {
-        redirect_url: `https://zuri.chat/goals/room/${orgID}`,
+        redirect_url: `/channels/message-board/${orgID}`,
       },
     });
   } catch (error) {
