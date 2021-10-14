@@ -1033,8 +1033,8 @@ exports.individualGoalProgress = catchAsync(async (req, res, next) => {
   const { org_id } = req.query;
   const dataGoal = await findGoal(org_id, res);
   const dataTarget = await findTarget(org_id, res);
-  let goals = dataGoal.data.data;
-  let targets = dataTarget.data.data;
+  const goals = dataGoal.data.data;
+  const targets = dataTarget.data.data;
 
   // console.log(goals)
   // console.log(targets)
