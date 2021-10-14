@@ -15,8 +15,12 @@ exports.sync = async (req, res) => {
     const { data: pluginObject } = await axios.get(`${pluginInfoUrl}`);
     const userList = pluginObject.queue;
 
-    if (!userList || userList === null || userList.length < 1) throw new AppError('No queue to update.', 404);
-
+    if (!userList || userList === null || userList.length < 1) {
+      res.status(404).json({
+        statusCode: 404,
+        message: `No queue to update`,
+      });
+    }
     const queueId = userList[userList.length - 1].id;
 
     for (let i = 0; i < userList.length; i += 1) {
@@ -59,11 +63,16 @@ exports.sync = async (req, res) => {
     const data = await axios.patch(`${databaseSyncUrl}`, { id: queueId });
 
     return res.status(200).json({
+      statusCode: 200,
       message: 'Synchronised successfully',
       data,
       isSync: true,
     });
   } catch (error) {
-    throw new AppError(`sync operation failed: ${error}`, 500);
+    res.status(500).json({
+      statusCode: 500,
+      message: `Something unexpected occured`,
+      error: 'Server Error',
+    });
   }
 };
