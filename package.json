@@ -28,6 +28,7 @@
     "@emotion/react": "^11.4.1",
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.2",
+    "agenda": "^4.2.1",
     "ajv": "^8.6.3",
     "aria-query": "^5.0.0",
     "axios": "^0.21.4",
