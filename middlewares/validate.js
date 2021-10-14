@@ -63,7 +63,7 @@ const verifyToken = async (req, res, next) => {
         data: { message, status },
       },
     } = error;
-    console.log(error.response.data);
+    // console.log(error.response.data);
     return next(new AppError(message, status));
   }
 };
