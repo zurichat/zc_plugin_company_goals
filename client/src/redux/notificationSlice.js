@@ -1,8 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { GetUserInfo } from "@zuri/control";
 
 export const getNotifications = createAsyncThunk('notifications/getNotifications', async (orgId) => {
+  const userInfo = await GetUserInfo();
+  console.log(userInfo)
+  const {_id:user_id} = userInfo;
   const response = await fetch(
-    `https://goals.zuri.chat/api/v1/notifications/?org_id=${orgId}&user_id=6145cf0c285e4a1840207426`
+    `https://goals.zuri.chat/api/v1/notifications?org_id=${orgId}&user_id=${user_id}`
   );
   if (response.ok) {
     const notifications = await response.json();
@@ -11,8 +15,9 @@ export const getNotifications = createAsyncThunk('notifications/getNotifications
 });
 
 export const markNotificationAsReadAsync = createAsyncThunk('notifications/markNotificationAsync', async ({ id }) => {
+  const {_id:user_id,org_id} = await GetUserInfo(); 
   const response = await fetch(
-    `https://goals.zuri.chat/api/v1/notifications/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&notification_id=${id}`,
+    `https://goals.zuri.chat/api/v1/notifications?org_id=${org_id}&user_id=${user_id}&notification_id=${id}`,
     {
       method: 'PUT',
       headers: {
@@ -31,8 +36,9 @@ export const markNotificationAsReadAsync = createAsyncThunk('notifications/markN
 export const markAllNotificationsAsReadAsync = createAsyncThunk(
   'notifications/markAllNotificationsAsReadAsync',
   async () => {
+    const {_id:user_id,org_id} = await GetUserInfo(); 
     const response = await fetch(
-      'https://goals.zuri.chat/api/v1/notifications/all?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426',
+      `https://goals.zuri.chat/api/v1/notifications/all?org_id=${org_id}&user_id=${user_id}`,
       {
         method: 'PUT',
         headers: {
@@ -51,8 +57,9 @@ export const markAllNotificationsAsReadAsync = createAsyncThunk(
 export const deleteNotificationAsync = createAsyncThunk(
   'notifications/markAllNotificationsAsReadAsync',
   async ({ id }) => {
+    const {_id:user_id,org_id} = await GetUserInfo(); 
     const response = await fetch(
-      `https://goals.zuri.chat/api/v1/notifications/?org_id=6145d099285e4a184020742e&user_id=6145cf0c285e4a1840207426&notification_id=${id}`,
+      `https://goals.zuri.chat/api/v1/notifications/?org_id=${org_id}&user_id=${user_id}&notification_id=${id}`,
       {
         method: 'DELETE',
         headers: {

@@ -79,30 +79,30 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
       };
       notifications.push(notification);
     };
-    userIds.forEach(myFunc);
+    //userIds.forEach(myFunc);
 
-    // const { data } = await axios.post('https://api.zuri.chat/auth/login', {
-    //   email: 'creator@goals.com',
-    //   password: 'Password123##',
-    // });
+    const { data } = await axios.post('https://api.zuri.chat/auth/login', {
+      email: 'creator@goals.com',
+      password: 'Password123##',
+    });
 
-    // const tokenHeader = data.data.user.token;
+    const tokenHeader = data.data.user.token;
 
-    // let allMembers = await axios({
-    //   method: 'get',
-    //   url: `https://api.zuri.chat/organizations/${orgId}/members`,
-    //   headers: {
-    //     Authorization: tokenHeader,
-    //   },
-    // });
+    let allMembers = await axios({
+      method: 'get',
+      url: `https://api.zuri.chat/organizations/${orgId}/members`,
+      headers: {
+        Authorization: tokenHeader,
+      },
+    });
 
-    // allMembers = allMembers.data.data;
+    allMembers = allMembers.data.data;
 
-    // const memberIds = allMembers.map((member) => {
-    //   return member._id;
-    // });
+    const memberIds = allMembers.map((member) => {
+      return member._id;
+    });
 
-    // memberIds.forEach(myFunc)
+    memberIds.forEach(myFunc);
 
     const Notification = await insertMany('goalNotifications', notifications, orgId);
     const goalNotification = notifications[0];
@@ -114,11 +114,11 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
 
     // sidebar update due to notifications
 
-    for (const id of userIds) {
+    for (const id of memberIds) {
       let unreadCount;
       try {
         // get the number of unread notifications for the user
-        const unread = await advancedRead('goalNotifications', { isRead: false, user_id: id, org_id: orgId });
+        const unread = await advancedRead('goalNotifications', { isRead: false, user_id: id, org_id: orgId }, orgId);
         unreadCount = unread.data.data.length;
       } catch (error) {
         unreadCount = 0;
