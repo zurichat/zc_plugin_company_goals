@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { searchPlugin } = require('../controllers/searchPluginController');
+const { searchFunction } = require('../controllers/searchController');
 
 // Search plugin
-router.route('/:org_id/members/:member_id/search').get(searchPlugin);
+router.route('/:org_id/:member_id/').get(searchFunction);
 
 module.exports = router;
