@@ -6,7 +6,7 @@ export const getNotifications = createAsyncThunk('notifications/getNotifications
   console.log(userInfo)
   const {_id:user_id} = userInfo;
   const response = await fetch(
-    `https://goals.zuri.chat/api/v1/notifications?org_id=${orgId}&user_id=${user_id}`
+    `https://goals.zuri.chat/api/v1/notifications?org_id=${orgId || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`
   );
   if (response.ok) {
     const notifications = await response.json();
@@ -17,7 +17,7 @@ export const getNotifications = createAsyncThunk('notifications/getNotifications
 export const markNotificationAsReadAsync = createAsyncThunk('notifications/markNotificationAsync', async ({ id }) => {
   const {_id:user_id,org_id} = await GetUserInfo(); 
   const response = await fetch(
-    `https://goals.zuri.chat/api/v1/notifications?org_id=${org_id}&user_id=${user_id}&notification_id=${id}`,
+    `https://goals.zuri.chat/api/v1/notifications?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}&notification_id=${id}`,
     {
       method: 'PUT',
       headers: {
@@ -38,7 +38,7 @@ export const markAllNotificationsAsReadAsync = createAsyncThunk(
   async () => {
     const {_id:user_id,org_id} = await GetUserInfo(); 
     const response = await fetch(
-      `https://goals.zuri.chat/api/v1/notifications/all?org_id=${org_id}&user_id=${user_id}`,
+      `https://goals.zuri.chat/api/v1/notifications/all?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`,
       {
         method: 'PUT',
         headers: {
@@ -59,7 +59,7 @@ export const deleteNotificationAsync = createAsyncThunk(
   async ({ id }) => {
     const {_id:user_id,org_id} = await GetUserInfo(); 
     const response = await fetch(
-      `https://goals.zuri.chat/api/v1/notifications/?org_id=${org_id}&user_id=${user_id}&notification_id=${id}`,
+      `https://goals.zuri.chat/api/v1/notifications/?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}&notification_id=${id}`,
       {
         method: 'DELETE',
         headers: {
