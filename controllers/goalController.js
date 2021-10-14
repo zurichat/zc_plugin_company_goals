@@ -364,7 +364,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   // The organization id is required.
   if (!org) {
     logger.info('please provide an organization id.');
-    res.status(400).send({ error: 'Organization_id is required' });
+    return res.status(400).send({ error: 'Organization_id is required' });
   }
 
   // find the goal first to ensure the goal was created by the organization
@@ -373,13 +373,12 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
 
   if (!goal.data.data) {
     logger.info('Wrong organization id provided.');
-    res.status(404).send({ error: 'There is no goal of this id attached to this organization id that was found.' });
+    return res
+      .status(404)
+      .send({ error: 'There is no goal of this id attached to this organization id that was found.' });
   }
 
   const { room_id: roomId, goal_name } = goal.data.data;
-
-  // delete assigned records
-  await deleteMany('roomusers', { room_id: roomId }, org);
 
   // Then, delete the goal.
   const response = await deleteOne('goals', org, id);
