@@ -188,3 +188,21 @@ exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
   console.log(foundRoom.data);
   res.status(200).json(foundRoom.data);
 });
+
+exports.starRoom = async (req, res, next) => {
+  const { org_id, room_id, member_id } = req.params;
+
+  // check if there is already an entry for the user and org
+  try {
+    const response = await find('goals', { org_id, member_id }, '1');
+    const starred = response.data.data;
+    if (starred.length > 0) {
+      return res.json({
+        status: 'success',
+        message: 'starred successfully',
+      });
+    }
+  } catch (error) {
+    return next(new AppError('unable to star room', 500));
+  }
+};
