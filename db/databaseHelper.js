@@ -257,3 +257,26 @@ exports.advancedFilter = async (collectionName, search, organization_id) => {
     throw new AppError(`Advanced filter operation failed: ${error}`, 500);
   }
 };
+
+exports.advancedRead = async (collectionName, filter, organization_id, page, limit) => {
+  logger.info(`Findg documents in advanced read `);
+  payload.collection_name = collectionName;
+  payload.filter = filter;
+  payload.organization_id = organization_id;
+
+  if (page && limit) {
+    payload.options = {
+      limit,
+      skip: (page - 1) * limit,
+    };
+  }
+
+  try {
+    const response = await axios.post(`${URL}/read`, payload);
+    logger.info(`request to get data was successful`);
+    return response;
+  } catch (error) {
+    logger.info(`Advanced read operation failed with the following error message: ${error}`);
+    throw new AppError(`Advanced filter operation failed: ${error}`, 500);
+  }
+};

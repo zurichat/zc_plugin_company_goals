@@ -1,18 +1,36 @@
-const { getFiles } = require('../utils/Directory');
+// eslint-disable-next-line no-unused-vars
+const { request, response } = require('express');
+const { getResults } = require('../services/search.service');
 
-module.exports.searchFile = async (req, res) => {
-  const { channelName, fileName } = req.query;
+/**
+ * Search controller
+ * @param {request} req Express request object
+ * @param {response} res Express response object
+ */
+exports.searchFunction = async (req, res) => {
+  const { org_id: orgID, member_id: memberID } = req.params;
+  const { key, id, page, limit } = req.query;
 
   try {
-    const folderPath = `./uploads/${channelName}`;
-    const data = await getFiles(folderPath, fileName);
+    const result = await getResults(orgID, memberID, key, id, page, limit);
 
-    if (data.length) {
-      return res.status(200).json({ message: 'Found', data: data });
+    if (result instanceof Error) {
+      throw result;
     }
 
-    return res.status(404).json({ message: 'Not Found', data: null });
+    const payload = {
+      status: 'ok',
+      statusCode: 200,
+      ...result,
+    };
+
+    return res.status(200).json(payload);
   } catch (error) {
-    return res.status(500).json({ message: 'Server Error', data: null });
+    if (error.isOperational) {
+      return res
+        .status(error.statusCode)
+        .json({ message: error.message, error: error.status, statusCode: error.statusCode });
+    }
+    return res.status(500).json({ status: 'fail', statusCode: 500, message: error.message });
   }
 };

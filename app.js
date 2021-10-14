@@ -31,7 +31,6 @@ const roomRouter = require('./routes/roomRoute');
 const userRouter = require('./routes/userRoute');
 const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
-const searchPluginRouter = require('./routes/search');
 const syncRouter = require('./routes/syncRoute');
 const pluginRouter = require('./routes/pluginRoute');
 
@@ -117,14 +116,16 @@ app.get('/zuri-plugin-company-goals.js', (req, res) => {
 });
 
 // Api routes
+app.use('/ping', pingRouter);
+app.use('/info', pluginInfoRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/bsearch', Bsearch);
+app.use('/api/v1/users', userRouter);
 app.use('/api/v1/goals', goalRouter);
 app.use('/api/v1/rooms', roomRouter);
-app.use('/api/v1/users', userRouter);
 app.use('/api/v1/search', searchRouter);
-app.use('/ping', pingRouter);
-app.use('/api/v1/sidebar', sidebarRouter);
-app.use('/info', pluginInfoRouter);
 app.use('/api/v1/vision', visionRouter);
+app.use('/api/v1/sidebar', sidebarRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/sync', syncRouter);
@@ -133,11 +134,9 @@ app.use('/api/v1/install', pluginRouter);
 app.use('/test', (req, res) => {
   res.sendFile(path.join(__dirname, 'test/index.html'));
 });
-app.use('/api/v1/bsearch', Bsearch);
+// app.use('/api/v1/realTimeu☻pdates', realTimeupdateRouter);
 // app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(documentation));
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/search', searchPluginRouter);
 
 // Serve search static files
 app.get('/search', (req, res) => {
@@ -148,6 +147,7 @@ app.get('/search', (req, res) => {
 
 // Lordbees 8-9 task
 app.use(express.static(path.join(__dirname, 'test/bsearch/images')));
+
 app.get('/bsearchtest/', (req, res) => {
   res.sendFile(path.join(__dirname, '/test/bsearch/index.html'));
 });
