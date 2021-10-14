@@ -37,7 +37,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
 
   context('Test Invalid Query Params', () => {
     it('Should fail to find notifications - Invalid orgID', async () => {
-      const notifs = await getNotifs.sendNotification(null, 'sample userID');
+      const notifs = await getNotifs.getNotifications(null, 'sample userID');
 
       expect(notifs).to.be.an('error');
       expect(notifs.status).to.equal('fail');
@@ -46,7 +46,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
     });
 
     it('Should fail to find notifications - Invalid userID', async () => {
-      const notifs = await getNotifs.sendNotification('sample orgID', null);
+      const notifs = await getNotifs.getNotifications('sample orgID', null);
 
       expect(notifs).to.be.an('error');
       expect(notifs.status).to.equal('fail');
@@ -62,7 +62,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
       // Replace db.find() method with stub
       getNotifs.__set__('find', stubFind);
 
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID');
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID');
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('error');
@@ -80,7 +80,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
       // Replace db.find() method with stub
       getNotifs.__set__('find', stubFind);
 
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID');
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID');
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('object');
@@ -95,7 +95,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
       // Replace db.find() method with stub
       getNotifs.__set__('find', stubFind);
 
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID');
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID');
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('object');
@@ -115,7 +115,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
 
       const page = 1;
       const limit = 3;
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID', page, limit);
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID', page, limit);
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('object');
@@ -134,7 +134,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
 
       const page = 10;
       const limit = 3;
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID', page, limit);
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID', page, limit);
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('object');
@@ -152,7 +152,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
 
       const page = 0;
       const limit = 3;
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID', page, limit);
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID', page, limit);
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('object');
@@ -171,7 +171,7 @@ describe('GET NOTIFICATIONS TESTS (UNIT)', () => {
 
       const page = 3;
       const limit = 0;
-      const notifs = await getNotifs.sendNotification('sample orgID', 'sample userID', page, limit);
+      const notifs = await getNotifs.getNotifications('sample orgID', 'sample userID', page, limit);
 
       expect(stubFind).to.have.been.calledOnce;
       expect(notifs).to.be.an('object');
