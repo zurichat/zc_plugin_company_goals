@@ -1,8 +1,9 @@
-const axios = require('axios');
-const { advancedRead } = require('../db/databaseHelper');
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 const { publish } = require('../controllers/centrifugoController');
+const { advancedRead } = require('../db/databaseHelper');
 
-module.exports = async (memberIds) => {
+module.exports = async (memberIds, orgId) => {
   for (const id of memberIds) {
     let unreadCount;
     try {
