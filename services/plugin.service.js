@@ -40,7 +40,8 @@ const verifyTokenAndVerifyMemberID = async (orgID, memberID, AuthStr) => {
 
     return new AppError('validation failed', 400);
   } catch (error) {
-    return error;
+    const { data } = error.response;
+    return data;
   }
 };
 

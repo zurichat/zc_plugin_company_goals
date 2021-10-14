@@ -11,8 +11,11 @@ const installPlugin = async (req, res, next) => {
 
   try {
     const confirmVerification = await verifyTokenAndVerifyMemberID(orgID, memberID, AuthStr);
-    if (confirmVerification !== 'validation success')
-      return res.status(403).send({ message: 'Access denied', success: 'false', data: null });
+
+    if (confirmVerification.data) {
+      const { data } = confirmVerification.response;
+      return res.status(data.status).send({ message: data.message, success: 'false', data: null });
+    }
     if (confirmVerification instanceof Error) throw confirmVerification;
     const response = await installPluginControl(orgID, memberID, AuthStr);
     if (response instanceof Error) throw response;
@@ -33,9 +36,7 @@ const installPlugin = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
-    if (error.isOperational)
-      return res.status(error.statusCode).send({ status: error.statusCode, message: error.status });
+    if (error.isOperational) next(error);
     if (error.isAxiosError) {
       const { message } = error.response.data;
       return res.status(400).send({ message, success: false, data: null });
@@ -55,8 +56,11 @@ const uninstallPlugin = async (req, res, next) => {
 
   try {
     const confirmVerification = await verifyTokenAndVerifyMemberID(orgID, memberID, AuthStr);
-    if (confirmVerification !== 'validation success')
-      return res.status(403).send({ message: 'Access denied', success: 'false', data: null });
+
+    if (confirmVerification.data) {
+      const { data } = confirmVerification.response;
+      return res.status(data.status).send({ message: data.message, success: 'false', data: null });
+    }
     if (confirmVerification instanceof Error) throw confirmVerification;
     const response = await uninstallPluginControl(orgID, memberID, AuthStr);
     if (response instanceof Error) throw response;
