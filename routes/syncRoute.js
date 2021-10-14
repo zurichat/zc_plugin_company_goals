@@ -3,6 +3,6 @@ const { sync } = require('../controllers/syncController');
 
 const router = Router();
 
-router.post('/sync', sync);
+router.post('/', sync);
 
 module.exports = router;
