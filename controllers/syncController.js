@@ -15,7 +15,7 @@ exports.sync = async (req, res) => {
     const { data: pluginObject } = await axios.get(`${pluginInfoUrl}`);
     const userList = pluginObject.queue;
 
-    if (!userList) throw new AppError('No queue to update.', 404);
+    if (!userList || userList === null || userList.length < 1) throw new AppError('No queue to update.', 404);
 
     const queueId = userList[userList.length - 1].id;
 
