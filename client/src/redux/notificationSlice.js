@@ -4,7 +4,7 @@ import { GetUserInfo } from "@zuri/control";
 export const getNotifications = createAsyncThunk('notifications/getNotifications', async (orgId) => {
   const userInfo = await GetUserInfo();
   console.log(userInfo)
-  const {_id:user_id} = userInfo;
+  const user_id = userInfo['0']._id
   const response = await fetch(
     `https://goals.zuri.chat/api/v1/notifications?org_id=${orgId || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`
   );
@@ -15,7 +15,8 @@ export const getNotifications = createAsyncThunk('notifications/getNotifications
 });
 
 export const markNotificationAsReadAsync = createAsyncThunk('notifications/markNotificationAsync', async ({ id }) => {
-  const {_id:user_id,org_id} = await GetUserInfo(); 
+  const info = await GetUserInfo(); 
+  const {_id:user_id,org_id} = info['0'];
   const response = await fetch(
     `https://goals.zuri.chat/api/v1/notifications?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}&notification_id=${id}`,
     {
@@ -36,7 +37,8 @@ export const markNotificationAsReadAsync = createAsyncThunk('notifications/markN
 export const markAllNotificationsAsReadAsync = createAsyncThunk(
   'notifications/markAllNotificationsAsReadAsync',
   async () => {
-    const {_id:user_id,org_id} = await GetUserInfo(); 
+    const info = await GetUserInfo(); 
+    const {_id:user_id,org_id} = info['0'];
     const response = await fetch(
       `https://goals.zuri.chat/api/v1/notifications/all?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`,
       {
@@ -57,7 +59,8 @@ export const markAllNotificationsAsReadAsync = createAsyncThunk(
 export const deleteNotificationAsync = createAsyncThunk(
   'notifications/markAllNotificationsAsReadAsync',
   async ({ id }) => {
-    const {_id:user_id,org_id} = await GetUserInfo(); 
+    const info = await GetUserInfo(); 
+    const {_id:user_id,org_id} = info['0'];
     const response = await fetch(
       `https://goals.zuri.chat/api/v1/notifications/?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}&notification_id=${id}`,
       {
