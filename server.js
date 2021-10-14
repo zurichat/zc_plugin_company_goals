@@ -5,14 +5,17 @@ require('dotenv').config({
 
 const app = require('./app');
 const Cronjob = require('./controllers/cronController');
-const { SyncJob } = require('./controllers/cronController');
+const { sync } = require('./controllers/syncController');
 const logger = require('./utils/logger.js');
 
 const PORT = process.env.PORT || 4000;
 
 Cronjob();
-SyncJob();
-const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+// SyncJob();
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
+  sync(); // run the synchronization queue when the server starts up
+});
 
 // process.on('unhandledRejection', (reason, promise) => {
 //   logger.error(`Unhandled rejection at ${promise}, reason: ${reason.message}`);
