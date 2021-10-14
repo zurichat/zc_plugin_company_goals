@@ -129,25 +129,25 @@
       search();
     });
     async function search() {
-      list.innerHTML = '';
-      let goal = document.getElementById('search').value;
-      if (!goal || goal == '') {
-        return alert('input a valid search');
-      }
-      console.log(goal);
+        list.innerHTML = ""
+        let goal = document.getElementById("search").value
+        if(!goal||goal==""){
+            return alert("input a valid search")
+        }
+        console.log(goal)
 
-      fetch(`/api/v1/bsearch?search=${goal}&org_id=6145d099285e4a184020742e`, {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpnMk9EUXpNSHhIZDNkQlIwUlplRTVVVFRWUFJGSnNUbXBKTTFwRVkzbFBWMVp0V2xkTk1FNXRUWGxQUVQwOWZHNEtVeDlnczVyRGxySFR5M2x6V1pFRXpVeTB2Wl9sUklLd0taMUNUMkpTIiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE1Mzk4NGU2MjdkNzI5ZWZlYzQ2YzI4Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDA1MDEzOCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.MGD95Uq8YupwAHNHChYcQkqnCca6PsP2V3jj4vVkKAw',
-          'User-Role': 'Owner',
-        },
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          let searchItems = response.data;
-          searchItems.forEach((item) => {
-            list.innerHTML += `
+        fetch(`/api/v1/bsearch?search=${goal}&org_id=6145d099285e4a184020742e`, {
+            headers: {
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb29raWUiOiJNVFl6TWpnMk9EUXpNSHhIZDNkQlIwUlplRTVVVFRWUFJGSnNUbXBKTTFwRVkzbFBWMVp0V2xkTk1FNXRUWGxQUVQwOWZHNEtVeDlnczVyRGxySFR5M2x6V1pFRXpVeTB2Wl9sUklLd0taMUNUMkpTIiwiZW1haWwiOiJjcmVhdG9yQGdvYWxzLmNvbSIsImlkIjoiNjE1Mzk4NGU2MjdkNzI5ZWZlYzQ2YzI4Iiwib3B0aW9ucyI6eyJQYXRoIjoiLyIsIkRvbWFpbiI6IiIsIk1heEFnZSI6Nzk0MDA1MDEzOCwiU2VjdXJlIjpmYWxzZSwiSHR0cE9ubHkiOmZhbHNlLCJTYW1lU2l0ZSI6MH0sInNlc3Npb25fbmFtZSI6ImY2ODIyYWY5NGUyOWJhMTEyYmUzMTBkM2FmNDVkNWM3In0.MGD95Uq8YupwAHNHChYcQkqnCca6PsP2V3jj4vVkKAw",
+                "User-Role": "Owner"
+            }
+        })
+            .then(response => response.json())
+            .then((response) => {
+                console.log(response)
+                let searchItems = response.result
+                searchItems.forEach((item) => {
+                    list.innerHTML += `
                     <span id="goal">Goal: ${item.goal_name}<span><br>
                     <li>Description: ${item.description}</li> <br>`;
           });

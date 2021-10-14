@@ -1,9 +1,22 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable camelcase */
 
+const { default: axios } = require('axios');
 const { request, response } = require('express');
-const { find, insertMany, deleteOne, updateOne, updateMany, findAll, deleteMany } = require('../db/databaseHelper');
+const {
+  find,
+  insertMany,
+  deleteOne,
+  updateOne,
+  updateMany,
+  findAll,
+  deleteMany,
+  advancedRead,
+} = require('../db/databaseHelper');
 const notificationService = require('../services/notification.service');
 const AppError = require('../utils/appError');
 const logger = require('../utils/logger.js');
@@ -68,10 +81,72 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
     };
     userIds.forEach(myFunc);
 
+    // const { data } = await axios.post('https://api.zuri.chat/auth/login', {
+    //   email: 'creator@goals.com',
+    //   password: 'Password123##',
+    // });
+
+    // const tokenHeader = data.data.user.token;
+
+    // let allMembers = await axios({
+    //   method: 'get',
+    //   url: `https://api.zuri.chat/organizations/${orgId}/members`,
+    //   headers: {
+    //     Authorization: tokenHeader,
+    //   },
+    // });
+
+    // allMembers = allMembers.data.data;
+
+    // const memberIds = allMembers.map((member) => {
+    //   return member._id;
+    // });
+
+    // memberIds.forEach(myFunc)
+
     const Notification = await insertMany('goalNotifications', notifications, orgId);
     const goalNotification = notifications[0];
     goalNotification._id = Notification.data.data.object_ids[0];
+
+    // publishing to centrifugo
+    // general notifications
     await publish('goals-general-notifications', goalNotification);
+
+    // sidebar update due to notifications
+
+    for (const id of userIds) {
+      let unreadCount;
+      try {
+        // get the number of unread notifications for the user
+        const unread = await advancedRead('goalNotifications', { isRead: false, user_id: id, org_id: orgId });
+        unreadCount = unread.data.data.length;
+      } catch (error) {
+        unreadCount = 0;
+      }
+
+      // update the sidebar with this information
+      await publish(`${orgId}_${id}_sidebar`, {
+        event: 'sidebar_update',
+        plugin_id: 'goals.zuri.chat',
+        data: {
+          name: 'Company Goals Plugin',
+          description: 'Shows company goals items',
+          group_name: 'Goals',
+          category: 'productivity',
+          show_group: false,
+          public_rooms: [],
+          joined_rooms: [
+            {
+              room_name: 'All Goals',
+              room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+              room_url: `/goals/room/${orgId}`,
+              unread: unreadCount,
+            },
+          ],
+        },
+      });
+    }
+
     return goalNotification;
   } catch (error) {
     logger.info(`The write operation failed with the following error messages: ${error}`);
