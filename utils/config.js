@@ -17,4 +17,5 @@ module.exports = {
       payload: {},
     },
   },
+  PLUGIN_ID: '61694e079ea5d3be97df295e',
 };
