@@ -33,6 +33,7 @@ const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
 const syncRouter = require('./routes/syncRoute');
 const pluginRouter = require('./routes/pluginRoute');
+const suggestionRouter = require('./routes/suggestionsRoute');
 
 const visionRouter = require('./routes/visionRoutes');
 const Bsearch = require('./routes/BsearchRoute');
@@ -128,8 +129,9 @@ app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/sidebar', sidebarRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
+app.use('/api/v1/search-suggestions', suggestionRouter);
 app.use('/api/v1/sync', syncRouter);
-app.use('/api/v1/install', pluginRouter);
+app.use('/api/v1', pluginRouter);
 // app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 app.use('/test', (req, res) => {
   res.sendFile(path.join(__dirname, 'test/index.html'));
