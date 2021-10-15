@@ -233,7 +233,6 @@ exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
 
 exports.starRoom = async (req, res, next) => {
   const { org_id, room_id, member_id } = req.params;
-
   let starred;
   try {
     // check if the user is actually a member of the room
@@ -250,7 +249,11 @@ exports.starRoom = async (req, res, next) => {
 
   try {
     // star the room as requsted for that user
-    await updateOne('roomusers', { $set: { starred } }, { room_id: org_id, member_id }, org_id);
+    await updateOne('roomusers', { starred }, { room_id: org_id, member_id }, org_id);
+    return res.status(200).json({
+      status: 'success',
+      message: `room ${starred ? 'starred' : 'unstarred'} successfully`,
+    });
 
     // update the sidebar
   } catch (error) {
