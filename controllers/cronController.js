@@ -14,11 +14,6 @@ const dateInPast = (firstDate, secondDate) => {
   return false;
 };
 
-exports.SyncJob = () => {
-  cron.schedule('0 0 0 * * *', () => {
-    sync();
-  });
-};
 
 module.exports = () => {
   // cron scheduler runs every 12am
@@ -41,6 +36,11 @@ module.exports = () => {
     });
   });
 
+  // sync schedule 
+  cron.schedule('0 0 0 * * *', () => {
+    sync();
+  });
+  
   cron.schedule('*/10 * * * * *', async () => {
     await publish('centrifugo-is-working', { data: 'Centrifugo is now working' });
   });
