@@ -76,6 +76,10 @@ const AppRoom = () => {
       console.log('ReactivateOrganizationMember', ctx);
       GetUsers();
     });
+    SubscribeToChannel('centrifugo-is-working', function (ctx) {
+      console.log('centrifugo is working(called from plugin goals', ctx);
+      GetUsers();
+    });
   }, []);
   return (
     <>

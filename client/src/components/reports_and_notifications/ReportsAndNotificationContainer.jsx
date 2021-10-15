@@ -37,6 +37,7 @@ const ReportsAndNotificationContainer = () => {
   })
 
   const notifications = useSelector(selectNotifications);
+  console.log(notifications[0])
 
   return (
     <Tabs>

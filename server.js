@@ -11,7 +11,7 @@ const logger = require('./utils/logger.js');
 const PORT = process.env.PORT || 4000;
 
 Cronjob();
-SyncJob();
+//SyncJob();
 const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
 // process.on('unhandledRejection', (reason, promise) => {
