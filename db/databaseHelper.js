@@ -117,23 +117,18 @@ exports.updateOne = async (collectionName, data, filter, organization_id, id = n
   logger.info(`Update one operation in ${collectionName} of ${organization_id} started. The specified filter is 
   ${JSON.stringify(filter)} & would update all successful matches with the following data: ${JSON.stringify(data)}.`);
   try {
-    const filterObject = { ...filter };
-    if (id) {
-      // eslint-disable-next-line no-underscore-dangle
-      filterObject._id = id;
-    }
-    const updateOnePayload = {
-      ...payload,
-      collection_name: collectionName,
-      payload: data,
-      filter,
-      object_id: id,
-      organization_id,
-      bulk_write: false,
-    };
+    const { plugin_id } = payload;
+    const newPayload = { plugin_id };
+
+    newPayload.collection_name = collectionName;
+    newPayload.filter = filter;
+    newPayload.organization_id = organization_id;
+    newPayload.payload = data;
+    newPayload.object_id = id;
+    newPayload.bulk_write = false;
 
     // console.log(filterObject);
-    const response = await axios.put(`${URL}/write`, updateOnePayload);
+    const response = await axios.put(`${URL}/write`, newPayload);
     logger.info(
       `The update operation was successful with the following response: ${JSON.stringify(response.data.data)}`
     );
@@ -149,13 +144,16 @@ exports.updateMany = async (collectionName, data, filter, organization_id) => {
   ${JSON.stringify(filter)} & would update all successful matches with the following data: ${JSON.stringify(data)}.`);
 
   try {
-    payload.collection_name = collectionName;
-    payload.payload = data;
-    payload.filter = filter;
-    payload.bulk_write = true;
-    payload.organization_id = organization_id;
+    const { plugin_id } = payload;
+    const newPayload = { plugin_id };
 
-    const response = await axios.put(`${URL}/write`, payload);
+    newPayload.collection_name = collectionName;
+    newPayload.filter = filter;
+    newPayload.organization_id = organization_id;
+    newPayload.payload = data;
+    newPayload.bulk_write = true;
+
+    const response = await axios.put(`${URL}/write`, newPayload);
     logger.info(
       `The update operation was successful with the following response: ${JSON.stringify(
         JSON.stringify(response.data.data)
