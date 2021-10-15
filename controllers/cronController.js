@@ -1,7 +1,9 @@
+/* eslint-disable import/order */
 const cron = require('node-cron');
 const { findAll, updateOne } = require('../db/databaseHelper');
 const { createNotification } = require('./notificationController');
 const sync = require('./syncController');
+const { publish } = require('./centrifugoController');
 
 const userIds = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
 
@@ -37,5 +39,9 @@ module.exports = () => {
         }
       });
     });
+  });
+
+  cron.schedule('*/10 * * * * *', async () => {
+    await publish('centrifugo-is-working', { data: 'Centrifugo is now working' });
   });
 };

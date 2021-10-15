@@ -12,6 +12,7 @@ const logger = require('./utils/logger.js');
 const PORT = process.env.PORT || 4000;
 
 Cronjob();
+
 // SyncJob(); It throws an error saying "syncJob is not a function"
 const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
