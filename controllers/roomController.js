@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
-const { insertOne, deleteOne, find, findAll, updateOne } = require('../db/databaseHelper');
-const { roomSchema, userSchema } = require('../schemas');
+const { insertOne, deleteOne, find, findAll, updateOne, deleteMany } = require('../db/databaseHelper');
+const { roomSchema, userSchema, userRoomSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -67,7 +67,7 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
   const rooms = await find(
     'roomusers',
     {
-      user_id: memberId,
+      member_id: memberId,
     },
     orgId
   );
@@ -95,12 +95,13 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
 
 exports.joinRoom = catchAsync(async (req, res, next) => {
   // const { room_id, user_id, organization_id } = req.query;
-  const { room_id: roomId, member_id: memberId, org_id: orgId } = req.params;
+  const { member_id: memberId, org_id: orgId } = req.params;
+  const { room_id: roomId, members_id: membersId } = req.body;
 
   // Validate the body
-  await userSchema.validateAsync({
+  await userRoomSchema.validateAsync({
     room_id: roomId,
-    user_id: memberId,
+    members_id: membersId,
   });
 
   // check that the room_id is valid
@@ -116,38 +117,44 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
-  let roomuser = await find(
+
+  const { goalName, access } = room.data;
+
+  membersId.forEach(async (member) => {
+    let roomuser = await find(
+      'roomusers',
+      {
+        room_id: roomId,
+        member_id: member,
+      },
+      orgId
+    );
+
+    if (roomuser.data.data.length < 1) {
+      // return next(new AppError('user already in room', 400));
+
+      const data = {
+        room_id: roomId,
+        title: goalName,
+        access,
+        member_id: member,
+      };
+
+      roomuser = await insertOne('roomusers', data, orgId);
+    }
+  });
+
+  const seeAll = await find(
     'roomusers',
     {
       room_id: roomId,
-      user_id: memberId,
     },
     orgId
   );
 
-  if (roomuser.data.data.length > 0) {
-    return next(new AppError('user already in room', 400));
-  }
-
-  const getAllRooms = await findAll('goals', orgId);
-
-  const { data: allRooms } = getAllRooms.data;
-
-  const getRoom = allRooms.filter((el) => el.room_id === roomId);
-
-  const data = {
-    room_id: getRoom[0].room_id,
-    title: getRoom[0].goal_name,
-    access: getRoom[0].access,
-    user_id: memberId,
-  };
-
-  roomuser = await insertOne('roomusers', data, orgId);
-  const seeAll = await findAll('roomusers', orgId);
-
   res.status(201).json({
     status: 'success',
-    data: roomuser.data,
+    data: seeAll.data,
   });
 });
 
@@ -173,36 +180,54 @@ exports.getRoom = catchAsync(async (req, res, next) => {
 
 exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
   // const { room_id, user_id, organization_id } = req.query;
-  const { room_id: roomId, member_id: memberId, org_id: orgId } = req.params;
+  const { member_id: memberId, org_id: orgId } = req.params;
+  const { room_id: roomId, members_id: membersId } = req.body;
 
-  await userSchema.validateAsync({
+  // Validate the body
+  await userRoomSchema.validateAsync({
     room_id: roomId,
-    user_id: memberId,
+    members_id: membersId,
   });
 
-  const response = await deleteMany(
+  membersId.forEach(async (member) => {
+    const response = await deleteMany(
+      'roomusers',
+      {
+        room_id: roomId,
+        member_id: member,
+      },
+      orgId
+    );
+  });
+
+  const seeAll = await find(
     'roomusers',
     {
       room_id: roomId,
-      user_id: memberId,
     },
     orgId
   );
 
   res.status(201).json({
     status: 'success',
-    data: response.data,
+    data: seeAll.data,
   });
 });
 
 // get the number of users in a room
 exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
-  const { room_id, user_id } = req.params;
+  const { room_id: roomId, org_id: orgId } = req.params;
+  if (!orgId) return next(new AppError('Org id is required', 400));
+  if (!roomId) return next(new AppError('Room id is required', 400));
 
-  const foundRoom = await find('rooms', {
-    id: room_id,
-  });
-  console.log(foundRoom.data);
+  const foundRoom = await find(
+    'roomusers',
+    {
+      room_id: roomId,
+    },
+    orgId
+  );
+
   res.status(200).json(foundRoom.data);
 });
 
