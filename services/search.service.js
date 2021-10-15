@@ -3,6 +3,7 @@ const { findAll } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 
 const BASE = `https://goals.zuri.chat`;
+const BASE2 = `https://www.zuri.chat/goals`;
 
 /**
  * Build and append URL of single resource to each resource object.
@@ -12,7 +13,7 @@ const BASE = `https://goals.zuri.chat`;
  */
 const buildResult = (data, searchID, orgID) => {
   return data.map((ele) => {
-    const url = `${BASE}/${searchID}/room/${orgID}`;
+    const url = `${BASE2}/room/${orgID}`;
     const { _id, goal_type: type, goal_name: title, description: content, created_at } = ele;
     return { _id, type, title, content, created_at, destination_url: url };
   });
@@ -57,12 +58,11 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
 
   // Base Data transfer object
   const searchDTO = {
-    title: `Search results for {${key}}`,
+    title: key ? `Search results for {${key}}` : 'Search results',
     description: `Showing search results for keyword: ${key} within the goals plugin.`,
     pagination: {
       current_page: page,
       page_size: limit,
-      page_count: 1,
       first_page: 1,
       last_page: 1,
       total_results: 0,
@@ -93,8 +93,7 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
       // Query all data from given collection
       const {
         data: { data },
-      } = await findAll('goal', orgID);
-      console.log(data);
+      } = await findAll('goals', orgID);
 
       // Return default dto if no response
       if (!data || data.length === 0) {
@@ -104,17 +103,18 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
       // Paginate response
       const upper = page <= 1 ? 0 : (page - 1) * limit;
       const lower = page * limit;
+      const lastPage = data.length > limit ? Math.ceil(data.length / limit) : 1;
 
       const finalDTO = buildResult(data, filter, orgID);
 
       searchDTO.pagination.total_results = data.length;
       searchDTO.results.data = finalDTO.slice(upper, lower);
-      searchDTO.pagination.last_page = data.length > limit ? Math.ceil(data.length / limit) : 1;
+      searchDTO.pagination.last_page = lastPage;
+
       searchDTO.pagination.next =
-        searchDTO.pagination.last_page !== page &&
-        `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page + 1}&limit=${limit}`;
+        lastPage !== page ? `${BASE}/api/v1/search/${orgID}/${memberID}?page=${page + 1}&limit=${limit}` : '';
       searchDTO.pagination.previous =
-        page >= 1 && `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page - 1}&limit=${limit}`;
+        page > 1 ? `${BASE}/api/v1/search/${orgID}/${memberID}?page=${page - 1}&limit=${limit}` : '';
 
       return searchDTO;
     } catch (error) {
@@ -128,7 +128,7 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
       // Call zccore with keyword filter
       const {
         data: { data },
-      } = await findAll(searchStr, orgID);
+      } = await findAll('goals', orgID);
 
       // Return default if no data
       if (!data || data.length === 0) {
@@ -141,16 +141,17 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
 
       const filteredData = filterResults(data, key);
 
+      const lastPage = filteredData.length > limit ? Math.ceil(filteredData.length / limit) : 1;
+
       const finalDTO = buildResult(filteredData, searchStr, orgID);
 
       searchDTO.pagination.total_results = filteredData.length;
       searchDTO.results.data = finalDTO.slice(upper, lower);
-      searchDTO.pagination.last_page = filteredData.length > limit ? Math.ceil(filteredData.length / limit) : 1;
+      searchDTO.pagination.last_page = lastPage;
       searchDTO.pagination.next =
-        searchDTO.pagination.last_page !== page &&
-        `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page + 1}&limit=${limit}`;
+        lastPage !== page ? `${BASE}/api/v1/search/${orgID}/${memberID}?q=${key}&page=${page + 1}&limit=${limit}` : '';
       searchDTO.pagination.previous =
-        page >= 1 && `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page - 1}&limit=${limit}`;
+        page > 1 ? `${BASE}/api/v1/search/${orgID}/${memberID}?q=${key}&page=${page - 1}&limit=${limit}` : '';
 
       return searchDTO;
     } catch (error) {
