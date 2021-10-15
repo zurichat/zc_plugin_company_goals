@@ -4,6 +4,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable camelcase */
+/* eslint-disable import/order */
 
 const { default: axios } = require('axios');
 const { request, response } = require('express');
@@ -17,10 +18,11 @@ const {
   deleteMany,
   advancedRead,
 } = require('../db/databaseHelper');
-const notificationService = require('../services/notification.service');
+const { getNotifications } = require('../services/notification.service');
 const AppError = require('../utils/appError');
 const logger = require('../utils/logger.js');
 const { publish } = require('./centrifugoController');
+const updateSideBar = require('../utils/updateSidebarUnread');
 
 const notificationStructure = {
   achievedGoal: [
@@ -79,30 +81,30 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
       };
       notifications.push(notification);
     };
-    userIds.forEach(myFunc);
+    // userIds.forEach(myFunc);
 
-    // const { data } = await axios.post('https://api.zuri.chat/auth/login', {
-    //   email: 'creator@goals.com',
-    //   password: 'Password123##',
-    // });
+    const { data } = await axios.post('https://api.zuri.chat/auth/login', {
+      email: 'creator@goals.com',
+      password: 'Password123##',
+    });
 
-    // const tokenHeader = data.data.user.token;
+    const tokenHeader = data.data.user.token;
 
-    // let allMembers = await axios({
-    //   method: 'get',
-    //   url: `https://api.zuri.chat/organizations/${orgId}/members`,
-    //   headers: {
-    //     Authorization: tokenHeader,
-    //   },
-    // });
+    let allMembers = await axios({
+      method: 'get',
+      url: `https://api.zuri.chat/organizations/${orgId}/members`,
+      headers: {
+        Authorization: tokenHeader,
+      },
+    });
 
-    // allMembers = allMembers.data.data;
+    allMembers = allMembers.data.data;
 
-    // const memberIds = allMembers.map((member) => {
-    //   return member._id;
-    // });
+    const memberIds = allMembers.map((member) => {
+      return member._id;
+    });
 
-    // memberIds.forEach(myFunc)
+    memberIds.forEach(myFunc);
 
     const Notification = await insertMany('goalNotifications', notifications, orgId);
     const goalNotification = notifications[0];
@@ -113,39 +115,7 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
     await publish('goals-general-notifications', goalNotification);
 
     // sidebar update due to notifications
-
-    for (const id of userIds) {
-      let unreadCount;
-      try {
-        // get the number of unread notifications for the user
-        const unread = await advancedRead('goalNotifications', { isRead: false, user_id: id, org_id: orgId });
-        unreadCount = unread.data.data.length;
-      } catch (error) {
-        unreadCount = 0;
-      }
-
-      // update the sidebar with this information
-      await publish(`${orgId}_${id}_sidebar`, {
-        event: 'sidebar_update',
-        plugin_id: 'goals.zuri.chat',
-        data: {
-          name: 'Company Goals Plugin',
-          description: 'Shows company goals items',
-          group_name: 'Goals',
-          category: 'productivity',
-          show_group: false,
-          public_rooms: [],
-          joined_rooms: [
-            {
-              room_name: 'All Goals',
-              room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
-              room_url: `/goals/room/${orgId}`,
-              unread: unreadCount,
-            },
-          ],
-        },
-      });
-    }
+    await updateSideBar(memberIds, orgId);
 
     return goalNotification;
   } catch (error) {
@@ -163,7 +133,7 @@ exports.getUserNotifications = async (req, res) => {
 
   try {
     // Call service to retrieve user notifications
-    const notifs = await notificationService.getNotifications(orgId, userId, page, limit);
+    const notifs = await getNotifications(orgId, userId, page, limit);
 
     // If an error was returned
     if (notifs instanceof Error) throw notifs;
@@ -230,6 +200,7 @@ exports.updateNotification = async (req, res) => {
   try {
     // Update notification
     const updatedNotification = await updateOne('goalNotifications', update, {}, orgId, notificationId);
+    await updateSideBar([userId], orgId);
 
     return res.status(200).json({
       status: 200,
@@ -271,7 +242,7 @@ exports.updateNotifications = async (req, res) => {
   try {
     // Update all notifications.
     const updatedNotifications = await updateMany('goalNotifications', update, filter, orgId);
-
+    await updateSideBar([userId], orgId);
     // Returning response.
     return res.status(200).json({
       status: 200,
@@ -312,7 +283,7 @@ exports.deleteNotification = async (req, res) => {
   try {
     // Deleting the notification
     const deletedNotification = await deleteOne('goalNotifications', orgId, notificationId);
-
+    await updateSideBar([userId], orgId);
     // Returning response.
     return res.status(200).json({
       status: 200,

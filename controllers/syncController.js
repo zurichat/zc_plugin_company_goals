@@ -9,37 +9,59 @@ const logger = require('../utils/logger.js');
 
 const databaseSyncUrl = 'https://api.zuri.chat/plugins/613dcd7ae4010959c8dc0c56/sync';
 const pluginInfoUrl = 'https://api.zuri.chat/marketplace/plugins/613dcd7ae4010959c8dc0c56';
+const goalsOrgId = '61689c3ddccf86581850a817';
 
 exports.sync = async (req, res) => {
   try {
-    const { data: pluginObject } = await axios.get(`${pluginInfoUrl}`);
+    const {
+      data: { data: pluginObject },
+    } = await axios.get(`${pluginInfoUrl}`);
     const userList = pluginObject.queue;
 
-    if (!userList) throw new AppError('No queue to update.', 404);
+    if (!userList || userList === null || userList.length < 1) {
+      logger.info(`Error 404: No queue to update.`);
+    }
 
     const queueId = userList[userList.length - 1].id;
 
     for (let i = 0; i < userList.length; i += 1) {
       const { organization_id, member_id } = userList[i].message;
 
-      if (userList[i].event === 'enter_organization') {
-        const {
-          data: { data },
-        } = await find('org_ids', { organization_id }, 'companyGoalsPlugin');
+      const findOrgs = await find(
+        'org_ids',
+        {
+          organization_id,
+        },
+        goalsOrgId
+      );
+      const { data } = findOrgs.data;
 
-        if (data === null || data.length < 1) {
-          await insertOne('org_ids', { organization_id, member_ids: [member_id] }, 'companyGoalsPlugin');
+      if (userList[i].event === 'enter_organization') {
+        if (!data || data === null || data.length < 1) {
+          await insertOne(
+            'org_ids',
+            {
+              organization_id,
+              member_ids: [member_id],
+            },
+            goalsOrgId
+          );
         } else {
           const newMemberIds = data[0].member_ids;
 
           if (!newMemberIds.includes(member_id)) newMemberIds.push(member_id);
-          await updateOne('org_ids', { member_ids: newMemberIds }, { organization_id }, 'companyGoalsPlugin');
+          await updateOne(
+            'org_ids',
+            {
+              member_ids: newMemberIds,
+            },
+            {
+              organization_id,
+            },
+            goalsOrgId
+          );
         }
       } else if (userList[i].event === 'leave_organization') {
-        const {
-          data: { data },
-        } = await find('org_ids', { organization_id }, 'companyGoalsPlugin');
-
         if (data.length > 0) {
           const { member_ids } = data[0];
 
@@ -48,7 +70,16 @@ exports.sync = async (req, res) => {
               return item !== member_id;
             });
 
-            await updateOne('org_ids', { member_ids: newMemberIds }, { organization_id }, 'companyGoalsPlugin');
+            await updateOne(
+              'org_ids',
+              {
+                member_ids: newMemberIds,
+              },
+              {
+                organization_id,
+              },
+              goalsOrgId
+            );
           }
         } else {
           logger.info(`User no longer in organisation`);
@@ -56,14 +87,12 @@ exports.sync = async (req, res) => {
       }
     }
 
-    const data = await axios.patch(`${databaseSyncUrl}`, { id: queueId });
-
-    return res.status(200).json({
-      message: 'Synchronised successfully',
-      data,
-      isSync: true,
+    await axios.patch(`${databaseSyncUrl}`, {
+      id: queueId,
     });
+
+    logger.info(`Plug-in updated successfully.`);
   } catch (error) {
-    throw new AppError(`sync operation failed: ${error}`, 500);
+    logger.info(`Error 500: Something unexpected happened, ${error.message}`);
   }
 };

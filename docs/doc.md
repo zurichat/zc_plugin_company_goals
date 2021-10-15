@@ -1420,3 +1420,78 @@ curl -X 'DELETE' \
   status: 200,
 }
 ```
+
+
+
+<!-- Search Plugin api -->
+
+> ### Search Plugin
+
+> ### Description
+
+&nbsp; This endpoints searches the plugin for the provided key
+
+> ### Parameters
+
+| Method   | Endpoint                        | Body | Parameter              | Query | Content Type       | Description                |
+| -------- | --------------------------------| ---- | ---------------------- | ----- | ------------------ | -------------------------- |
+| `GET` | `/search/api/v1/:org_id/:member_id` | null | org_id </br> member_id | key </br> id </br> limit </br> page | `application/json` | **id** and **key** are required |
+
+> ### Code Sample
+
+```bash
+curl -X 'GET' \
+  'https://goals.zuri.chat/api/v1/search/614679ee1a5607b13c00bcb7/6145d0ff285e4a1840207433/?id=goals&limit=15&page=1key=annual' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+```
+
+### Sample Response
+
+&nbsp;&nbsp;&nbsp; **Code 200**
+
+```bash
+{
+    "status": "ok",
+    "statusCode": 200,
+    "pagination": {
+        "current_page": 1,
+        "per_page": 20,
+        "page_count": 1,
+        "first_page": 1,
+        "last_page": 1,
+        "total_count": 1
+    },
+    "query": "quarterly",
+    "plugin": "Goals",
+    "data": [
+        {
+            "id": "6152fc575fc425e7e5f3b9a6",
+            "url": "https://goals.zuri.chat/goals/room/614679ee1a5607b13c00bcb7",
+            "type": "quarterly",
+            "title": "frontend first goal",
+            "description": "i think this should work",
+            "created_at": "2021-9-28",
+            "category": "Devops"
+        }
+    ],
+    "filter_suggestions": {
+        "in": [
+            "goals"
+        ],
+        "from": [
+            "quarterly"
+        ]
+    }
+}
+```
+
+&nbsp;&nbsp;&nbsp; **Code 500**
+
+```bash
+{
+    "message": "No search key or ID was provided",
+    "error": "error",
+    "statusCode": 500
+}
+```

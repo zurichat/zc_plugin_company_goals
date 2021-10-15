@@ -62,9 +62,15 @@ exports.createRoom = catchAsync(async (req, res, next) => {
 
 // gets all rooms for an organization
 exports.getAllRooms = catchAsync(async (req, res, next) => {
-  const { organization_id } = req.query;
+  const { member_id: memberId, org_id: orgId } = req.params;
 
-  const rooms = await findAll('rooms', organization_id);
+  const rooms = await find(
+    'roomusers',
+    {
+      user_id: memberId,
+    },
+    orgId
+  );
 
   if (rooms.data.data.length === 0) {
     res.status(404).json({
@@ -88,18 +94,23 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
 });
 
 exports.joinRoom = catchAsync(async (req, res, next) => {
-  const { room_id, user_id, organization_id } = req.query;
+  // const { room_id, user_id, organization_id } = req.query;
+  const { room_id: roomId, member_id: memberId, org_id: orgId } = req.params;
 
   // Validate the body
   await userSchema.validateAsync({
-    room_id,
-    user_id,
+    room_id: roomId,
+    user_id: memberId,
   });
 
   // check that the room_id is valid
-  const room = await find('goals', {
-    room_id,
-  });
+  const room = await find(
+    'goals',
+    {
+      room_id: roomId,
+    },
+    orgId
+  );
 
   if (room.data.data.length <= 0) {
     return next(new AppError('Room not found', 404));
@@ -108,31 +119,31 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
   let roomuser = await find(
     'roomusers',
     {
-      room_id,
-      user_id,
+      room_id: roomId,
+      user_id: memberId,
     },
-    organization_id
+    orgId
   );
 
   if (roomuser.data.data.length > 0) {
     return next(new AppError('user already in room', 400));
   }
 
-  const getAllRooms = await findAll('goals');
+  const getAllRooms = await findAll('goals', orgId);
 
   const { data: allRooms } = getAllRooms.data;
 
-  const getRoom = allRooms.filter((el) => el.room_id === room_id);
+  const getRoom = allRooms.filter((el) => el.room_id === roomId);
 
   const data = {
     room_id: getRoom[0].room_id,
     title: getRoom[0].goal_name,
     access: getRoom[0].access,
-    user_id,
+    user_id: memberId,
   };
 
-  roomuser = await insertOne('roomusers', data, organization_id);
-  const seeAll = await findAll('roomusers');
+  roomuser = await insertOne('roomusers', data, orgId);
+  const seeAll = await findAll('roomusers', orgId);
 
   res.status(201).json({
     status: 'success',
@@ -141,35 +152,41 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
 });
 
 exports.getRoom = catchAsync(async (req, res, next) => {
-  const { room_id } = req.query;
+  // const { room_id } = req.query;
+  const { room_id: roomId, org_id: orgId } = req.params;
 
-  const room = await find('goals', {
-    id: room_id,
-  });
+  const room = await find(
+    'goals',
+    {
+      id: roomId,
+    },
+    orgId
+  );
   const { data } = room.data;
   if (data.length < 1) {
     return res.status(404).send({
-      message: `room ${room_id} does not exist`,
+      message: `room ${roomId} does not exist`,
     });
   }
   return res.status(200).json(room.data);
 });
 
 exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
-  const { room_id, user_id, organization_id } = req.query;
+  // const { room_id, user_id, organization_id } = req.query;
+  const { room_id: roomId, member_id: memberId, org_id: orgId } = req.params;
 
   await userSchema.validateAsync({
-    room_id,
-    user_id,
+    room_id: roomId,
+    user_id: memberId,
   });
 
-  const response = await deleteOne(
+  const response = await deleteMany(
     'roomusers',
     {
-      user_id,
-      room_id,
+      room_id: roomId,
+      user_id: memberId,
     },
-    organization_id
+    orgId
   );
 
   res.status(201).json({
@@ -188,3 +205,21 @@ exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
   console.log(foundRoom.data);
   res.status(200).json(foundRoom.data);
 });
+
+exports.starRoom = async (req, res, next) => {
+  const { org_id, room_id, member_id } = req.params;
+
+  // check if there is already an entry for the user and org
+  try {
+    const response = await find('goals', { org_id, member_id }, '1');
+    const starred = response.data.data;
+    if (starred.length > 0) {
+      return res.json({
+        status: 'success',
+        message: 'starred successfully',
+      });
+    }
+  } catch (error) {
+    return next(new AppError('unable to star room', 500));
+  }
+};

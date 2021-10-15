@@ -176,6 +176,7 @@ exports.deleteOne = async (collectionName, organization_id, _id) => {
     payload.collection_name = collectionName;
     payload.object_id = _id;
     payload.organization_id = organization_id;
+    payload.bulk_delete = false;
 
     const response = await axios({
       method: 'post',
@@ -260,19 +261,21 @@ exports.advancedFilter = async (collectionName, search, organization_id) => {
 
 exports.advancedRead = async (collectionName, filter, organization_id, page, limit) => {
   logger.info(`Findg documents in advanced read `);
-  payload.collection_name = collectionName;
-  payload.filter = filter;
-  payload.organization_id = organization_id;
+  const { plugin_id } = payload;
+  const newPayload = { plugin_id };
+  newPayload.collection_name = collectionName;
+  newPayload.filter = filter;
+  newPayload.organization_id = organization_id;
 
   if (page && limit) {
-    payload.options = {
+    newPayload.options = {
       limit,
       skip: (page - 1) * limit,
     };
   }
 
   try {
-    const response = await axios.post(`${URL}/read`, payload);
+    const response = await axios.post(`${URL}/read`, newPayload);
     logger.info(`request to get data was successful`);
     return response;
   } catch (error) {
