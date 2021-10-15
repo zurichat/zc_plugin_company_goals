@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { findAll } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 
@@ -12,7 +13,17 @@ const BASE = `https://goals.zuri.chat`;
 const buildURL = (data, searchID, orgID) => {
   const payload = data.map((ele) => {
     const url = `${BASE}/${searchID}/room/${orgID}`;
-    return { ...ele, url };
+    const {
+      _id: id,
+      goal_type: type,
+      goal_name: title,
+      description,
+      created_at,
+      category,
+      is_complete,
+      is_expired,
+    } = ele;
+    return { id, url, type, title, description, created_at, category, is_complete, is_expired };
   });
 
   return payload;
@@ -48,7 +59,7 @@ const filterResults = (unfilteredData, key) => {
  * @param {string} orgID User's organization ID
  * @param {string} memberID User's current member ID
  * @param {string} key String to search for
- * @param {string} searchID Filter paramater to categorize search
+ * @param {string} searchID Filter parameter to categorize search
  */
 exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitStr = 20) => {
   const page = Number.parseInt(pageStr, 10);
@@ -71,7 +82,7 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
   };
 
   if (!orgID || !memberID) {
-    return new AppError('No organization ID was provided', 500);
+    return new AppError('No organization ID or member ID was provided', 500);
   }
 
   if (!key && !searchID) {
@@ -106,12 +117,13 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
     }
   }
 
-  if (key && searchID) {
+  if (key) {
+    const searchStr = searchID || 'goals';
     try {
       // Call zccore with keyword filter
       const {
         data: { data },
-      } = await findAll(searchID, orgID);
+      } = await findAll(searchStr, orgID);
 
       // Return default if no data
       if (!data || data.length === 0) {
@@ -124,7 +136,7 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
 
       const filteredData = filterResults(data, key);
 
-      const finalDTO = buildURL(filteredData, searchID, orgID);
+      const finalDTO = buildURL(filteredData, searchStr, orgID);
 
       searchDTO.pagination.total_count = filteredData.length;
       searchDTO.data = finalDTO.slice(upper, lower);

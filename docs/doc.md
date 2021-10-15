@@ -1444,7 +1444,6 @@ curl -X 'GET' \
   'https://goals.zuri.chat/api/v1/search/614679ee1a5607b13c00bcb7/6145d0ff285e4a1840207433/?id=goals&limit=15&page=1key=annual' \
 -H 'accept: application/json' \
 -H 'Content-Type: application/json' \
-}'
 ```
 
 ### Sample Response
@@ -1457,28 +1456,23 @@ curl -X 'GET' \
     "statusCode": 200,
     "pagination": {
         "current_page": 1,
-        "per_page": 15,
+        "per_page": 20,
         "page_count": 1,
         "first_page": 1,
         "last_page": 1,
         "total_count": 1
     },
-    "query": "devops",
+    "query": "quarterly",
     "plugin": "Goals",
     "data": [
         {
-            "_id": "6152fc575fc425e7e5f3b9a6",
-            "category": "Devops",
-            "created_at": "2021-9-28",
+            "id": "6152fc575fc425e7e5f3b9a6",
+            "url": "https://goals.zuri.chat/goals/room/614679ee1a5607b13c00bcb7",
+            "type": "quarterly",
+            "title": "frontend first goal",
             "description": "i think this should work",
-            "due_date": "2021-10-14",
-            "goal_name": "frontend first goal",
-            "goal_type": "quarterly",
-            "isComplete": false,
-            "isExpired": false,
-            "room_id": "c342cf19-f275-4856-9292-de488d4d926a",
-            "start_date": "2021-10-09",
-            "url": "https://goals.zuri.chat/goals/room/614679ee1a5607b13c00bcb7"
+            "created_at": "2021-9-28",
+            "category": "Devops"
         }
     ],
     "filter_suggestions": {
@@ -1486,7 +1480,7 @@ curl -X 'GET' \
             "goals"
         ],
         "from": [
-            "devops"
+            "quarterly"
         ]
     }
 }
