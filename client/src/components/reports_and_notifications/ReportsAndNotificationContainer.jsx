@@ -37,14 +37,7 @@ const ReportsAndNotificationContainer = () => {
   })
 
   const notifications = useSelector(selectNotifications);
-  let unreadCount = 0;
-  notifications.forEach((item)=>{
-    
-    if(!item.isRead)
-    {
-      unreadCount++;
-    }
-  })
+
  console.log('there are ',unreadCount, ' unread goal notifications')
  
   return (
@@ -67,7 +60,7 @@ const ReportsAndNotificationContainer = () => {
             <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
               Notifications
             </TabButton>
-            <Span>{unreadCount}</Span>
+            <Span>{notifications.filter(item=>!item.isRead).length}</Span>
           </TabButtonNotification>
         </NavContainer>
       </NavTabs>
