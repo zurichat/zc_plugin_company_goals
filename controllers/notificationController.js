@@ -83,25 +83,12 @@ exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) 
     };
     // userIds.forEach(myFunc);
 
-    const { data } = await axios.post('https://api.zuri.chat/auth/login', {
-      email: 'creator@goals.com',
-      password: 'Password123##',
-    });
-
-    const tokenHeader = data.data.user.token;
-
-    let allMembers = await axios({
-      method: 'get',
-      url: `https://api.zuri.chat/organizations/${orgId}/members`,
-      headers: {
-        Authorization: tokenHeader,
-      },
-    });
+    let allMembers = await find('roomusers', { room_id: orgId }, orgId);
 
     allMembers = allMembers.data.data;
 
-    const memberIds = allMembers.map((member) => {
-      return member._id;
+    const memberIds = allMembers.map((roomuser) => {
+      return roomuser.user_id;
     });
 
     memberIds.forEach(myFunc);
