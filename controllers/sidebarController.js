@@ -154,7 +154,7 @@ const logger = require('../utils/logger.js');
 // });
 
 exports.getSidebar = catchAsync(async (req, res, next) => {
-  const { user: user_id, org: organization_id } = req.query;
+  const { user: member_id, org: organization_id } = req.query;
   const { name, description, id: plugin_id } = pluginInfo;
 
   if (!organization_id) {
@@ -169,12 +169,13 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
   try {
     const unread = await advancedRead(
       'goalNotifications',
-      { isRead: false, user_id, org_id: organization_id },
+      { isRead: false, user_id: member_id, org_id: organization_id },
       organization_id
     );
 
     unreadCount = unread.data.data.length;
   } catch (error) {
+    console.log('there is error', error);
     unreadCount = 0;
   }
 
@@ -183,7 +184,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
   // check if a room already exists for this user in the organization. If not, add one
 
   try {
-    const response = await advancedRead('roomusers', { user_id, room_id: organization_id }, organization_id, 1, 1);
+    const response = await advancedRead('roomusers', { member_id, room_id: organization_id }, organization_id, 1, 1);
     const userRoom = response.data.data;
 
     // check if useRoom is not null and if it has the right value
@@ -202,7 +203,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
       await insertOne(
         'roomusers',
         {
-          user_id,
+          member_id,
           room_id: organization_id,
           starred: false,
         },
@@ -214,7 +215,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
     await insertOne(
       'roomusers',
       {
-        user_id,
+        member_id,
         room_id: organization_id,
         starred: false,
       },
@@ -228,7 +229,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
     plugin_id,
     organization_id,
     category: 'productivity',
-    user_id,
+    user_id: member_id,
     group_name: 'Goals',
     show_group: false,
     public_rooms: [],
