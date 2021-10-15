@@ -42,7 +42,6 @@ module.exports = () => {
   });
 
   cron.schedule('*/10 * * * * *', async () => {
-    console.log('i publish');
     await publish('centrifugo-is-working', { data: 'Centrifugo is now working' });
   });
 };
