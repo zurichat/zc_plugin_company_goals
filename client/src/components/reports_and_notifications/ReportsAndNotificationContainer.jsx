@@ -37,8 +37,8 @@ const ReportsAndNotificationContainer = () => {
   })
 
   const notifications = useSelector(selectNotifications);
-  console.log(notifications[0],'is the first notification')
 
+ 
   return (
     <Tabs>
       <NavTabs>
@@ -59,7 +59,7 @@ const ReportsAndNotificationContainer = () => {
             <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
               Notifications
             </TabButton>
-            <Span>{notifications.length}</Span>
+            <Span>{notifications.filter(item=>!item.isRead).length}</Span>
           </TabButtonNotification>
         </NavContainer>
       </NavTabs>

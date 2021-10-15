@@ -2,8 +2,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 
+const { pluginInfo } = require('../data/pluginInfo.json');
 const { find, findAll } = require('../db/databaseHelper');
-const { advancedRead } = require('../db/databaseHelper');
+const { advancedRead, insertOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
@@ -154,6 +155,7 @@ const logger = require('../utils/logger.js');
 
 exports.getSidebar = catchAsync(async (req, res, next) => {
   const { user: user_id, org: organization_id } = req.query;
+  const { name, description, id: plugin_id } = pluginInfo;
 
   if (!organization_id) {
     return next(new AppError('organization id is required', 400));
@@ -162,6 +164,7 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
   // get number of users in the organization
   // number of users in the organization == number of people in the room
   // I'll need token for this. Will do that when I figure it out.
+
   let unreadCount;
   try {
     const unread = await advancedRead(
@@ -175,21 +178,67 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
     unreadCount = 0;
   }
 
+  const starred = [];
+
+  // check if a room already exists for this user in the organization. If not, add one
+
+  try {
+    const response = await advancedRead('roomusers', { user_id, room_id: organization_id }, organization_id, 1, 1);
+    const userRoom = response.data.data;
+
+    // check if useRoom is not null and if it has the right value
+    if (userRoom && userRoom.length > 0) {
+      if (userRoom[0].starred) {
+        starred.push({
+          room_name: 'All Goals',
+          room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
+          room_url: `/goals/room/${organization_id}`,
+          room_id: organization_id,
+          unread: unreadCount,
+        });
+      }
+    } // userRoom is null and there is no room
+    else {
+      await insertOne(
+        'roomusers',
+        {
+          user_id,
+          room_id: organization_id,
+          starred: false,
+        },
+        organization_id
+      );
+    }
+  } catch (error) {
+    // room collection possibly not created for this organization
+    await insertOne(
+      'roomusers',
+      {
+        user_id,
+        room_id: organization_id,
+        starred: false,
+      },
+      organization_id
+    );
+  }
+
   const sidebarJson = {
-    name: 'Company Goals Plugin',
-    description: 'Shows company goals items',
-    plugin_id: '613dcd7ae4010959c8dc0c56',
+    name,
+    description,
+    plugin_id,
     organization_id,
     category: 'productivity',
     user_id,
     group_name: 'Goals',
     show_group: false,
     public_rooms: [],
+    starred,
     joined_rooms: [
       {
         room_name: 'All Goals',
         room_image: 'cdn.cloudflare.com/445345453345/hello.jpeg',
         room_url: `/goals/room/${organization_id}`,
+        room_id: organization_id,
         unread: unreadCount,
       },
     ],

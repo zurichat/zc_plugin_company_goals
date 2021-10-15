@@ -1,8 +1,13 @@
+/* eslint-disable camelcase */
+const { pluginInfo } = require('../data/pluginInfo.json');
+
+const { id: plugin_id } = pluginInfo;
+
 module.exports = {
   DATABASE: {
     URL: 'https://api.zuri.chat/data', // https://zccore.herokuapp.com/data',
     payload: {
-      plugin_id: '613dcd7ae4010959c8dc0c56',
+      plugin_id,
       organization_id: '1',
       collection_name: '',
       bulk_write: false,
@@ -12,4 +17,5 @@ module.exports = {
       payload: {},
     },
   },
+  PLUGIN_ID: '61694e079ea5d3be97df295e',
 };
