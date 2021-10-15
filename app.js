@@ -129,7 +129,7 @@ app.use('/api/v1/sidebar', sidebarRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/sync', syncRouter);
-app.use('/api/v1/install', pluginRouter);
+app.use('/api/v1', pluginRouter);
 // app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
 app.use('/test', (req, res) => {
   res.sendFile(path.join(__dirname, 'test/index.html'));

@@ -1,22 +1,11 @@
-const {
-  installPluginControl,
-  verifyTokenAndVerifyMemberID,
-  uninstallPluginControl,
-} = require('../services/plugin.service');
+const { installPluginControl, uninstallPluginControl } = require('../services/plugin.service');
 const catchAsync = require('../utils/catchAsync');
 
 const installPlugin = async (req, res, next) => {
-  const { organization_id: orgID, user_id: memberID } = req.body;
+  const { organisation_id: orgID, user_id: memberID } = req.body;
   const AuthStr = req.header('Authorization');
 
   try {
-    const confirmVerification = await verifyTokenAndVerifyMemberID(orgID, memberID, AuthStr);
-
-    if (confirmVerification.data) {
-      const { data } = confirmVerification.response;
-      return res.status(data.status).send({ message: data.message, success: 'false', data: null });
-    }
-    if (confirmVerification instanceof Error) throw confirmVerification;
     const response = await installPluginControl(orgID, memberID, AuthStr);
     if (response instanceof Error) throw response;
 
@@ -51,17 +40,10 @@ const installPlugin = async (req, res, next) => {
 };
 
 const uninstallPlugin = async (req, res, next) => {
-  const { organization_id: orgID, user_id: memberID } = req.body;
+  const { organisation_id: orgID, user_id: memberID } = req.body;
   const AuthStr = req.header('Authorization');
 
   try {
-    const confirmVerification = await verifyTokenAndVerifyMemberID(orgID, memberID, AuthStr);
-
-    if (confirmVerification.data) {
-      const { data } = confirmVerification.response;
-      return res.status(data.status).send({ message: data.message, success: 'false', data: null });
-    }
-    if (confirmVerification instanceof Error) throw confirmVerification;
     const response = await uninstallPluginControl(orgID, memberID, AuthStr);
     if (response instanceof Error) throw response;
     const { message } = response;
