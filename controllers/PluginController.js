@@ -18,7 +18,7 @@ const installPlugin = async (req, res, next) => {
     }
 
     return res.status(200).send({
-      message: `InsertedID: ${response.InsertedID}`,
+      message: `Plugin added to organization: ${orgID} successfully`,
       success: 'true',
       data: {
         redirect_url: `/goals/room/${orgID}`,
@@ -28,12 +28,12 @@ const installPlugin = async (req, res, next) => {
     if (error.isOperational) next(error);
     if (error.isAxiosError) {
       const { message } = error.response.data;
-      return res.status(400).send({ message, success: false, data: null });
+      return res.status(400).send({ message, success: 'false', data: null });
     }
     res.status(500).json({
       message: `Something unexpected occured`,
       error,
-      success: false,
+      success: 'false',
       data: null,
     });
   }
@@ -50,7 +50,7 @@ const uninstallPlugin = async (req, res, next) => {
     if (response.status !== 200) return res.status(response.status).send({ message, success: 'false', data: null });
 
     return res.status(200).send({
-      message: `DeletedCount: ${response.data.DeletedCount}`,
+      message: `Plugin uninstalled from the organization: ${orgID} successfully`,
       success: 'true',
       data: {
         redirect_url: `/channels/message-board/${orgID}`,
