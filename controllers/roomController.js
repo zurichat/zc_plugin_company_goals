@@ -72,8 +72,8 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (rooms.data.data.length === 0) {
-    res.status(404).json({
+  if (rooms.data.data === null || rooms.data.data.length === 0) {
+    return res.status(404).json({
       status: 'failed',
       message: 'Room List is empty ',
       data: null,
@@ -113,7 +113,7 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     orgId
   );
 
-  if (room.data.data.length <= 0) {
+  if (room.data.data === null || room.data.data.length <= 0) {
     return next(new AppError('Room not found', 404));
   }
   // check that user isnt already in the room
