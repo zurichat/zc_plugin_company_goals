@@ -59,7 +59,9 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
   // Base Data transfer object
   const searchDTO = {
     title: key ? `Search results for {${key}}` : 'Search results',
-    description: `Showing search results for keyword: ${key} within the goals plugin.`,
+    description: key
+      ? `Showing search results for keyword: ${key} within the goals plugin.`
+      : 'Showing search results within the goals plugin.',
     pagination: {
       current_page: page,
       page_size: limit,
