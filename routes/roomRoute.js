@@ -11,7 +11,7 @@ const {
 
 // Create a room
 // router.route('/').get(createRoom);
-router.post('/:org_id/room/:room_id/members/:member_id/star', starRoom);
+router.put('/:org_id/room/:room_id/members/:member_id/star', starRoom);
 router.route('/:org_id/users/:member_id/room').get(getAllRooms);
 router.route('/:org_id/room/:room_id/members/:member_id').post(joinRoom).patch(removeUserFromRoom);
 router.route('/:org_id/room/:room_id').get(getRoom);
