@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
-const { insertOne, deleteOne, find, findAll, updateOne } = require('../db/databaseHelper');
+const { insertOne, deleteOne, find, findAll, updateOne, deleteMany } = require('../db/databaseHelper');
 const { roomSchema, userSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -207,19 +207,26 @@ exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
 });
 
 exports.starRoom = async (req, res, next) => {
-  const { org_id, room_id, member_id } = req.params;
+  const { org_id, room_id, member_id: user_id } = req.params;
 
-  // check if there is already an entry for the user and org
   try {
-    const response = await find('goals', { org_id, member_id }, '1');
-    const starred = response.data.data;
-    if (starred.length > 0) {
-      return res.json({
-        status: 'success',
-        message: 'starred successfully',
-      });
+    // check if the user is actually a member of the room
+    const response = await find('roomusers', { room_id: org_id, user_id }, org_id);
+    const room = response.data.data;
+
+    if (!room || room.length <= 0) {
+      return next(new AppError('User is not a member of room'));
     }
   } catch (error) {
-    return next(new AppError('unable to star room', 500));
+    return next(new AppError('User is not a member of the room', 500));
+  }
+
+  try {
+    // star the room as requsted for that user
+    await updateOne('roomusers', { $set: { starred: true } }, { room_id: org_id, user_id }, org_id);
+
+    // update the sidebar
+  } catch (error) {
+    return next(new AppError('Unable to star the room successfully'));
   }
 };
