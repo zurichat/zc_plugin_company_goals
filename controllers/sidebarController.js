@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 
+const { pluginInfo } = require('../data/pluginInfo.json');
 const { find, findAll } = require('../db/databaseHelper');
 const { advancedRead } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
@@ -154,6 +155,7 @@ const logger = require('../utils/logger.js');
 
 exports.getSidebar = catchAsync(async (req, res, next) => {
   const { user: user_id, org: organization_id } = req.query;
+  const { name, description, id: plugin_id } = pluginInfo;
 
   if (!organization_id) {
     return next(new AppError('organization id is required', 400));
@@ -176,9 +178,9 @@ exports.getSidebar = catchAsync(async (req, res, next) => {
   }
 
   const sidebarJson = {
-    name: 'Company Goals Plugin',
-    description: 'Shows company goals items',
-    plugin_id: '613dcd7ae4010959c8dc0c56',
+    name,
+    description,
+    plugin_id,
     organization_id,
     category: 'productivity',
     user_id,
