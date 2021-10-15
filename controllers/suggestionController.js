@@ -1,18 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 const { request, response } = require('express');
-const { getResults } = require('../services/search.service');
+const { getSuggestions } = require('../services/suggestions.service');
 
 /**
  * Search controller
  * @param {request} req Express request object
  * @param {response} res Express response object
  */
-exports.searchFunction = async (req, res) => {
+exports.searchSuggestions = async (req, res) => {
   const { org_id: orgID, member_id: memberID } = req.params;
-  const { key, filter, page, limit } = req.query;
 
   try {
-    const result = await getResults(orgID, memberID, key, filter, page, limit);
+    const result = await getSuggestions(orgID, memberID);
 
     if (result instanceof Error) {
       throw result;
@@ -21,7 +20,8 @@ exports.searchFunction = async (req, res) => {
     const payload = {
       status: 'ok',
       statusCode: 200,
-      ...result,
+      type: 'suggestions',
+      data: result,
     };
 
     return res.status(200).json(payload);
