@@ -3,7 +3,7 @@ const { installPlugin, uninstallPlugin } = require('../controllers/PluginControl
 
 const router = Router();
 
-router.post('/', installPlugin);
-router.delete('/', uninstallPlugin);
+router.post('/install', installPlugin);
+router.delete('/uninstall', uninstallPlugin);
 
 module.exports = router;
