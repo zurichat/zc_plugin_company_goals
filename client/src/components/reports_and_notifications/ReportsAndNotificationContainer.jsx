@@ -37,7 +37,7 @@ const ReportsAndNotificationContainer = () => {
   })
 
   const notifications = useSelector(selectNotifications);
-  const unreadCount = 0;
+  let unreadCount = 0;
   notifications.forEach((item)=>{
     
     if(!item.isRead)
