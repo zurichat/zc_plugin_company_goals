@@ -33,7 +33,6 @@ const notificationRouter = require('./routes/notificationRoute');
 const authRouter = require('./routes/auth');
 const syncRouter = require('./routes/syncRoute');
 const pluginRouter = require('./routes/pluginRoute');
-const suggestionRouter = require('./routes/suggestionsRoute');
 
 const visionRouter = require('./routes/visionRoutes');
 const Bsearch = require('./routes/BsearchRoute');
@@ -44,22 +43,22 @@ const app = express();
 
 // Implement cors
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(cors({ origin: ['*'] }));
-// } else {
-//   const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
-//   const corsOptions = {
-//     origin(origin, callback) {
-//       if (whitelist.indexOf(origin) !== -1 || !origin) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error('Not allowed by CORS'));
-//       }
-//     },
-//   };
-//   app.use(cors(corsOptions));
-// }
-app.use(cors({ origin: ['*'] }));
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors({ origin: ['*'] }));
+} else {
+  const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
+  const corsOptions = {
+    origin(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+  app.use(cors(corsOptions));
+}
+
 // app.options('*', cors());
 
 // Add secure headers
@@ -123,13 +122,12 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/bsearch', Bsearch);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/goals', goalRouter);
-app.use('/api/v1/org', roomRouter);
+app.use('/api/v1/rooms', roomRouter);
 app.use('/api/v1/search', searchRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/sidebar', sidebarRouter);
 app.use('/api/v1/mission', missionRouter);
 app.use('/api/v1/notifications', notificationRouter);
-app.use('/api/v1/search-suggestions', suggestionRouter);
 app.use('/api/v1/sync', syncRouter);
 app.use('/api/v1/install', pluginRouter);
 // app.use('/api/v1/realTimeupdates', realTimeupdateRouter);
