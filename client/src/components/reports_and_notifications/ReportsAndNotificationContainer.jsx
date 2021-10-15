@@ -45,7 +45,8 @@ const ReportsAndNotificationContainer = () => {
       unreadCount++;
     }
   })
-
+ console.log('there are ',unreadCount, ' unread goal notifications')
+ 
   return (
     <Tabs>
       <NavTabs>
