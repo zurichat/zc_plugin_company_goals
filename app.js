@@ -122,7 +122,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/bsearch', Bsearch);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/goals', goalRouter);
-app.use('/api/v1/rooms', roomRouter);
+app.use('/api/v1/org', roomRouter);
 app.use('/api/v1/search', searchRouter);
 app.use('/api/v1/vision', visionRouter);
 app.use('/api/v1/sidebar', sidebarRouter);
