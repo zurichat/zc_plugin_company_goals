@@ -20,7 +20,7 @@ module.exports = async (memberIds, orgId) => {
     // check if a room already exists for this user in the organization. If not, add one
 
     try {
-      const response = await advancedRead('roomusers', { user_id: id, room_id: orgId }, orgId, 1, 1);
+      const response = await advancedRead('roomusers', { member_id: id, room_id: orgId }, orgId, 1, 1);
       const userRoom = response.data.data;
 
       // check if useRoom is not null and if it has the right value

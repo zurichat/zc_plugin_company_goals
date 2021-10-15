@@ -232,23 +232,28 @@ exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
 });
 
 exports.starRoom = async (req, res, next) => {
-  const { org_id, room_id, member_id: user_id } = req.params;
-
+  const { org_id, room_id, member_id } = req.params;
+  let starred;
   try {
     // check if the user is actually a member of the room
-    const response = await find('roomusers', { room_id: org_id, user_id }, org_id);
+    const response = await find('roomusers', { room_id: org_id, member_id }, org_id);
     const room = response.data.data;
 
     if (!room || room.length <= 0) {
-      return next(new AppError('User is not a member of room'));
+      return next(new AppError('User is not a member of room', 400));
     }
+    starred = !room[0].starred;
   } catch (error) {
-    return next(new AppError('User is not a member of the room', 500));
+    return next(new AppError('User is not a member of the room', 400));
   }
 
   try {
     // star the room as requsted for that user
-    await updateOne('roomusers', { $set: { starred: true } }, { room_id: org_id, user_id }, org_id);
+    await updateOne('roomusers', { starred }, { room_id: org_id, member_id }, org_id);
+    return res.status(200).json({
+      status: 'success',
+      message: `room ${starred ? 'starred' : 'unstarred'} successfully`,
+    });
 
     // update the sidebar
   } catch (error) {
