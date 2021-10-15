@@ -6,6 +6,7 @@ const { insertOne, deleteOne, find, findAll, updateOne, deleteMany } = require('
 const { roomSchema, userSchema, userRoomSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const updateSideBar = require('../utils/updateSidebarUnread');
 
 exports.createRoom = catchAsync(async (req, res, next) => {
   const { organization_id, title, isPrivate } = req.query;
@@ -250,6 +251,7 @@ exports.starRoom = async (req, res, next) => {
   try {
     // star the room as requsted for that user
     await updateOne('roomusers', { starred }, { room_id: org_id, member_id }, org_id);
+    await updateSideBar([member_id], org_id);
     return res.status(200).json({
       status: 'success',
       message: `room ${starred ? 'starred' : 'unstarred'} successfully`,
