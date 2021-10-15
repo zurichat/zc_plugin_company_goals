@@ -116,7 +116,7 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     );
 
     // check that user isnt already in the room
-    if (roomuser.data.data.length < 1) {
+    if (roomuser.data.data === null || roomuser.data.data.length === 0) {
       // return next(new AppError('user already in room', 400));
 
       const data = {
@@ -133,21 +133,22 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
         message: `${member} has joined the room`,
       };
 
-      publish(`${orgId}_${member}_sidebar`, publishData);
+      await publish(`${orgId}_${member}_sidebar`, publishData);
     }
   });
 
-  const seeAll = await find(
-    'roomusers',
-    {
-      room_id: roomId,
-    },
-    orgId
-  );
+  // const seeAll = await find(
+  //   'roomusers',
+  //   {
+  //     room_id: roomId,
+  //   },
+  //   orgId
+  // );
 
   res.status(201).json({
     status: 'success',
-    data: seeAll.data,
+    message: 'Added users to room',
+    data: membersId,
   });
 });
 
@@ -171,7 +172,6 @@ exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
       },
       orgId
     );
-
     // publish to the room
     const publishData = {
       room_id: roomId,
@@ -179,20 +179,21 @@ exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
       message: `${member} has left the room`,
     };
 
-    publish(`${orgId}_${member}_sidebar`, publishData);
+    await publish(`${orgId}_${member}_sidebar`, publishData);
   });
 
-  const seeAll = await find(
-    'roomusers',
-    {
-      room_id: roomId,
-    },
-    orgId
-  );
+  // const seeAll = await find(
+  //   'roomusers',
+  //   {
+  //     room_id: roomId,
+  //   },
+  //   orgId
+  // );
 
   res.status(201).json({
     status: 'success',
-    data: seeAll.data,
+    message: 'Removed users from room',
+    data: membersId,
   });
 });
 
