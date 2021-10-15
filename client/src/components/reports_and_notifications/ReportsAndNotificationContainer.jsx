@@ -38,7 +38,6 @@ const ReportsAndNotificationContainer = () => {
 
   const notifications = useSelector(selectNotifications);
 
- console.log('there are ',unreadCount, ' unread goal notifications')
  
   return (
     <Tabs>
