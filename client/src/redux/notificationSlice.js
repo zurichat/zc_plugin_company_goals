@@ -18,7 +18,7 @@ export const markNotificationAsReadAsync = createAsyncThunk('notifications/markN
   const info = await GetUserInfo(); 
   const {_id:user_id,org_id} = info['0'];
   const response = await fetch(
-    `https://goals.zuri.chat/api/v1/notifications?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}&notification_id=${id}`,
+    `https://goals.zuri.chat/api/v1/notifications/update/${id}?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`,
     {
       method: 'PUT',
       headers: {
@@ -40,7 +40,7 @@ export const markAllNotificationsAsReadAsync = createAsyncThunk(
     const info = await GetUserInfo(); 
     const {_id:user_id,org_id} = info['0'];
     const response = await fetch(
-      `https://goals.zuri.chat/api/v1/notifications/all?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`,
+      `https://goals.zuri.chat/api/v1/notifications/update-all?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`,
       {
         method: 'PUT',
         headers: {
@@ -62,7 +62,7 @@ export const deleteNotificationAsync = createAsyncThunk(
     const info = await GetUserInfo(); 
     const {_id:user_id,org_id} = info['0'];
     const response = await fetch(
-      `https://goals.zuri.chat/api/v1/notifications/?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}&notification_id=${id}`,
+      `https://goals.zuri.chat/api/v1/notifications/delete/${id}?org_id=${org_id || "61578237b9b9f30465f49ee8"}&user_id=${user_id || "61578237b9b9f30465f49ee9"}`,
       {
         method: 'DELETE',
         headers: {

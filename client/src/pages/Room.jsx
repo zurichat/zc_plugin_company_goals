@@ -21,8 +21,11 @@ import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
 import GoalTarget from '../components/goal_target/GoalTarget';
 
 const AppRoom = () => {
-  console.log('Am going to get userInfo');
-  console.log(GetUserInfo());
+  // console.log('Am going to get userInfo');
+  // console.log(GetUserInfo());
+  SubscribeToChannel('centrifugo-is-working', function (ctx) {
+    console.log('centrifugo is working(called from plugin goals');
+  });
   let { orgId } = useParams();
   const dispatch = useDispatch();
   //   useEffect(() => {
@@ -76,6 +79,7 @@ const AppRoom = () => {
       console.log('ReactivateOrganizationMember', ctx);
       GetUsers();
     });
+    
   }, []);
   return (
     <>
