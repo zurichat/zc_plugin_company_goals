@@ -10,23 +10,12 @@ const BASE = `https://goals.zuri.chat`;
  * @param {string} searchID Collection to search through
  * @param {string} orgID User's organization id
  */
-const buildURL = (data, searchID, orgID) => {
-  const payload = data.map((ele) => {
+const buildResult = (data, searchID, orgID) => {
+  return data.map((ele) => {
     const url = `${BASE}/${searchID}/room/${orgID}`;
-    const {
-      _id: id,
-      goal_type: type,
-      goal_name: title,
-      description,
-      created_at,
-      category,
-      is_complete,
-      is_expired,
-    } = ele;
-    return { id, url, type, title, description, created_at, category, is_complete, is_expired };
+    const { _id, goal_type: type, goal_name: title, description: content, created_at } = ele;
+    return { _id, type, title, content, created_at, destination_url: url };
   });
-
-  return payload;
 };
 
 /**
@@ -37,7 +26,7 @@ const buildURL = (data, searchID, orgID) => {
 const filterResults = (unfilteredData, key) => {
   const lowerKey = key.toLowerCase();
 
-  const filteredData = unfilteredData.filter((obj) => {
+  return unfilteredData.filter((obj) => {
     const name = obj.goal_name || '';
     const desc = obj.description || '';
     const category = obj.category || '';
@@ -50,8 +39,6 @@ const filterResults = (unfilteredData, key) => {
       type.toLowerCase().includes(lowerKey)
     );
   });
-
-  return filteredData;
 };
 
 /**
@@ -59,42 +46,55 @@ const filterResults = (unfilteredData, key) => {
  * @param {string} orgID User's organization ID
  * @param {string} memberID User's current member ID
  * @param {string} key String to search for
- * @param {string} searchID Filter parameter to categorize search
+ * @param {string} filter Filter parameter to categorize search
+ * @param pageStr
+ * @param limitStr
  */
-exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitStr = 20) => {
+
+exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitStr = '20') => {
   const page = Number.parseInt(pageStr, 10);
   const limit = Number.parseInt(limitStr, 10);
 
   // Base Data transfer object
   const searchDTO = {
+    title: `Search results for {${key}}`,
+    description: `Showing search results for keyword: ${key} within the goals plugin.`,
     pagination: {
       current_page: page,
-      per_page: limit,
+      page_size: limit,
       page_count: 1,
       first_page: 1,
       last_page: 1,
-      total_count: 0,
+      total_results: 0,
+      next: '',
+      previous: '',
     },
-    query: key || '',
-    plugin: 'Goals',
-    data: [],
-    filter_suggestions: { in: [searchID || 'All'], from: [key || ''] },
+    search_parameters: {
+      query: key || '',
+      filters: [filter],
+      plugin: 'Goals',
+    },
+    results: {
+      entity: 'others',
+      data: [],
+    },
   };
 
   if (!orgID || !memberID) {
     return new AppError('No organization ID or member ID was provided', 500);
   }
 
-  if (!key && !searchID) {
+  if (!key && !filter) {
     return new AppError('No search key or ID was provided', 500);
   }
 
-  if (!key && searchID) {
+  if (!key && filter) {
     try {
       // Query all data from given collection
       const {
         data: { data },
-      } = await findAll(searchID, orgID);
+      } = await findAll('goal', orgID);
+      console.log(data);
 
       // Return default dto if no response
       if (!data || data.length === 0) {
@@ -105,11 +105,16 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
       const upper = page <= 1 ? 0 : (page - 1) * limit;
       const lower = page * limit;
 
-      const finalDTO = buildURL(data, searchID, orgID);
+      const finalDTO = buildResult(data, filter, orgID);
 
-      searchDTO.pagination.total_count = data.length;
-      searchDTO.data = finalDTO.slice(upper, lower);
+      searchDTO.pagination.total_results = data.length;
+      searchDTO.results.data = finalDTO.slice(upper, lower);
       searchDTO.pagination.last_page = data.length > limit ? Math.ceil(data.length / limit) : 1;
+      searchDTO.pagination.next =
+        searchDTO.pagination.last_page !== page &&
+        `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page + 1}&limit=${limit}`;
+      searchDTO.pagination.previous =
+        page >= 1 && `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page - 1}&limit=${limit}`;
 
       return searchDTO;
     } catch (error) {
@@ -118,7 +123,7 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
   }
 
   if (key) {
-    const searchStr = searchID || 'goals';
+    const searchStr = filter || 'goals';
     try {
       // Call zccore with keyword filter
       const {
@@ -136,11 +141,16 @@ exports.getResults = async (orgID, memberID, key, searchID, pageStr = 1, limitSt
 
       const filteredData = filterResults(data, key);
 
-      const finalDTO = buildURL(filteredData, searchStr, orgID);
+      const finalDTO = buildResult(filteredData, searchStr, orgID);
 
-      searchDTO.pagination.total_count = filteredData.length;
-      searchDTO.data = finalDTO.slice(upper, lower);
+      searchDTO.pagination.total_results = filteredData.length;
+      searchDTO.results.data = finalDTO.slice(upper, lower);
       searchDTO.pagination.last_page = filteredData.length > limit ? Math.ceil(filteredData.length / limit) : 1;
+      searchDTO.pagination.next =
+        searchDTO.pagination.last_page !== page &&
+        `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page + 1}&limit=${limit}`;
+      searchDTO.pagination.previous =
+        page >= 1 && `${BASE}/api/v1/search/${orgID}/${memberID}?key=${key}&page=${page - 1}&limit=${limit}`;
 
       return searchDTO;
     } catch (error) {
