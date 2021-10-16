@@ -15,7 +15,7 @@ const buildResult = (data, searchID, orgID) => {
   return data.map((ele) => {
     const url = `${BASE2}/room/${orgID}`;
     const { _id, goal_type: type, goal_name: title, description: content, created_at } = ele;
-    return { _id, type, title, content, created_at, destination_url: url };
+    return { _id, type, title, content, created_at, destination_url: url, images_url: '', created_by: '' };
   });
 };
 
@@ -48,8 +48,8 @@ const filterResults = (unfilteredData, key) => {
  * @param {string} memberID User's current member ID
  * @param {string} key String to search for
  * @param {string} filter Filter parameter to categorize search
- * @param pageStr
- * @param limitStr
+ * @param {string} pageStr Page to be displayed
+ * @param {string} limitStr Number of items to display per page
  */
 
 exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitStr = '20') => {
@@ -73,7 +73,7 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
     },
     search_parameters: {
       query: key || '',
-      filters: [filter],
+      filters: filter ? [filter] : [],
       plugin: 'Goals',
     },
     results: {
