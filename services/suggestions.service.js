@@ -14,9 +14,14 @@ exports.getSuggestions = async (orgID, memberID) => {
 
     return data.reduce((prev, obj) => {
       const { goal_name, description, category, goal_type } = obj;
-
-      return [{ goal_name }, { description }, { category }, { goal_type }, ...prev];
-    }, []);
+      return {
+        [obj.goal_name]: goal_name,
+        [obj.description]: description,
+        [obj.category]: category,
+        [obj.goal_type]: goal_type,
+        ...prev,
+      };
+    }, {});
   } catch (error) {
     return error;
   }
