@@ -2,8 +2,8 @@
 const { findAll } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 
-const BASE = `https://goals.zuri.chat`;
-const BASE2 = `https://www.zuri.chat/goals`;
+// const BASE = `https://goals.zuri.chat`;
+// const BASE2 = `https://www.zuri.chat/goals`;
 
 /**
  * Build and append URL of single resource to each resource object.
@@ -13,7 +13,7 @@ const BASE2 = `https://www.zuri.chat/goals`;
  */
 const buildResult = (data, searchID, orgID) => {
   return data.map((ele) => {
-    const url = `${BASE2}/room/${orgID}`;
+    const url = `/goals/room/${orgID}`;
     const { _id, goal_type: type, goal_name: title, description: content, created_at } = ele;
     return { _id, type, title, content, created_at, destination_url: url, images_url: '', created_by: '' };
   });
@@ -114,9 +114,9 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
       searchDTO.pagination.last_page = lastPage;
 
       searchDTO.pagination.next =
-        lastPage !== page ? `${BASE}/api/v1/search/${orgID}/${memberID}?page=${page + 1}&limit=${limit}` : '';
+        lastPage !== page ? `/api/v1/search/${orgID}/${memberID}?page=${page + 1}&limit=${limit}` : '';
       searchDTO.pagination.previous =
-        page > 1 ? `${BASE}/api/v1/search/${orgID}/${memberID}?page=${page - 1}&limit=${limit}` : '';
+        page > 1 ? `/api/v1/search/${orgID}/${memberID}?page=${page - 1}&limit=${limit}` : '';
 
       return searchDTO;
     } catch (error) {
@@ -151,9 +151,9 @@ exports.getResults = async (orgID, memberID, key, filter, pageStr = '1', limitSt
       searchDTO.results.data = finalDTO.slice(upper, lower);
       searchDTO.pagination.last_page = lastPage;
       searchDTO.pagination.next =
-        lastPage !== page ? `${BASE}/api/v1/search/${orgID}/${memberID}?q=${key}&page=${page + 1}&limit=${limit}` : '';
+        lastPage !== page ? `/api/v1/search/${orgID}/${memberID}?q=${key}&page=${page + 1}&limit=${limit}` : '';
       searchDTO.pagination.previous =
-        page > 1 ? `${BASE}/api/v1/search/${orgID}/${memberID}?q=${key}&page=${page - 1}&limit=${limit}` : '';
+        page > 1 ? `/api/v1/search/${orgID}/${memberID}?q=${key}&page=${page - 1}&limit=${limit}` : '';
 
       return searchDTO;
     } catch (error) {
