@@ -6,7 +6,9 @@ const { insertOne, deleteOne, find, findAll, updateOne, deleteMany } = require('
 const { roomSchema, userSchema, userRoomSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { publish } = require('./centrifugoController');
 const updateSideBar = require('../utils/updateSidebarUnread');
+
 
 exports.createRoom = catchAsync(async (req, res, next) => {
   const { organization_id, title, isPrivate } = req.query;
@@ -105,22 +107,6 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     members_id: membersId,
   });
 
-  // check that the room_id is valid
-  const room = await find(
-    'goals',
-    {
-      room_id: roomId,
-    },
-    orgId
-  );
-
-  if (room.data.data === null || room.data.data.length <= 0) {
-    return next(new AppError('Room not found', 404));
-  }
-  // check that user isnt already in the room
-
-  const { goalName, access } = room.data;
-
   membersId.forEach(async (member) => {
     let roomuser = await find(
       'roomusers',
@@ -131,52 +117,41 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
       orgId
     );
 
-    if (roomuser.data.data.length < 1) {
+    // check that user isnt already in the room
+    if (roomuser.data.data === null || roomuser.data.data.length === 0) {
       // return next(new AppError('user already in room', 400));
 
       const data = {
         room_id: roomId,
-        title: goalName,
-        access,
         member_id: member,
       };
 
       roomuser = await insertOne('roomusers', data, orgId);
+
+      // publish to the room
+      const publishData = {
+        room_id: roomId,
+        user_id: member,
+        message: `${member} has joined the room`,
+      };
+
+      await publish(`${orgId}_${member}_sidebar`, publishData);
     }
   });
 
-  const seeAll = await find(
-    'roomusers',
-    {
-      room_id: roomId,
-    },
-    orgId
-  );
+  // const seeAll = await find(
+  //   'roomusers',
+  //   {
+  //     room_id: roomId,
+  //   },
+  //   orgId
+  // );
 
   res.status(201).json({
     status: 'success',
-    data: seeAll.data,
+    message: 'Added users to room',
+    data: membersId,
   });
-});
-
-exports.getRoom = catchAsync(async (req, res, next) => {
-  // const { room_id } = req.query;
-  const { room_id: roomId, org_id: orgId } = req.params;
-
-  const room = await find(
-    'goals',
-    {
-      id: roomId,
-    },
-    orgId
-  );
-  const { data } = room.data;
-  if (data.length < 1) {
-    return res.status(404).send({
-      message: `room ${roomId} does not exist`,
-    });
-  }
-  return res.status(200).json(room.data);
 });
 
 exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
@@ -199,19 +174,28 @@ exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
       },
       orgId
     );
+    // publish to the room
+    const publishData = {
+      room_id: roomId,
+      user_id: member,
+      message: `${member} has left the room`,
+    };
+
+    await publish(`${orgId}_${member}_sidebar`, publishData);
   });
 
-  const seeAll = await find(
-    'roomusers',
-    {
-      room_id: roomId,
-    },
-    orgId
-  );
+  // const seeAll = await find(
+  //   'roomusers',
+  //   {
+  //     room_id: roomId,
+  //   },
+  //   orgId
+  // );
 
   res.status(201).json({
     status: 'success',
-    data: seeAll.data,
+    message: 'Removed users from room',
+    data: membersId,
   });
 });
 
@@ -230,6 +214,26 @@ exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
   );
 
   res.status(200).json(foundRoom.data);
+});
+
+exports.getRoom = catchAsync(async (req, res, next) => {
+  // const { room_id } = req.query;
+  const { room_id: roomId, org_id: orgId } = req.params;
+
+  const room = await find(
+    'goals',
+    {
+      id: roomId,
+    },
+    orgId
+  );
+  const { data } = room.data;
+  if (data.length < 1) {
+    return res.status(404).send({
+      message: `room ${roomId} does not exist`,
+    });
+  }
+  return res.status(200).json(room.data);
 });
 
 exports.starRoom = async (req, res, next) => {
