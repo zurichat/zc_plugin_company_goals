@@ -43,7 +43,7 @@ const notificationStructure = {
   updateVision: ['Our vision has been updated.', '', 'blue'],
 };
 
-exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) => {
+exports.createNotification = async (orgId, goalId, goalName, funcName) => {
   try {
     const notifications = [];
 

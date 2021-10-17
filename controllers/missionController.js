@@ -15,8 +15,6 @@ const { createNotification } = require('./notificationController');
 // Global Variables
 const collectionName = 'mission';
 
-const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
-
 // get mission for an organization
 exports.getMission = catchAsync(async (req, res, next) => {
   const { organization_id } = req.params;
@@ -56,7 +54,7 @@ exports.updateMission = catchAsync(async (req, res, next) => {
     // Send notifications to all users.
     if (updatedMission.data.data.modified_documents === 1) {
       await publish('goals-publish-mission-update', mission);
-      await createNotification(user_ids, organization_id, '', '', 'updateMission');
+      await createNotification(organization_id, '', '', 'updateMission');
     }
 
     return res.status(200).json({ status: 200, message: 'success', payload: mission });
