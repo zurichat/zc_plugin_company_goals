@@ -175,11 +175,11 @@ exports.targets = [
         },
         {
           achieved: 'false',
-          milestone_text: "I haven't gotten block 😒",
+          milestone_text: `I haven't gotten block 😒`,
         },
         {
           achieved: 'false',
-          milestone_text: "I haven't gotten money 😒",
+          milestone_text: `I haven't gotten money 😒`,
         },
       ],
     },
