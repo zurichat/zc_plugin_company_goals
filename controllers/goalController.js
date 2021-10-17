@@ -34,8 +34,7 @@ const { average, calculate, reduceCalculation } = require('../utils/calculate');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
-
-const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
+const { syncLists } = require('./syncController');
 
 exports.sortGoalByType = async (req, res, next) => {
   const goalTypes = ['none', 'annual', 'quarterly', 'daily', 'monthly'];
@@ -240,6 +239,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       created_at: date,
       ...goal,
     };
+
+    await syncLists(req.tokenHeader, orgId);
 
     goals = await insertOne('goals', data, orgId);
     await insertOne('goalReactions', { goal_id: goals.data.data.object_id, reactions: [], orgId }, orgId);
