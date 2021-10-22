@@ -5,8 +5,6 @@ const { createNotification } = require('../controllers/notificationController');
 const { find, updateOne } = require('../db/databaseHelper');
 const AppError = require('../utils/appError');
 
-const USER_IDS = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
-
 /**
  * Service for fetching an organizations vision.
  * @param {string} orgID User's organization id
@@ -80,7 +78,7 @@ const insertVision = async (orgID, vision) => {
     // Send notification to all users.
     if (updatedVision.data.data.modified_documents > 0) {
       await publish('goals-publish-vision-update', vision);
-      await createNotification(USER_IDS, orgID, '', '', 'updateVision');
+      await createNotification(orgID, '', '', 'updateVision');
     }
 
     return vision;
