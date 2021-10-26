@@ -23,10 +23,10 @@ const {
 const { statusTimerReport } = require('../controllers/statusTimerReport');
 const {
   updateSingleGoalTargetById,
-  createGoalTargets,
+  createGoalTarget,
   getGoalTargets,
   averageGoalProgress,
-  deleteTarget,
+  deleteTargets,
   // getSingleGoalProgress,
   getGoalProgress,
   updateTarget,
@@ -56,15 +56,15 @@ router.get('/dislike', disLikeGoal);
 router.get('/goaldislikes', getGoalDisLikes);
 router.get('/userdislike', checkUserDisLikes);
 router.get('/catalog', sortGoalByType);
-router.post('/target', createGoalTargets);
+router.post('/target', createGoalTarget);
 router.get('/target', getGoalTargets);
-router.delete('/target/delete', deleteTarget);
+router.delete('/target/delete', deleteTargets);
 router.get('/average-goal-progress', averageGoalProgress);
 // router.get('/individual-goal-progress', individualGoalProgress);
 // router.get('/goalprogress', getGoalProgress);
 router.get('/goalReaction', getGoalReaction).put('/goalReaction', setGoalReaction);
 router.get('/single-goal-progress', getGoalProgress);
-router.put('/target/update/:id', updateSingleGoalTargetById);
+// router.put('/target/update/:id', updateSingleGoalTargetById);
 router.get('/goal-progress', getGoalProgress);
 
 router.put('/target/edit', updateTarget);
