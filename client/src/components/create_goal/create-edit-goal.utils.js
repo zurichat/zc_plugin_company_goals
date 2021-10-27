@@ -4,7 +4,7 @@ import { GetUserInfo } from '@zuri/utilities';
 
 
 
-let createEditGoalBaseRouteUrl = `${baseUrl}/api/v1/goals`;
+let createEditGoalBaseRouteUrl = `https://goals.zuri.chat/api/v1/goals`;
 let createGoalRouteUrl = `${createEditGoalBaseRouteUrl}/?org_id=`;
 let editGoalRouteUrl = `${createEditGoalBaseRouteUrl}/update`;
 
