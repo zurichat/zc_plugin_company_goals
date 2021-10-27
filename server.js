@@ -7,12 +7,13 @@ require('dotenv').config({
 const app = require('./app');
 const Cronjob = require('./controllers/cronController');
 // const { SyncJob } = require('./controllers/cronController');
+const { sync } = require("./controllers/syncController");
 const logger = require('./utils/logger.js');
 
 const PORT = process.env.PORT || 4000;
 
 Cronjob();
-
+sync();
 // SyncJob(); It throws an error saying "syncJob is not a function"
 const server = app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 

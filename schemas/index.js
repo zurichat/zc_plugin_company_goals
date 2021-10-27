@@ -24,6 +24,16 @@ exports.userSchema = Joi.object({
   }),
 });
 
+// user room schema
+exports.userRoomSchema = Joi.object({
+  room_id: Joi.string().required().messages({
+    'any.required': 'room id is required',
+  }),
+  members_id: Joi.array().items(Joi.string()).required().messages({
+    'any.required': 'member id is required and should be an array',
+  }),
+});
+
 // goals schema
 exports.goalSchema = Joi.object({
   goal_name: Joi.string().required().messages({

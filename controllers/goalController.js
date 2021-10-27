@@ -34,8 +34,7 @@ const { average, calculate, reduceCalculation } = require('../utils/calculate');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
-
-const user_ids = ['6145cf0c285e4a1840207426', '6145cefc285e4a1840207423', '6145cefc285e4a1840207429'];
+const { syncLists } = require('./syncController');
 
 exports.sortGoalByType = async (req, res, next) => {
   const goalTypes = ['none', 'annual', 'quarterly', 'daily', 'monthly'];
@@ -241,6 +240,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       ...goal,
     };
 
+    await syncLists(req.tokenHeader, orgId);
+
     goals = await insertOne('goals', data, orgId);
     await insertOne('goalReactions', { goal_id: goals.data.data.object_id, reactions: [], orgId }, orgId);
 
@@ -253,7 +254,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     }
 
     if (goals.data.status === 200) {
-      await createNotification(user_ids, orgId, roomId, title, 'createGoal');
+      await createNotification(orgId, roomId, title, 'createGoal');
       logger.info(`Successfully created a new goal: ${goals.data.data}`);
       res.status(200).json({ message: 'success', data });
     }
@@ -339,11 +340,11 @@ exports.updateSingleGoalById = catchAsync(async (req, res, next) => {
   const { goal_name, room_id } = updatedGoal.data.data;
 
   if (req.body.is_expired === true) {
-    await createNotification(user_ids, orgId, room_id, goal_name, 'expiredGoal');
+    await createNotification(orgId, room_id, goal_name, 'expiredGoal');
   } else if (req.body.is_completed === true) {
-    await createNotification(user_ids, orgId, room_id, goal_name, 'achievedGoal');
+    await createNotification(orgId, room_id, goal_name, 'achievedGoal');
   } else {
-    await createNotification(user_ids, orgId, room_id, goal_name, 'updatedGoal');
+    await createNotification(orgId, room_id, goal_name, 'updatedGoal');
   }
 
   // send the updated goal to client.
@@ -386,7 +387,7 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   await deleteMany('goalReactions', { goal_id: id }, org);
 
   // Send a notification to each user.
-  await createNotification(user_ids, org, roomId, goal_name, 'deleteGoal');
+  await createNotification(org, roomId, goal_name, 'deleteGoal');
 
   logger.info(`Successfully deleted the goal with id: ${id}`);
   res.status(200).json({ status: 200, message: 'Goal deleted successfully.', response: response.data.data });
@@ -919,7 +920,7 @@ exports.assignGoal = catchAsync(async (req, res, next) => {
       const roomuser = await insertOne('roomusers', data, org);
 
       // Send a notification to the user.
-      // await createNotification(user_id, org, room_id, data.title, 'assignGoal');
+      // await createNotification(org, room_id, data.title, 'assignGoal');
 
       res.status(201).json({
         status: 'success',
@@ -952,7 +953,7 @@ exports.removeAssigned = catchAsync(async (req, res, next) => {
 
   // Send notification to user.
   // const goalRoom = room.data.data;
-  // await createNotification(user_id, org, room_id, goalRoom[0].goal_name, 'unassignGoal');
+  // await createNotification(org, room_id, goalRoom[0].goal_name, 'unassignGoal');
 
   return res.status(201).json({
     status: 'success',

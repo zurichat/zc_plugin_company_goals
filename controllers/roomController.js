@@ -3,9 +3,12 @@
 /* eslint-disable no-unused-vars */
 const { v4: uuidv4 } = require('uuid');
 const { insertOne, deleteOne, find, findAll, updateOne, deleteMany } = require('../db/databaseHelper');
-const { roomSchema, userSchema } = require('../schemas');
+const { roomSchema, userSchema, userRoomSchema } = require('../schemas');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { publish } = require('./centrifugoController');
+const updateSideBar = require('../utils/updateSidebarUnread');
+
 
 exports.createRoom = catchAsync(async (req, res, next) => {
   const { organization_id, title, isPrivate } = req.query;
@@ -67,13 +70,13 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
   const rooms = await find(
     'roomusers',
     {
-      user_id: memberId,
+      member_id: memberId,
     },
     orgId
   );
 
-  if (rooms.data.data.length === 0) {
-    res.status(404).json({
+  if (rooms.data.data === null || rooms.data.data.length === 0) {
+    return res.status(404).json({
       status: 'failed',
       message: 'Room List is empty ',
       data: null,
@@ -95,60 +98,122 @@ exports.getAllRooms = catchAsync(async (req, res, next) => {
 
 exports.joinRoom = catchAsync(async (req, res, next) => {
   // const { room_id, user_id, organization_id } = req.query;
-  const { room_id: roomId, member_id: memberId, org_id: orgId } = req.params;
+  const { member_id: memberId, org_id: orgId } = req.params;
+  const { room_id: roomId, members_id: membersId } = req.body;
 
   // Validate the body
-  await userSchema.validateAsync({
+  await userRoomSchema.validateAsync({
     room_id: roomId,
-    user_id: memberId,
+    members_id: membersId,
   });
 
-  // check that the room_id is valid
-  const room = await find(
-    'goals',
-    {
-      room_id: roomId,
-    },
-    orgId
-  );
+  membersId.forEach(async (member) => {
+    let roomuser = await find(
+      'roomusers',
+      {
+        room_id: roomId,
+        member_id: member,
+      },
+      orgId
+    );
 
-  if (room.data.data.length <= 0) {
-    return next(new AppError('Room not found', 404));
-  }
-  // check that user isnt already in the room
-  let roomuser = await find(
-    'roomusers',
-    {
-      room_id: roomId,
-      user_id: memberId,
-    },
-    orgId
-  );
+    // check that user isnt already in the room
+    if (roomuser.data.data === null || roomuser.data.data.length === 0) {
+      // return next(new AppError('user already in room', 400));
 
-  if (roomuser.data.data.length > 0) {
-    return next(new AppError('user already in room', 400));
-  }
+      const data = {
+        room_id: roomId,
+        member_id: member,
+      };
 
-  const getAllRooms = await findAll('goals', orgId);
+      roomuser = await insertOne('roomusers', data, orgId);
 
-  const { data: allRooms } = getAllRooms.data;
+      // publish to the room
+      const publishData = {
+        room_id: roomId,
+        user_id: member,
+        message: `${member} has joined the room`,
+      };
 
-  const getRoom = allRooms.filter((el) => el.room_id === roomId);
+      await publish(`${orgId}_${member}_sidebar`, publishData);
+    }
+  });
 
-  const data = {
-    room_id: getRoom[0].room_id,
-    title: getRoom[0].goal_name,
-    access: getRoom[0].access,
-    user_id: memberId,
-  };
-
-  roomuser = await insertOne('roomusers', data, orgId);
-  const seeAll = await findAll('roomusers', orgId);
+  // const seeAll = await find(
+  //   'roomusers',
+  //   {
+  //     room_id: roomId,
+  //   },
+  //   orgId
+  // );
 
   res.status(201).json({
     status: 'success',
-    data: roomuser.data,
+    message: 'Added users to room',
+    data: membersId,
   });
+});
+
+exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
+  // const { room_id, user_id, organization_id } = req.query;
+  const { member_id: memberId, org_id: orgId } = req.params;
+  const { room_id: roomId, members_id: membersId } = req.body;
+
+  // Validate the body
+  await userRoomSchema.validateAsync({
+    room_id: roomId,
+    members_id: membersId,
+  });
+
+  membersId.forEach(async (member) => {
+    const response = await deleteMany(
+      'roomusers',
+      {
+        room_id: roomId,
+        member_id: member,
+      },
+      orgId
+    );
+    // publish to the room
+    const publishData = {
+      room_id: roomId,
+      user_id: member,
+      message: `${member} has left the room`,
+    };
+
+    await publish(`${orgId}_${member}_sidebar`, publishData);
+  });
+
+  // const seeAll = await find(
+  //   'roomusers',
+  //   {
+  //     room_id: roomId,
+  //   },
+  //   orgId
+  // );
+
+  res.status(201).json({
+    status: 'success',
+    message: 'Removed users from room',
+    data: membersId,
+  });
+});
+
+// get the number of users in a room
+exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
+  const { room_id: roomId, org_id: orgId } = req.params;
+  if (!orgId) return next(new AppError('Org id is required', 400));
+  if (!roomId) return next(new AppError('Room id is required', 400));
+
+  const foundRoom = await find(
+    'roomusers',
+    {
+      room_id: roomId,
+    },
+    orgId
+  );
+
+  res.status(200).json(foundRoom.data);
 });
 
 exports.getRoom = catchAsync(async (req, res, next) => {
@@ -171,59 +236,30 @@ exports.getRoom = catchAsync(async (req, res, next) => {
   return res.status(200).json(room.data);
 });
 
-exports.removeUserFromRoom = catchAsync(async (req, res, next) => {
-  // const { room_id, user_id, organization_id } = req.query;
-  const { room_id: roomId, member_id: memberId, org_id: orgId } = req.params;
-
-  await userSchema.validateAsync({
-    room_id: roomId,
-    user_id: memberId,
-  });
-
-  const response = await deleteMany(
-    'roomusers',
-    {
-      room_id: roomId,
-      user_id: memberId,
-    },
-    orgId
-  );
-
-  res.status(201).json({
-    status: 'success',
-    data: response.data,
-  });
-});
-
-// get the number of users in a room
-exports.getUsersInaRoom = catchAsync(async (req, res, next) => {
-  const { room_id, user_id } = req.params;
-
-  const foundRoom = await find('rooms', {
-    id: room_id,
-  });
-  console.log(foundRoom.data);
-  res.status(200).json(foundRoom.data);
-});
-
 exports.starRoom = async (req, res, next) => {
-  const { org_id, room_id, member_id: user_id } = req.params;
-
+  const { org_id, room_id, member_id } = req.params;
+  let starred;
   try {
     // check if the user is actually a member of the room
-    const response = await find('roomusers', { room_id: org_id, user_id }, org_id);
+    const response = await find('roomusers', { room_id: org_id, member_id }, org_id);
     const room = response.data.data;
 
     if (!room || room.length <= 0) {
-      return next(new AppError('User is not a member of room'));
+      return next(new AppError('User is not a member of room', 400));
     }
+    starred = !room[0].starred;
   } catch (error) {
-    return next(new AppError('User is not a member of the room', 500));
+    return next(new AppError('User is not a member of the room', 400));
   }
 
   try {
     // star the room as requsted for that user
-    await updateOne('roomusers', { $set: { starred: true } }, { room_id: org_id, user_id }, org_id);
+    await updateOne('roomusers', { starred }, { room_id: org_id, member_id }, org_id);
+    await updateSideBar([member_id], org_id);
+    return res.status(200).json({
+      status: 'success',
+      message: `room ${starred ? 'starred' : 'unstarred'} successfully`,
+    });
 
     // update the sidebar
   } catch (error) {

@@ -43,27 +43,7 @@ const notificationStructure = {
   updateVision: ['Our vision has been updated.', '', 'blue'],
 };
 
-// exports.getUserIds = async (tokenHeader, orgId) => {
-//   // const tokenHeader = req.headers.authorization
-//   try {
-//     const userIds = [];
-//     let organization = await axios({
-//       method: 'get',
-//       url: `https://api.zuri.chat/organizations/${orgId}/members`,
-//       headers: { Authorization: tokenHeader },
-//     });
-
-//     organization = organization.data.data;
-//     for (user of organization) {
-//       userIds.push(user._id);
-//     }
-//     return userIds;
-//   } catch (error) {
-//     logger.info(`The get operation failed with the following error messages: ${error}`);
-//   }
-// };
-
-exports.createNotification = async (userIds, orgId, goalId, goalName, funcName) => {
+exports.createNotification = async (orgId, goalId, goalName, funcName) => {
   try {
     const notifications = [];
 
