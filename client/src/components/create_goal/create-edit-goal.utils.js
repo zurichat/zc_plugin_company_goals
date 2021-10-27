@@ -1,8 +1,11 @@
 import { parse, isDate } from 'date-fns';
 import axios from 'axios';
 import { GetUserInfo } from "@zuri/control";
+import baseUrl from '../../../utils/util.js';
 
-let createEditGoalBaseRouteUrl = 'http://localhost:4000/api/v1/goals';
+
+
+let createEditGoalBaseRouteUrl = `${baseUrl}/api/v1/goals`;
 let createGoalRouteUrl = `${createEditGoalBaseRouteUrl}/?org_id=`;
 let editGoalRouteUrl = `${createEditGoalBaseRouteUrl}/update`;
 
@@ -13,7 +16,6 @@ if (process.env.NODE_ENV === 'production') {
   createGoalRouteUrl = `${createEditGoalBaseRouteUrl}/?org_id=`;
   editGoalRouteUrl = `${createEditGoalBaseRouteUrl}/update`;
 }
-
 
 const goalCreateEditDataApi = {
  
