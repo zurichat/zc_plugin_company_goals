@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { GetUserInfo } from "@zuri/control";
+import { GetUserInfo } from '@zuri/utilities';
 
 export const getNotifications = createAsyncThunk('notifications/getNotifications', async (orgId) => {
   const userInfo = await GetUserInfo();
