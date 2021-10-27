@@ -1,7 +1,6 @@
 import { parse, isDate } from 'date-fns';
 import axios from 'axios';
-import { GetUserInfo } from "@zuri/control";
-import baseUrl from '../../../utils/util.js';
+import { GetUserInfo } from '@zuri/utilities';
 
 
 
