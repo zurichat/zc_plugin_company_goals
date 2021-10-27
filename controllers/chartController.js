@@ -13,7 +13,20 @@ exports.getChartInfo = catchAsync(async (req, res, next) => {
   try {
     const goalsData = await findAll('goals', orgId);
     const allGoals = goalsData.data.data;
-    const result = { totalGoals: allGoals.length };
+
+    let result;
+
+    if (allGoals === null || allGoals.length < 0) {
+      result = {
+        totalGoals: 0,
+        isComplete: 0,
+        isExpired: 0,
+        inProgress: 0,
+      };
+      return res.status(200).json({ message: 'success', data: result });
+    }
+    result = { totalGoals: allGoals.length };
+
     const { totalGoals } = result;
     let isInComplete = 0;
     let isNotExpired = 0;
@@ -54,7 +67,8 @@ exports.getChartInfo = catchAsync(async (req, res, next) => {
     next();
     return res.status(200).json({ message: 'success', data: result });
   } catch (error) {
-    logger.info(`Something went wrong because: ${error.message}`);
+    // logger.info(`Something went wrong because: ${error.message}`);
+
     res.status(500).json({ message: 'failed, Server Error', data: null });
   }
 });
