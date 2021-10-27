@@ -17,7 +17,12 @@ exports.getChartInfo = catchAsync(async (req, res, next) => {
     let result;
 
     if (allGoals === null || allGoals.length < 0) {
-      result = { totalGoals: 0 };
+      result = {
+        totalGoals: 0,
+        isComplete: 0,
+        isExpired: 0,
+        inProgress: 0,
+      };
       return res.status(200).json({ message: 'success', data: result });
     }
     result = { totalGoals: allGoals.length };
