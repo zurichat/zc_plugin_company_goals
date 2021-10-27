@@ -4,7 +4,7 @@ import { useSWRConfig } from 'swr';
 import { deleteConfirmationAction, deleteSuccessAction, deleteErrorAction } from '../../redux/deleteGoal.slice';
 import { FadedBg, DeleteContent, DeleteHead, DeleteInfo, DeleteModal, DelButton, XBtn, Images } from './Delete.styled';
 import deleteDataImg from './deleteAssets';
-import {GetUserInfo} from "@zuri/control";
+import {GetUserInfo} from '@zuri/utilities';
 
 const Deletemodal = () => {
   const { orgId } = useParams();

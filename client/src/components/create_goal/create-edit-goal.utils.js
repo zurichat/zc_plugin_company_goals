@@ -1,6 +1,6 @@
 import { parse, isDate } from 'date-fns';
 import axios from 'axios';
-import { GetUserInfo } from "@zuri/control";
+import { GetUserInfo } from '@zuri/utilities';
 
 let createEditGoalBaseRouteUrl = 'http://localhost:4000/api/v1/goals';
 let createGoalRouteUrl = `${createEditGoalBaseRouteUrl}/?org_id=`;
