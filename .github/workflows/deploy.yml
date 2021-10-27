@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd zc_plugin_company_goals/
+            cd /var/www/zc_plugin_company_goals/
             git stash
             git fetch --all
             git reset --hard origin/main
@@ -59,7 +59,7 @@ jobs:
           host: ${{ secrets.ZURI_HOST }}
           password: ${{ secrets.PASSWORD }}
           localPath: './client/dist/'
-          remotePath: '/home/plato/zc_plugin_company_goals/client/dist'
+          remotePath: '/var/www/zc_plugin_company_goals/client/dist'
 
       - name: restart pm2
         uses: appleboy/ssh-action@master
