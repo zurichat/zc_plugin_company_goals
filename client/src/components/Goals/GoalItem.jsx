@@ -20,7 +20,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { addDisLike, addLike } from '../../redux/likeGoalSlice';
 import { useParams } from 'react-router';
-import { GetUserInfo } from '@zuri/control';
+import { GetUserInfo } from '@zuri/utilities';
 
 const GoalItem = ({ goalData }) => {
   let { orgId } = useParams();

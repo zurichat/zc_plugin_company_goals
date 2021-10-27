@@ -13,7 +13,7 @@ import { selectNotifications, getNotifications } from '../../redux/notificationS
 import { getPieChart } from '../../redux/pieChartSlice';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
+import { GetUserInfo, SubscribeToChannel } from '@zuri/utilities';
 import { getAverageProgress } from '../../redux/averageGoal.slice';
 
 const ReportsAndNotificationContainer = () => {
