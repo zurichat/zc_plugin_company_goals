@@ -19,7 +19,7 @@ import {
 import ExportReport from '../Modal/ExportModal/ExportReport';
 import { selectPieChart } from '../../redux/pieChartSlice';
 import { useSelector } from 'react-redux';
-import { set } from 'date-fns';
+
 
 // totalGoals, isComplete, isExpired, inProgress;
 
@@ -35,7 +35,10 @@ const Report = () => {
     const fetchURL = `https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id=${orgId || '6145d099285e4a184020742e'}`;
     fetch(fetchURL)
       .then((response) => response.json())
-      .then((data) => setPercent(data.averageResult));
+      .then((data) => {
+        setPercent(data.averageResult)
+      })
+  ;
   }, [percent]);
 
   const data = {
@@ -72,13 +75,22 @@ const Report = () => {
     },
   };
   const setChartPercentage = (dataMark, label) => {
-    const piePercentage = (pieChartData[dataMark] / pieChartData['totalGoals']) * 100;
 
+    let calcPiePercentage = pieChartData[dataMark] / pieChartData['totalGoals']
+ 
+    if (isNaN(calcPiePercentage)) {
+    calcPiePercentage = 0
+    const piePercentage = calcPiePercentage * 100;
     setCount({ countlabel: label, countPercentage: Math.round(piePercentage) });
+    }
+    const piePercentage = calcPiePercentage * 100;
+    setCount({ countlabel: label, countPercentage: Math.round(piePercentage) });
+   
   };
 
   useEffect(() => {
     if (pieChartData) {
+  
       setChartPercentage('isExpired', 'Expired');
     }
   }, [pieChartData]);
