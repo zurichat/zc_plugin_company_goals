@@ -31,7 +31,6 @@ const {
   allowedFields,
 } = require('../schemas');
 const AppError = require('../utils/appError');
-const { average, calculate, reduceCalculation } = require('../utils/calculate');
 const catchAsync = require('../utils/catchAsync');
 const logger = require('../utils/logger.js');
 const { createNotification } = require('./notificationController');
@@ -189,8 +188,6 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   const { org_id: orgId } = req.query;
   const { goal_name: title, category } = req.body;
 
-  let goals;
-
   if (!orgId) {
     logger.info(`Unable to create a goal as organization id isn't provided.`);
     res.status(400).send({ error: 'Organization_id is required' });
@@ -204,6 +201,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     logger.info(`There are errors with the request body: ${err.details}`);
     if (err) return res.status(400).json(err.details);
   }
+
   try {
     logger.info(
       `Checking to ensure there are no goals with the title: ${title} that belong to the ${category} category.`
@@ -220,7 +218,6 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info(`There are no goals with the title: ${title}`);
-    if (error) goals = error.message;
   }
 
   try {
@@ -235,8 +232,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
     await syncLists(req.tokenHeader, orgId);
 
-    goals = await insertOne('goals', data, orgId);
-    await insertOne('goalReactions', { goal_id: goals.data.data.object_id, reactions: [], orgId }, orgId);
+    const newGoal = await insertOne('goals', data, orgId);
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
@@ -246,7 +242,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
       await insertOne('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
     }
 
-    if (goals.data.status === 200) {
+    if (newGoal.data.status === 200) {
+      await insertOne('goals', { goal_id: newGoal.data.data.object_id, reactions: [], org_id: orgId }, orgId);
       await createNotification(orgId, roomId, title, 'createGoal');
       logger.info(`Successfully created a new goal: ${goals.data.data}`);
       res.status(200).json({ message: 'success', data });
@@ -386,359 +383,67 @@ exports.deleteGoalById = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 200, message: 'Goal deleted successfully.', response: response.data.data });
 });
 
-exports.likeGoal = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await likeGoalSchema.validateAsync({
-    goalId,
-    userId,
-    orgId,
-  });
-
-  // check that the goal_id is valid
-  try {
-    const goal = await find(
-      'goals',
-      {
-        _id: goalId,
-      },
-      orgId
-    );
-
-    if (goal.data.data === null) {
-      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-    }
-
-    // check if user already liked goal
-    const like = await find(
-      'goallikes',
-      {
-        goal_id: goalId,
-        user_id: userId,
-      },
-      orgId
-    );
-
-    // add like if it doesnt exist
-    if (like.data.data === null) {
-      // check if dislike exists and remove
-      const disLike = await find(
-        'goaldislikes',
-        {
-          goal_id: goalId,
-          user_id: userId,
-        },
-        orgId
-      );
-      if (disLike.data.data !== null) {
-        await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
-      }
-
-      // add like
-      const addedLike = await insertOne(
-        'goallikes',
-        {
-          goal_id: goalId,
-          user_id: userId,
-        },
-        orgId
-      );
-
-      return res.status(201).json({
-        status: 'success',
-        message: 'Goal like added',
-        data: { count: addedLike.data.data.insert_count },
-      });
-    }
-
-    const removeLike = await deleteOne('goallikes', orgId, like.data.data[0]._id);
-    // delete like from db
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Goal like removed',
-      data: { count: removeLike.data.data.deleted_count },
-    });
-  } catch (error) {
-    res.status(500).json({ status: 'failed', message: 'server Error', data: null });
-  }
-});
-
-exports.getGoalLikes = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await getGoalLikesSchema.validateAsync({
-    goalId,
-    orgId,
-  });
-
-  // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
-
-  if (goal.data.data === null) {
-    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-  }
-
-  // check if user already liked goal
-  const like = await find(
-    'goallikes',
-    {
-      goal_id: goalId,
-    },
-    orgId
-  );
-
-  if (like.data.data === null) {
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        count: 0,
-        likes: [],
-      },
-    });
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      count: like.data.data.length,
-      likes: like.data.data,
-    },
-  });
-});
-
-exports.checkUserLike = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await likeGoalSchema.validateAsync({
-    goalId,
-    userId,
-    orgId,
-  });
-
-  // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
-
-  if (goal.data.data === null) {
-    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-  }
-
-  // check if user already liked goal
-  const like = await find(
-    'goallikes',
-    {
-      goal_id: goalId,
-      user_id: userId,
-    },
-    orgId
-  );
-  if (like.data.data === null) {
-    return res.status(200).json({
-      status: 'success',
-      data: false,
-    });
-  }
-  res.status(200).json({
-    status: 'success',
-    data: true,
-  });
-});
-
-exports.disLikeGoal = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
-
-  try {
-    // check that the goal_id is valid
-    const goal = await find(
-      'goals',
-      {
-        _id: goalId,
-      },
-      orgId
-    );
-
-    if (goal.data.data === null) {
-      return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-    }
-
-    // check if user already disliked goal
-    const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-
-    // add dislike if it doesnt exist
-    if (disLike.data.data === null) {
-      // check if like exists and remove
-      const like = await find(
-        'goallikes',
-        {
-          goal_id: goalId,
-          user_id: userId,
-        },
-        orgId
-      );
-      if (like.data.data !== null) {
-        await deleteOne('goallikes', orgId, like.data.data[0]._id);
-      }
-
-      // add dislike
-      addedDisLike = await insertOne('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-
-      return res.status(201).json({
-        status: 'success',
-        message: 'Goal dislike added',
-        data: { count: addedDisLike.data.data.insert_count },
-      });
-    }
-
-    removeDisLike = await deleteOne('goaldislikes', orgId, disLike.data.data[0]._id);
-    // delete dislike from db
-    res.status(200).json({
-      status: 'success',
-      message: 'Goal dislike removed',
-      data: { count: removeDisLike.data.data.deleted_count },
-    });
-  } catch (error) {
-    res.status(500).json({ status: 'failed', message: 'server Error', data: null });
-  }
-});
-
-exports.getGoalDisLikes = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await getGoalLikesSchema.validateAsync({ goalId, orgId });
-
-  // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
-
-  if (goal.data.data === null) {
-    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-  }
-
-  // check if user already disliked goal
-  const disLike = await find('goaldislikes', { goal_id: goalId }, orgId);
-  if (!disLike.data.data) {
-    return res.status(200).json({
-      status: 'success',
-      data: { count: 0, disLikes: [] },
-    });
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      count: disLike.data.data.length,
-      disLikes: disLike.data.data,
-    },
-  });
-});
-
-exports.checkUserDisLikes = catchAsync(async (req, res, next) => {
-  const { goal_id: goalId, user_id: userId, org_id: orgId } = req.query;
-
-  // Validate the body
-  await likeGoalSchema.validateAsync({ goalId, userId, orgId });
-
-  // check that the goal_id is valid
-  const goal = await find(
-    'goals',
-    {
-      _id: goalId,
-    },
-    orgId
-  );
-
-  if (goal.data.data === null) {
-    return res.status(400).send({ error: `The goal with the goal id of ${goalId} does not exist` });
-  }
-
-  // check if user already disliked goal
-  const disLike = await find('goaldislikes', { goal_id: goalId, user_id: userId }, orgId);
-  if (disLike.data.data === null) {
-    return res.status(200).json({
-      status: 'success',
-      data: false,
-    });
-  }
-  res.status(200).json({
-    status: 'success',
-    data: true,
-  });
-});
-
 exports.setGoalReaction = catchAsync(async (req, res, next) => {
-  const { goal_id, org_id } = req.query;
-  const { reaction, _id } = req.body;
-
-  const reactions = [];
-  reactions.push(reaction);
+  const { goal_id, org_id, member_id } = req.query;
+  const { reaction } = req.body;
 
   const data = {
-    goal_id,
-    reactions,
-    org_id,
+    member_id,
+    reaction,
   };
 
   try {
     await goalReactionSchema.validateAsync(data);
     logger.info(`Successfully validated the request body.`);
-  } catch (err) {
-    logger.info(`There are errors with the request body: ${JSON.stringify(err.details)}`);
-    if (err) return res.status(400).json(err.details);
+  } catch (error) {
+    logger.info(`There are errors with the request body: ${JSON.stringify(error.details)}`);
+    return res.status(400).json(error.details);
   }
 
-  const goalReactions = await find('goalReactions', { goal_id }, org_id);
+  const {
+    data: { data: goalDetail },
+  } = await find('goals', { goal_id, org_id }, org_id);
+  let { reactions } = goalDetail[0];
 
-  const goalReactionsData = goalReactions.data.data[0];
-
-  if (goalReactionsData.reactions.filter((e) => e.user_id === reactions[0].user_id).length > 0) {
-    const userIndex = goalReactionsData.reactions.findIndex((e) => e.user_id === reactions[0].user_id);
-    goalReactionsData.reactions[userIndex].reaction = reactions[0].reaction;
-  } else {
-    goalReactionsData.reactions.push(reaction);
+  try {
+    if (reactions.filter((e) => e.member_id === data.member_id).length > 0) {
+      if (reactions.filter((e) => e.member_id === data.member_id && e.reaction === data.reaction).length > 0) {
+        reactions = reactions.filter((e) => e.member_id !== data.member_id);
+      } else {
+        const memberIndex = reactions.findIndex((e) => e.member_id === data.member_id);
+        reactions[memberIndex].reaction = data.reaction;
+      }
+    } else {
+      reactions.push(data);
+    }
+  } catch (error) {
+    return res.status(400).send({ status: 400, message: 'failed', data: error.details });
   }
 
   try {
-    const updatedGoalReactions = await updateOne('goalReactions', { reactions }, {}, org_id, _id);
+    const {
+      data: { data },
+    } = await updateOne('goals', { reactions }, { goal_id, org_id }, org_id);
 
-    return res.status(200).json({ status: 200, message: 'success', data: updatedGoalReactions.data.data });
-  } catch (err) {
-    if (err) return res.status(400).json({ status: 400, message: 'failed', data: err.details });
+    return res.status(200).json({ status: 200, message: 'success', data });
+  } catch (error) {
+    return res.status(400).json({ status: 400, message: 'failed', data: error.details });
   }
 });
 
-exports.getGoalReaction = catchAsync(async (req, res, next) => {
-  const { goal_id, org_id } = req.query;
+exports.getGoalReactions = catchAsync(async (req, res, next) => {
+  const { org_id, goal_id } = req.query;
 
   logger.info(`Getting all the reactions (likes & dislikes) for the goal: ${goal_id}`);
 
   // The organization id is required.
   if (!org_id) {
     logger.info('please provide an organization id.');
-    res.status(400).send({ error: 'Organization_id is required' });
+    res.status(400).send({ error: 'organization_id is required' });
+  }
+  if (!goal_id) {
+    logger.info('please provide a goal id.');
+    res.status(400).send({ error: 'goal_id is required' });
   }
 
   logger.info('Checking to ensure that the goal exists for the organisation.');
@@ -749,291 +454,9 @@ exports.getGoalReaction = catchAsync(async (req, res, next) => {
   }
 
   try {
-    const goalReactions = await find('goalReactions', { goal_id }, org_id);
+    const goalReactions = await find('goals', { org_id, goal_id }, org_id);
     return res.status(200).json({ status: 200, message: 'success', data: goalReactions.data.data });
-  } catch (err) {
-    if (err) return res.status(400).send({ status: 400, message: 'failed', data: err.details });
-  }
-});
-
-exports.deleteTarget = catchAsync(async (req, res, next) => {
-  await deleteMany('targets', {}, req.query.org);
-  res.status(200).send('hi');
-});
-
-exports.createGoalTargets = catchAsync(async (req, res, next) => {
-  // get goal id from the url
-  const { org_id, goal_id } = req.query;
-
-  logger.info(`Started creating a new target for goal with id ${goal_id}`);
-
-  // check if organization id exists
-  if (!org_id) {
-    logger.info(`Organization id isn't provided.`);
-    // return new AppError("Organization_id is required", 400);
-    return res.status(400).send({ error: 'Organization_id is required' });
-  }
-
-  // check if goal id exists
-  if (!goal_id) {
-    logger.info(`goal_id not specified`);
-    return res.status(400).send({ error: 'goal_id is required' });
-  }
-
-  const target = req.body;
-  let data;
-
-  if (target.type === 'numeric') {
-    data = {
-      goal_id,
-      targets: [target],
-    };
-  } else {
-    data = {
-      goal_id,
-      target: {
-        target,
-      },
-    };
-  }
-  // console.log(data);
-
-  // store the total targets for a goal with the goal_id as the primary key
-  // const total_targets = [ target, ];
-  // console.log(total_targets)
-
-  logger.info(`Started creating targets for goal with id api/v1/targeets?org_ -> ${goal_id}`);
-
-  try {
-    console.log('Started validating req.body');
-    // Validate the request body before creating
-    await targetSchema.validateAsync(req.body);
-
-    // Check if we didn't have an existing
-    const foundTarget = await find('targets', { goal_id }, org_id);
-    const newFoundTarget = foundTarget.data.data;
-
-    if (newFoundTarget !== null) {
-      return res.status(400).json({ status: 400, message: 'A target already exist for this goal id' });
-    }
-
-    // Create a  new target
-    const newTarget = await insertOne('targets', data, org_id);
-    const allTarget = await findAll('targets', org_id);
-    console.log(allTarget.data.data);
-    logger.info(`Target created for goal with id ${goal_id}: ${newTarget}`);
-
-    // Response
-    return res.status(200).json({ status: 200, data });
-  } catch (err) {
-    logger.info(`There are errors with the request body: ${err}`);
-    if (err) return res.status(400).json(err.details);
-  }
-});
-
-exports.getGoalTargets = catchAsync(async (req, res, next) => {
-  const { org_id, goal_id } = req.query;
-
-  logger.info(`Getting goal targets for all goals ${org_id}`);
-
-  if (!org_id) {
-    logger.info(`Organization id isn't provided.`);
-    // return new AppError("Organization_id is required", 400);
-    return res.status(400).send({ error: 'Organization_id is required' });
-  }
-
-  try {
-    const allTargets = await findAll('targets', org_id);
-
-    return res.status(200).json({ status: 200, data: allTargets.data });
-  } catch (err) {
-    if (err) return res.status(400).json(err.details);
-  }
-});
-
-exports.getGoalProgress = catchAsync(async (req, res, next) => {
-  const { org_id, goal_id } = req.query;
-
-  logger.info(`Getting goal progress for ${org_id}`);
-
-  if (!org_id) {
-    logger.info(`Organization id isn't provided.`);
-    return res.status(400).send({ error: 'Organization_id is required' });
-  }
-
-  try {
-    const goalProgress = 67;
-    return res.status(200).json({ status: 200, data: goalProgress });
-  } catch (err) {
-    if (err) return res.status(400).json(err.details);
-  }
-});
-
-exports.assignGoal = catchAsync(async (req, res, next) => {
-  const { room_id, user_id, org_id: org } = req.query;
-
-  // check that the room_id is valid
-  const room = await find('goals', { room_id }, org);
-
-  if (room.data.data.length <= 0) {
-    return next(new AppError('Room not found', 404));
-  }
-
-  // check that user isnt already in the room
-  try {
-    const roomuser = await find(
-      'roomusers',
-      {
-        room_id,
-        user_id,
-      },
-      org
-    );
-
-    if (roomuser !== null && roomuser.data.data.length > 0) {
-      return res.status(400).send({
-        message: 'User already assigned to goal',
-      });
-    }
   } catch (error) {
-    if (error) {
-      const getAllRooms = await findAll('goals', org);
-      const { data: allRooms } = getAllRooms.data;
-
-      const getRoom = allRooms.filter((el) => el.room_id === room_id);
-
-      const data = {
-        goal_id: getRoom[0]._id,
-        room_id: getRoom[0].room_id,
-        title: getRoom[0].goal_name,
-        access: getRoom[0].access,
-        user_id,
-      };
-
-      const roomuser = await insertOne('roomusers', data, org);
-
-      // Send a notification to the user.
-      // await createNotification(org, room_id, data.title, 'assignGoal');
-
-      res.status(201).json({
-        status: 'success',
-        data: roomuser.data,
-      });
-    }
+    return res.status(400).send({ status: 400, message: 'failed', data: error.details });
   }
-});
-
-exports.removeAssigned = catchAsync(async (req, res, next) => {
-  const { room_id, user_id, org_id: org } = req.query;
-
-  // check that the room_id is valid
-  const room = await find('goals', { room_id }, org);
-
-  if (room.data.data === null) {
-    return res.status(404).send({ error: `This room does not exist on the goals collection` });
-  }
-  const roomuser = await find('roomusers', { room_id, user_id }, org);
-
-  if (roomuser.data.data === null) {
-    return res.status(404).send({
-      message: 'There are no users assigned to this goal',
-    });
-  }
-
-  const { _id: assignedObjectId } = roomuser.data.data[0];
-
-  const deleteRoomUser = await deleteOne((data = 'roomusers'), (data = org), (_id = assignedObjectId));
-
-  // Send notification to user.
-  // const goalRoom = room.data.data;
-  // await createNotification(org, room_id, goalRoom[0].goal_name, 'unassignGoal');
-
-  return res.status(201).json({
-    status: 'success',
-    message: `This goal has been unassigned from user: ${user_id}`,
-  });
-});
-
-exports.getArchivedGoals = catchAsync(async (req, res, next) => {
-  // Gets archived goals
-  const goals = await find('goals', { achieved: false });
-
-  // Condition if there are no archived goals
-  if (goals.data.data.length < 1) {
-    goals.data.data = 'No archived goals yet.';
-  }
-
-  // Return Response
-  res.status(200).json({
-    status: 200,
-    message: 'success',
-    data: goals.data.data,
-  });
-});
-
-const findGoal = async (org_id, res) => {
-  let goals;
-  try {
-    goals = await findAll('goals', org_id);
-    // console.log(goals)
-    return goals;
-  } catch (err) {
-    if (err) return res.status(400).json(err.details);
-  }
-};
-
-const findTarget = async (org_id, res) => {
-  let targets;
-  try {
-    targets = await findAll('targets', org_id);
-    // consolelog(targets)
-    return targets;
-  } catch (err) {
-    if (err) return res.status(400).json(err.details);
-  }
-};
-
-exports.averageGoalProgress = catchAsync(async (req, res, next) => {
-  // const {org_id} = req.query;
-  // const dataGoal = await findGoal(org_id, res)
-  // const dataTarget = await findTarget(org_id, res)
-  // let goals = dataGoal.data.data;
-  // let targets = dataTarget.data.data;
-
-  // console.log(goals)
-  // console.log(targets)
-
-  // Make the calculation
-  // const result = calculate(goals, targets);
-  // const reduceResult = reduceCalculation(result);
-  // const averageResult = average(reduceResult);
-  // console.log(averageResult);
-
-  // // Dummy data
-  // const result = calculate(goalId, targets);
-  // const reduceResult = reduceCalculation(result);
-  // const averageResult = average(reduceResult);
-  // console.log(averageResult);
-
-  // Response
-  return res.status(200).json({
-    status: 'success',
-    averageResult: 0,
-  });
-});
-
-exports.individualGoalProgress = catchAsync(async (req, res, next) => {
-  const { org_id } = req.query;
-  const dataGoal = await findGoal(org_id, res);
-  const dataTarget = await findTarget(org_id, res);
-  const goals = dataGoal.data.data;
-  const targets = dataTarget.data.data;
-
-  // console.log(goals)
-  // console.log(targets)
-
-  // Make the calculation
-  const result = calculate(goals, targets);
-  const reduceResult = reduceCalculation(result);
-  console.log(reduceResult);
 });
