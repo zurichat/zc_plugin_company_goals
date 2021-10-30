@@ -227,6 +227,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     }
   } catch (error) {
     logger.info(`There are no goals with the title: ${title}`);
+    console.log(error, 'what is up????');
     if (error) goals = error.message;
   }
 
@@ -243,7 +244,6 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     await syncLists(req.tokenHeader, orgId);
 
     goals = await insertOne('goals', data, orgId);
-    await insertOne('goalReactions', { goal_id: goals.data.data.object_id, reactions: [], orgId }, orgId);
 
     // keeping track of organizations
     let org = await find('orgs', { orgId }, 'fictionalorganisationtokeeptrack');
@@ -255,10 +255,12 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
     if (goals.data.status === 200) {
       await createNotification(orgId, roomId, title, 'createGoal');
+      //  await insertOne('goalReactions', { goal_id: goals.data.data.object_id, reactions: [], orgId }, orgId);
       logger.info(`Successfully created a new goal: ${goals.data.data}`);
       res.status(200).json({ message: 'success', data });
     }
   } catch (error) {
+    console.log(error, 'okaaaayyy????');
     return res.status(400).send({ message: 'Invalid request' });
   }
 });
