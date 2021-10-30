@@ -21,6 +21,7 @@ const {
   deleteMany,
   updateMany,
 } = require('../db/databaseHelper');
+const response = require('../helpers/response');
 const {
   goalSchema,
   likeGoalSchema,
@@ -170,20 +171,12 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
       }
 
       // Sending response
-      return res.status(200).json({
-        status: 200,
-        message: 'success',
-        data: newGoals,
-      });
+      return response(res, 'success', 200, 'goals retrieved successfully', newGoals);
     }
   } catch (error) {
     logger.info('no goals for this organization');
     // console.log(error);
-    return res.status(200).json({
-      status: 200,
-      message: 'success',
-      data: [],
-    });
+    return response(res, 'success', 200, 'no goals for this organization', []);
   }
 });
 
