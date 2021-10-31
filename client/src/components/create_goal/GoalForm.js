@@ -33,7 +33,7 @@ import { useSWRConfig } from 'swr';
 import { resetGoalFormData } from '../../redux/organizationGoal.slice';
 import { useParams } from 'react-router';
 
-const GoalForm = forwardRef((props) => {
+const GoalForm = forwardRef((props, ref) => {
   // eslint-disable-next-line react/prop-types
   const { handleClose } = props;
   let { orgId } = useParams();

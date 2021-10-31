@@ -15,7 +15,7 @@ export const getPieChart = createAsyncThunk('pieChart/getNotifications', async (
 export const pieChartSlice = createSlice({
   name: 'pieChartData',
   initialState: {
-    pieChartData: null,
+    pieChartData: [],
   },
   reducers: {
     addNotificationFromRTC: (state, { payload }) => {
@@ -25,7 +25,7 @@ export const pieChartSlice = createSlice({
   },
   extraReducers: {
     [getPieChart.fulfilled]: (state, { payload }) => {
-      const pieChartData = payload.pieChartData.data == null ? [] : payload.pieChartData.data;
+      const pieChartData = payload.pieChartData.data.length < 1 ? [] : payload.pieChartData.data;
       state.pieChartData = pieChartData;
       return state;
     },
