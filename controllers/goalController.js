@@ -245,10 +245,12 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     if (newGoal.data.status === 200) {
       await insertOne('goals', { goal_id: newGoal.data.data.object_id, reactions: [], org_id: orgId }, orgId);
       await createNotification(orgId, roomId, title, 'createGoal');
+      //  await insertOne('goalReactions', { goal_id: goals.data.data.object_id, reactions: [], orgId }, orgId);
       logger.info(`Successfully created a new goal: ${goals.data.data}`);
       res.status(200).json({ message: 'success', data });
     }
   } catch (error) {
+    console.log(error, 'okaaaayyy????');
     return res.status(400).send({ message: 'Invalid request' });
   }
 });

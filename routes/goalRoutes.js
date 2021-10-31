@@ -28,7 +28,7 @@ const statusCheck = require('../middlewares/statusTimerCheck');
 const router = Router();
 
 // auth specific routes
-router.post('/', auth, restrictToOwner, createGoal);
+router.post('/', createGoal);
 router.put('/update/:id', auth, restrictToOwner, updateSingleGoalById);
 router.delete('/delete', auth, restrictToOwner, deleteGoalById);
 
