@@ -91,7 +91,7 @@ const Report = () => {
   };
 
   useEffect(() => {
-    if (pieChartData.length > 0) {
+    if (pieChartData) {
   
       setChartPercentage('isExpired', 'Expired');
     }
