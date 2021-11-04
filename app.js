@@ -47,7 +47,7 @@ const app = express();
 if (process.env.NODE_ENV === 'production') {
   app.use(cors({ origin: ['*'] }));
 } else {
-  const whitelist = ['http://localhost:9000', 'https://zuri.chat', 'http://localhost:4000'];
+  const whitelist = ['http://localhost:9000', 'https://staging.zuri.chat', 'http://localhost:4000'];
   const corsOptions = {
     origin(origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
