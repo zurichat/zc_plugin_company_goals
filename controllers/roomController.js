@@ -9,7 +9,6 @@ const catchAsync = require('../utils/catchAsync');
 const { publish } = require('./centrifugoController');
 const updateSideBar = require('../utils/updateSidebarUnread');
 
-
 exports.createRoom = catchAsync(async (req, res, next) => {
   const { organization_id, title, isPrivate } = req.query;
   const id = uuidv4();
