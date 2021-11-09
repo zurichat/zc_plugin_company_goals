@@ -6,6 +6,7 @@ const OrganizationMissionAndVisionContainer = styled.div`
   flex-direction: column;
   margin: 1.56rem auto;
   width: 90%;
+  padding: 4rem 0 0 0;
   @media (min-width: 600px) {
     justify-content: space-between;
     flex-flow: row nowrap;
