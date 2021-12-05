@@ -3,7 +3,7 @@ import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const getGoals = createAsyncThunk('showGoal/getGoals', async (getAllGoalsUrl) => {
   const response = await axios.get(getAllGoalsUrl);
-  return response;
+  return response.data;
 });
 export const showGoalSlice = createSlice({
   name: 'showGoal',

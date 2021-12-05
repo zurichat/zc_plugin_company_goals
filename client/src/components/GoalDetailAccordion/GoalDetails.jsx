@@ -58,7 +58,7 @@ export default function GoalDetailAccordion() {
   if (!errorInfo && !goals) return <Spinner />;
   if (status === 'loading') return <Spinner />;
   if (errorInfo) return <Error errorMessage={errorInfo.message} />;
-  if (!goals.data.length) return <EmptyGoal />;
+  if (!goals.length) return <EmptyGoal />;
   async function getAllComponentsFromServer(pageNum) {
     const requestURL = `https://goals.zuri.chat/api/v1/goals/?org_id=${orgId}&page=${pageNum}&limit=3&type=${tab === 'all' ? '' : tab}`;
     dispatch(getGoals(requestURL));
@@ -66,9 +66,9 @@ export default function GoalDetailAccordion() {
   return (
     <React.Fragment>
       <Container className={classes.root}>
-        {/* {console.log(goals)} */}
+        {/* {console.log('g',goals)} */}
         {goals &&
-          goals.data?.map((goal) => {
+          goals.map((goal) => {
             return (
               <Accordion expanded={expanded == goal.room_id} onChange={handleChange(goal.room_id)} key={goal.room_id}>
                 <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">

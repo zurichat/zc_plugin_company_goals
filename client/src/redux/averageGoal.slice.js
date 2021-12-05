@@ -11,7 +11,7 @@ import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const getAverageProgress = createAsyncThunk('showProgress/getProgress', async () => {
   const response = await axios.get('https://goals.zuri.chat/api/v1/goals/average-goal-progress?org_id= 6145d099285e4a184020742e');
-  return response;
+  return response.data;
 });
 export const averageGoalSlice = createSlice({
   name: 'averageGoal',
@@ -20,7 +20,7 @@ export const averageGoalSlice = createSlice({
   },
   extraReducers: {
     [getAverageProgress.fulfilled]: (state, { payload }) => {
-      state.averageProgress = payload.data;
+      state.averageProgress = payload.averageResult;
     },
   },
 });
