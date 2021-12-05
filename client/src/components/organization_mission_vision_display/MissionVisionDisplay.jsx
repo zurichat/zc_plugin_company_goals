@@ -9,7 +9,7 @@ import { updateOrgVision } from '../../redux/organizationVision.slice';
 import { updateOrgMission } from '../../redux/organizationMission.slice';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { GetUserInfo } from '@zuri/control';
+import { GetUserInfo } from '@zuri/utilities';
 
 const MissionAndVisionDisplay = ({ labelTitle, fieldText, placeholderText }) => {
   const { orgId } = useParams();

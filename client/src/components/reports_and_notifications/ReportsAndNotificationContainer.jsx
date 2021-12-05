@@ -13,7 +13,7 @@ import { selectNotifications, getNotifications } from '../../redux/notificationS
 import { getPieChart } from '../../redux/pieChartSlice';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
+import { GetUserInfo, SubscribeToChannel } from '@zuri/utilities';
 import { getAverageProgress } from '../../redux/averageGoal.slice';
 
 const ReportsAndNotificationContainer = () => {
@@ -45,10 +45,9 @@ const ReportsAndNotificationContainer = () => {
         <NavContainer>
           <TabButtonNotification border={activeTab === 'tab1'}>
             <TabButton
-              color={activeTab === 'tab1'}
+              color={`${activeTab === 'tab1'}`}
               style={{ cursor: 'pointer' }}
               onClick={handleTab1}
-              color={activeTab === 'tab1'}
             >
               Reports
             </TabButton>
@@ -56,7 +55,7 @@ const ReportsAndNotificationContainer = () => {
         </NavContainer>
         <NavContainer>
           <TabButtonNotification border={activeTab === 'tab2'}>
-            <TabButton color={activeTab === 'tab2'} style={{ cursor: 'pointer' }} onClick={handleTab2}>
+            <TabButton color={`${activeTab === 'tab2'}`} style={{ cursor: 'pointer' }} onClick={handleTab2}>
               Notifications
             </TabButton>
             <Span>{notifications.filter(item=>!item.isRead).length}</Span>

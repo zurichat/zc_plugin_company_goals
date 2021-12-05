@@ -17,7 +17,7 @@ import DeleteErrorModal from '../components/DeleteError/DeleteErrorModal';
 import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/organization_mission_vision/OrganizationMissionVision';
-import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
+import { GetUserInfo, SubscribeToChannel } from '@zuri/utilities';
 import GoalTarget from '../components/goal_target/GoalTarget';
 
 const AppRoom = () => {

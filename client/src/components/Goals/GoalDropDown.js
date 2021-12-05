@@ -6,7 +6,7 @@ import { MoreOptions } from './GoalItem.style';
 import { deleteConfirmationAction } from '../../redux/deleteGoal.slice';
 import { GoalMenu } from './GoalItem.style';
 import { toggleCreateGoalModalAction } from '../../redux/toggleCreateGoalModal.slice';
-import { GetUserInfo } from '@zuri/control';
+import { GetUserInfo } from '@zuri/utilities';
 
 export default function GoalDrop({ goalData }) {
   const ref = useRef();

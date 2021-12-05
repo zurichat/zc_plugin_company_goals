@@ -20,123 +20,124 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { addDisLike, addLike } from '../../redux/likeGoalSlice';
 import { useParams } from 'react-router';
-import { GetUserInfo } from '@zuri/control';
+import { GetUserInfo } from '@zuri/utilities';
 
 const GoalItem = ({ goalData }) => {
   let { orgId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('user'));
+  const BASE_URL = "https://zuri.chat";
   
 
-  //Setting Likes and retriving
-  const [like, setLike] = useState('');
-  const [toggleLike, setToggleLike] = useState(false);
-  const [totalLikes, setTotalLikes] = useState(0);
-  useEffect(() => {
-    axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/goallikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }`
-      )
-      .then((response) => setTotalLikes(response.data.data.count))
-      .catch((error) => console.log(error));
+  // //Setting Likes and retriving
+  // const [like, setLike] = useState('');
+  // const [toggleLike, setToggleLike] = useState(false);
+  // const [totalLikes, setTotalLikes] = useState(0);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://goals.zuri.chat/api/v1/goals/goallikes?org_id=${orgId || '6145d099285e4a184020742e'}&goal_id=${
+  //         goalData._id
+  //       }`
+  //     )
+  //     .then((response) => setTotalLikes(response.data.data.count))
+  //     .catch((error) => console.log(error));
 
-  });
+  // });
 
-  const handleSetLike = (e) => {
-    e.stopPropagation(); 
-    //setToggleLike(!toggleLike)
+  // const handleSetLike = (e) => {
+  //   e.stopPropagation(); 
+  //   //setToggleLike(!toggleLike)
 
-    if(toggleDislike === true && toggleLike === false){
-      setToggleDislike(false);
-      setTotalDislikes(totalDislikes - 1);
-      setToggleLike(true)
-      setTotalLikes(totalLikes + 1)
-    } else if (toggleLike === false){
-      setToggleLike(true)
-      setTotalLikes(totalLikes + 1)
-    } else {
-      setToggleDislike(false)
-      setToggleLike(false)
-    }
+  //   if(toggleDislike === true && toggleLike === false){
+  //     setToggleDislike(false);
+  //     setTotalDislikes(totalDislikes - 1);
+  //     setToggleLike(true)
+  //     setTotalLikes(totalLikes + 1)
+  //   } else if (toggleLike === false){
+  //     setToggleLike(true)
+  //     setTotalLikes(totalLikes + 1)
+  //   } else {
+  //     setToggleDislike(false)
+  //     setToggleLike(false)
+  //   }
 
-    axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }&user_id=${userId ? userId.id : 5}`
-      )
-      .then((response) => setLike(response.data.message))
-      .catch((error) => console.log(error));
+  //   axios
+  //     .get(
+  //       `https://goals.zuri.chat/api/v1/goals/like?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+  //         goalData._id
+  //       }&user_id=${userId ? userId.id : 5}`
+  //     )
+  //     .then((response) => setLike(response.data.message))
+  //     .catch((error) => console.log(error));
     
-  };
+  // };
 
-  //Setting Dislikes and retriving Dislikes
-  const [dislike, setDislike] = useState('');
-  const [totalDislikes, setTotalDislikes] = useState(0);
-  const [toggleDislike, setToggleDislike] = useState(false);
+  // //Setting Dislikes and retriving Dislikes
+  // const [dislike, setDislike] = useState('');
+  // const [totalDislikes, setTotalDislikes] = useState(0);
+  // const [toggleDislike, setToggleDislike] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }`
-      )
-      .then((response) => setTotalDislikes(response.data.data.count))
-      .catch((error) => console.log(error));
-  });
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://goals.zuri.chat/api/v1/goals/goaldislikes?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+  //         goalData._id
+  //       }`
+  //     )
+  //     .then((response) => setTotalDislikes(response.data.data.count))
+  //     .catch((error) => console.log(error));
+  // });
 
-  const handleSetDislike = (e) => {
-    e.stopPropagation();
+  // const handleSetDislike = (e) => {
+  //   e.stopPropagation();
     
-    //setToggleDislike(!toggleDislike)
-        if(toggleDislike === false && toggleLike === true){
-          setToggleDislike(true);
-          setTotalDislikes(totalDislikes + 1);
-          setToggleLike(false)
-          setTotalLikes(totalLikes - 1)
-        } else if (toggleDislike === false){
-          setToggleDislike(true)
-          setTotalDislikes(totalLikes + 1)
-        } else {
-          setToggleDislike(false)
-          setToggleLike(false)
-        }
+  //   //setToggleDislike(!toggleDislike)
+  //       if(toggleDislike === false && toggleLike === true){
+  //         setToggleDislike(true);
+  //         setTotalDislikes(totalDislikes + 1);
+  //         setToggleLike(false)
+  //         setTotalLikes(totalLikes - 1)
+  //       } else if (toggleDislike === false){
+  //         setToggleDislike(true)
+  //         setTotalDislikes(totalLikes + 1)
+  //       } else {
+  //         setToggleDislike(false)
+  //         setToggleLike(false)
+  //       }
 
-        axios
-        .get(
-          `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-            goalData._id
-          }&user_id=${userId ? userId.id : 5}`
-        )
-        .then((response) => setDislike(response.data.message))
-        .catch((error) => console.log(error));
+  //       axios
+  //       .get(
+  //         `https://goals.zuri.chat/api/v1/goals/dislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+  //           goalData._id
+  //         }&user_id=${userId ? userId.id : 5}`
+  //       )
+  //       .then((response) => setDislike(response.data.message))
+  //       .catch((error) => console.log(error));
 
-  };
+  // };
 
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }&user_id=${userId ? userId.id : 5}`
-      )
-      .then((response) => setToggleDislike(response.data.data))
-      .catch((error) => console.log(error));
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://goals.zuri.chat/api/v1/goals/userdislike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+  //         goalData._id
+  //       }&user_id=${userId ? userId.id : 5}`
+  //     )
+  //     .then((response) => setToggleDislike(response.data.data))
+  //     .catch((error) => console.log(error));
     
    
 
-      axios
-      .get(
-        `https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
-          goalData._id
-        }&user_id=${userId ? userId.id : 5}`
-      )
-      .then((response) => setToggleLike(response.data.data))
-      .catch((error) => console.log(error));
-  } , [like , dislike]);
+  //     axios
+  //     .get(
+  //       `https://goals.zuri.chat/api/v1/goals/userlike?org_id=${orgId ? orgId : '6145d099285e4a184020742e'}&goal_id=${
+  //         goalData._id
+  //       }&user_id=${userId ? userId.id : 5}`
+  //     )
+  //     .then((response) => setToggleLike(response.data.data))
+  //     .catch((error) => console.log(error));
+  // } , [like , dislike]);
 
   //Getting goal reaction
   useEffect(() => {
@@ -205,19 +206,24 @@ const GoalItem = ({ goalData }) => {
       </Grid>
 
       <Grid item xs={12} sm={3} className={classes.icons}>
-        <IconItemContainer onClick={(ev) => handleSetLike(ev)}>
-          {toggleLike == false 
-            ? <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/>
-            : <img src={likes} alt="likes-icon" className={classes.iconImages} style={{filter:"brightness(1)", width:"5mm" , height:"5mm"}} />
-          }         
-          <IconItemCount>{totalLikes}</IconItemCount>
+        <IconItemContainer>
+          {/* {toggleLike == false  */}
+          {/* ? */}
+          {/* <img src={likes} alt="likes-icon" className={classes.iconImages} style={{ filter: "opacity(60%)" }} /> */}
+          {/* : */}
+          <img src={likes} alt="likes-icon" className={classes.iconImages} style={{ filter: "brightness(1)", width: "5mm", height: "5mm" }} />
+          {/* }          */}
+          <IconItemCount>{44}</IconItemCount>
         </IconItemContainer>
-        <IconItemContainer onClick={(ev) => handleSetDislike(ev)}>
-          {toggleDislike == false 
-          ? <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter: "opacity(60%)"}}/> 
-          : <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{filter:"brightness(1)" , width:"5mm" , height:"5mm"}}/>}
+        <IconItemContainer>
+          {/* {toggleDislike == false  */}
+          {/* ? */}
+          {/* <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{ filter: "opacity(60%)" }} />  */}
+          {/* : */}
+          <img src={dislikes} alt="dislikes-icon" className={classes.iconImages} style={{ filter: "brightness(1)", width: "5mm", height: "5mm" }} />
+          {/* } */}
           
-          <IconItemCount>{totalDislikes}</IconItemCount>
+          <IconItemCount>{77}</IconItemCount>
         </IconItemContainer>
       </Grid>
 

@@ -91,7 +91,7 @@ exports.targetSchema = Joi.object({
         .required(),
       otherwise: Joi.string().optional(),
     }),
-  //milestone: Joi.string().when('type', { is: Joi.string(), then: Joi.required()}),
+  // milestone: Joi.string().when('type', { is: Joi.string(), then: Joi.required()}),
   achieved: Joi.boolean().default(false).optional(),
 });
 // mission schema
@@ -130,21 +130,8 @@ exports.getGoalLikesSchema = Joi.object({
 });
 
 exports.goalReactionSchema = Joi.object({
-  goal_id: Joi.string().required().messages({
-    'any.required': 'goal id is required',
-  }),
-  reactions: Joi.array().items(
-    Joi.object().keys({
-      user_id: Joi.string().required().messages({ 'any.reuired': 'The user_id is a reuired field' }),
-      reaction: Joi.string()
-        .valid('like', 'dislike', 'none')
-        .required()
-        .messages({ messages: 'You need to set a user reaction' }),
-    })
-  ),
-  org_id: Joi.string().required().messages({
-    'any.required': 'organization id is required',
-  }),
+  member_id: Joi.string().required().messages({ 'any.required': 'The member_id is a required field' }),
+  reaction: Joi.string().valid('like', 'dislike').required().messages({ messages: 'You need to set a user reaction' }),
 });
 
 exports.allowedFields = [

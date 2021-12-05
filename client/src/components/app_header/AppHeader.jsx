@@ -3,7 +3,7 @@ import Parcel from 'single-spa-react/parcel';
 import { pluginHeader } from '@zuri/plugin-header';
 import { HeaderAppBar, HeaderToolBar, HeaderToolBarTitle } from './AppHeader.styled';
 import HeaderAvatarGroup from './components/header_avatar_group/HeaderAvatarGroup';
-import { GetWorkspaceUsers } from '@zuri/control';
+import { GetWorkspaceUsers } from '@zuri/utilities';
 
 const AppHeader = () => {
   const [total, settotal] = useState(null);
@@ -12,17 +12,19 @@ const AppHeader = () => {
   const GetUsers = async () => {
     try {
       const info = await GetWorkspaceUsers();
-      console.log('totalWorkSpaceUser', info.totalUsers);
 
-      const workspace_info = {
+      if (info !== undefined) {
+        const workspace_info = {
         thumbnailUrl: [
           info[0].image_url || imagePlaceholder,
           info[1].image_url || imagePlaceholder,
           info[2].image_url || imagePlaceholder,
         ],
-        userCount: info.totalUsers,
+        userCount: info.totalUsers !== undefined && info.totalUsers,
       };
       settotal(workspace_info);
+      }
+      
     } catch (error) {
       console.log('Error', error);
       const workspace_info = {
